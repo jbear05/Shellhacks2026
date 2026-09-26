@@ -70,6 +70,6 @@ Column notes:
 ## Tests
 
 ```bash
-pytest                 # everything; parses the real PDF once (about 12 s)
-pytest -m "not slow"   # unit tests only (under a second)
+pytest                 # everything; parses both real PDFs once (about 15 s)
+pytest -m "not slow"   # skips the 668-page Georgia Power PDF (about 1 s)
 ```
