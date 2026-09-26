@@ -7,26 +7,14 @@ topic docs listed in [AGENTS.md](../AGENTS.md#where-knowledge-lives), not here.
 
 Last updated 2026-09-26.
 
-## Picking up the AI parser branch
+## The AI parser branch
 
-The goal is a command-line parser that accepts a utility project-list PDF and writes
-a project CSV, with review and source-evidence files alongside it. The implementation
-is present, but the review found unresolved regressions. Start with
-[the AI parser handoff](ai-parser.md#picking-up-this-branch), then the
-[current findings and test results](ai-parser-review.md#follow-up-review-of-current-working-tree).
-
-The handoff snapshot is on `feat/ai-parser`, based on `main` at `1c49c6e`. It includes
-the source, tests, documentation, cached replies and historical AI outputs so a
-teammate can run the offline checks. It is work in progress with known failures,
-not ready to merge. The review and publication did not fix parser code or regenerate
-the saved outputs. API credentials are excluded.
-
-To pick up the branch in a clone that does not already have a local `feat/ai-parser`:
-
-```bash
-git fetch origin
-git switch --track origin/feat/ai-parser
-```
+`feat/ai-parser` is ready for review. It holds a command-line parser that reads any
+utility project-list PDF with Claude and writes a project CSV, with review and
+evidence files alongside it. The regressions the
+[review](ai-parser-review.md#where-each-finding-stands) found are fixed, the full suite
+passes, and the outputs in `data/processed/ai/` were rebuilt from the committed cache.
+What's left is in [ai-parser.md](ai-parser.md#current-state).
 
 ## Done
 
@@ -52,16 +40,10 @@ git switch --track origin/feat/ai-parser
 
 In rough priority order:
 
-1. **AI parser** (`feat/ai-parser`, work in progress; see Branches). Fix the current quote
-   matcher regression and failing tests before regenerating CSVs or spending more API
-   credit. The saved first-run results in [ai-parser.md](ai-parser.md#results) do not
-   describe the current code: an offline replay now corrupts IDs and other fields.
-   See the [follow-up review](ai-parser-review.md#follow-up-review-of-current-working-tree)
-   for reproductions, test results, split-cache replay and utility-attribution gaps.
-   After those are addressed, finish Georgia's ID pass using the
-   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md), and update the reviewed
-   generated outputs alongside the fixes. The handoff already includes the existing
-   `data/ai_cache/` and historical `data/processed/ai/` files.
+1. **AI parser:** review and merge `feat/ai-parser`. After that, optionally finish
+   Georgia's ID pass (about $3, and it needs approval) with the
+   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md). The extraction already
+   finds all 208 projects with the right owners, so the pass is only a cross-check.
 2. **Geocode DESC.** No full run is committed yet. Consider deleting the 7 `null`
    Nominatim entries from the cache first; see [geolocator.md](geolocator.md#cache).
    Start with the [geocode workflow](../.claude/skills/geocode/SKILL.md).
@@ -92,7 +74,7 @@ In rough priority order:
 | `origin/feat/gpc-pdf-parser` | Jair | Merged in PR #1; kept |
 | `origin/chore/repo-cleanup` | Jair | Merged in PR #4; kept |
 | `origin/docs/ai-context` | Jair | Its two commits are in PR #4; kept |
-| `feat/ai-parser` | Jair | Work-in-progress handoff branch: parser, tests, docs, `/ai-parse` workflow, pinned dependencies, cached replies and historical AI output. Tests currently fail; see the [follow-up review](ai-parser-review.md#follow-up-review-of-current-working-tree). Do not merge until the findings are addressed |
+| `feat/ai-parser` | Jair | AI parser, its tests, docs, `/ai-parse` workflow, cached replies and outputs. Review fixes are in and the full suite passes; ready to merge |
 
 Check with a teammate before committing to their branch.
 
@@ -102,6 +84,9 @@ Check with a teammate before committing to their branch.
   (DESC, a 4-page test and Georgia pages 171-440). The Georgia output in
   `data/processed/ai/georgia_power_ai_partial_*` was rebuilt from the cache without the
   ID pass.
+- **The AI parser's DESC `sponsor`** is the page banner `Dominion Energy South Carolina`
+  on all 44 rows, where `dominion_projects.csv` has `DESC`. `utility` is right. A prompt
+  fix needs a paid run; see [ai-parser.md](ai-parser.md#scoring-it-the-eval).
 
 - **`origin/NA` shares no history with `main`.** It was force-pushed as a single
   commit with no parent (fb1c0c3, Nellie, 2026-09-26 12:56) holding only `.gitignore`

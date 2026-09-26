@@ -36,6 +36,7 @@ from pypdf import PdfReader
 from pypdf.errors import PdfReadError
 
 from parsers.common import extract_miles, extract_voltages, normalize_text, parse_us_date
+from parsers.utilities import GEORGIA_SPONSOR_UTILITY as SPONSOR_UTILITY
 
 log = logging.getLogger(__name__)
 
@@ -47,15 +48,6 @@ DEFAULT_PDF = (
 DEFAULT_OUT = REPO_ROOT / "data" / "processed" / "georgia_power_projects.csv"
 
 STATE = "Georgia"
-SPONSOR_UTILITY = {
-    "GPC": "Georgia Power",
-    "SAV": "Georgia Power",  # Savannah area (formerly Savannah Electric)
-    "GTC": "Georgia Transmission Corporation",
-    "MEAG": "MEAG Power",
-    "DU": "Dalton Utilities",
-}
-
-
 class ParseError(Exception):
     """The PDF no longer has the structure this parser relies on."""
 

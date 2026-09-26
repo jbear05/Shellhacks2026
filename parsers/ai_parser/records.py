@@ -13,6 +13,7 @@ from dataclasses import asdict, dataclass, field
 from parsers.ai_parser.checks import PageText, canon, check_date, locate, normalize_id, same_text
 from parsers.ai_parser.schema import DateQuote, Fragment, Quote
 from parsers.common import extract_miles, extract_voltages
+from parsers.utilities import GEORGIA_SPONSOR_UTILITY
 
 # The shared columns of both parser CSVs, plus the columns gridlock_desc_locator.py
 # --projects-csv reads, so this CSV can go straight to the Geolocator.
@@ -239,6 +240,38 @@ def _title_and_description(project: Project) -> str:
     return f"{project.value('project_name')} {project.description.value if project.description else ''}"
 
 
+def project_utility(project: Project, document_utility: str, default_sponsor: str) -> tuple[str, str]:
+    """Resolve an owner without replacing a different printed sponsor with the document owner.
+
+    The Georgia Power document includes several utilities. Its reviewed aliases are
+    shared with the deterministic parser. Unknown aliases retain their source text
+    and need review; the caller's default is used for an otherwise unlabelled document.
+    """
+    sponsor = project.value("sponsor") or default_sponsor
+    if canon(document_utility) == "georgia power":
+        aliases = {canon(code): owner for code, owner in GEORGIA_SPONSOR_UTILITY.items()}
+        aliases.update({canon(owner): owner for owner in GEORGIA_SPONSOR_UTILITY.values()})
+        if canon(sponsor) in aliases:
+            return aliases[canon(sponsor)], ""
+        if not sponsor:
+            return "", "no sponsor found in a mixed-utility plan; utility left blank"
+        return sponsor, "unknown Georgia sponsor; utility kept as printed sponsor pending review"
+    if not sponsor or same_text(sponsor, document_utility) or (
+        default_sponsor and same_text(sponsor, default_sponsor)
+    ):
+        return document_utility, ""
+    return sponsor, "unmapped sponsor differs from document utility; utility kept as printed sponsor pending review"
+
+
+def utility_problems(project: Project, document_utility: str, default_sponsor: str) -> list[Problem]:
+    utility, reason = project_utility(project, document_utility, default_sponsor)
+    if not reason:
+        return []
+    source = project.fields.get("sponsor")
+    return [Problem(project.project_id, "utility", reason, utility,
+                    source.quote if source else "", source.page if source else None)]
+
+
 def to_row(project: Project, utility: str, state: str, default_sponsor: str) -> dict[str, str]:
     """The CSV row. Voltages and mileage are worked out here, from the checked title and
     description, the way both hand-written parsers do it; the model never supplies them."""
@@ -250,7 +283,7 @@ def to_row(project: Project, utility: str, state: str, default_sponsor: str) -> 
     padded = [*locations, "", "", ""]
     return {
         "project_id": project.project_id,
-        "utility": utility,
+        "utility": project_utility(project, utility, default_sponsor)[0],
         "sponsor": project.value("sponsor") or default_sponsor,
         "state": state,
         "project_name": name,

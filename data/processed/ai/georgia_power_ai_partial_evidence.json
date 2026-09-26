@@ -3,6 +3,9 @@
  "pdf_sha256": "0dae2fc3a38462f0930cc2eb0acedca35e329cd0924e4749c81422bdc8602a12",
  "pages": "171-440",
  "model": "claude-opus-5",
+ "answered_by": {
+  "claude-opus-5": 45
+ },
  "settings": {
   "utility": "Georgia Power",
   "state": "Georgia",
@@ -1004,7 +1007,7 @@
    ],
    "fields": {
     "project_name": {
-     "value": "GTC: BONAIRE PRI-ECHECONNEE 115 KV PARTIAL REBUILD",
+     "value": "GTC: BONAIRE PRI- ECHECONNEE 115 KV PARTIAL REBUILD",
      "quote": "GTC: BONAIRE PRI-ECHECONNEE 115 KV PARTIAL REBUILD",
      "page": 177
     },
@@ -1548,7 +1551,7 @@
    ],
    "fields": {
     "project_name": {
-     "value": "SAV: LITTLE OGEECHEE 230-115KV: RELAY MODERNIZATION",
+     "value": "SAV: LITTLE OGEECHEE 230- 115KV: RELAY MODERNIZATION",
      "quote": "SAV: LITTLE OGEECHEE 230-115KV: RELAY MODERNIZATION",
      "page": 178
     },
@@ -2390,7 +2393,7 @@
      "page": 179
     },
     "sponsor": {
-     "value": "du",
+     "value": "DU",
      "quote": "DU",
      "page": 179
     },
@@ -4594,7 +4597,7 @@
    ],
    "fields": {
     "project_name": {
-     "value": "GTC: BARNESVILLE PRIMARY-BARNESVILLE #1 115KV RECONDUCTOR",
+     "value": "GTC: BARNESVILLE PRIMARY- BARNESVILLE #1 115KV RECONDUCTOR",
      "quote": "GTC: BARNESVILLE PRIMARY-BARNESVILLE #1 115KV RECONDUCTOR",
      "page": 181
     },
@@ -8328,7 +8331,7 @@
      "page": 186
     },
     "sponsor": {
-     "value": "du",
+     "value": "DU",
      "quote": "DU",
      "page": 186
     },
@@ -10660,7 +10663,7 @@
    ],
    "fields": {
     "project_name": {
-     "value": "GTC: TIGER CREEK-ROCKVILLE-NORTH SPA 230KV PROJECT",
+     "value": "GTC: TIGER CREEK- ROCKVILLE-NORTH SPA 230KV PROJECT",
      "quote": "GTC: TIGER CREEK-ROCKVILLE-NORTH SPA 230KV PROJECT",
      "page": 188
     },

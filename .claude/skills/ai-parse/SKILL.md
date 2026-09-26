@@ -6,8 +6,8 @@ description: Run the AI parser (parsers/ai_parser) on a project-list PDF, score 
 # Run the AI parser
 
 The AI parser calls the paid Claude API. Read docs/ai-parser.md first, especially
-its current branch handoff. Fix and verify the known Python regressions with cached
-replies before resuming paid extraction.
+its current state. After changing the parser's Python, rebuild the saved outputs from
+the cache with `--offline` and score them before paying for anything new.
 
 ## 1. Check the key and agree on the cost
 
@@ -25,8 +25,9 @@ user to docs/ai-parser.md. Never ask for the key in chat, never print it, and ne
 write it to a file.
 
 Then run the same command with `--dry-run`, and give the user the request counts and
-the cost estimate from docs/ai-parser.md (about $1 for DESC, $8-12 for all of Georgia
-Power). Wait for their go-ahead. Cached replies cost nothing, and `--offline` never
+the input-token estimate it prints, plus the output cost from docs/ai-parser.md#cost
+(about $1 for DESC; about $3 to finish Georgia Power pages 171-474). Wait for their
+go-ahead. Cached replies cost nothing, and `--offline` never
 calls the API.
 
 ## 2. Run it from the repo root, in the background
@@ -48,10 +49,10 @@ the user.
 .venv/Scripts/python -m parsers.ai_parser.evaluate data/processed/ai/georgia_power_ai_projects.csv data/processed/georgia_power_projects.csv --differences data/processed/ai/georgia_power_ai_differences.csv
 ```
 
-Read the missing/extra ID counts and every column's scores as well as the `VERIFIED`
-summary. That summary covers only matched rows and selected fields; it does not
-check `utility`. Check per-project ownership separately before downstream use.
-docs/ai-parser.md lists the expected differences and unresolved integration gaps.
+Rows match on (`utility`, `project_id`), so a wrong or blank `utility` shows up as
+missing and extra. Read those counts and every column's scores as well as the
+`VERIFIED` summary, which covers only matched rows and three columns.
+docs/ai-parser.md lists the differences to expect.
 
 ## 4. Summarize for the user
 

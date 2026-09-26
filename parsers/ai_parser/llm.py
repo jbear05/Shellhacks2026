@@ -20,7 +20,7 @@ from typing import Any
 
 from pydantic import BaseModel, ValidationError
 
-from parsers.ai_parser.pages import Page, render
+from parsers.ai_parser.pages import Page, render, split_chunk
 from parsers.ai_parser.schema import Extraction, Inventory
 
 log = logging.getLogger(__name__)
@@ -91,7 +91,7 @@ class AnswerTooLong(ModelError):
 
 
 class ResponseCache:
-    """One JSON file per reply, named by a hash of everything that shaped it."""
+    """One JSON file per reply or split decision, hashed by everything that shaped it."""
 
     def __init__(self, directory: Path):
         self.directory = directory
@@ -130,7 +130,8 @@ class ResponseCache:
 class Model:
     """Answers a task for a chunk of pages: from the cache when it can, otherwise from the API.
 
-    Failed requests aren't cached, so they're retried on the next run.
+    Oversized multi-page requests keep a split marker so reruns reuse their children.
+    Other failures aren't cached, so they're retried on the next run.
     """
 
     def __init__(self, cache: ResponseCache, model: str = DEFAULT_MODEL, *,
@@ -146,17 +147,50 @@ class Model:
         self.answered_by: Counter[str] = Counter()  # every reply used this run, cached or not
 
     def is_cached(self, task: Task, chunk: Sequence[Page]) -> bool:
-        return self.cache.get(self.cache.key(self.model, task, render(chunk))) is not None
+        entry = self.cache.get(self.cache.key(self.model, task, render(chunk)))
+        if entry is not None and entry.get("split") is True:
+            return all(self.is_cached(task, child) for child in split_chunk(chunk))
+        return entry is not None
+
+    def request_chunks(self, task: Task, chunks: Sequence[Sequence[Page]]) -> list[list[Page]]:
+        """Expand known splits into distinct leaf requests, including missing replies."""
+        leaves: list[list[Page]] = []
+        seen: set[str] = set()
+
+        def visit(chunk: Sequence[Page]) -> None:
+            key = self.cache.key(self.model, task, render(chunk))
+            if key in seen:
+                return
+            seen.add(key)
+            entry = self.cache.get(key)
+            if entry is not None and entry.get("split") is True:
+                for child in split_chunk(chunk):
+                    visit(child)
+            else:
+                leaves.append(list(chunk))
+
+        for chunk in chunks:
+            visit(chunk)
+        return leaves
 
     def ask(self, task: Task, chunk: Sequence[Page]) -> BaseModel:
         text = render(chunk)
         key = self.cache.key(self.model, task, text)
         entry = self.cache.get(key)
+        if entry is not None and entry.get("split") is True:
+            raise AnswerTooLong(f"cached split for {task.name} pages {_span(chunk)}")
         if entry is None:
             if self.offline:
                 raise ModelError(f"no cached {task.name} reply for pages {_span(chunk)}, and --offline was given")
             log.info("Asking %s to %s pages %s", self.model, task.name, _span(chunk))
-            entry = {"task": task.name, "pages": [page.number for page in chunk], **self._call(task, text)}
+            metadata = {"task": task.name, "pages": [page.number for page in chunk]}
+            try:
+                reply = self._call(task, text)
+            except AnswerTooLong:
+                if len(chunk) > 1:
+                    self.cache.put(key, {**metadata, "split": True})
+                raise
+            entry = {**metadata, **reply}
             self.cache.put(key, entry)
             with self._lock:
                 self.usage.setdefault(entry["model"], Counter()).update(entry["usage"])

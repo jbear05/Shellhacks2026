@@ -1,8 +1,35 @@
 # AI parser review notes (2026-09-26)
 
-The [follow-up review](#follow-up-review-of-current-working-tree) below describes the
-current working tree. The earlier notes are retained as history; several of their
-open items have since been changed in code.
+History of two reviews of the AI parser. Every finding but one has since been fixed;
+the table below says where each stands. The current state is in
+[ai-parser.md](ai-parser.md#current-state).
+
+## Where each finding stands
+
+Checked 2026-09-26 against the code that was committed with these notes. Each row says
+how it was checked.
+
+| Finding | State | Checked by |
+|---|---|---|
+| Follow-up 1: quote matching cuts values short | Fixed | Tests with whole DESC IDs, titles and a Georgia description; offline replays match the reference in every ID, name and description |
+| Follow-up 2: split replies can't be replayed offline | Fixed: the cache records the split | `tests/test_ai_parser_cache.py` |
+| Follow-up 3: every row gets `--utility` | Fixed: the utility comes from the sponsor, with the Georgia parser's table | Tests; the Georgia replay matches all 208 on (`utility`, `project_id`) |
+| 1. DESC sponsor is the page banner | Open, documented as an expected difference | Replay: still 44 of 44 |
+| 2. `--dry-run` underestimates input tokens | Fixed | Estimate within 4% of billed tokens on the cached requests |
+| 3. The skill refuses `ant auth login` | Fixed: it mentions `ant auth status` | Read the skill |
+| 4. The quote check keeps the model's spelling | Fixed | Test; the Georgia replay turned 2 sponsors from `du` to the page's `DU` |
+| 5. Short quotes match inside longer words | Fixed: quotes must match whole words | Tests |
+| 6. The first page can be sent twice | Fixed | Test |
+| 7. The fallback model isn't visible | Fixed: the evidence JSON has `answered_by`, and the cost uses each answering model's prices | Read the regenerated evidence and `Model.cost` |
+| 8. `.tmp` cache files not ignored | Fixed | `git check-ignore` |
+| 8. `--differences` write errors | Fixed | Read the source |
+| 8. Column-name claim in data.md and pipeline.md | Fixed | Docs updated |
+
+The fixes also made the eval match rows on (`utility`, `project_id`). It first refused
+any row with a blank `utility`, which the parser writes for a Georgia row with no sponsor
+read. It now reports such a row as missing and extra; there's a test.
+
+## First review
 
 Findings from a read-only review session that watched the `feat/ai-parser` work while
 another session wrote it. Nothing here was changed by the reviewing session. Line

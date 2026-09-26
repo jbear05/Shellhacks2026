@@ -1,60 +1,60 @@
-project_id,column,outcome,ai,reference
-6807 B,sponsor,differ,Dominion Energy South Carolina,DESC
-0167C-D,sponsor,differ,Dominion Energy South Carolina,DESC
-0167C-D,start_date,blank in AI,,2025-01-01
-"0139 M,N",sponsor,differ,Dominion Energy South Carolina,DESC
-6341 A-F,sponsor,differ,Dominion Energy South Carolina,DESC
-6808 J,sponsor,differ,Dominion Energy South Carolina,DESC
-6808 K,sponsor,differ,Dominion Energy South Carolina,DESC
-6808 L,sponsor,differ,Dominion Energy South Carolina,DESC
-"6808 N,O",sponsor,differ,Dominion Energy South Carolina,DESC
-6808 R,sponsor,differ,Dominion Energy South Carolina,DESC
-6808 S,sponsor,differ,Dominion Energy South Carolina,DESC
-6808 U,sponsor,differ,Dominion Energy South Carolina,DESC
-6808 U,start_date,blank in AI,,2024-01-01
-6808 V,sponsor,differ,Dominion Energy South Carolina,DESC
-6808 V,start_date,blank in AI,,2026-01-01
-6808 W,sponsor,differ,Dominion Energy South Carolina,DESC
-6809 E,sponsor,differ,Dominion Energy South Carolina,DESC
-6809 G,sponsor,differ,Dominion Energy South Carolina,DESC
-6809 G,start_date,blank in AI,,2024-01-01
-6805 G,sponsor,differ,Dominion Energy South Carolina,DESC
-"1060A, I, L",sponsor,differ,Dominion Energy South Carolina,DESC
-06005 B,sponsor,differ,Dominion Energy South Carolina,DESC
-06005 B,start_date,blank in AI,,2025-01-01
-05004 P,sponsor,differ,Dominion Energy South Carolina,DESC
-06076A,sponsor,differ,Dominion Energy South Carolina,DESC
-6359,sponsor,differ,Dominion Energy South Carolina,DESC
-"06367 A-C, H",sponsor,differ,Dominion Energy South Carolina,DESC
-06367 D-G,sponsor,differ,Dominion Energy South Carolina,DESC
-06371 D,sponsor,differ,Dominion Energy South Carolina,DESC
-06372 A,sponsor,differ,Dominion Energy South Carolina,DESC
-06810 F,sponsor,differ,Dominion Energy South Carolina,DESC
-06810 F,start_date,blank in AI,,2026-01-01
-06810 G,sponsor,differ,Dominion Energy South Carolina,DESC
-06810 H,sponsor,differ,Dominion Energy South Carolina,DESC
-6809 M,sponsor,differ,Dominion Energy South Carolina,DESC
-6809 M,start_date,blank in AI,,2024-01-01
-5392 A-C,sponsor,differ,Dominion Energy South Carolina,DESC
-6810 A,sponsor,differ,Dominion Energy South Carolina,DESC
-6809 N,sponsor,differ,Dominion Energy South Carolina,DESC
-6853 B-F,sponsor,differ,Dominion Energy South Carolina,DESC
-6859,sponsor,differ,Dominion Energy South Carolina,DESC
-6852,sponsor,differ,Dominion Energy South Carolina,DESC
-6388 A,sponsor,differ,Dominion Energy South Carolina,DESC
-6388 A,start_date,blank in AI,,2024-01-01
-"0147 C, K",sponsor,differ,Dominion Energy South Carolina,DESC
-"0147 C, K",start_date,blank in AI,,2024-01-01
-"0147 B, J",sponsor,differ,Dominion Energy South Carolina,DESC
-"0147 B, J",start_date,blank in AI,,2024-01-01
-"6847 A-B, D-H",sponsor,differ,Dominion Energy South Carolina,DESC
-6846 A,sponsor,differ,Dominion Energy South Carolina,DESC
-6846 A,start_date,blank in AI,,2024-01-01
-6810 U,sponsor,differ,Dominion Energy South Carolina,DESC
-6810 U,start_date,blank in AI,,2025-01-01
-6810 J,sponsor,differ,Dominion Energy South Carolina,DESC
-6810 J,start_date,blank in AI,,2027-01-01
-6810 O,sponsor,differ,Dominion Energy South Carolina,DESC
-6810 O,start_date,blank in AI,,2027-01-01
-6810 T,sponsor,differ,Dominion Energy South Carolina,DESC
-6810 T,start_date,blank in AI,,2028-01-01
+utility,project_id,column,outcome,ai,reference
+Dominion Energy South Carolina,6807 B,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,0167C-D,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,0167C-D,start_date,blank in AI,,2025-01-01
+Dominion Energy South Carolina,"0139 M,N",sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6341 A-F,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 J,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 K,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 L,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,"6808 N,O",sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 R,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 S,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 U,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 U,start_date,blank in AI,,2024-01-01
+Dominion Energy South Carolina,6808 V,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6808 V,start_date,blank in AI,,2026-01-01
+Dominion Energy South Carolina,6808 W,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6809 E,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6809 G,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6809 G,start_date,blank in AI,,2024-01-01
+Dominion Energy South Carolina,6805 G,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,"1060A, I, L",sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06005 B,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06005 B,start_date,blank in AI,,2025-01-01
+Dominion Energy South Carolina,05004 P,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06076A,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6359,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,"06367 A-C, H",sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06367 D-G,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06371 D,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06372 A,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06810 F,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06810 F,start_date,blank in AI,,2026-01-01
+Dominion Energy South Carolina,06810 G,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,06810 H,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6809 M,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6809 M,start_date,blank in AI,,2024-01-01
+Dominion Energy South Carolina,5392 A-C,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6810 A,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6809 N,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6853 B-F,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6859,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6852,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6388 A,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6388 A,start_date,blank in AI,,2024-01-01
+Dominion Energy South Carolina,"0147 C, K",sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,"0147 C, K",start_date,blank in AI,,2024-01-01
+Dominion Energy South Carolina,"0147 B, J",sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,"0147 B, J",start_date,blank in AI,,2024-01-01
+Dominion Energy South Carolina,"6847 A-B, D-H",sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6846 A,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6846 A,start_date,blank in AI,,2024-01-01
+Dominion Energy South Carolina,6810 U,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6810 U,start_date,blank in AI,,2025-01-01
+Dominion Energy South Carolina,6810 J,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6810 J,start_date,blank in AI,,2027-01-01
+Dominion Energy South Carolina,6810 O,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6810 O,start_date,blank in AI,,2027-01-01
+Dominion Energy South Carolina,6810 T,sponsor,differ,Dominion Energy South Carolina,DESC
+Dominion Energy South Carolina,6810 T,start_date,blank in AI,,2028-01-01

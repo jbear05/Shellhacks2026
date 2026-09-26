@@ -42,8 +42,8 @@ matches what they expect. Problems in the source data are logged as warnings.
 
 - **Any other PDF** (`python -m parsers.ai_parser`): Claude copies each project's values with the text and page they came from, and
   Python checks each one against the page before keeping it. It writes
-  `data/processed/ai/<prefix>_projects.csv` in the Georgia parser CSV's column names,
-  so it can go to the Geolocator's `--projects-csv`, and its eval scores it against the
+  `data/processed/ai/<prefix>_projects.csv` with the Georgia parser CSV's shared
+  columns and a `utility` per project, so it can go to the Geolocator's `--projects-csv`, and its eval scores it against the
   two parsers above. See [ai-parser.md](ai-parser.md).
 
 ## 2. Locate

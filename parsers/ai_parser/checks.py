@@ -63,10 +63,11 @@ class PageText:
         plain, lower = self._plain[page], self._lower[page]
         needle = canon(text)
         spans = ((at, at + len(needle)) for at in _occurrences(lower, needle))
-        needle = squash(text)
+        squashed_needle = squash(text)
         kept = self._kept[page]
         spans_ignoring_spaces = (
-            (kept[at], kept[at + len(needle) - 1] + 1) for at in _occurrences(self._squashed[page], needle))
+            (kept[at], kept[at + len(squashed_needle) - 1] + 1)
+            for at in _occurrences(self._squashed[page], squashed_needle))
         for start, end in (*spans, *spans_ignoring_spaces):
             if _whole_words(lower, start, end):
                 # lower() keeps the length for everything these PDFs contain, but not for every character

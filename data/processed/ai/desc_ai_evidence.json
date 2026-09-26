@@ -3,6 +3,9 @@
  "pdf_sha256": "890876d0faefd40576a0b5e598a804b54b4d8d2d56dd96fb7e40d5a406db0f46",
  "pages": "all",
  "model": "claude-opus-5",
+ "answered_by": {
+  "claude-opus-5": 7
+ },
  "settings": {
   "utility": "Dominion Energy South Carolina",
   "state": "South Carolina",

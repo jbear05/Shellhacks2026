@@ -198,7 +198,7 @@ def test_chunks_share_a_page_and_keep_to_the_budget():
 
 def test_a_page_over_the_budget_still_gets_a_chunk_with_its_neighbour():
     pages = [Page(1, "x" * 50), Page(2, "x" * 500), Page(3, "x" * 50)]
-    assert [[p.number for p in chunk] for chunk in make_chunks(pages, 100)] == [[1], [1, 2], [2, 3]]
+    assert [[p.number for p in chunk] for chunk in make_chunks(pages, 100)] == [[1, 2], [2, 3]]
 
 
 def test_shifted_chunks_break_mid_chunk():
@@ -221,7 +221,27 @@ def test_quote_matches_despite_line_breaks_case_and_dashes():
 
 
 def test_quote_matches_words_pypdf_split_at_a_line_break():
-    assert PageText(GA_PAGES).find("GTC: BONAIRE PRI-ECHECONNEE 115 KV", 177) == "GTC: BONAIRE PRI-ECHECONNEE 115 KV"
+    # The fallback must retain the PDF's spelling and space after the line-ending hyphen.
+    assert PageText(GA_PAGES).find("gtc: bonaire pri-echeconnee 115 kv", 177) == "GTC: BONAIRE PRI- ECHECONNEE 115 KV"
+
+
+@pytest.mark.parametrize(("quote", "page"), [
+    ("6809 E", 14),
+    ("Stevens Creek - Hooks 115kV/LR Plumb Branch 46kV Rebuilds", 14),
+    (GA_19523_DESCRIPTION, 231),
+])
+def test_matching_a_quote_with_spaces_keeps_its_entire_value(quote, page):
+    assert PageText([*DESC_PAGES, *GA_PAGES]).find(quote, page) == quote
+
+
+@pytest.mark.parametrize(("quote", "page"), [
+    ("9523", 177),  # inside project ID 19523
+    ("1952", 177),
+    ("Cre", 14),  # inside Creek
+    ("TC: BONAIRE PRI-ECHECONNEE", 177),  # the no-spaces fallback also checks word boundaries
+])
+def test_quotes_inside_longer_words_or_ids_are_rejected(quote, page):
+    assert PageText([*DESC_PAGES, *GA_PAGES]).find(quote, page) is None
 
 
 def test_quote_on_another_page_is_rejected_and_says_where():
@@ -270,14 +290,39 @@ def test_desc_rows_match_the_hand_written_parser():
 def test_georgia_table_row_and_detail_page_merge_and_the_table_wins():
     result, rows = run_rows(GA_PAGES, GA_REPLY, GA_SETTINGS)
     row, reference = rows["19523"], reference_rows("georgia_power_projects.csv")["19523"]
-    for column in ("sponsor", "project_name", "in_service_date", "start_date", "voltage_1", "voltage_2",
-                   "line_miles", "miles_mentioned", "description"):
+    for column in ("utility", "sponsor", "project_name", "in_service_date", "start_date", "voltage_1",
+                   "voltage_2", "line_miles", "miles_mentioned", "description"):
         assert row[column] == reference[column], column
     assert row["pages"] == "177; 231"
+    assert row["description"].endswith("(2.3 miles) for bridge power.")
+    assert row["miles_mentioned"] == "12; 10; 2.3"
     # Table 2 says 1/1/2025 and the detail page 04/25/2025: kept as the parser does, but flagged
     assert row["status"] == "NEEDS_REVIEW"
     [problem] = result.review_rows()
     assert problem["field"] == "in_service_date" and "2025-04-25" in problem["reason"]
+
+
+@pytest.mark.parametrize(("sponsor", "utility", "reasons"), [
+    (q("SAV", 177), "Georgia Power", []),
+    (q("GTC", 177), "Georgia Transmission Corporation", []),
+    (q("SAVANNAH", 177), "SAVANNAH", ["unknown Georgia sponsor; utility kept as printed sponsor pending review"]),
+    (None, "", ["no sponsor found in a mixed-utility plan; utility left blank"]),
+])
+def test_georgia_rows_take_the_utility_their_sponsor_code_maps_to(sponsor, utility, reasons):
+    # The Georgia plan lists other utilities' projects too, so --utility can't label every row
+    table_row = GA_REPLY[0].model_copy(update={"sponsor": sponsor})
+    result, rows = run_rows(GA_PAGES[:1], [table_row], GA_SETTINGS)
+    assert rows["19523"]["utility"] == utility
+    assert [r["reason"] for r in result.review_rows() if r["field"] == "utility"] == reasons
+
+
+def test_the_desc_banner_as_sponsor_keeps_the_document_utility():
+    # What the real DESC run does: every row quotes the page banner as its sponsor
+    banner = DESC_REPLY[0].model_copy(update={"sponsor": q("Dominion Energy South Carolina", 14)})
+    result, rows = run_rows(DESC_PAGES[:1], [banner], DESC_SETTINGS)
+    assert rows["6809 E"]["utility"] == "Dominion Energy South Carolina"
+    assert rows["6809 E"]["sponsor"] == "Dominion Energy South Carolina"
+    assert result.review_rows() == []
 
 
 def test_a_made_up_value_is_left_blank_and_reviewed():
@@ -291,9 +336,12 @@ def test_a_made_up_value_is_left_blank_and_reviewed():
 
 
 def test_a_page_read_by_two_chunks_gives_each_problem_once():
-    # With a 100-character budget the chunks are [177] and [177, 231], so page 177 is read twice
+    # With a 100-character budget page 177 occurs in both extraction chunks.
+    pages = [Page(176, "Project list introduction"), *GA_PAGES]
     table_row = GA_REPLY[0].model_copy(update={"sponsor": q("SAVANNAH ELECTRIC", 177)})
-    result = run(GA_PAGES, FakeModel([table_row, GA_REPLY[1]]), Settings(utility="U", state="S", chunk_chars=100))
+    fake = FakeModel([table_row, GA_REPLY[1]], labels={176: "other"})
+    result = run(pages, fake, Settings(utility="U", state="S", chunk_chars=100))
+    assert [numbers for task, numbers in fake.chunks if task == "extract"] == [[176, 177], [177, 231]]
     assert sorted(r["field"] for r in result.review_rows()) == ["in_service_date", "sponsor"]
 
 
@@ -320,7 +368,7 @@ def test_a_project_the_id_pass_missed_needs_review():
 
 def test_swapped_dates_pass_the_quote_check_but_not_the_order_check():
     # Both dates are on the page, so only "start after in-service" can catch the swap
-    swapped = [fragment("19523", 231, project_name=GA_REPLY[1].project_name,
+    swapped = [fragment("19523", 231, project_name=GA_REPLY[1].project_name, sponsor=q("SAV", 231),
                         in_service_date=d("06/01/2022", 231, "2022-06-01"),
                         start_date=d("04/25/2025", 231, "2025-04-25"))]
     result, rows = run_rows(GA_PAGES[1:], swapped, GA_SETTINGS)
@@ -404,7 +452,7 @@ def test_api_request_and_reply_round_trip(tmp_path):
     assert model.ask(extraction_task("medium"), chunk) == reply
     assert model.ask(extraction_task("medium"), chunk) == reply  # the second comes from the cache
     assert len(received) == 1 and len(list(tmp_path.glob("*.json"))) == 1
-    assert (model.requests, model.usage["output_tokens"]) == (1, 300)
+    assert (model.requests, model.tokens("output_tokens")) == (1, 300)
 
     request = received[0]
     body = json.loads(request.content)
@@ -473,3 +521,26 @@ def test_evaluation_counts_each_outcome_and_verified_rows_that_are_wrong():
     assert report.scores["line_miles"] == {"same": 1, "only in AI": 1}
     assert report.scores["locations"]["same"] == 2
     assert (report.verified, report.verified_but_wrong) == (2, ["B"])
+
+
+def test_evaluation_matches_on_utility_and_reports_a_blank_one(tmp_path, capsys):
+    def write(name, rows):
+        path = tmp_path / name
+        with path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=["project_id", "utility", "project_name", "status"])
+            writer.writeheader()
+            writer.writerows(rows)
+        return path
+
+    # 18670 is GTC's; an AI row with no sponsor read has no utility, so it can't match
+    reference = write("reference.csv", [
+        {"project_id": "18670", "utility": "Georgia Transmission Corporation", "project_name": "X"},
+        {"project_id": "09662", "utility": "Georgia Power", "project_name": "Y"}])
+    ai = write("ai.csv", [
+        {"project_id": "18670", "utility": "", "project_name": "X", "status": "NEEDS_REVIEW"},
+        {"project_id": "09662", "utility": "Georgia Power", "project_name": "Y", "status": "VERIFIED"}])
+    assert evaluate.main([str(ai), str(reference)]) == 0
+    out = capsys.readouterr().out
+    assert "Projects: 1 in both, 1 missing from the AI CSV, 1 only in the AI CSV" in out
+    report = evaluate.compare(evaluate.read_csv(ai)[1], evaluate.read_csv(reference)[1], ["project_name"])
+    assert (report.missing, report.extra) == (["Georgia Transmission Corporation / 18670"], ["18670"])

@@ -67,6 +67,16 @@ def shifted_chunks(pages: Sequence[Page], max_chars: int) -> list[list[Page]]:
     return [list(pages[:shift + 1]), *make_chunks(pages[shift:], max_chars)]
 
 
+def split_chunk(chunk: Sequence[Page]) -> tuple[list[Page], list[Page]]:
+    """Halve an oversized request, sharing the middle page when both halves shrink."""
+    if len(chunk) < 2:
+        raise ValueError("a single page cannot be split")
+    middle = len(chunk) // 2
+    if len(chunk) == 2:
+        return list(chunk[:1]), list(chunk[1:])
+    return list(chunk[:middle + 1]), list(chunk[middle:])
+
+
 def render(chunk: Sequence[Page]) -> str:
     """The user message for one chunk: each page's text under a ``=== PAGE n ===`` line."""
     return "\n\n".join(f"=== PAGE {page.number} ===\n{page.text}" for page in chunk)

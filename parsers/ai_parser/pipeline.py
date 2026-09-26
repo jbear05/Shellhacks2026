@@ -16,10 +16,10 @@ from pydantic import BaseModel
 
 from parsers.ai_parser.checks import PageText
 from parsers.ai_parser.llm import AnswerTooLong, Task, extraction_task, inventory_task
-from parsers.ai_parser.pages import Page, make_chunks, shifted_chunks
+from parsers.ai_parser.pages import Page, make_chunks, shifted_chunks, split_chunk
 from parsers.ai_parser.records import (
     COLUMNS, REVIEW_COLUMNS, Problem, Project, evidence, inventory_problems, merge, page_problems,
-    review_row, sanity_problems, to_row,
+    review_row, sanity_problems, to_row, utility_problems,
 )
 
 log = logging.getLogger(__name__)
@@ -96,6 +96,7 @@ def run(pages: Sequence[Page], ask: Ask, settings: Settings) -> Result:
     problems += page_problems(labels, projects, [page.number for page in readable])
     for project in projects.values():
         project.problems.extend(sanity_problems(project))
+        project.problems.extend(utility_problems(project, settings.utility, settings.sponsor))
 
     ordered = sorted(projects.values(), key=lambda project: (min(project.pages), project.project_id))
     return Result(ordered, problems, {page: sorted(kinds) for page, kinds in sorted(labels.items())}, skipped, settings)
@@ -114,8 +115,7 @@ def _ask_chunk(ask: Ask, task: Task, chunk: list[Page]) -> list[tuple[list[Page]
     except AnswerTooLong:
         if len(chunk) == 1:
             raise ParseError(f"the {task.name} reply for page {chunk[0].number} alone is too long") from None
-        middle = len(chunk) // 2
-        first, second = (chunk[:middle + 1], chunk[middle:]) if len(chunk) > 2 else (chunk[:1], chunk[1:])
+        first, second = split_chunk(chunk)
         log.info("The %s reply for pages %d-%d was too long; asking for each half",
                  task.name, chunk[0].number, chunk[-1].number)
         return _ask_chunk(ask, task, first) + _ask_chunk(ask, task, second)

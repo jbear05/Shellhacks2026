@@ -32,7 +32,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "checking every value against the PDF's own text. See docs/ai-parser.md.",
     )
     parser.add_argument("pdf", type=Path)
-    parser.add_argument("--utility", required=True, help='written to every row, e.g. "Dominion Energy South Carolina"')
+    parser.add_argument("--utility", required=True,
+                        help='document utility; project sponsors can resolve to other owners, e.g. "Georgia Power"')
     parser.add_argument("--state", required=True, help='written to every row, e.g. "South Carolina"')
     parser.add_argument("--sponsor", default="", help="for rows where the PDF prints no sponsor, e.g. DESC")
     parser.add_argument("--prefix", required=True, help="output file names start with this, e.g. desc_ai")
@@ -112,6 +113,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def dry_run(pages: Sequence[Page], settings: Settings, model: Model) -> None:
     for name, (task, chunks) in chunks_for(pages, settings).items():
+        chunks = model.request_chunks(task, chunks)
         to_send = [chunk for chunk in chunks if not model.is_cached(task, chunk)]
         per_request, chars_per_token = INPUT_TOKENS[name]
         tokens = sum(per_request + len(render(chunk)) / chars_per_token for chunk in to_send)

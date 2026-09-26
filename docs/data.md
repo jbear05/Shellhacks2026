@@ -112,13 +112,14 @@ Written by `python dominionScript.py`: 44 rows, one per page of the DESC PDF.
 Written by `python -m parsers.ai_parser`: one row per project the model read from the
 PDF, whatever its layout. How the values are read and checked is in
 [ai-parser.md](ai-parser.md). A value that failed a check is blank, and its row is
-`NEEDS_REVIEW`. The column names are the Georgia parser CSV's, so the file can go to
+`NEEDS_REVIEW`. Its columns are the Georgia parser CSV's, without the Georgia-only ones
+(`plan_year`, `zone` and the rest), plus `pages` and `status`, so the file can go to
 the Geolocator's `--projects-csv`.
 
 | Column | Meaning |
 |---|---|
 | `project_id` | The ID as printed, with the spaces around `-` removed (the DESC rule) |
-| `utility` | `--utility`, on every row |
+| `utility` | The owner, from the sponsor. For Georgia Power's plan, the sponsor code's utility, as in `georgia_power_projects.csv`; blank if no sponsor was read. Otherwise `--utility`, unless the printed sponsor names another. See [ai-parser.md](ai-parser.md#how-it-works) |
 | `sponsor` | As printed for the project, or `--sponsor` if the PDF prints none |
 | `state` | `--state`, on every row |
 | `project_name` | The title as printed, whitespace collapsed, dashes as hyphens |

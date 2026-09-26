@@ -92,3 +92,12 @@ decision is reversed, say so under the old entry instead of deleting it.
   A cheaper model or lower effort should be adopted only if it scores as well on the
   eval. The API's server-side fallback is on, so a declined request is retried on
   another model instead of stopping the run.
+- **Each row's `utility` comes from its sponsor** (2026-09-26). Georgia Power's plan
+  also lists GTC, MEAG and DU projects, so writing `--utility` on every row gave 70
+  wrong (`utility`, `project_id`) keys. The AI parser uses the Georgia parser's own code
+  table (`parsers/utilities.py`), so both produce the same keys. A missing or unknown
+  sponsor goes to the review file instead of being guessed. The eval matches on the same
+  key, so a wrong owner counts as a missing project.
+- **DESC's banner `sponsor` is documented, not fixed** (2026-09-26). Fixing it means
+  changing the prompt, which changes every cache key and needs a paid rerun. `utility`
+  is right, and nothing downstream reads `sponsor`.
