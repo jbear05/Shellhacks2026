@@ -277,7 +277,22 @@ def geocode_general_location(location_name, state):
     return result
 
 
+def trim_osm_element(element):
+    # Keep only what score_candidate reads, so the cache stays small.
+    tags = element.get("tags", {})
+    trimmed = {key: element[key] for key in ("type", "id", "lat", "lon", "center") if key in element}
+    trimmed["tags"] = {key: tags[key] for key in ("name", "operator", "voltage") if key in tags}
+    return trimmed
+
+
 def search_nearby_substations(latitude, longitude):
+    # Returns None when every server fails. Failures are not cached, so
+    # the next run retries them.
+    cache_key = f"overpass::{latitude},{longitude},{SEARCH_RADIUS_METERS}"
+
+    if cache_key in CACHE:
+        return CACHE[cache_key]
+
     query = f"""
 [out:json][timeout:25];
 (
@@ -304,15 +319,18 @@ out center tags;
             )
 
             if response.status_code == 200:
+                elements = [trim_osm_element(element) for element in response.json().get("elements", [])]
+                CACHE[cache_key] = elements
+                save_cache(CACHE)
                 time.sleep(OVERPASS_DELAY_SECONDS)
-                return response.json().get("elements", [])
+                return elements
 
             print(f"    Overpass returned {response.status_code}: {server}")
 
         except (requests.RequestException, ValueError) as error:
             print(f"    Overpass failed ({server}): {error}")
 
-    return []
+    return None
 
 
 def get_osm_coordinates(element):
@@ -423,6 +441,11 @@ def locate_project_location(project, location_name, role_number):
 
     print(f"    Seed: {seed['lat']}, {seed['lon']}")
     substations = search_nearby_substations(seed["lat"], seed["lon"])
+    if substations is None:
+        fallback_reason = "Overpass request failed; re-run to retry"
+        substations = []
+    else:
+        fallback_reason = "No nearby OSM substation candidate found"
     print(f"    Nearby substations: {len(substations)}")
 
     candidates = []
@@ -504,7 +527,7 @@ def locate_project_location(project, location_name, role_number):
         "match_score": 0,
         "confidence": "LOW",
         "source": "Nominatim general-location fallback",
-        "reasons": "No nearby OSM substation candidate found",
+        "reasons": fallback_reason,
     }
 
 
