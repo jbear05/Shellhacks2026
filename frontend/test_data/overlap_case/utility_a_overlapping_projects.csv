@@ -1,0 +1,5 @@
+Project ID,Project Name,Utility,Project Type,County / Region,In-Service Date,Latitude,Longitude,Match Status,Confidence,Location Status,Location Source,Verification Notes
+OA-001,Augusta North Expansion,Overlap Utility A,Substation,Richmond County,2027-03-15,33.4700,-81.9000,Confirmed,High,Confirmed,OpenStreetMap,Designed to overlap with Augusta West Tie
+OA-002,Savannah River Corridor,Overlap Utility A,Transmission Line,Chatham County,2028-06-01,32.0800,-81.0900,Confirmed,High,Confirmed,Overpass,Designed to overlap with Savannah East Station
+OA-003,Midlands 230 kV Upgrade,Overlap Utility A,Transmission Line,Richland County,2029-09-20,34.0000,-81.0000,Confirmed,Medium,Confirmed,Nominatim,Designed to overlap with Columbia South Substation
+OA-004,Coastal North Project,Overlap Utility A,Substation,Brunswick County,2030-11-01,31.2000,-81.5000,Candidate,Medium,Candidate,Nominatim,Should not overlap with the Utility B records

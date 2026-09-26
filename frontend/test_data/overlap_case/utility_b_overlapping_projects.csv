@@ -1,0 +1,5 @@
+Project ID,Project Name,Utility,Project Type,County / Region,In-Service Date,Latitude,Longitude,Match Status,Confidence,Location Status,Location Source,Verification Notes
+OB-001,Augusta West Tie,Overlap Utility B,Transmission Line,Edgefield County,2027-08-10,33.5000,-81.9400,Confirmed,High,Confirmed,Overpass,Designed to overlap with Augusta North Expansion
+OB-002,Savannah East Station,Overlap Utility B,Substation,Bryan County,2028-12-15,32.1000,-81.1300,Confirmed,High,Confirmed,OpenStreetMap,Designed to overlap with Savannah River Corridor
+OB-003,Columbia South Substation,Overlap Utility B,Substation,Lexington County,2030-01-05,34.0500,-81.0400,Confirmed,Medium,Confirmed,Nominatim,Designed to overlap with Midlands 230 kV Upgrade
+OB-004,Charleston Harbor Line,Overlap Utility B,Transmission Line,Charleston County,2031-04-30,32.8000,-79.9000,Confirmed,High,Confirmed,OpenStreetMap,Designed to remain outside the threshold

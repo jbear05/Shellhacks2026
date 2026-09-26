@@ -1,0 +1,6 @@
+Project ID,Project Name,Utility,Project Type,County / Region,In-Service Date,Latitude,Longitude,Point 1 Name,Point 1 Latitude,Point 1 Longitude,Point 2 Name,Point 2 Latitude,Point 2 Longitude,Match Status,Confidence,Location Status,Location Source,Verification Notes
+B-001,Port Wentworth Substation,Utility B,Substation,Chatham County,2027-11-15,32.1500,-81.1600,,,,,,Confirmed,High,Confirmed,OpenStreetMap,Expected close match with Savannah North Substation
+B-002,North Augusta Tie,Utility B,Transmission Line,Aiken County,2028-07-01,33.5300,-81.9500,North Augusta,33.5300,-81.9500,Augusta West,33.5000,-81.9000,Confirmed,High,Confirmed,Overpass,Center point calculated from two endpoints
+B-003,Charleston West Line,Utility B,Transmission Line,Dorchester County,2029-03-20,32.9000,-80.0500,,,,,,Candidate,Medium,Candidate,Nominatim,Coordinate requires document confirmation
+B-004,Brunswick Coastal Station,Utility B,Substation,Glynn County,2031-05-10,31.1500,-81.4900,,,,,,Confirmed,High,Confirmed,OpenStreetMap,Expected to be outside the default threshold
+B-005,Unlocated Inland Project,Utility B,Substation,Inland Region,2032-08-01,,,,,,,,Unmatched,Low,Missing,,No usable coordinates yet

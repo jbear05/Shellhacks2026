@@ -1,0 +1,6 @@
+Project ID,Project Name,Utility,Project Type,County / Region,In-Service Date,Latitude,Longitude,Point 1 Name,Point 1 Latitude,Point 1 Longitude,Point 2 Name,Point 2 Latitude,Point 2 Longitude,Match Status,Confidence,Location Status,Location Source,Verification Notes
+A-001,Savannah North Substation,Utility A,Substation,Chatham County,2027-06-01,32.2000,-81.1000,,,,,,Confirmed,High,Confirmed,OpenStreetMap,Matches project county and nearby landmark
+A-002,Augusta East Rebuild,Utility A,Transmission Line,Richmond County,2028-04-15,33.4700,-81.9000,Augusta East,33.4700,-81.9000,North Augusta Tie,33.4900,-81.9200,Confirmed,Medium,Confirmed,Overpass,Center point calculated from two endpoints
+A-003,Hilton Head Connector,Utility A,Transmission Line,Beaufort County,2029-09-30,32.3000,-80.7500,Hilton Head,32.3000,-80.7500,Bluffton Tie,32.2500,-80.8500,Candidate,Medium,Candidate,Nominatim,Needs confirmation against utility filing
+A-004,Unlocated Coastal Upgrade,Utility A,Substation,Coastal Region,2030-12-01,,,,,,,,Unmatched,Low,Missing,,No usable coordinates yet
+A-005,Retired Test Facility,Utility A,Substation,Effingham County,2020-01-01,32.3500,-81.3000,,,,,,Excluded,High,Excluded,Utility PDF,Included to test excluded records
