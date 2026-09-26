@@ -27,9 +27,8 @@ Last updated 2026-09-26.
 
 In rough priority order:
 
-1. **Geocode DESC again.** The committed `desc_project_locations.csv` is a partial
-   run by an older version (59 of 101 location slots, old columns, no summary file).
-   Consider deleting the 7 `null` Nominatim entries from the cache first; see
+1. **Geocode DESC.** No full run is committed yet. Consider deleting the 7 `null`
+   Nominatim entries from the cache first; see
    [geolocator.md](geolocator.md#cache).
 2. **Geocode Georgia Power** (353 location slots) and review
    `georgia_power_manual_review.csv`. Projects around Savannah and Augusta matter most.
@@ -70,9 +69,7 @@ Check with a teammate before committing to their branch.
   [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 - **Weak Georgia rows:** 2 `UNKNOWN` rows and 4 customer-project names; see
   [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
-- **Legacy files on `main`:** `locator.py`, `all_projects.py`, `projects.csv`,
-  `desc_project_locations.csv` (removed on `chore/repo-cleanup`). `app.py` is empty;
-  ask the UI owner whether it's the Streamlit entry point.
+- **`app.py` is empty.** Ask the UI owner whether it's the Streamlit entry point.
 - **Merged local branches** (`Geolocator`, `dominionScript`, `feat/gpc-pdf-parser`)
   could be deleted.
 

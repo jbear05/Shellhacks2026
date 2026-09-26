@@ -98,12 +98,3 @@ result and committed, so a second run only repeats requests that failed.
 
 These fixes belong in the planned overrides file
 ([pipeline.md](pipeline.md#3-manual-overrides-planned)), not in the output CSVs.
-
-## Legacy files
-
-- `locator.py`: the first single-location prototype (Okatie).
-- `all_projects.py` and `projects.csv`: an early 5-project sample. On `main`,
-  `all_projects.py` is the only code that uses pandas (the UI branch uses it too).
-- `desc_project_locations.csv`: a partial run by the first version: 59 of 101 location
-  slots, stopping at project 27, without the `utility` and `state` columns, and with no
-  summary file. Replace it with a fresh run.

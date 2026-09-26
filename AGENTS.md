@@ -59,10 +59,6 @@ python -m venv .venv
 | `docs/` | Project knowledge; see [Where knowledge lives](#where-knowledge-lives) |
 | `.claude/skills/` | Step-by-step workflows in plain Markdown, usable by any agent |
 | `Sperry-Tech-Challenge/` | The organizers' brief, guide, example sheet and source PDFs; read-only |
-| `locator.py` | Early single-location Geolocator prototype; cleanup candidate |
-| `all_projects.py` | Early script that prints `projects.csv`; cleanup candidate |
-| `projects.csv` | Five-project sample from the Geolocator's first draft |
-| `desc_project_locations.csv` | Stale, partial Geolocator run; to be replaced |
 | `app.py` | Empty; probably the entry point for the Streamlit UI branch |
 
 ## Pipeline

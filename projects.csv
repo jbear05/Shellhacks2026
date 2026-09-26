@@ -1,6 +1,0 @@
-project_id,project_name,project_type,location_1,location_2,location_3,voltage_1,voltage_2,state
-"0139 M,N","Okatie 230-115kV Substation, Jasper-Yemassee 230kV #1 Fold-in","BOTH","Okatie","Jasper","Yemassee","230000","115000","South Carolina"
-"6808 S","Okatie-Bluffton 115kV: Rebuild","LINE","Okatie","Bluffton","","115000","","South Carolina"
-"6852","Urquhart-Toolebeck 115kV line: Rebuild","LINE","Urquhart","Toolebeck","","115000","","South Carolina"
-"0167C-D","Union Pier 115-13.8 kV Sub: Tap","SUBSTATION","Union Pier","","","115000","13800","South Carolina"
-"6810 U","Cameron Jct-Elloree 46 kV Rebuild","LINE","Cameron","Elloree","","46000","","South Carolina"

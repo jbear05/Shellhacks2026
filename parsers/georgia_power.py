@@ -10,8 +10,8 @@ the project data:
   start date and a free-text scope description.
 
 The two are joined on TEAMS number. Locations, project type and voltages are
-derived from each project title with heuristics, using the same columns as the
-Geolocator branch's projects.csv so the output can feed the geocoder.
+derived from each project title with heuristics, in the columns that
+gridlock_desc_locator.py --projects-csv reads, so the output can feed the geocoder.
 
 Run from the repository root:
 
@@ -368,7 +368,7 @@ def _clean_site(text: str) -> str:
 
 @dataclass(frozen=True)
 class ProjectRecord:
-    """One output row. Location, type and voltage columns match the Geolocator's projects.csv."""
+    """One output row. The location, type and voltage columns are what the Geolocator reads."""
 
     project_id: str  # TEAMS number
     utility: str

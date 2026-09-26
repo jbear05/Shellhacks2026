@@ -6,6 +6,8 @@ guide and source PDFs are in `Sperry-Tech-Challenge/`.
 
 ## Setup
 
+Needs Python 3.11 or newer (pandas 3 won't install on older versions).
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate            # macOS/Linux: source .venv/bin/activate
