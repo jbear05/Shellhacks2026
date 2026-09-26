@@ -34,7 +34,12 @@ What's left is in [ai-parser.md](ai-parser.md#current-state).
   The Geolocator now retries failed Nominatim lookups, saves its cache safely, and
   writes its outputs to `data/processed/`; see [geolocator.md](geolocator.md#cache). It
   has no automated tests, and these fixes haven't had a live run yet.
-- **Tests:** 99 on `main`, 94 of them fast. They take 15-20 s in total.
+- **Tests:** 156 with `feat/ai-parser` merged, 149 of them fast. The full suite takes
+  20-50 s.
+- **Ranking script:** `ranking.py` now ranks overlap CSV rows with distance, timeline
+  overlap, days apart, power voltage and project type scores. It accepts project CSVs
+  for enrichment by (`utility`, `project_id`); `tests/test_ranking.py` checks realistic
+  pairs and prints their ranked output. UI integration is still open.
 
 ## Next steps
 
@@ -54,13 +59,16 @@ In rough priority order:
    [pipeline.md](pipeline.md#3-manual-overrides-planned).
 5. **Overlap finder**, tested against the organizers' 6 example overlaps; see
    [pipeline.md](pipeline.md#4-overlaps-planned).
-6. **UI.** Once the UI owners agree, bring `frontend/` onto a branch off `main` with
+6. **Wire ranking into the UI/export.** The current UI overlap export has names,
+   distance and in-service dates but not IDs, voltage or project type, so pass a richer
+   overlap table or project lookup into `ranking.py` first.
+7. **UI.** Once the UI owners agree, bring `frontend/` onto a branch off `main` with
    `git cherry-pick fb1c0c3`. That keeps Nellie as the author, and only `.gitignore`
    should conflict. Then write a per-project table with coordinates that the upload
    page can map, and read IDs as text. See
    [pipeline.md](pipeline.md#6-ui-originna-not-merged).
-7. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
-8. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
+8. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
+9. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
    extracting the Georgia PDF after its last detail page (saves about 1.5 s).
 
 ## Branches

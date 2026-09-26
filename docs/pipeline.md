@@ -85,7 +85,11 @@ can be checked.
 - **Where to look:** probably only Georgia projects around Savannah and Augusta can be
   within 25 miles of a DESC project.
 - **Ranking:** the brief doesn't define it. It says distance is the primary signal
-  and timeline the secondary one.
+  and timeline the secondary one. `ranking.py` implements a simple 0-3 point model
+  for five categories: geographic distance, timeline overlap, days apart, power
+  voltage and project type. Higher totals rank first; distance is the first tie-break.
+  Missing voltage or type data scores zero and is named in `ranking_reason`. The CLI
+  can enrich overlap rows from project CSVs keyed on (`utility`, `project_id`).
 - **Output:** the two sheets of `Projects_Overlaps.xlsx`
   ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)).
 - **Check it** against the organizers' 6 example overlaps
