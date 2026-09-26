@@ -59,9 +59,8 @@ Check with a teammate before committing to their branch.
 
 ## Open issues
 
-- **Geolocator cache:** the cache file is overwritten in place, so an interrupted
-  write can lose it.
-  The cache and outputs are relative to the current directory. Details:
+- **Geolocator paths:** the cache and outputs are relative to the current directory.
+  Details:
   [geolocator.md](geolocator.md#cache).
 - **Project centers** average every located point, LOW fallbacks included, which
   isn't the organizers' two-point midpoint. Decide before building the overlaps.

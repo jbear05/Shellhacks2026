@@ -70,9 +70,10 @@ result and committed, so a second run only repeats requests that failed.
   7 `null` entries may be errors rather than real misses: Queensboro, Square D, VCS1,
   CIP, North Bridge Terrace, Plumb Branch and VCS2 (all searched in South Carolina).
   Delete a key to retry it.
-- The file is overwritten in place. Stopping the run in the middle of a write can leave
-  a truncated file, which then loads as an empty cache, and the next run overwrites it.
-  Back the cache up before a long run.
+- Each save writes `gridlock_geocode_cache.json.tmp` and then swaps it in, so stopping
+  a run can't leave a half-written cache. If the file isn't valid JSON (for example
+  after a git merge conflict), the script stops rather than start an empty cache and
+  overwrite the file.
 - The cache and the output files are read and written relative to the current
   directory, so run the Geolocator from the repo root.
 

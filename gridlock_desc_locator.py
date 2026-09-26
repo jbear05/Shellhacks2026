@@ -140,16 +140,25 @@ def load_projects_csv(filename):
 def load_cache():
     if not os.path.exists(CACHE_FILE):
         return {}
-    try:
-        with open(CACHE_FILE, "r", encoding="utf-8") as file:
+    with open(CACHE_FILE, "r", encoding="utf-8") as file:
+        try:
             return json.load(file)
-    except (json.JSONDecodeError, OSError):
-        return {}
+        except json.JSONDecodeError as error:
+            # Starting with an empty cache would overwrite every saved
+            # lookup on the next save.
+            raise SystemExit(
+                f"{CACHE_FILE} is not valid JSON ({error}). Fix it (look for git "
+                "merge conflict markers), or delete it to start an empty cache."
+            )
 
 
 def save_cache(cache):
-    with open(CACHE_FILE, "w", encoding="utf-8") as file:
+    # Write a new file and swap it in, so stopping the script in the
+    # middle of a save can't leave a half-written cache.
+    temp_file = CACHE_FILE + ".tmp"
+    with open(temp_file, "w", encoding="utf-8") as file:
         json.dump(cache, file, indent=2)
+    os.replace(temp_file, CACHE_FILE)
 
 
 CACHE = load_cache()

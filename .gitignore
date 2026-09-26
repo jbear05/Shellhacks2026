@@ -7,6 +7,9 @@ __pycache__/
 # Office lock files, created while a .docx/.xlsx is open
 ~$*
 
+# The Geolocator's cache while it's being saved
+gridlock_geocode_cache.json.tmp
+
 # Personal Claude Code settings and notes (shared ones are in .claude/settings.json and CLAUDE.md)
 .claude/settings.local.json
 CLAUDE.local.md
