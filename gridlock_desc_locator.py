@@ -1,3 +1,4 @@
+import argparse
 import csv
 import json
 import math
@@ -9,13 +10,19 @@ from urllib.parse import urlencode
 import requests
 
 # ==========================================================
-# GRIDLOCK - DESC PROJECT LOCATOR
+# GRIDLOCK - PROJECT LOCATOR
 # ==========================================================
-# Loops through all 44 DESC projects, finds general locations
-# with Nominatim, searches nearby OSM substations with Overpass,
+# Loops through the 44 DESC projects below, or the projects in a
+# parser CSV (--projects-csv), finds general locations with
+# Nominatim, searches nearby OSM substations with Overpass,
 # scores matches, and saves CSV outputs.
+#
+#   python gridlock_desc_locator.py
+#   python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_projects.csv --output-prefix georgia_power
 # ==========================================================
 
+# Utility and state of the built-in DESC list; CSV rows carry their own.
+UTILITY = "Dominion Energy South Carolina"
 STATE = "South Carolina"
 COUNTRY = "USA"
 SEARCH_RADIUS_METERS = 25000
@@ -30,11 +37,8 @@ OVERPASS_SERVERS = [
 ]
 
 CACHE_FILE = "gridlock_geocode_cache.json"
-OUTPUT_LOCATIONS = "desc_project_locations.csv"
-OUTPUT_SUMMARY = "desc_projects_summary.csv"
-OUTPUT_REVIEW = "desc_manual_review.csv"
 
-# Set this to 3 while testing. Leave None to run all 44.
+# Set this to 3 while testing. Leave None to run all projects.
 PROJECT_LIMIT = None
 
 OPERATOR_ALIASES = [
@@ -95,6 +99,26 @@ PROJECTS = [
     {"number": 43, "project_id": "6810 O", "project_name": "Urquhart - Aiken PSA 46 kV: Rebuild", "project_type": "LINE", "voltages": ["46000"], "locations": ["Urquhart", "Aiken PSA"]},
     {"number": 44, "project_id": "6810 T", "project_name": "Cameron Jct - Cameron - St Matthews 46 kV Rebuild", "project_type": "MULTI_LINE", "voltages": ["46000"], "locations": ["Cameron Junction", "Cameron", "St Matthews"]},
 ]
+
+
+def load_projects_csv(filename):
+    # Reads a parser CSV such as data/processed/georgia_power_projects.csv.
+    # csv keeps every value a string, so IDs like "09662" keep their
+    # leading zero and voltages stay "115000" for voltage matching.
+    projects = []
+    with open(filename, newline="", encoding="utf-8-sig") as file:
+        for number, row in enumerate(csv.DictReader(file), start=1):
+            projects.append({
+                "number": number,
+                "project_id": row["project_id"],
+                "utility": row["utility"],
+                "state": row["state"],
+                "project_name": row["project_name"],
+                "project_type": row["project_type"],
+                "voltages": [v for v in (row["voltage_1"], row["voltage_2"]) if v],
+                "locations": [l for l in (row["location_1"], row["location_2"], row["location_3"]) if l],
+            })
+    return projects
 
 
 def load_cache():
@@ -346,6 +370,8 @@ def locate_project_location(project, location_name, role_number):
         return {
             "project_number": project["number"],
             "project_id": project["project_id"],
+            "utility": project["utility"],
+            "state": project["state"],
             "project_name": project["project_name"],
             "project_type": project["project_type"],
             "location_role": f"location_{role_number}",
@@ -398,6 +424,8 @@ def locate_project_location(project, location_name, role_number):
         return {
             "project_number": project["number"],
             "project_id": project["project_id"],
+            "utility": project["utility"],
+            "state": project["state"],
             "project_name": project["project_name"],
             "project_type": project["project_type"],
             "location_role": f"location_{role_number}",
@@ -427,6 +455,8 @@ def locate_project_location(project, location_name, role_number):
     return {
         "project_number": project["number"],
         "project_id": project["project_id"],
+        "utility": project["utility"],
+        "state": project["state"],
         "project_name": project["project_name"],
         "project_type": project["project_type"],
         "location_role": f"location_{role_number}",
@@ -451,7 +481,8 @@ def locate_project_location(project, location_name, role_number):
 
 
 LOCATION_FIELDS = [
-    "project_number", "project_id", "project_name", "project_type",
+    "project_number", "project_id", "utility", "state",
+    "project_name", "project_type",
     "location_role", "target_location", "expected_voltages",
     "seed_latitude", "seed_longitude", "seed_display_name",
     "matched_name", "matched_operator", "matched_voltage",
@@ -468,7 +499,7 @@ def write_csv(filename, rows, fields):
         writer.writerows(rows)
 
 
-def build_project_summaries(location_rows):
+def build_project_summaries(projects, location_rows):
     by_project = {}
     for row in location_rows:
         by_project.setdefault(row["project_number"], []).append(row)
@@ -476,10 +507,10 @@ def build_project_summaries(location_rows):
     confidence_rank = {"HIGH": 3, "MEDIUM": 2, "LOW": 1}
     summaries = []
 
-    for project in PROJECTS:
-        rows = by_project.get(project["number"])
-        if not rows:
-            continue
+    # Every project gets a summary row, even one with no location names,
+    # so the summary joins one-to-one with the input projects.
+    for project in projects:
+        rows = by_project.get(project["number"], [])
 
         usable = [
             (float(row["latitude"]), float(row["longitude"]))
@@ -497,6 +528,7 @@ def build_project_summaries(location_rows):
         overall_confidence = min(
             (row["confidence"] for row in rows),
             key=lambda value: confidence_rank.get(value, 0),
+            default="LOW",
         )
 
         coordinates = " | ".join(
@@ -507,6 +539,8 @@ def build_project_summaries(location_rows):
         summaries.append({
             "project_number": project["number"],
             "project_id": project["project_id"],
+            "utility": project["utility"],
+            "state": project["state"],
             "project_name": project["project_name"],
             "project_type": project["project_type"],
             "expected_voltages": ";".join(project["voltages"]),
@@ -522,7 +556,8 @@ def build_project_summaries(location_rows):
 
 
 SUMMARY_FIELDS = [
-    "project_number", "project_id", "project_name", "project_type",
+    "project_number", "project_id", "utility", "state",
+    "project_name", "project_type",
     "expected_voltages", "total_locations", "located_locations",
     "overall_confidence", "centroid_latitude", "centroid_longitude",
     "location_coordinates",
@@ -530,16 +565,38 @@ SUMMARY_FIELDS = [
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Locate project endpoints in OpenStreetMap.")
+    parser.add_argument(
+        "--projects-csv",
+        help="parser output CSV to locate (default: the built-in DESC list)",
+    )
+    parser.add_argument(
+        "--output-prefix",
+        default="desc",
+        help="writes <prefix>_project_locations.csv, <prefix>_projects_summary.csv "
+             "and <prefix>_manual_review.csv (default: desc)",
+    )
+    args = parser.parse_args()
+
+    if args.projects_csv:
+        projects = load_projects_csv(args.projects_csv)
+    else:
+        projects = [{**project, "utility": UTILITY, "state": STATE} for project in PROJECTS]
+
+    output_locations = f"{args.output_prefix}_project_locations.csv"
+    output_summary = f"{args.output_prefix}_projects_summary.csv"
+    output_review = f"{args.output_prefix}_manual_review.csv"
+
     print("=" * 60)
-    print("GRIDLOCK - DESC 44 PROJECT LOCATOR")
+    print(f"GRIDLOCK - {len(projects)} PROJECT LOCATOR")
     print("=" * 60)
 
-    projects_to_run = PROJECTS if PROJECT_LIMIT is None else PROJECTS[:PROJECT_LIMIT]
+    projects_to_run = projects if PROJECT_LIMIT is None else projects[:PROJECT_LIMIT]
     all_location_rows = []
 
     for project in projects_to_run:
         print("\n" + "=" * 60)
-        print(f"PROJECT {project['number']} OF {len(PROJECTS)}")
+        print(f"PROJECT {project['number']} OF {len(projects)}")
         print(f"ID: {project['project_id']}")
         print(project["project_name"])
 
@@ -548,23 +605,23 @@ def main():
             all_location_rows.append(row)
 
             # Save progress after every location.
-            write_csv(OUTPUT_LOCATIONS, all_location_rows, LOCATION_FIELDS)
+            write_csv(output_locations, all_location_rows, LOCATION_FIELDS)
 
-    summaries = build_project_summaries(all_location_rows)
-    write_csv(OUTPUT_SUMMARY, summaries, SUMMARY_FIELDS)
+    summaries = build_project_summaries(projects_to_run, all_location_rows)
+    write_csv(output_summary, summaries, SUMMARY_FIELDS)
 
     review_rows = [
         row for row in all_location_rows
         if row["confidence"] != "HIGH"
     ]
-    write_csv(OUTPUT_REVIEW, review_rows, LOCATION_FIELDS)
+    write_csv(output_review, review_rows, LOCATION_FIELDS)
 
     print("\n" + "=" * 60)
     print("DONE")
     print("=" * 60)
-    print(f"\nDetailed locations: {OUTPUT_LOCATIONS}")
-    print(f"Project summaries:  {OUTPUT_SUMMARY}")
-    print(f"Needs review:       {OUTPUT_REVIEW}")
+    print(f"\nDetailed locations: {output_locations}")
+    print(f"Project summaries:  {output_summary}")
+    print(f"Needs review:       {output_review}")
     print("\nIMPORTANT: LOW/MEDIUM results are candidates, not verified utility coordinates.")
     print("\nMap/geocoding data: © OpenStreetMap contributors.")
 
