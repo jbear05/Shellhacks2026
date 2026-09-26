@@ -12,6 +12,15 @@ python -m venv .venv
 pip install -r requirements-dev.txt
 ```
 
+## Docs
+
+- [docs/status.md](docs/status.md): what's done, what's next, and who owns which branch.
+- [docs/data.md](docs/data.md): every column of every CSV, and how the files join.
+- [docs/](docs/): the challenge, the pipeline, the two source PDFs, the Geolocator, and
+  the decisions made so far.
+- [AGENTS.md](AGENTS.md): instructions for AI coding agents (Claude Code reads it
+  through [CLAUDE.md](CLAUDE.md)). It's also a quick tour of the repo for people.
+
 ## Georgia Power parser
 
 ```bash
@@ -31,19 +40,9 @@ expects (for example, row counts that don't reconcile). Problems in the source d
 itself, such as 3 projects whose need date differs between Table 2 and their detail
 page, are logged as warnings.
 
-Column notes:
-
-- `project_id` is the TEAMS number. `in_service_date` is the Table 2 need date.
-- `sponsor` is GPC, SAV (Georgia Power's Savannah area), GTC, MEAG or DU; `utility`
-  spells it out.
-- `location_*`, `project_type` and `voltage_*` are derived from the title with
-  heuristics. They use the Geolocator's `projects.csv` conventions (voltages in volts),
-  but check them before geocoding.
-- `owner_tags` lists owners named in the title: `USA` (federal), `APC` (Alabama Power),
-  `FPL`, or `SAV`/`GPC` (Georgia Power itself). An OpenStreetMap search filtered on
-  Georgia Power as operator may miss endpoints tagged with another owner.
-- `line_miles` is set only when the description gives exactly one mileage;
-  `miles_mentioned` lists every mileage it gives.
+Locations, project type and voltages are guessed from the title, so check them before
+geocoding. The columns are described in
+[docs/data.md](docs/data.md#dataprocessedgeorgia_power_projectscsv).
 
 ## Dominion parser
 
@@ -53,19 +52,9 @@ python dominionScript.py
 
 Writes `data/processed/dominion_projects.csv`, one row per page of
 `2024-2028-2million-and-above-project-descriptions.pdf`, with the Georgia Power CSV's
-column names and formats.
-
-Column notes:
-
-- `project_id` is the DESC Project ID, spelled as in the Geolocator's project list
-  (`06367 A-C, H` where the PDF has `06367 A - C, H`). Locations, project type,
-  voltages and coordinates come from that list, joined on `project_id`.
-- `in_service_date` is the last date given: 6859 Dawson has one per phase.
-- `start_date` is January 1 of the first year with spending. It is blank when
-  `cost_previous` is nonzero, since work started before 2024 on an unknown date.
-- `cost_*` are the budget table's amounts in dollars. For 3 projects the yearly amounts
-  don't add up to the total; these are logged as warnings.
-- `line_miles` and `miles_mentioned` also count mileages given in the title.
+column names and formats. Project IDs are spelled as in the Geolocator's project list,
+which supplies the locations, project type and voltages. The columns are described in
+[docs/data.md](docs/data.md#dataprocesseddominion_projectscsv).
 
 ## Tests
 
@@ -89,16 +78,7 @@ operator, voltage and distance. It writes three files:
 - `<prefix>_projects_summary.csv`: one row per project, with the average of its points.
 - `<prefix>_manual_review.csv`: every location not rated HIGH.
 
-Notes:
-
-- Join the outputs to a parser CSV on `utility` and `project_id`. `location_role`
-  (`location_1` to `location_3`) names the parser column a location came from. Read
-  IDs as text (pandas: `dtype=str, keep_default_na=False`): some TEAMS numbers start
-  with 0.
-- LOW rows are often just the town or county Nominatim found, and the project's
-  average includes them. Check `overall_confidence` before trusting a project's point.
-- Nominatim and Overpass results are cached in `gridlock_geocode_cache.json`, so a
-  re-run only repeats failed requests. Overpass often returns 429 or 504 errors; those
-  rows say "Overpass request failed; re-run to retry".
-- Each location is searched in its project's state, except those listed in
-  `LOCATION_STATE_OVERRIDES` (Purrysburg, SC, for Georgia's 20277).
+Join the outputs to a parser CSV on `utility` and `project_id`, reading IDs as text.
+Run it from the repo root, since its cache and outputs are relative to the current
+directory. How it scores, what it caches and which lookups it gets wrong are in
+[docs/geolocator.md](docs/geolocator.md).

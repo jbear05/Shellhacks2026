@@ -6,3 +6,7 @@ __pycache__/
 
 # Office lock files, created while a .docx/.xlsx is open
 ~$*
+
+# Personal Claude Code settings and notes (shared ones are in .claude/settings.json and CLAUDE.md)
+.claude/settings.local.json
+CLAUDE.local.md
