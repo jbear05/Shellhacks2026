@@ -45,9 +45,31 @@ Column notes:
 - `line_miles` is set only when the description gives exactly one mileage;
   `miles_mentioned` lists every mileage it gives.
 
+## Dominion parser
+
+```bash
+python dominionScript.py
+```
+
+Writes `data/processed/dominion_projects.csv`, one row per page of
+`2024-2028-2million-and-above-project-descriptions.pdf`, with the Georgia Power CSV's
+column names and formats.
+
+Column notes:
+
+- `project_id` is the DESC Project ID, spelled as in the Geolocator's project list
+  (`06367 A-C, H` where the PDF has `06367 A - C, H`). Locations, project type,
+  voltages and coordinates come from that list, joined on `project_id`.
+- `in_service_date` is the last date given: 6859 Dawson has one per phase.
+- `start_date` is January 1 of the first year with spending. It is blank when
+  `cost_previous` is nonzero, since work started before 2024 on an unknown date.
+- `cost_*` are the budget table's amounts in dollars. For 3 projects the yearly amounts
+  don't add up to the total; these are logged as warnings.
+- `line_miles` and `miles_mentioned` also count mileages given in the title.
+
 ## Tests
 
 ```bash
-pytest                 # everything; parses the real PDF once (about 12 s)
-pytest -m "not slow"   # unit tests only (under a second)
+pytest                 # everything; parses both real PDFs once (about 15 s)
+pytest -m "not slow"   # skips the 668-page Georgia Power PDF (about 1 s)
 ```
