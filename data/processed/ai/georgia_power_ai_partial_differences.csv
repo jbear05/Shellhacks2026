@@ -1,0 +1,137 @@
+project_id,column,outcome,ai,reference
+19523,locations,differ,hyundai; hyundai motors savannah; interstate centre; little ogeechee; meldrim; newton rd; savannah,hyundai motors savannah
+18670,locations,differ,banks crossing; mcclure industrial; pond fork; ridgeway church road,banks crossing; pond fork
+18800,locations,differ,echeconnee; south warner robins; wellston,echeconnee; wellston
+19187,locations,differ,bremen; crooked creek; indian creek road,bremen; crooked creek
+18153,locations,differ,bonaire pri; bonaire primary; echeconnee,bonaire primary; echeconnee
+20342,locations,differ,camden industrial park; kinlaw,camden industrial park
+20590,locations,differ,eatonton; eatonton primary; lake oconee; lick creek,eatonton primary; lick creek
+11821,locations,differ,jesup; ludowici primary; north jesup; rayonier,jesup; ludowici primary
+13753,locations,differ,alcovy road; alcovy road jct.; skc,alcovy road; skc
+13787,locations,differ,aultman road; bonaire primary; peach blossom; sleepy hollow,aultman road; bonaire primary
+20466,locations,only in AI,branch; eatonton primary; oasis,
+21046,voltage_2,only in AI,115000,
+21046,locations,differ,camden industrial park; colerain; thalmann,colerain; thalmann
+20684,locations,differ,camden industrial park; colerain; kingsland; kinlaw; thalman,camden industrial park
+18889,locations,differ,jefferson street#3; northwest; northwest (white); white,jefferson street; northwest
+20175,locations,differ,cartersville; pinson; sk battery/hyundai; sk/hyundai; two run ranch,sk/hyundai
+20010,locations,differ,anthony shoals; double branches junction; washington,anthony shoals; washington
+17075,locations,differ,big ogeechee; little ogeechee,little ogeechee
+18691,locations,differ,gillionville; lizard lope; westover,lizard lope; westover
+20018,locations,differ,ashley park; ohara; qts fayetteville; union city,qts fayetteville
+19597,locations,differ,adamsville; bakers ferry; boat rock; boat rock road; buzzard roost,adamsville; buzzard roost
+20243,locations,differ,garrett road; trae lane; villa rica; west marietta,garrett road; trae lane
+20216,locations,differ,east point; stonewall tell road; stonewall tell road (ta realty); ta realty; union city,stonewall tell road
+18679,locations,differ,dalton; east dalton; oostanaula,east dalton; oostanaula
+16007,locations,differ,east augusta jct.; fenwick street; sand bar ferry,fenwick street; sand bar ferry
+20516,locations,differ,goat rock; north opelika,goat rock
+19618,locations,differ,engelhard mcintyre; engl mci j; gordon; n dublin; north dublin,gordon; north dublin
+21139,locations,differ,grady; moreland way; morrow; morrow (white),grady; morrow
+19706,locations,differ,gainesville #2; grid,gainesville
+21137,locations,differ,conyers; cornish mountain; cornish mtn; north conyers,conyers; cornish mountain
+19334,locations,differ,lagrange; metering station; north opelika,lagrange; north opelika
+20015,locations,differ,morning hornet; thumbs up,morning hornet
+20512,locations,differ,big grocery creek; bonaire primary; kathleen,kathleen
+19598,locations,differ,dresden; lagrange; lagrange primary,dresden; lagrange primary
+20270,locations,differ,ray place rd; washington; washington #3; washington 2,ray place road; washington
+20271,locations,differ,ray place rd; washington; washington 3,ray place road; washington
+20066,locations,differ,bolton; boulevard; deptford,boulevard; deptford
+19966,locations,differ,big ogeechee; little ogeechee; mccall road; meldrim; thalmann,big ogeechee
+20223,locations,only in AI,bainbridge; climax; dothan road; downrange; farley; south bainbridge,
+21022,locations,differ,ohara; tara,ohara
+20668,locations,differ,dresden; o'hara; wansley,dresden
+20874,locations,differ,barnesville; barnesville #1; barnesville primary; lamar county industrial,barnesville; barnesville primary
+20273,locations,differ,dresden; o'hara; talbot; wansley,dresden
+20002,locations,differ,gordon; sandersville; sandersville #1,gordon; sandersville
+20151,locations,differ,cass pine; great valley; hill view; qcells,cass pine; qcells
+19363,locations,differ,barnett road; morrow; mountain view,morrow; mountain view
+20509,locations,differ,buzzard roost; douglasville; emblem riverside; flexential,emblem riverside
+19601,locations,differ,fairburn sw; fife; morrow; owens corning; yates common,morrow; yates common
+15879,locations,differ,clem; oak mountain; possum branch; yates common,possum branch; yates common
+20771,locations,differ,fairburn #2; gullatt road; line creek; morrow; north coweta; owens corning; yates common,gullatt road
+18736,locations,differ,line creek; microsoft; morrow; shugart; shugart farms; union city; yates,microsoft; shugart
+20781,locations,differ,east villa rica; summer lake; villa rica,summer lake; villa rica
+20736,locations,differ,austin drive; morrow; ta realty ellenwood,ta realty ellenwood
+20234,locations,differ,doyle; jack's creek; jacks creek; lg&e monroe,doyle; lg&e monroe
+20858,locations,differ,adamsville; boat rock road; buzzard roost,adamsville; buzzard roost
+20776,locations,differ,douglasville; east villa rica; east villa rica switching station; villa; villa rica,douglasville; villa rica
+20778,locations,differ,doyle; winder; winder primary,doyle; winder primary
+19358,locations,differ,east moultrie; highway 112; hwy 112,east moultrie; highway 112
+09662,locations,differ,bethabara; bostwick; doyle; east social circle; east walton; east watkinsville; jack's creek; lg&e monroe; rockville; scherer; warthen,east walton
+20505,locations,differ,east villa rica switching station; garrett rd; garrett road; v. rica; villa rica,garrett road; villa rica
+20506,locations,differ,switch way; thornton rd; thornton road,switch way; thornton road
+10143,locations,differ,johns manville; lawrenceville; winder; winder primary,lawrenceville; winder
+20264,locations,differ,ray place rd; warrenton; warrenton primary,ray place road; warrenton primary
+19248,locations,differ,sandersville #1; wadley pri.; wadley primary,sandersville; wadley primary
+20785,locations,differ,godley j; goshen (sav); kraft; rice hope,goshen; kraft
+20065,locations,differ,georgia pacific (rincon); goshen (sav); goshen (savannah); mcintosh,goshen; mcintosh
+20717,locations,differ,ohara; schere; tomochichi; towaliga river,tomochichi
+17977,locations,differ,athena; east watkinsville; university of georgia,athena; east watkinsville
+20150,locations,differ,cartersville; cass pine; grassy hollow; great valley; hill view; mcgrau ford,grassy hollow; hill view
+20024,locations,differ,dyer road; east roanoke; east roanoke (apc); wansley,dyer road; east roanoke
+19997,locations,differ,aultman road; langston road; perry; ppg j2,aultman road; perry
+20797,locations,differ,east villa rica; villa rica,east villa rica
+20774,locations,differ,bowen; union city; villa rica,villa rica
+20873,locations,differ,bonaire; bonaire primary,bonaire primary
+19992,locations,differ,bostwick; east social circle; east watkinsville,bostwick; east social circle
+20777,locations,differ,jack mcdonough; northwest (black),jack mcdonough; northwest
+19629,locations,differ,brumbley creek; roddenbery; south bainbridge; thomasville,brumbley creek; south bainbridge
+20482,locations,differ,pittman road; west point dam (usa),pittman road; west point dam
+20656,locations,differ,plant yates; yates,plant yates
+21069,locations,differ,cavender drive; douglasville; east villa rica; summer lake; villa rica,east villa rica
+20274,locations,differ,fairburn #1; line creek; union city; yates,union city; yates
+10222,locations,differ,blakely; blakely primary; blakley primary; huckleberry,blakely primary; huckleberry
+21047,locations,differ,broadway; echeconnee; griffin rd,broadway; echeconnee
+16887,locations,differ,butler; thomaston; wesley,butler; thomaston
+21140,locations,differ,bonaire primary; eastman primary; roddy,bonaire primary; eastman primary
+19950,locations,differ,dresden; talbot; talbot county,dresden; talbot
+21141,locations,differ,jackson lake; lloyd shoals; porterdale primary; south. covington junction,lloyd shoals; porterdale primary
+20285,locations,differ,lower river; webb; webb (apc),lower river; webb
+19621,locations,differ,college square; lakeside wtp; mcever road; shoal creek,mcever road; shoal creek
+11051,locations,differ,albany #9; slappey drive; westover,slappey drive; westover
+20757,locations,differ,norcross; norcross junction; north druid hills,norcross; north druid hills
+21023,locations,differ,dean forest; little ogeechee; salt creek,dean forest; little ogeechee
+20989,locations,differ,crossgate; mcintosh; rice hope,rice hope
+13628,locations,differ,four mile; recovery; sinai; sinai (fpl); south bainbridge,sinai; south bainbridge
+21129,locations,differ,anniston; goshen; hammond,anniston; hammond
+20764,locations,differ,atkinson; chattahoochee; northside drive,atkinson; northside drive
+20761,locations,differ,atkinson; northwest; tilford yards,atkinson; northwest
+21130,locations,differ,east maysville; gillsville; lawrence smith; midway; north georgia; north jackson; pond fork,north georgia
+10478,locations,differ,chase road; clarksville; cornelia; hollywood; tallulah lodge,cornelia; tallulah lodge
+18669,locations,differ,dawson crossing; etowah; nelson; nelson (white); reavis mountain,dawson crossing; nelson
+21097,locations,differ,cavender drive; east point; marietta 25; tributary,east point; tributary
+20480,locations,differ,east point; flat shoals road; stonewall tell; union city,east point; union city
+19627,locations,differ,echeconnee; north warner robins; wellston,echeconnee; wellston
+21063,locations,differ,blacksmith; farley (apc); talbot; tazewell,farley; tazewell
+12120,locations,differ,gainesville; gainesville #2; mcever rd; mcever road,gainesville; mcever road
+20298,locations,differ,glenwood springs; lake oconee; north eatonton; north eatonton junction; putnam sawmill; putnam sawmill junction,glenwood springs; lake oconee
+21128,locations,differ,fortson; goat rock,goat rock
+20428,locations,differ,deepstep; gordon; kaolin j; robins spring; sandersville,gordon; sandersville
+21116,locations,differ,goshen; vogtle; waynesboro; wilson,goshen
+21013,locations,differ,cavender drive; union city; villa rica,cavender drive
+20375,locations,differ,east watkinsville; russell dam,east watkinsville
+21131,locations,differ,gillsville; lawrence smith; midway; north jackson; pond fork,midway; pond fork
+21076,locations,differ,talbot #2; tallbot; tallbot #2; tazewell,talbot; tazewell
+21094,locations,differ,eatonton primary #2; north spa; rockville; tiger creek; wallace dam,north spa; rockville; tiger creek
+20789,locations,differ,jefferson road; richardson street junction; russell; winder primary,jefferson road; winder primary
+20284,locations,differ,kettle creek primary; pearson; pine grove; pine grove primary,kettle creek primary; pine grove primary
+21118,locations,differ,athena; ray place road; union point; union point primary; warrenton; warrenton primary,athena; warrenton
+20857,locations,differ,cavender drive; new cavender drive; tributary,new cavender drive; tributary
+21093,locations,differ,cornish mountain; east social circle; north spa; oasis; rockville,north spa
+21098,locations,differ,thornton rd; thornton road; tributary,thornton road; tributary
+20690,locations,differ,east point; union city; union city (white); welcome all,east point; union city
+19632,locations,differ,avery; birmingham; hopewell,avery; hopewell
+20756,locations,differ,hatch; wadley; wadley primary,hatch; wadley
+21099,locations,differ,big grocery; broadway; dorsett; pio nono; south griffin,pio nono
+20784,locations,differ,coleman; four lakes; meldrim,coleman; meldrim
+20767,locations,differ,arkwright; forrest rd (macon),arkwright
+20758,locations,differ,bay creek; conyers; rockdale,bay creek; conyers
+20793,locations,differ,euchee creek; evans primary; thurmond dam,evans primary; thurmond dam
+12217,locations,differ,center primary; clarksboro; clarksboro primary,center primary; clarksboro
+20773,locations,differ,clarksboro; winder; winder primary,clarksboro; winder primary
+12147,locations,differ,east social circle; snellville; snellville primary,east social circle; snellville
+20791,locations,differ,chestnut mountain; shoal creek; south hall; spout springs road,shoal creek; south hall
+21053,locations,differ,gainesville ferry; lakeside wtp; mcever road; shoal creek,mcever road; shoal creek
+10487,locations,differ,bemis; pine grove primary; west valdosta,pine grove primary; west valdosta
+18700,locations,differ,dawson crossing; gainesville; gainesville #1,dawson crossing; gainesville
+17993,locations,differ,evans primary; pumpkin center; thomson primary,evans primary; thomson primary

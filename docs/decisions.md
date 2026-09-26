@@ -7,6 +7,8 @@ decision is reversed, say so under the old entry instead of deleting it.
 
 - **pypdf and regexes, not an LLM, for the structured fields** (2026-09-26). The
   results can be verified (row counts reconcile) and are the same on every run.
+  Widened later the same day: an AI parser reads PDFs that have no parser of their own,
+  and these parsers are the reference it's scored against. See [AI parser](#ai-parser).
 - **An LLM only for fuzzy steps, if at all** (2026-09-26): title to endpoint names,
   location hints from descriptions. Cache the results to a file, check each value
   against the source text, and never call it while the app runs.
@@ -62,3 +64,31 @@ decision is reversed, say so under the old entry instead of deleting it.
   for Claude Code. The single `parser-handoff.md` was split into topic docs, so a
   session loads only what its task needs, and `tests/test_docs.py` keeps links and
   column lists in step with the code.
+
+## AI parser
+
+- **An AI parser alongside the hand-written ones, not instead of them** (2026-09-26),
+  so PDFs laid out differently don't each need a parser. The hand-written parsers stay
+  as the reference its eval scores it against. Its output goes to `data/processed/ai/`,
+  so nothing downstream switches to it until someone decides to.
+- **The model only copies; Python checks and derives** (2026-09-26). Each value comes
+  with its quote and page, and a value whose quote isn't on that page is left blank
+  rather than trusted. That keeps "don't invent data": the main CSV has only values
+  found in the PDF. Voltages, mileage and ID spelling are worked out in Python, with
+  the hand-written parsers' rules.
+- **Send pypdf's text, not the PDF** (2026-09-26). The checks compare against exactly
+  what the model read, and it costs less than page images. A scanned PDF, or a table
+  pypdf scrambles beyond use, would need page images instead.
+- **Merge fragments on project ID; the earlier page wins, and a conflict is flagged**
+  (2026-09-26). For Georgia Power that keeps Table 2's need date, as the hand-written
+  parser does.
+- **A second pass that lists only project IDs** (2026-09-26), with its chunk boundaries
+  moved by half a chunk, to catch projects the extraction skipped. It costs about as
+  much input as the extraction, and little output.
+- **Cache every reply, keyed on everything that shaped it** (2026-09-26). Re-runs are
+  free and reproducible (Opus 5 can't be made deterministic), and `--offline` rebuilds
+  the CSV without a key. `pydantic` is pinned because the key includes its JSON schema.
+- **`claude-opus-5` with adaptive thinking and effort `high` by default** (2026-09-26).
+  A cheaper model or lower effort should be adopted only if it scores as well on the
+  eval. The API's server-side fallback is on, so a declined request is retried on
+  another model instead of stopping the run.

@@ -7,6 +7,27 @@ topic docs listed in [AGENTS.md](../AGENTS.md#where-knowledge-lives), not here.
 
 Last updated 2026-09-26.
 
+## Picking up the AI parser branch
+
+The goal is a command-line parser that accepts a utility project-list PDF and writes
+a project CSV, with review and source-evidence files alongside it. The implementation
+is present, but the review found unresolved regressions. Start with
+[the AI parser handoff](ai-parser.md#picking-up-this-branch), then the
+[current findings and test results](ai-parser-review.md#follow-up-review-of-current-working-tree).
+
+The handoff snapshot is on `feat/ai-parser`, based on `main` at `1c49c6e`. It includes
+the source, tests, documentation, cached replies and historical AI outputs so a
+teammate can run the offline checks. It is work in progress with known failures,
+not ready to merge. The review and publication did not fix parser code or regenerate
+the saved outputs. API credentials are excluded.
+
+To pick up the branch in a clone that does not already have a local `feat/ai-parser`:
+
+```bash
+git fetch origin
+git switch --track origin/feat/ai-parser
+```
+
 ## Done
 
 - **Georgia Power parser** on `main` (https://github.com/jbear05/Shellhacks2026/pull/1):
@@ -31,23 +52,33 @@ Last updated 2026-09-26.
 
 In rough priority order:
 
-1. **Geocode DESC.** No full run is committed yet. Consider deleting the 7 `null`
+1. **AI parser** (`feat/ai-parser`, work in progress; see Branches). Fix the current quote
+   matcher regression and failing tests before regenerating CSVs or spending more API
+   credit. The saved first-run results in [ai-parser.md](ai-parser.md#results) do not
+   describe the current code: an offline replay now corrupts IDs and other fields.
+   See the [follow-up review](ai-parser-review.md#follow-up-review-of-current-working-tree)
+   for reproductions, test results, split-cache replay and utility-attribution gaps.
+   After those are addressed, finish Georgia's ID pass using the
+   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md), and update the reviewed
+   generated outputs alongside the fixes. The handoff already includes the existing
+   `data/ai_cache/` and historical `data/processed/ai/` files.
+2. **Geocode DESC.** No full run is committed yet. Consider deleting the 7 `null`
    Nominatim entries from the cache first; see [geolocator.md](geolocator.md#cache).
    Start with the [geocode workflow](../.claude/skills/geocode/SKILL.md).
-2. **Geocode Georgia Power** (353 location slots) and review
+3. **Geocode Georgia Power** (353 location slots) and review
    `data/processed/georgia_power_manual_review.csv`. Projects around Savannah and
    Augusta matter most.
-3. **Overrides file** for the heuristics' and Geolocator's known mistakes; see
+4. **Overrides file** for the heuristics' and Geolocator's known mistakes; see
    [pipeline.md](pipeline.md#3-manual-overrides-planned).
-4. **Overlap finder**, tested against the organizers' 6 example overlaps; see
+5. **Overlap finder**, tested against the organizers' 6 example overlaps; see
    [pipeline.md](pipeline.md#4-overlaps-planned).
-5. **UI.** Once the UI owners agree, bring `frontend/` onto a branch off `main` with
+6. **UI.** Once the UI owners agree, bring `frontend/` onto a branch off `main` with
    `git cherry-pick fb1c0c3`. That keeps Nellie as the author, and only `.gitignore`
    should conflict. Then write a per-project table with coordinates that the upload
    page can map, and read IDs as text. See
    [pipeline.md](pipeline.md#6-ui-originna-not-merged).
-6. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
-7. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
+7. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
+8. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
    extracting the Georgia PDF after its last detail page (saves about 1.5 s).
 
 ## Branches
@@ -61,10 +92,16 @@ In rough priority order:
 | `origin/feat/gpc-pdf-parser` | Jair | Merged in PR #1; kept |
 | `origin/chore/repo-cleanup` | Jair | Merged in PR #4; kept |
 | `origin/docs/ai-context` | Jair | Its two commits are in PR #4; kept |
+| `feat/ai-parser` | Jair | Work-in-progress handoff branch: parser, tests, docs, `/ai-parse` workflow, pinned dependencies, cached replies and historical AI output. Tests currently fail; see the [follow-up review](ai-parser-review.md#follow-up-review-of-current-working-tree). Do not merge until the findings are addressed |
 
 Check with a teammate before committing to their branch.
 
 ## Open issues
+
+- **The API credit ran out** during the Georgia run on 2026-09-26, after about $5.40
+  (DESC, a 4-page test and Georgia pages 171-440). The Georgia output in
+  `data/processed/ai/georgia_power_ai_partial_*` was rebuilt from the cache without the
+  ID pass.
 
 - **`origin/NA` shares no history with `main`.** It was force-pushed as a single
   commit with no parent (fb1c0c3, Nellie, 2026-09-26 12:56) holding only `.gitignore`

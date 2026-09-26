@@ -43,6 +43,10 @@ python -m venv .venv
 # Calls public Nominatim/Overpass servers and takes minutes. Read docs/geolocator.md first.
 .venv/Scripts/python gridlock_desc_locator.py
 .venv/Scripts/python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_projects.csv --output-prefix georgia_power
+
+# The AI parser calls the paid Claude API unless --dry-run or --offline. Read docs/ai-parser.md first.
+.venv/Scripts/python -m parsers.ai_parser PDF --utility "..." --state "..." --prefix NAME --dry-run
+.venv/Scripts/python -m parsers.ai_parser.evaluate data/processed/ai/NAME_projects.csv data/processed/dominion_projects.csv
 ```
 
 ## Repository map
@@ -51,11 +55,12 @@ python -m venv .venv
 |---|---|
 | `parsers/common.py` | Text helpers shared by both parsers: dashes, dates, kV, miles |
 | `parsers/georgia_power.py` | The Georgia Power parser and its CLI |
+| `parsers/ai_parser/` | The AI parser for any project-list PDF, its eval, and its reply cache logic (the cache is `data/ai_cache/`) |
 | `dominionScript.py` | The DESC parser and its CLI (a teammate's file, kept at the root) |
 | `gridlock_desc_locator.py` | The Geolocator: coordinates from Nominatim and Overpass |
 | `gridlock_geocode_cache.json` | The Geolocator's request cache |
 | `data/processed/` | Parser output, committed so teammates don't need Python, and the Geolocator's output |
-| `tests/` | pytest; the `slow` marker covers the tests that parse the 668-page PDF |
+| `tests/` | pytest; the `slow` marker covers the tests that parse the 668-page PDF or load the Anthropic SDK |
 | `docs/` | Project knowledge; see [Where knowledge lives](#where-knowledge-lives) |
 | `.claude/skills/` | Step-by-step workflows in plain Markdown, usable by any agent |
 | `Sperry-Tech-Challenge/` | The organizers' brief, guide, example sheet and source PDFs; read-only |
@@ -63,7 +68,7 @@ python -m venv .venv
 
 ## Pipeline
 
-PDFs → parsers → `data/processed/*.csv` → Geolocator → `<prefix>_projects_summary.csv`
+PDFs → parsers (or the AI parser) → `data/processed/*.csv` → Geolocator → `<prefix>_projects_summary.csv`
 → overlaps (not built) → UI (`origin/NA`, not merged). What each stage reads and
 writes, and the planned method for the unbuilt ones:
 [docs/pipeline.md](docs/pipeline.md).
@@ -84,9 +89,12 @@ writes, and the planned method for the unbuilt ones:
 - **`pypdf` is pinned** because the regexes depend on its exact output. After changing
   the version, run both parsers again and explain every change in the CSVs.
 - **No LLM calls at app runtime.** If an LLM ever fills in a fuzzy field, save its
-  output to a file and check each value against the source text.
+  output to a file and check each value against the source text. The AI parser does
+  both: it caches every reply and checks every value against the page it came from.
 - **Public APIs:** keep the Geolocator at 1 request per second to Nominatim, and keep
   using its cache. Tests must never call the network. Ask before starting a full run.
+- **The Claude API costs money.** Ask before running the AI parser without `--dry-run`
+  or `--offline`, and say what `--dry-run` estimates. Never commit an API key.
 - **Teammate branches:** don't commit to or push `origin/NA`, `origin/Geolocator` or
   `origin/dominionScript` unless the user has checked with the owner (listed in
   docs/status.md).
@@ -131,6 +139,7 @@ Read the doc for your task, and write what you learn back into it.
 | Georgia Power PDF layout | [docs/sources/georgia-power-pdf.md](docs/sources/georgia-power-pdf.md) |
 | DESC PDF layout and project IDs | [docs/sources/dominion-pdf.md](docs/sources/dominion-pdf.md) |
 | Geolocator search, scoring, cache, wrong lookups | [docs/geolocator.md](docs/geolocator.md) |
+| AI parser: how it reads and checks, its eval, cost | [docs/ai-parser.md](docs/ai-parser.md) |
 | Why things are the way they are | [docs/decisions.md](docs/decisions.md) |
 
 Keeping the docs useful:
@@ -152,6 +161,7 @@ The step-by-step procedures are in `.claude/skills/`. Claude Code runs them as
 | [handoff](.claude/skills/handoff/SKILL.md) | End of a session: update docs/status.md and the topic docs |
 | [regenerate-data](.claude/skills/regenerate-data/SKILL.md) | After a parser change: run both parsers again, diff the CSVs, run the tests |
 | [geocode](.claude/skills/geocode/SKILL.md) | Running the Geolocator and retrying failed requests |
+| [ai-parse](.claude/skills/ai-parse/SKILL.md) | Running the AI parser on a PDF and scoring it against a hand-written parser |
 
 ## End of every session
 
