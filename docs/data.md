@@ -109,8 +109,8 @@ Written by `python dominionScript.py`: 44 rows, one per page of the DESC PDF.
 
 ## `<prefix>_project_locations.csv`
 
-Written by `gridlock_desc_locator.py`: one row per location name of each project. The
-prefix is `desc` by default, or the `--output-prefix` value. How the values are found
+Written to `data/processed/` by `gridlock_desc_locator.py`: one row per location name
+of each project. The prefix is `desc` by default, or the `--output-prefix` value. How the values are found
 is in [geolocator.md](geolocator.md).
 
 `<prefix>_manual_review.csv` has the same columns, with only the rows that aren't
@@ -145,8 +145,8 @@ HIGH.
 
 ## `<prefix>_projects_summary.csv`
 
-Written by `gridlock_desc_locator.py`: one row per input project, including projects
-with no location names.
+Written to `data/processed/` by `gridlock_desc_locator.py`: one row per input project,
+including projects with no location names.
 
 | Column | Meaning |
 |---|---|

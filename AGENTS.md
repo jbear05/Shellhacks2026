@@ -54,7 +54,7 @@ python -m venv .venv
 | `dominionScript.py` | The DESC parser and its CLI (a teammate's file, kept at the root) |
 | `gridlock_desc_locator.py` | The Geolocator: coordinates from Nominatim and Overpass |
 | `gridlock_geocode_cache.json` | The Geolocator's request cache |
-| `data/processed/` | Parser output, committed so teammates don't need Python |
+| `data/processed/` | Parser output, committed so teammates don't need Python, and the Geolocator's output |
 | `tests/` | pytest; the `slow` marker covers the tests that parse the 668-page PDF |
 | `docs/` | Project knowledge; see [Where knowledge lives](#where-knowledge-lives) |
 | `.claude/skills/` | Step-by-step workflows in plain Markdown, usable by any agent |
@@ -112,8 +112,6 @@ writes, and the planned method for the unbuilt ones:
 - `python parsers/georgia_power.py` fails to import. Use `python -m parsers.georgia_power`.
 - The DESC PDF writes `06367 A - C, H`. The parser removes the spaces around `-` (but
   not around `,`), so IDs match the Geolocator's list exactly.
-- The Geolocator reads its cache and writes its outputs relative to the current
-  directory. Run it from the repo root.
 - Windows' 260-character path limit: a temp directory plus the long PDF names is too
   long, so `git worktree add` into a temp directory fails. A sibling folder of the
   repo works. To test one commit's code alone, extract it instead:

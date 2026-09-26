@@ -74,13 +74,12 @@ python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_proj
 
 Finds coordinates for each project's location names. Nominatim gives a general place,
 then Overpass looks for OpenStreetMap substations within 25 km of it, scored on name,
-operator, voltage and distance. It writes three files:
+operator, voltage and distance. It writes three files to `data/processed/`:
 
 - `<prefix>_project_locations.csv`: one row per location.
 - `<prefix>_projects_summary.csv`: one row per project, with the average of its points.
 - `<prefix>_manual_review.csv`: every location not rated HIGH.
 
 Join the outputs to a parser CSV on `utility` and `project_id`, reading IDs as text.
-Run it from the repo root, since its cache and outputs are relative to the current
-directory. How it scores, what it caches and which lookups it gets wrong are in
+How it scores, what it caches and which lookups it gets wrong are in
 [docs/geolocator.md](docs/geolocator.md).

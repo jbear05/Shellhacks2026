@@ -31,7 +31,8 @@ In rough priority order:
    Nominatim entries from the cache first; see
    [geolocator.md](geolocator.md#cache).
 2. **Geocode Georgia Power** (353 location slots) and review
-   `georgia_power_manual_review.csv`. Projects around Savannah and Augusta matter most.
+   `data/processed/georgia_power_manual_review.csv`. Projects around Savannah and
+   Augusta matter most.
 3. **Overrides file** for the heuristics' and Geolocator's known mistakes; see
    [pipeline.md](pipeline.md#3-manual-overrides-planned).
 4. **Overlap finder**, tested against the organizers' 6 example overlaps; see
@@ -59,9 +60,6 @@ Check with a teammate before committing to their branch.
 
 ## Open issues
 
-- **Geolocator paths:** the cache and outputs are relative to the current directory.
-  Details:
-  [geolocator.md](geolocator.md#cache).
 - **Project centers** average every located point, LOW fallbacks included, which
   isn't the organizers' two-point midpoint. Decide before building the overlaps.
 - **Wrong lookups:** `EVANS PRIMARY` and `MCINTOSH` find counties; see

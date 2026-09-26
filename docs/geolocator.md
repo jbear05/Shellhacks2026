@@ -14,7 +14,8 @@ PR #3. Its output columns are described in [data.md](data.md). To run it, follow
   `project_type`. Only the Georgia Power CSV has these: 353 location slots, 215 distinct
   names. The csv module keeps every value a string, so `09662` keeps its leading zero
   and voltages stay `"115000"`.
-- **`--output-prefix`** names the output files (default `desc`).
+- **`--output-prefix`** names the output files, which go to `data/processed/` (default
+  `desc`).
 - **`PROJECT_LIMIT`** at the top of the file: set it to 3 for a quick test and back to
   `None` afterwards.
 
@@ -74,8 +75,8 @@ result and committed, so a second run only repeats requests that failed.
   a run can't leave a half-written cache. If the file isn't valid JSON (for example
   after a git merge conflict), the script stops rather than start an empty cache and
   overwrite the file.
-- The cache and the output files are read and written relative to the current
-  directory, so run the Geolocator from the repo root.
+- The cache sits next to the script, and the outputs go to `data/processed/`, whatever
+  the current directory.
 
 ## Rate limits
 

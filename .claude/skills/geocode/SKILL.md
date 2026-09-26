@@ -35,7 +35,7 @@ other's new entries. Stopping a run is safe; cached results are kept.
 Count the rows whose `reasons` say "re-run to retry":
 
 ```bash
-grep -c "re-run to retry" <prefix>_project_locations.csv
+grep -c "re-run to retry" data/processed/<prefix>_project_locations.csv
 ```
 
 Run the same command again until the count is 0 or stops going down. Overpass often

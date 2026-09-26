@@ -10,7 +10,7 @@ Source PDFs (Sperry-Tech-Challenge/Project Listings/)
 data/processed/georgia_power_projects.csv, dominion_projects.csv  committed
   |  gridlock_desc_locator.py                                     built
   v
-<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
+data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
   |  manual overrides                                             planned
   |  overlap finder                                               planned
   v

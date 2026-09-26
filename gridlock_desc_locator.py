@@ -15,7 +15,7 @@ import requests
 # Loops through the 44 DESC projects below, or the projects in a
 # parser CSV (--projects-csv), finds general locations with
 # Nominatim, searches nearby OSM substations with Overpass,
-# scores matches, and saves CSV outputs.
+# scores matches, and saves CSV outputs to data/processed/.
 #
 #   python gridlock_desc_locator.py
 #   python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_projects.csv --output-prefix georgia_power
@@ -36,7 +36,10 @@ OVERPASS_SERVERS = [
     "https://overpass.kumi.systems/api/interpreter",
 ]
 
-CACHE_FILE = "gridlock_geocode_cache.json"
+# Found from this file's location, so the script works from any directory.
+REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
+CACHE_FILE = os.path.join(REPO_ROOT, "gridlock_geocode_cache.json")
+OUTPUT_DIR = os.path.join(REPO_ROOT, "data", "processed")
 
 # Set this to 3 while testing. Leave None to run all projects.
 PROJECT_LIMIT = None
@@ -643,7 +646,7 @@ def main():
         "--output-prefix",
         default="desc",
         help="writes <prefix>_project_locations.csv, <prefix>_projects_summary.csv "
-             "and <prefix>_manual_review.csv (default: desc)",
+             "and <prefix>_manual_review.csv to data/processed/ (default: desc)",
     )
     args = parser.parse_args()
 
@@ -652,9 +655,10 @@ def main():
     else:
         projects = [{**project, "utility": UTILITY, "state": STATE} for project in PROJECTS]
 
-    output_locations = f"{args.output_prefix}_project_locations.csv"
-    output_summary = f"{args.output_prefix}_projects_summary.csv"
-    output_review = f"{args.output_prefix}_manual_review.csv"
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    output_locations = os.path.join(OUTPUT_DIR, f"{args.output_prefix}_project_locations.csv")
+    output_summary = os.path.join(OUTPUT_DIR, f"{args.output_prefix}_projects_summary.csv")
+    output_review = os.path.join(OUTPUT_DIR, f"{args.output_prefix}_manual_review.csv")
 
     print("=" * 60)
     print(f"GRIDLOCK - {len(projects)} PROJECT LOCATOR")
