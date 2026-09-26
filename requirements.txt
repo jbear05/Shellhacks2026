@@ -1,2 +1,5 @@
 # Pinned: the parsers depend on pypdf's exact text-extraction output.
 pypdf==6.19.0
+# Geolocator (gridlock_desc_locator.py, all_projects.py)
+requests==2.34.2
+pandas==3.0.6

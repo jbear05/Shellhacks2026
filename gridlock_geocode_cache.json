@@ -1,0 +1,204 @@
+{
+  "nominatim::Queensboro, South Carolina, USA": null,
+  "nominatim::Ft Johnson, South Carolina, USA": {
+    "lat": 32.7488943,
+    "lon": -79.901444,
+    "display_name": "Marine Resources Center, Fort Johnson Estates, Charleston, Charleston County, South Carolina, 29412, United States"
+  },
+  "nominatim::Bayfront, South Carolina, USA": {
+    "lat": 32.742122,
+    "lon": -79.9634237,
+    "display_name": "Bayfront, James Island, Charleston County, South Carolina, 29412, United States"
+  },
+  "nominatim::James Island, South Carolina, USA": {
+    "lat": 32.7343458,
+    "lon": -79.9688451,
+    "display_name": "James Island, Charleston County, South Carolina, 29412, United States"
+  },
+  "nominatim::Union Pier, South Carolina, USA": {
+    "lat": 32.784336,
+    "lon": -79.9255881,
+    "display_name": "Union Pier Terminal, 32, Ansonborough, Charleston, Charleston County, South Carolina, 29401, United States"
+  },
+  "nominatim::Okatie, South Carolina, USA": {
+    "lat": 32.2956335,
+    "lon": -80.9448103,
+    "display_name": "Okatie Village, Beaufort County, South Carolina, United States"
+  },
+  "nominatim::Jasper, South Carolina, USA": {
+    "lat": 32.4048602,
+    "lon": -81.0414726,
+    "display_name": "Jasper County, South Carolina, United States"
+  },
+  "nominatim::Yemassee, South Carolina, USA": {
+    "lat": 32.6901781,
+    "lon": -80.8506626,
+    "display_name": "Yemassee, Hampton County, South Carolina, United States"
+  },
+  "nominatim::Cainhoy, South Carolina, USA": {
+    "lat": 32.9302521,
+    "lon": -79.8537652,
+    "display_name": "Cainhoy, Point Hope, Charleston, Berkeley County, South Carolina, 29492, United States"
+  },
+  "nominatim::Hamlin, South Carolina, USA": {
+    "lat": 32.8316639,
+    "lon": -79.7715157,
+    "display_name": "Hamlin Sound, Mount Pleasant, Charleston County, South Carolina, United States"
+  },
+  "nominatim::Eastover, South Carolina, USA": {
+    "lat": 33.8771147,
+    "lon": -80.6922594,
+    "display_name": "Eastover, Richland County, South Carolina, United States"
+  },
+  "nominatim::Square D, South Carolina, USA": null,
+  "nominatim::Burton, South Carolina, USA": {
+    "lat": 32.4239465,
+    "lon": -80.7458787,
+    "display_name": "Burton, Beaufort County, South Carolina, United States"
+  },
+  "nominatim::Frogmore, South Carolina, USA": {
+    "lat": 32.3968603,
+    "lon": -80.5762177,
+    "display_name": "Frogmore, Beaufort County, South Carolina, 29920, United States"
+  },
+  "nominatim::St Helena, South Carolina, USA": {
+    "lat": 32.3868607,
+    "lon": -80.5606622,
+    "display_name": "Saint Helena Island, Beaufort County, South Carolina, 29920, United States"
+  },
+  "nominatim::VCS1, South Carolina, USA": null,
+  "nominatim::Denny Terrace, South Carolina, USA": {
+    "lat": 34.0654303,
+    "lon": -81.0634256,
+    "display_name": "Denny Terrace, Richland County, South Carolina, 29210, United States"
+  },
+  "nominatim::Pineland, South Carolina, USA": {
+    "lat": 32.6001789,
+    "lon": -81.1595501,
+    "display_name": "Pineland, Jasper County, South Carolina, United States"
+  },
+  "nominatim::Wateree, South Carolina, USA": {
+    "lat": 33.8071004,
+    "lon": -80.6373094,
+    "display_name": "Wateree, Richland County, South Carolina, United States"
+  },
+  "nominatim::Killian, South Carolina, USA": {
+    "lat": 32.566698,
+    "lon": -81.2651824,
+    "display_name": "Killian, Jasper County, South Carolina, United States"
+  },
+  "nominatim::Bluffton, South Carolina, USA": {
+    "lat": 32.2371465,
+    "lon": -80.8603868,
+    "display_name": "Bluffton, Beaufort County, South Carolina, 29910, United States"
+  },
+  "nominatim::Hopkins, South Carolina, USA": {
+    "lat": 33.9043212,
+    "lon": -80.8770342,
+    "display_name": "Hopkins, Richland County, South Carolina, 29061, United States"
+  },
+  "nominatim::CIP, South Carolina, USA": null,
+  "nominatim::Faber Place, South Carolina, USA": {
+    "lat": 32.8462865,
+    "lon": -80.0298124,
+    "display_name": "Faber Place, North Charleston, Charleston County, South Carolina, 29414, United States"
+  },
+  "nominatim::North Bridge Terrace, South Carolina, USA": null,
+  "nominatim::Stevens Creek, South Carolina, USA": {
+    "lat": 33.7410515,
+    "lon": -82.1646667,
+    "display_name": "Stevens Creek, Edgefield County, South Carolina, United States"
+  },
+  "nominatim::Hooks, South Carolina, USA": {
+    "lat": 34.170585,
+    "lon": -79.0914166,
+    "display_name": "Hooks Pond, Horry County, South Carolina, United States"
+  },
+  "nominatim::Plumb Branch, South Carolina, USA": null,
+  "nominatim::Edenwood, South Carolina, USA": {
+    "lat": 33.953765,
+    "lon": -81.0598155,
+    "display_name": "Edenwood, Cayce, Lexington County, South Carolina, 29033, United States"
+  },
+  "nominatim::Williams Street, South Carolina, USA": {
+    "lat": 34.0011212,
+    "lon": -81.0483088,
+    "display_name": "Williams Street, The Vista, Columbia, Richland County, South Carolina, 29201, United States"
+  },
+  "nominatim::AM Williams, South Carolina, USA": {
+    "lat": 33.0346074,
+    "lon": -80.8426004,
+    "display_name": "Williams, Colleton County, South Carolina, 29493, United States"
+  },
+  "nominatim::McMeekin, South Carolina, USA": {
+    "lat": 34.7406872,
+    "lon": -79.7992774,
+    "display_name": "McMeekin Pond, Marlboro County, South Carolina, United States"
+  },
+  "nominatim::Blue Circle, South Carolina, USA": {
+    "lat": 34.1804013,
+    "lon": -79.8957238,
+    "display_name": "Blue Heron Circle, Heritage, Florence County, South Carolina, 29501, United States"
+  },
+  "nominatim::Harleyville, South Carolina, USA": {
+    "lat": 33.2146069,
+    "lon": -80.4478745,
+    "display_name": "Harleyville, Dorchester County, South Carolina, United States"
+  },
+  "nominatim::Summerville, South Carolina, USA": {
+    "lat": 33.0186699,
+    "lon": -80.1762704,
+    "display_name": "Summerville, Dorchester County, South Carolina, United States"
+  },
+  "nominatim::Canadys, South Carolina, USA": {
+    "lat": 33.0565161,
+    "lon": -80.6196529,
+    "display_name": "Canadys, Colleton County, South Carolina, 28474, United States"
+  },
+  "nominatim::Ritter, South Carolina, USA": {
+    "lat": 32.7896202,
+    "lon": -80.6303822,
+    "display_name": "Ritter, Colleton County, South Carolina, United States"
+  },
+  "nominatim::Riverport, South Carolina, USA": {
+    "lat": 33.8578726,
+    "lon": -79.0828943,
+    "display_name": "Riverport Drive, Rivertown Row, Conway, Horry County, South Carolina, 29562, United States"
+  },
+  "nominatim::Edmund, South Carolina, USA": {
+    "lat": 33.8614622,
+    "lon": -81.1997259,
+    "display_name": "Edmund, Lexington County, South Carolina, United States"
+  },
+  "nominatim::Owens Corning, South Carolina, USA": {
+    "lat": 34.4360499,
+    "lon": -82.6579695,
+    "display_name": "Owens Corning, Anderson County, South Carolina, United States"
+  },
+  "nominatim::Wagener, South Carolina, USA": {
+    "lat": 33.6523712,
+    "lon": -81.3612142,
+    "display_name": "Wagener, Aiken County, South Carolina, 19164, United States"
+  },
+  "nominatim::Church Creek, South Carolina, USA": {
+    "lat": 32.7090728,
+    "lon": -80.1358122,
+    "display_name": "Church Creek, Charleston, Charleston County, South Carolina, United States"
+  },
+  "nominatim::VCS2, South Carolina, USA": null,
+  "nominatim::Ward, South Carolina, USA": {
+    "lat": 33.857915,
+    "lon": -81.729829,
+    "display_name": "Ward, Saluda County, South Carolina, United States"
+  },
+  "nominatim::Williams, South Carolina, USA": {
+    "lat": 33.0346074,
+    "lon": -80.8426004,
+    "display_name": "Williams, Colleton County, South Carolina, 29493, United States"
+  },
+  "nominatim::Goose Creek, South Carolina, USA": {
+    "lat": 32.9961038,
+    "lon": -80.0387292,
+    "display_name": "Goose Creek, Berkeley County, South Carolina, 29486, United States"
+  }
+}
