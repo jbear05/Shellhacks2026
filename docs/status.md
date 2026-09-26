@@ -19,9 +19,11 @@ Last updated 2026-09-26.
   `gridlock_desc_locator.py` works on the built-in DESC list or a parser CSV, and its
   output is keyed on (`utility`, `project_id`). The DESC list's 44 IDs match
   `dominion_projects.csv` exactly.
-- **Tests:** 80 on `main`, 75 of them fast. They take 15-20 s in total.
+- **Tests:** 80 on `main`, 75 of them fast. With `tests/test_docs.py` (not merged)
+  it's 99, 94 of them fast. They take 15-20 s in total.
 - **Agent docs:** `AGENTS.md`, `CLAUDE.md`, `docs/`, `.claude/` and
-  `tests/test_docs.py`, on branch `docs/ai-context` (not merged).
+  `tests/test_docs.py`, on branch `docs/ai-context`, in the `chore/repo-cleanup` pull
+  request (not merged).
 
 ## Next steps
 
@@ -37,9 +39,11 @@ In rough priority order:
    [pipeline.md](pipeline.md#3-manual-overrides-planned).
 4. **Overlap finder**, tested against the organizers' 6 example overlaps; see
    [pipeline.md](pipeline.md#4-overlaps-planned).
-5. **UI:** merge `origin/NA` once its owner agrees, add `streamlit` to
-   `requirements.txt`, and load the real project and location tables; see
-   [pipeline.md](pipeline.md#6-ui-originna-not-merged).
+5. **UI:** merge `origin/NA` once its owner agrees (see its open issue below), and
+   load the real project and location tables. Its latest commit, fb1c0c3, moved it
+   into `frontend/` with its own `frontend/requirements.txt`;
+   [pipeline.md](pipeline.md#6-ui-originna-not-merged) describes the version before
+   that.
 6. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
 7. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
    extracting the Georgia PDF after its last detail page (saves about 1.5 s).
@@ -49,12 +53,12 @@ In rough priority order:
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, Geolocator, tests, committed CSVs |
-| `origin/NA` | AaxHamm3r (teammate) | Streamlit UI pages; not merged |
+| `origin/NA` | AaxHamm3r (teammate); fb1c0c3 by Nellie | Streamlit UI in `frontend/`; not merged |
 | `origin/Geolocator` | DavidCode (teammate); fixed by Jair | Merged in PR #3; kept |
 | `origin/dominionScript` | thatsnotrlght (teammate); reworked by Jair | Merged in PR #2; kept |
 | `origin/feat/gpc-pdf-parser` | Jair | Merged in PR #1; kept |
-| `chore/repo-cleanup` | Jair | Local only: removes `locator.py`, `all_projects.py`, `projects.csv` and `desc_project_locations.csv`, and notes that pandas 3 needs Python 3.11+. Not pushed |
-| `docs/ai-context` | Jair | Local only: the agent docs. Not pushed |
+| `chore/repo-cleanup` | Jair | Built on `docs/ai-context`. Removes the Geolocator's draft scripts and partial output, and fixes its cache and paths. Pull request to `main`, not merged |
+| `docs/ai-context` | Jair | The agent docs. Local only; its commits are in `chore/repo-cleanup` |
 
 Check with a teammate before committing to their branch.
 
@@ -66,7 +70,14 @@ Check with a teammate before committing to their branch.
   [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 - **Weak Georgia rows:** 2 `UNKNOWN` rows and 4 customer-project names; see
   [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
-- **`app.py` is empty.** Ask the UI owner whether it's the Streamlit entry point.
+- **`origin/NA` deletes `Sperry-Tech-Challenge/`** in fb1c0c3: the brief, the example
+  sheet and both source PDFs. Merged as it is, that removes the parsers' inputs, and
+  the tests on the real PDFs are skipped instead of failing. Ask the owner to restore
+  the folder before it's merged.
+- **`origin/NA` reads CSVs with pandas defaults** (`frontend/data_loader.py`), which
+  turns TEAMS `09662` into `9662`; see [data.md](data.md#reading-the-csvs).
+- **`app.py` is empty** on `main`. `origin/NA` moves it, still empty, to
+  `frontend/app.py`. Ask the UI owner whether it's needed.
 - **Merged local branches** (`Geolocator`, `dominionScript`, `feat/gpc-pdf-parser`)
   could be deleted.
 
