@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import pydeck as pdk
 from math import radians, sin, cos, sqrt, atan2
 from data_loader import ProjectLoadError, load_uploaded_projects
 from ui import render_shell
@@ -12,7 +13,7 @@ st.set_page_config(
 
 render_shell("Overlap Results")
 
-st.title("🔗 Overlap Results")
+st.title("Overlap Results")
 
 if "projects" not in st.session_state:
     st.warning("Please complete the Project Review page first.")
@@ -179,6 +180,84 @@ for _, project_a in utility_a_projects.iterrows():
 overlap_df = pd.DataFrame(overlaps)
 
 st.session_state.overlaps = overlap_df
+
+map_panel = st.container(border=True)
+map_panel.subheader("Overlap radius map")
+map_panel.caption(
+    "Each circle represents the configured overlap radius. Intersecting circles "
+    "show where projects from the two utilities are close enough to be compared."
+)
+
+map_projects = projects.dropna(subset=["Latitude", "Longitude"]).copy()
+
+if map_projects.empty:
+    map_panel.info("No projects with coordinates are available to map.")
+else:
+    center_latitude = map_projects["Latitude"].mean()
+    center_longitude = map_projects["Longitude"].mean()
+
+    map_layers = []
+    utility_layer_colors = [
+        (utility_a, [35, 126, 255, 70], [35, 126, 255, 255]),
+        (utility_b, [255, 140, 50, 70], [255, 140, 50, 255]),
+    ]
+
+    for utility_name, radius_color, center_color in utility_layer_colors:
+        utility_projects = map_projects[
+            map_projects["Utility"] == utility_name
+        ]
+        if utility_projects.empty:
+            continue
+
+        map_layers.append(
+            pdk.Layer(
+                "ScatterplotLayer",
+                data=utility_projects,
+                get_position="[Longitude, Latitude]",
+                get_radius=threshold * 1609.344,
+                get_fill_color=radius_color,
+                get_line_color=radius_color,
+                get_line_width=1,
+                stroked=True,
+                filled=True,
+                pickable=True,
+            )
+        )
+        map_layers.append(
+            pdk.Layer(
+                "ScatterplotLayer",
+                data=utility_projects,
+                get_position="[Longitude, Latitude]",
+                get_radius=700,
+                get_fill_color=center_color,
+                get_line_color=[255, 255, 255, 255],
+                get_line_width=2,
+                stroked=True,
+                filled=True,
+                pickable=True,
+            )
+        )
+
+    overlap_deck = pdk.Deck(
+        map_style=None,
+        initial_view_state=pdk.ViewState(
+            latitude=center_latitude,
+            longitude=center_longitude,
+            zoom=7,
+            pitch=0,
+        ),
+        layers=map_layers,
+        tooltip={
+            "html": (
+                "<b>{Project Name}</b><br/>"
+                "{Utility}<br/>"
+                "{Project Type}<br/>"
+                f"Radius: {threshold:.1f} miles"
+            ),
+            "style": {"backgroundColor": "#111827", "color": "white"},
+        },
+    )
+    map_panel.pydeck_chart(overlap_deck, use_container_width=True)
 
 summary_panel = st.container(border=True)
 col1, col2, col3 = summary_panel.columns(3)

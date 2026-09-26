@@ -10,7 +10,7 @@ st.set_page_config(
 
 render_shell("Export Results")
 
-st.title("📤 Export Results")
+st.title("Export Results")
 
 projects = st.session_state.get(
     "projects",
