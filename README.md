@@ -51,3 +51,32 @@ Column notes:
 pytest                 # everything; parses the real PDF once (about 12 s)
 pytest -m "not slow"   # unit tests only (under a second)
 ```
+
+## Geolocator
+
+```bash
+python gridlock_desc_locator.py   # the 44 DESC projects listed in the script
+python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_projects.csv --output-prefix georgia_power
+```
+
+Finds coordinates for each project's location names. Nominatim gives a general place,
+then Overpass looks for OpenStreetMap substations within 25 km of it, scored on name,
+operator, voltage and distance. It writes three files:
+
+- `<prefix>_project_locations.csv`: one row per location.
+- `<prefix>_projects_summary.csv`: one row per project, with the average of its points.
+- `<prefix>_manual_review.csv`: every location not rated HIGH.
+
+Notes:
+
+- Join the outputs to a parser CSV on `utility` and `project_id`. `location_role`
+  (`location_1` to `location_3`) names the parser column a location came from. Read
+  IDs as text (pandas: `dtype=str, keep_default_na=False`): some TEAMS numbers start
+  with 0.
+- LOW rows are often just the town or county Nominatim found, and the project's
+  average includes them. Check `overall_confidence` before trusting a project's point.
+- Nominatim and Overpass results are cached in `gridlock_geocode_cache.json`, so a
+  re-run only repeats failed requests. Overpass often returns 429 or 504 errors; those
+  rows say "Overpass request failed; re-run to retry".
+- Each location is searched in its project's state, except those listed in
+  `LOCATION_STATE_OVERRIDES` (Purrysburg, SC, for Georgia's 20277).

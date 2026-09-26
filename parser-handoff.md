@@ -39,7 +39,7 @@ Files in `Sperry-Tech-Challenge/`:
 |---|---|---|
 | `main` | | Challenge files only |
 | `feat/gpc-pdf-parser` | us | Parser package, tests, generated CSV, README, this file |
-| `origin/Geolocator` | teammate | `gridlock_desc_locator.py` (Nominatim + Overpass locator for the 44 DESC projects, which are typed into a `PROJECTS` list by hand), `locator.py`, `projects.csv`, `desc_project_locations.csv`, geocode cache |
+| `origin/Geolocator` | teammate | `gridlock_desc_locator.py` (Nominatim + Overpass locator for the 44 DESC projects, which are typed into a `PROJECTS` list by hand, or for a parser CSV via `--projects-csv`), `locator.py`, `projects.csv`, `desc_project_locations.csv`, geocode cache. Merged into `main`; usage in the README |
 | `origin/NA` | teammate | UI pages `1_Project_Setup.py` to `5_Export.py` |
 | `origin/dominionScript` | teammate | `dominionScript.py`: a first DESC parser (PyPDF2) that prints each project's ID, title and in-service date |
 
@@ -149,19 +149,13 @@ The README has the full list. Things to keep in mind:
 2. **Manual overrides:** a CSV keyed by project ID, merged over the heuristic columns,
    to fix the UNKNOWN and customer-project rows. This was a review finding we chose
    not to fix yet.
-3. **Geocode Georgia Power.** The teammate's locator doesn't read a CSV yet, so it
-   needs a loader that builds its `PROJECTS` entries:
-
-   ```python
-   {"number": n, "project_id": row["project_id"], "project_name": row["project_name"],
-    "project_type": row["project_type"],
-    "voltages": [v for v in (row["voltage_1"], row["voltage_2"]) if v],
-    "locations": [l for l in (row["location_1"], row["location_2"], row["location_3"]) if l]}
-   ```
-
-   The locator needs more changes than the loader; see
-   [Geolocator](#geolocator-origingeolocator). Check with the teammate before editing
-   their branch.
+3. **Geocode Georgia Power.** The locator reads the parser CSV now (see the README's
+   Geolocator section). Run it, then go through `georgia_power_manual_review.csv`.
+   Known wrong lookups, for the overrides file:
+   - `EVANS PRIMARY` finds Evans County instead of the town of Evans (Columbia County).
+   - `MCINTOSH` finds McIntosh County instead of Plant McIntosh (Effingham County).
+   - A candidate with the wrong name can still score MEDIUM on operator, voltage and
+     distance alone.
 4. **Overlaps.**
    - Distance: haversine between project centers (midpoint of the two endpoints, or
      the single located point). Under 25 mi makes an overlap row.
@@ -181,40 +175,37 @@ The README has the full list. Things to keep in mind:
 
 ## Integration review (2026-09-26)
 
-A review of this PR against the teammates' branches. Nothing has been changed on their
-branches; check with them before editing.
+A review of this PR against the teammates' branches. Check with them before editing
+their branches. The Geolocator findings have since been fixed on that branch; see
+below.
 
 ### Geolocator (`origin/Geolocator`)
 
-The CSV loader in [Next steps](#next-steps) is needed but not enough:
+Fixed on the branch before it was merged into `main`:
 
-- **State per project.** `geocode_general_location` adds the module-level `STATE` to
-  every Nominatim query. Use the parsers' `state` column, with a per-location override
-  or a retry without the state, because the likeliest overlaps cross the border:
-  - GA 20277 McIntosh - Purrysburg ends at Purrysburg, in Jasper County, SC.
-  - GA 20793/20794 Evans Primary - Thurmond Dam and DESC 6810 A Hooks - Thurmond Tie
-    all end at Thurmond Dam, on the state line.
-- **Operator names per utility.** `OPERATOR_ALIASES` only lists Dominion names. A
-  matching operator adds 2 points, so Georgia matches score lower, and near the border
-  a Dominion substation gets the bonus in a Georgia search. Add Georgia Power names
-  and pick the list from the `utility` column.
-- **Voltages must stay strings.** Voltage matching compares strings (`"115000"`).
-  `csv.DictReader` keeps them as strings. pandas (as in `all_projects.py`) turns
-  columns with blanks into floats (`"115000.0"`), and matching then fails without an
-  error. With pandas, pass `dtype=str, keep_default_na=False`.
-- **Search name vs match name.** 16 of the 215 distinct Georgia location names contain
-  `PRIMARY` (the parser expands `PRI`), and others contain `DAM`, `ROAD` or `DRIVE`.
-  Drop those words from the Nominatim query but keep the full name for scoring OSM
-  substation names.
-- **Scale.** Georgia has 353 location slots (215 distinct names); DESC about 100.
-  Only Nominatim results are cached, so every run repeats every Overpass search.
-  Probably only Georgia projects around Savannah and Augusta can be within 25 mi of a
-  DESC project. So: look up every Georgia name in Nominatim (cached), keep projects
-  within about 40 mi of a DESC project, and run Overpass and the manual review on
-  those only. Cache the Overpass results too.
-- **Output paths.** `CACHE_FILE` and the `OUTPUT_*` files are fixed relative paths
-  (`desc_*.csv`), so a Georgia run would overwrite the DESC results. Make them
-  arguments.
+- **State per project.** Each location is searched in its project's `state`, except
+  those in `LOCATION_STATE_OVERRIDES` (Purrysburg, SC, for GA 20277). Retrying in the
+  other state was rejected: DESC's "North Bridge Terrace" searched in Georgia finds a
+  shop in Augusta. Thurmond Dam needs no override, because its top result in a Georgia
+  search is the dam on the SC side.
+- **Operator names per utility.** `OPERATOR_ALIASES` is keyed by `utility`. OSM tags
+  Georgia substations "Georgia Power", even around GTC and MEAG projects, so all four
+  Georgia owners accept that name.
+- **Strings.** The CSV loader uses the csv module, so voltages stay `"115000"` and IDs
+  like `09662` keep their leading zero. With pandas, pass
+  `dtype=str, keep_default_na=False`.
+- **Search name vs match name.** Only `PRIMARY` is dropped from the Nominatim query:
+  "Evans Primary" finds nothing, while "Aultman Road", "Thurmond Dam" and
+  "Plant Yates" search fine as they are.
+- **Output paths.** `--output-prefix`.
+- **Overpass.** Results are cached, and failed requests are marked and retried on the
+  next run instead of looking like "no substation nearby".
+
+Still open:
+
+- **Scale.** Georgia has 353 location slots (215 distinct names); DESC 101. Probably
+  only Georgia projects around Savannah and Augusta can be within 25 mi of a DESC
+  project, so the manual review could be limited to those.
 - **Project centers.** `build_project_summaries` averages every located point,
   including the LOW-confidence fallbacks where only the town or county was found (for
   example "Jasper" becomes the middle of Jasper County). Keep `overall_confidence`
@@ -272,8 +263,8 @@ title heuristic would miss.
 
 ### Dependencies
 
-Merging the branches needs `requests` (Geolocator), `pandas` (Geolocator, UI) and
-`streamlit` (UI) in `requirements.txt`, and `PyPDF2` replaced by `pypdf`.
+`requests` and `pandas` are in `requirements.txt` since the Geolocator merge. The UI
+branch still needs `streamlit`. `origin/dominionScript` already uses `pypdf`.
 
 ### Likely overlap candidates
 
