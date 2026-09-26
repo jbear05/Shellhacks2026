@@ -15,7 +15,7 @@ import requests
 # Loops through the 44 DESC projects below, or the projects in a
 # parser CSV (--projects-csv), finds general locations with
 # Nominatim, searches nearby OSM substations with Overpass,
-# scores matches, and saves CSV outputs.
+# scores matches, and saves CSV outputs to data/processed/.
 #
 #   python gridlock_desc_locator.py
 #   python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_projects.csv --output-prefix georgia_power
@@ -36,7 +36,10 @@ OVERPASS_SERVERS = [
     "https://overpass.kumi.systems/api/interpreter",
 ]
 
-CACHE_FILE = "gridlock_geocode_cache.json"
+# Found from this file's location, so the script works from any directory.
+REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
+CACHE_FILE = os.path.join(REPO_ROOT, "gridlock_geocode_cache.json")
+OUTPUT_DIR = os.path.join(REPO_ROOT, "data", "processed")
 
 # Set this to 3 while testing. Leave None to run all projects.
 PROJECT_LIMIT = None
@@ -140,16 +143,25 @@ def load_projects_csv(filename):
 def load_cache():
     if not os.path.exists(CACHE_FILE):
         return {}
-    try:
-        with open(CACHE_FILE, "r", encoding="utf-8") as file:
+    with open(CACHE_FILE, "r", encoding="utf-8") as file:
+        try:
             return json.load(file)
-    except (json.JSONDecodeError, OSError):
-        return {}
+        except json.JSONDecodeError as error:
+            # Starting with an empty cache would overwrite every saved
+            # lookup on the next save.
+            raise SystemExit(
+                f"{CACHE_FILE} is not valid JSON ({error}). Fix it (look for git "
+                "merge conflict markers), or delete it to start an empty cache."
+            )
 
 
 def save_cache(cache):
-    with open(CACHE_FILE, "w", encoding="utf-8") as file:
+    # Write a new file and swap it in, so stopping the script in the
+    # middle of a save can't leave a half-written cache.
+    temp_file = CACHE_FILE + ".tmp"
+    with open(temp_file, "w", encoding="utf-8") as file:
         json.dump(cache, file, indent=2)
+    os.replace(temp_file, CACHE_FILE)
 
 
 CACHE = load_cache()
@@ -230,11 +242,14 @@ def haversine_miles(lat1, lon1, lat2, lon2):
 
 
 def geocode_general_location(location_name, state):
+    # Returns (place, failed). place is None when Nominatim finds nothing
+    # or the request fails. Failures are not cached, so the next run
+    # retries them.
     query = f"{location_name}, {state}, {COUNTRY}"
     cache_key = f"nominatim::{query}"
 
     if cache_key in CACHE:
-        return CACHE[cache_key]
+        return CACHE[cache_key], False
 
     print(f"    Nominatim: {query}")
 
@@ -245,6 +260,7 @@ def geocode_general_location(location_name, state):
         "limit": 1,
     }
     headers = {"User-Agent": USER_AGENT}
+    failed = False
 
     try:
         response = requests.get(
@@ -268,13 +284,15 @@ def geocode_general_location(location_name, state):
     except requests.RequestException as error:
         print(f"    Nominatim error: {error}")
         result = None
+        failed = True
 
-    CACHE[cache_key] = result
-    save_cache(CACHE)
+    if not failed:
+        CACHE[cache_key] = result
+        save_cache(CACHE)
 
     # Keep public Nominatim usage at <= 1 request/second.
     time.sleep(NOMINATIM_DELAY_SECONDS)
-    return result
+    return result, failed
 
 
 def trim_osm_element(element):
@@ -409,7 +427,7 @@ def confidence_from_candidate(candidate):
 def locate_project_location(project, location_name, role_number):
     print(f"\n  Location {role_number}: {location_name}")
     state = LOCATION_STATE_OVERRIDES.get(location_name.lower(), project["state"])
-    seed = geocode_general_location(search_name(location_name), state)
+    seed, seed_failed = geocode_general_location(search_name(location_name), state)
 
     if seed is None:
         return {
@@ -436,7 +454,10 @@ def locate_project_location(project, location_name, role_number):
             "match_score": 0,
             "confidence": "LOW",
             "source": "No match",
-            "reasons": "Nominatim could not find general location",
+            "reasons": (
+                "Nominatim request failed; re-run to retry" if seed_failed
+                else "Nominatim could not find general location"
+            ),
         }
 
     print(f"    Seed: {seed['lat']}, {seed['lon']}")
@@ -625,7 +646,7 @@ def main():
         "--output-prefix",
         default="desc",
         help="writes <prefix>_project_locations.csv, <prefix>_projects_summary.csv "
-             "and <prefix>_manual_review.csv (default: desc)",
+             "and <prefix>_manual_review.csv to data/processed/ (default: desc)",
     )
     args = parser.parse_args()
 
@@ -634,9 +655,10 @@ def main():
     else:
         projects = [{**project, "utility": UTILITY, "state": STATE} for project in PROJECTS]
 
-    output_locations = f"{args.output_prefix}_project_locations.csv"
-    output_summary = f"{args.output_prefix}_projects_summary.csv"
-    output_review = f"{args.output_prefix}_manual_review.csv"
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    output_locations = os.path.join(OUTPUT_DIR, f"{args.output_prefix}_project_locations.csv")
+    output_summary = os.path.join(OUTPUT_DIR, f"{args.output_prefix}_projects_summary.csv")
+    output_review = os.path.join(OUTPUT_DIR, f"{args.output_prefix}_manual_review.csv")
 
     print("=" * 60)
     print(f"GRIDLOCK - {len(projects)} PROJECT LOCATOR")
