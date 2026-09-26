@@ -1,0 +1,2 @@
+# Pinned: the parsers depend on pypdf's exact text-extraction output.
+pypdf==6.19.0
