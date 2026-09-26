@@ -45,7 +45,8 @@ What's left is in [ai-parser.md](ai-parser.md#current-state).
 
 In rough priority order:
 
-1. **AI parser:** review and merge `feat/ai-parser`. After that, optionally finish
+1. **AI parser:** review and merge `feat/ai-parser`
+   (https://github.com/jbear05/Shellhacks2026/pull/7). After that, optionally finish
    Georgia's ID pass (about $3, and it needs approval) with the
    [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md). The extraction already
    finds all 208 projects with the right owners, so the pass is only a cross-check.
