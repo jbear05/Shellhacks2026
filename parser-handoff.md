@@ -10,6 +10,9 @@ re-reading the PDFs. Last updated 2026-09-26.
   `data/processed/georgia_power_projects.csv` with 208 projects.
 - Next up: the Dominion (DESC) parser, then geocoding the Georgia Power locations and
   computing overlaps. See [Next steps](#next-steps).
+- The PR was reviewed against the teammates' branches, including the new
+  `origin/dominionScript`. The parser is ready to merge; what the other branches need
+  to work with it is in [Integration review](#integration-review-2026-09-26).
 
 ## The challenge
 
@@ -38,6 +41,7 @@ Files in `Sperry-Tech-Challenge/`:
 | `feat/gpc-pdf-parser` | us | Parser package, tests, generated CSV, README, this file |
 | `origin/Geolocator` | teammate | `gridlock_desc_locator.py` (Nominatim + Overpass locator for the 44 DESC projects, which are typed into a `PROJECTS` list by hand), `locator.py`, `projects.csv`, `desc_project_locations.csv`, geocode cache |
 | `origin/NA` | teammate | UI pages `1_Project_Setup.py` to `5_Export.py` |
+| `origin/dominionScript` | teammate | `dominionScript.py`: a first DESC parser (PyPDF2) that prints each project's ID, title and in-service date |
 
 ## What's built
 
@@ -98,6 +102,8 @@ real text (no OCR needed).
   projects as Georgia Power. All sponsors are kept; filter downstream.
 - **Source inconsistencies:** TEAMS 19523, 20684 and 17900 have different need dates
   in Table 2 and on their detail pages. The parser uses Table 2 and logs a warning.
+  TEAMS 20248 (Bay Creek - Conyers) starts 2031-06-01 but is due 2029-12-31 in both
+  places; no warning is logged for it yet.
 - **Costs:** every Georgia Power cost is redacted.
 
 ## Output columns worth knowing
@@ -136,7 +142,10 @@ The README has the full list. Things to keep in mind:
 
 ## Next steps
 
-1. **DESC parser** (`parsers/dominion.py`); see the notes below.
+1. **DESC parser** (`parsers/dominion.py`), starting from the teammate's
+   `dominionScript.py` rather than writing a second one, plus a `normalize_project_id`
+   helper; see [DESC parser notes](#desc-parser-notes) and
+   [Project IDs](#project-ids). Check with the teammate first.
 2. **Manual overrides:** a CSV keyed by project ID, merged over the heuristic columns,
    to fix the UNKNOWN and customer-project rows. This was a review finding we chose
    not to fix yet.
@@ -150,14 +159,19 @@ The README has the full list. Things to keep in mind:
     "locations": [l for l in (row["location_1"], row["location_2"], row["location_3"]) if l]}
    ```
 
-   It also needs `STATE = "Georgia"` and Georgia Power names in `OPERATOR_ALIASES`.
-   Check with the teammate before editing their branch.
+   The locator needs more changes than the loader; see
+   [Geolocator](#geolocator-origingeolocator). Check with the teammate before editing
+   their branch.
 4. **Overlaps.**
    - Distance: haversine between project centers (midpoint of the two endpoints, or
      the single located point). Under 25 mi makes an overlap row.
    - `time_gap`: days between in-service dates.
    - Build windows: Georgia Power = [start_date, in_service_date]. DESC = [first year
      with nonzero spend, in-service date].
+   - Don't assume start <= in-service (TEAMS 20248), and add a warning for it in
+     `find_inconsistencies`.
+   - Carry each project's location confidence into the overlap rows, so reviewers can
+     see which centers are only a town or county.
 5. **Bonus cost estimate:** Georgia Power costs are redacted. Work out $/mile from DESC
    projects whose descriptions give miles and apply it to Georgia Power's
    `line_miles`.
@@ -165,9 +179,119 @@ The README has the full list. Things to keep in mind:
    extraction after the last detail page. PDF 426-474 are extracted but unused, which
    costs about 1.5 s.
 
+## Integration review (2026-09-26)
+
+A review of this PR against the teammates' branches. Nothing has been changed on their
+branches; check with them before editing.
+
+### Geolocator (`origin/Geolocator`)
+
+The CSV loader in [Next steps](#next-steps) is needed but not enough:
+
+- **State per project.** `geocode_general_location` adds the module-level `STATE` to
+  every Nominatim query. Use the parsers' `state` column, with a per-location override
+  or a retry without the state, because the likeliest overlaps cross the border:
+  - GA 20277 McIntosh - Purrysburg ends at Purrysburg, in Jasper County, SC.
+  - GA 20793/20794 Evans Primary - Thurmond Dam and DESC 6810 A Hooks - Thurmond Tie
+    all end at Thurmond Dam, on the state line.
+- **Operator names per utility.** `OPERATOR_ALIASES` only lists Dominion names. A
+  matching operator adds 2 points, so Georgia matches score lower, and near the border
+  a Dominion substation gets the bonus in a Georgia search. Add Georgia Power names
+  and pick the list from the `utility` column.
+- **Voltages must stay strings.** Voltage matching compares strings (`"115000"`).
+  `csv.DictReader` keeps them as strings. pandas (as in `all_projects.py`) turns
+  columns with blanks into floats (`"115000.0"`), and matching then fails without an
+  error. With pandas, pass `dtype=str, keep_default_na=False`.
+- **Search name vs match name.** 16 of the 215 distinct Georgia location names contain
+  `PRIMARY` (the parser expands `PRI`), and others contain `DAM`, `ROAD` or `DRIVE`.
+  Drop those words from the Nominatim query but keep the full name for scoring OSM
+  substation names.
+- **Scale.** Georgia has 353 location slots (215 distinct names); DESC about 100.
+  Only Nominatim results are cached, so every run repeats every Overpass search.
+  Probably only Georgia projects around Savannah and Augusta can be within 25 mi of a
+  DESC project. So: look up every Georgia name in Nominatim (cached), keep projects
+  within about 40 mi of a DESC project, and run Overpass and the manual review on
+  those only. Cache the Overpass results too.
+- **Output paths.** `CACHE_FILE` and the `OUTPUT_*` files are fixed relative paths
+  (`desc_*.csv`), so a Georgia run would overwrite the DESC results. Make them
+  arguments.
+- **Project centers.** `build_project_summaries` averages every located point,
+  including the LOW-confidence fallbacks where only the town or county was found (for
+  example "Jasper" becomes the middle of Jasper County). Keep `overall_confidence`
+  with the center.
+
+### dominionScript (`origin/dominionScript`)
+
+Checked by running a copy on the real PDF:
+
+- **It doesn't run as committed.** It imports `PyPDF2` (not installed; we pin
+  `pypdf`) and opens the PDF by bare filename from the working directory. With
+  `import pypdf as PyPDF2` and the real path it reads all 44 projects with no
+  `Unknown` fields, so its regexes work with pypdf 6.19.0.
+- **Three fields only.** ID, title and in-service date, as raw strings, printed to the
+  console. It runs on import and prints page 1's raw text for debugging. Still needed:
+  the 7 cost amounts, the description (for miles) and a CSV output.
+- **One date can't be read:** 6859 Dawson (page 34) has two phase dates, which
+  `parse_us_date` rejects.
+- **Plan:** move its regexes into `parsers/dominion.py` (credited to the teammate),
+  built on `parsers.common`, instead of keeping two DESC parsers.
+
+### Project IDs
+
+The DESC PDF writes `06367 A - C, H` and `06367 D - G`; the Geolocator's list has
+`06367 A-C, H` and `06367 D-G`. The other 42 IDs match exactly. A plain join on
+`project_id` drops these two (Riverport Tap and Jasper - Okatie #2), which are next to
+Savannah. Add `normalize_project_id` to `parsers/common.py` (remove spaces around `-`
+and `,`) and apply it on both sides.
+
+- Titles differ in spacing too (`Yemassee- Ritter` vs `Yemassee-Ritter`). Join on ID,
+  never on name.
+- Georgia TEAMS numbers are all 5 digits and don't collide with DESC IDs today, but
+  key shared tables on (`utility`, `project_id`).
+
+### UI (`origin/NA`)
+
+- `4_Overlaps.py` expects columns `Project Name`, `Utility`, `Project Type`,
+  `In-Service Date`, `Latitude` and `Longitude`; `2_Project_Review.py` adds
+  `County / Region` and `Match Status`.
+- It keeps rows whose `Utility` exactly equals the name typed on the setup page. Use
+  `Georgia Power` (GPC + SAV; leaves out GTC, MEAG and DU) and
+  `Dominion Energy South Carolina`.
+- The review page builds sample rows for now; it needs to load the merged project and
+  location table.
+
+### Shared columns
+
+Both parsers should emit `utility`, `project_id`, `state`, `project_name`,
+`project_type`, `location_1..3`, `voltage_1..2`, `in_service_date` and `start_date`,
+so the overlap code doesn't branch on utility. For DESC, `start_date` comes from the
+first year with nonzero spend (a nonzero `Previous` amount means before 2024). DESC
+locations come from the Geolocator's hand-typed list, joined on the normalized ID: it
+includes endpoints taken from the descriptions (Blue Circle, Owens Corning) that a
+title heuristic would miss.
+
+### Dependencies
+
+Merging the branches needs `requests` (Geolocator), `pandas` (Geolocator, UI) and
+`streamlit` (UI) in `requirements.txt`, and `PyPDF2` replaced by `pypdf`.
+
+### Likely overlap candidates
+
+Not geocoded yet; picked from names and dates only.
+
+| Georgia Power | DESC | Why |
+|---|---|---|
+| 20277 McIntosh - Purrysburg 230 kV, 2024-01-01 to 2026-06-01 | 06367 A-C, H Riverport Tap and 06367 D-G Jasper - Okatie #2, both due 12/31/25 | Jasper County, next to Savannah; build windows overlap |
+| 20793/20794 Evans Primary - Thurmond Dam #5/#6, 2029-2030 to 2033-06-01 | 6810 A Hooks - Thurmond Tie, due 12/31/2024 | Same dam endpoint; build windows don't overlap |
+
+Also worth checking: the Augusta-area DESC projects (Stevens Creek - Hooks,
+Urquhart - Toolebeck, Urquhart - Aiken PSA) against Georgia's Evans and Thomson
+projects.
+
 ## DESC parser notes
 
-These come from a prototype that was not committed.
+These come from a prototype that was not committed. Running the teammate's
+`dominionScript.py` confirmed the title, ID and date findings.
 
 `Project Listings/Dominion Energy/2024-2028-2million-and-above-project-descriptions.pdf`:
 44 pages, one project per page, exported from Word, real text.
@@ -187,8 +311,10 @@ These come from a prototype that was not committed.
   which the $/mile estimate needs.
 - **Reuse the teammate's work:** `gridlock_desc_locator.py` on `origin/Geolocator`
   already lists locations for all 44 projects by hand. Compare with it rather than
-  re-deriving them. Its IDs are the DESC Project IDs (e.g. `6807 B`).
-- **Validate:** 44 rows, 7 cost amounts per page, every date parsed.
+  re-deriving them. Its IDs are the DESC Project IDs (e.g. `6807 B`), but two are
+  spaced differently from the PDF; see [Project IDs](#project-ids).
+- **Validate:** 44 rows, 7 cost amounts per page, every date parsed, and every ID
+  found in the Geolocator's list after normalizing.
 
 ## Environment notes
 
