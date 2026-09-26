@@ -7,11 +7,14 @@ re-reading the PDFs. Last updated 2026-09-26.
 
 - The Georgia Power parser is on `main` (PR #1): `python -m parsers.georgia_power`
   writes `data/processed/georgia_power_projects.csv` with 208 projects.
-- The Dominion (DESC) parser is the teammate's `dominionScript.py`, reworked on
-  `dominionScript`: `python dominionScript.py` writes
+- The Dominion (DESC) parser is on `main` (PR #2): the teammate's `dominionScript.py`,
+  reworked. `python dominionScript.py` writes
   `data/processed/dominion_projects.csv` with 44 projects, in the same columns and
   formats, with IDs spelled as in the Geolocator's list.
-- Next up: geocoding the Georgia Power locations and computing overlaps. See
+- The Geolocator is on `main` (PR #3): `gridlock_desc_locator.py` finds coordinates
+  for the DESC list or a parser CSV, keyed on (`utility`, `project_id`) so they join
+  to both parser CSVs. The committed DESC output is an old partial run.
+- Next up: geocoding both utilities' locations and computing overlaps. See
   [Next steps](#next-steps). What the other branches need is in
   [Integration review](#integration-review-2026-09-26).
 
