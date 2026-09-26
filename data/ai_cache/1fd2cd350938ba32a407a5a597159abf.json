@@ -1,0 +1,1859 @@
+{
+ "task": "extract",
+ "pages": [
+  179,
+  180,
+  181,
+  182
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 8845,
+  "output_tokens": 10290
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 179,
+    "kind": "project_list"
+   },
+   {
+    "page": 180,
+    "kind": "project_list"
+   },
+   {
+    "page": 181,
+    "kind": "project_list"
+   },
+   {
+    "page": 182,
+    "kind": "project_list"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "19597",
+     "page": 179
+    },
+    "project_name": {
+     "text": "ADAMSVILLE - BUZZARD ROOST 230KV REBUILD AND JUMPER UPGRADE",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "ADAMSVILLE",
+      "page": 179
+     },
+     {
+      "text": "BUZZARD ROOST",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18960",
+     "page": 179
+    },
+    "project_name": {
+     "text": "BLANKETS CREEK – WOODSTOCK 115KV LINE REBUILD",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BLANKETS CREEK",
+      "page": 179
+     },
+     {
+      "text": "WOODSTOCK",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20243",
+     "page": 179
+    },
+    "project_name": {
+     "text": "CC - GARRETT ROAD SWITCHING STATION - TRAE LANE",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GARRETT ROAD",
+      "page": 179
+     },
+     {
+      "text": "TRAE LANE",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20216",
+     "page": 179
+    },
+    "project_name": {
+     "text": "CC - STONEWALL TELL ROAD (TA REALTY)",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "STONEWALL TELL ROAD",
+      "page": 179
+     },
+     {
+      "text": "TA REALTY",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18679",
+     "page": 179
+    },
+    "project_name": {
+     "text": "DU: EAST DALTON - OOSTANAULA 115KV REBUILD",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "DU",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EAST DALTON",
+      "page": 179
+     },
+     {
+      "text": "OOSTANAULA",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20491",
+     "page": 179
+    },
+    "project_name": {
+     "text": "EAST POINT RELAY MODERNIZATION",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EAST POINT",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "16007",
+     "page": 179
+    },
+    "project_name": {
+     "text": "FENWICK STREET - SAND BAR FERRY 115KV (RECONDUCTOR/REBUILD)",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "FENWICK STREET",
+      "page": 179
+     },
+     {
+      "text": "SAND BAR FERRY",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20516",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GOAT ROCK 230KV SWITCH, JUMPER, & LINE TRAP REPLACEMENT",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GOAT ROCK",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19618",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GORDON-N DUBLIN 115KV (GORDON-ENGL MCI J) REBUILD",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GORDON",
+      "page": 179
+     },
+     {
+      "text": "N DUBLIN",
+      "page": 179
+     },
+     {
+      "text": "ENGL MCI J",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21139",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GRADY - MORROW (WHITE) 115KV REBUILD",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GRADY",
+      "page": 179
+     },
+     {
+      "text": "MORROW",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20474",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GRADY 230/115KV RELAY MODERNIZATION",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GRADY",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19706",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GRID - GAINESVILLE #2 EQUIPMENT REPLACEMENT",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GRID",
+      "page": 179
+     },
+     {
+      "text": "GAINESVILLE #2",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21137",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GTC: CONYERS - CORNISH MOUNTAIN  115KV LINE UPGRADE",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "CONYERS",
+      "page": 179
+     },
+     {
+      "text": "CORNISH MOUNTAIN",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19334",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GTC: LAGRANGE - NORTH OPELIKA 230 KV",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "LAGRANGE",
+      "page": 179
+     },
+     {
+      "text": "NORTH OPELIKA",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20015",
+     "page": 179
+    },
+    "project_name": {
+     "text": "GTC: MORNING HORNET 2ND 230/115 KV BANK & THUMBS UP 115KV TL",
+     "page": 179
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 179
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 179,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MORNING HORNET",
+      "page": 179
+     },
+     {
+      "text": "THUMBS UP",
+      "page": 179
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19999",
+     "page": 180
+    },
+    "project_name": {
+     "text": "GTC: ROBINS SPRING BUS REPLACEMENT",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "ROBINS SPRING",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20001",
+     "page": 180
+    },
+    "project_name": {
+     "text": "GTC: ROBINS SPRING CAPACITOR BANK INSTALLATION",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "ROBINS SPRING",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19636",
+     "page": 180
+    },
+    "project_name": {
+     "text": "HAMMOND - WEISS DAM 115KV LINE REBUILD",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "HAMMOND",
+      "page": 180
+     },
+     {
+      "text": "WEISS DAM",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20512",
+     "page": 180
+    },
+    "project_name": {
+     "text": "KATHLEEN AREA IMPROVEMENTS",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "KATHLEEN",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20490",
+     "page": 180
+    },
+    "project_name": {
+     "text": "KLONDIKE RELAY MODERNIZATION",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "KLONDIKE",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19598",
+     "page": 180
+    },
+    "project_name": {
+     "text": "MEAG: DRESDEN - LAGRANGE PRIMARY 230KV UPGRADE & JUMPERS",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "DRESDEN",
+      "page": 180
+     },
+     {
+      "text": "LAGRANGE PRIMARY",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20270",
+     "page": 180
+    },
+    "project_name": {
+     "text": "MEAG: RAY PLACE RD - WASHINGTON #3",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "RAY PLACE RD",
+      "page": 180
+     },
+     {
+      "text": "WASHINGTON #3",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20271",
+     "page": 180
+    },
+    "project_name": {
+     "text": "MEAG: RAY PLACE RD - WASHINGTON (WASHINGTON - WASHINGTON 3)",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "RAY PLACE RD",
+      "page": 180
+     },
+     {
+      "text": "WASHINGTON",
+      "page": 180
+     },
+     {
+      "text": "WASHINGTON 3",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20300",
+     "page": 180
+    },
+    "project_name": {
+     "text": "MORROW 115KV RELAY UPGRADE",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MORROW",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18690",
+     "page": 180
+    },
+    "project_name": {
+     "text": "PALMYRA REACTOR REMOVAL",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "PALMYRA",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20066",
+     "page": 180
+    },
+    "project_name": {
+     "text": "SAV: BOULEVARD - DEPTFORD 115KV RECONDUCTOR",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "SAV",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BOULEVARD",
+      "page": 180
+     },
+     {
+      "text": "DEPTFORD",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19966",
+     "page": 180
+    },
+    "project_name": {
+     "text": "SAV: CC - BIG OGEECHEE 500/230KV (CC NETWORK IMPROVEMENTS)",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "SAV",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BIG OGEECHEE",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20277",
+     "page": 180
+    },
+    "project_name": {
+     "text": "SAV: MCINTOSH - PURRYSBURG 230KV REACTORS",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "SAV",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MCINTOSH",
+      "page": 180
+     },
+     {
+      "text": "PURRYSBURG",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20489",
+     "page": 180
+    },
+    "project_name": {
+     "text": "SCOTTDALE RELAY MODERNIZATION",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 180,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "SCOTTDALE",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "17900",
+     "page": 180
+    },
+    "project_name": {
+     "text": "UNION CITY - YATES 230 KV WHITE LINE REBUILD",
+     "page": 180
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 180
+    },
+    "in_service_date": {
+     "text": "4/1/2026",
+     "page": 180,
+     "iso": "2026-04-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "UNION CITY",
+      "page": 180
+     },
+     {
+      "text": "YATES",
+      "page": 180
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20691",
+     "page": 181
+    },
+    "project_name": {
+     "text": "UNION CITY - YATES 230KV (WHITE) SWITCH AND TRAP REPLACEMENT",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 181,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "UNION CITY",
+      "page": 181
+     },
+     {
+      "text": "YATES",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20223",
+     "page": 181
+    },
+    "project_name": {
+     "text": "CC - PROJECT PAYTON BAINBRIDGE",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "6/30/2026",
+     "page": 181,
+     "iso": "2026-06-30"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BAINBRIDGE",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21022",
+     "page": 181
+    },
+    "project_name": {
+     "text": "OHARA BREAKER REPLACEMENT",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "10/1/2026",
+     "page": 181,
+     "iso": "2026-10-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "OHARA",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20668",
+     "page": 181
+    },
+    "project_name": {
+     "text": "DRESDEN LINE PROTECTIVE RELAYING",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "12/1/2026",
+     "page": 181,
+     "iso": "2026-12-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "DRESDEN",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20874",
+     "page": 181
+    },
+    "project_name": {
+     "text": "GTC: BARNESVILLE PRIMARY-BARNESVILLE #1 115KV RECONDUCTOR",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "12/1/2026",
+     "page": 181,
+     "iso": "2026-12-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BARNESVILLE PRIMARY",
+      "page": 181
+     },
+     {
+      "text": "BARNESVILLE #1",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20273",
+     "page": 181
+    },
+    "project_name": {
+     "text": "GTC: DRESDEN 500KV BUS EXPANSION",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "12/1/2026",
+     "page": 181,
+     "iso": "2026-12-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "DRESDEN",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20002",
+     "page": 181
+    },
+    "project_name": {
+     "text": "GTC: GORDON - SANDERSVILLE #1 115KV LINE REBUILD",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "12/1/2026",
+     "page": 181,
+     "iso": "2026-12-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GORDON",
+      "page": 181
+     },
+     {
+      "text": "SANDERSVILLE #1",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20151",
+     "page": 181
+    },
+    "project_name": {
+     "text": "CC - CASS PINE 230/25 NEW SUB - QCELLS - CC IMPROVEMENTS",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "12/31/2026",
+     "page": 181,
+     "iso": "2026-12-31"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "CASS PINE",
+      "page": 181
+     },
+     {
+      "text": "QCELLS",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19287",
+     "page": 181
+    },
+    "project_name": {
+     "text": "GRADY-WEST END 115KV REBUILD",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "12/31/2026",
+     "page": 181,
+     "iso": "2026-12-31"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GRADY",
+      "page": 181
+     },
+     {
+      "text": "WEST END",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19363",
+     "page": 181
+    },
+    "project_name": {
+     "text": "MORROW - MOUNTAIN VIEW 115 KV REBUILD",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "12/31/2026",
+     "page": 181,
+     "iso": "2026-12-31"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MORROW",
+      "page": 181
+     },
+     {
+      "text": "MOUNTAIN VIEW",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18832",
+     "page": 181
+    },
+    "project_name": {
+     "text": "MEAG: FORTSON 230KV SUBSTATION MODERNIZATION",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "1/13/2027",
+     "page": 181,
+     "iso": "2027-01-13"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "FORTSON",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20509",
+     "page": 181
+    },
+    "project_name": {
+     "text": "CC - EMBLEM RIVERSIDE CUSTOMER SUB (FLEXENTIAL)",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "3/1/2027",
+     "page": 181,
+     "iso": "2027-03-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EMBLEM RIVERSIDE",
+      "page": 181
+     },
+     {
+      "text": "FLEXENTIAL",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19635",
+     "page": 181
+    },
+    "project_name": {
+     "text": "GTC: HICKORY LEVEL - VILLA RICA 230KV LINE RECONDUCTOR",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "5/1/2027",
+     "page": 181,
+     "iso": "2027-05-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "HICKORY LEVEL",
+      "page": 181
+     },
+     {
+      "text": "VILLA RICA",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19601",
+     "page": 181
+    },
+    "project_name": {
+     "text": "MORROW - YATES COMMON 115KV LINE UPGRADE",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "5/1/2027",
+     "page": 181,
+     "iso": "2027-05-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MORROW",
+      "page": 181
+     },
+     {
+      "text": "YATES COMMON",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "15879",
+     "page": 181
+    },
+    "project_name": {
+     "text": "POSSUM BRANCH - YATES COMMON 115KV REBUILD (YATES TO CLEM)",
+     "page": 181
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 181
+    },
+    "in_service_date": {
+     "text": "5/1/2027",
+     "page": 181,
+     "iso": "2027-05-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "POSSUM BRANCH",
+      "page": 181
+     },
+     {
+      "text": "YATES COMMON",
+      "page": 181
+     },
+     {
+      "text": "CLEM",
+      "page": 181
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20771",
+     "page": 182
+    },
+    "project_name": {
+     "text": "CC - GULLATT ROAD TRANSMISSION IMPROVEMENTS",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GULLATT ROAD",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18736",
+     "page": 182
+    },
+    "project_name": {
+     "text": "CC - MICROSOFT - SHUGART (CCO06)",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MICROSOFT",
+      "page": 182
+     },
+     {
+      "text": "SHUGART",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20781",
+     "page": 182
+    },
+    "project_name": {
+     "text": "CC - SUMMER LAKE - VILLA RICA 230KV REBUILD (CC IMPROVMNT)",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "SUMMER LAKE",
+      "page": 182
+     },
+     {
+      "text": "VILLA RICA",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20736",
+     "page": 182
+    },
+    "project_name": {
+     "text": "CC - TA REALTY ELLENWOOD NETWORK IMPROVEMENTS",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "TA REALTY ELLENWOOD",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20234",
+     "page": 182
+    },
+    "project_name": {
+     "text": "DOYLE - LG&E MONROE 230KV - JACKS CREEK LOOP IN",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "DOYLE",
+      "page": 182
+     },
+     {
+      "text": "LG&E MONROE",
+      "page": 182
+     },
+     {
+      "text": "JACKS CREEK",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20858",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: ADAMSVILLE - BUZZARD ROOST 230KV REBUILD",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "ADAMSVILLE",
+      "page": 182
+     },
+     {
+      "text": "BUZZARD ROOST",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20776",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: DOUGLASVILLE - VILLA RICA 230KV REBUILD (CC IMPROVEMENT)",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "DOUGLASVILLE",
+      "page": 182
+     },
+     {
+      "text": "VILLA RICA",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20778",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: DOYLE - WINDER PRIMARY 230KV LINE JUMPER REPLACEMENT",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "DOYLE",
+      "page": 182
+     },
+     {
+      "text": "WINDER PRIMARY",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19358",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: EAST MOULTRIE - HIGHWAY 112 230 KV LINE",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EAST MOULTRIE",
+      "page": 182
+     },
+     {
+      "text": "HIGHWAY 112",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "09662",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: EAST WALTON 500/230KV PROJECT",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EAST WALTON",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20505",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: GARRETT RD - V. RICA 230KV LINE RECONDUCTOR (CC NET IM)",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GARRETT RD",
+      "page": 182
+     },
+     {
+      "text": "V. RICA",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19622",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: RIDDLEVILLE BUS REPLACEMENT",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "RIDDLEVILLE",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19606",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: SKC 115KV BUS AND JUMPER REPLACEMENT",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "SKC",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20020",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: SOUTH HAZLEHURST - NEW LACY 230KV LINE",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "SOUTH HAZLEHURST",
+      "page": 182
+     },
+     {
+      "text": "NEW LACY",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20506",
+     "page": 182
+    },
+    "project_name": {
+     "text": "GTC: SWITCH WAY - THORNTON ROAD 230KV LINE REBUILD",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "SWITCH WAY",
+      "page": 182
+     },
+     {
+      "text": "THORNTON ROAD",
+      "page": 182
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18668",
+     "page": 182
+    },
+    "project_name": {
+     "text": "JESUP - OFFERMAN 115KV REBUILD",
+     "page": 182
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 182
+    },
+    "in_service_date": {
+     "text": "6/1/2027",
+     "page": 182,
+     "iso": "2027-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "JESUP",
+      "page": 182
+     },
+     {
+      "text": "OFFERMAN",
+      "page": 182
+     }
+    ]
+   }
+  ]
+ }
+}

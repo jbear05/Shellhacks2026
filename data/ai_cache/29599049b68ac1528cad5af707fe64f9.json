@@ -1,0 +1,438 @@
+{
+ "task": "extract",
+ "pages": [
+  250,
+  251,
+  252,
+  253,
+  254,
+  255,
+  256,
+  257,
+  258
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7880,
+  "output_tokens": 2961
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 250,
+    "kind": "project_detail"
+   },
+   {
+    "page": 251,
+    "kind": "project_detail"
+   },
+   {
+    "page": 252,
+    "kind": "project_detail"
+   },
+   {
+    "page": 253,
+    "kind": "project_detail"
+   },
+   {
+    "page": 254,
+    "kind": "project_detail"
+   },
+   {
+    "page": 255,
+    "kind": "project_detail"
+   },
+   {
+    "page": 256,
+    "kind": "project_detail"
+   },
+   {
+    "page": 257,
+    "kind": "project_detail"
+   },
+   {
+    "page": 258,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "18889",
+     "page": 250
+    },
+    "project_name": {
+     "text": "JEFFERSON STREET#3 - NORTHWEST (WHITE) 115 KV RECONDUCTOR",
+     "page": 250
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/01/2025",
+     "page": 250,
+     "iso": "2025-12-01"
+    },
+    "start_date": {
+     "text": "01/01/2024",
+     "page": 250,
+     "iso": "2024-01-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the 115kV White line from Northwest to Jefferson Street #3 (1.2 miles) with 200C 1351 ACSS \nconductor.",
+      "page": 250
+     }
+    ],
+    "locations": [
+     {
+      "text": "Jefferson Street #3",
+      "page": 250
+     },
+     {
+      "text": "Northwest",
+      "page": 250
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20152",
+     "page": 251
+    },
+    "project_name": {
+     "text": "CC - CASS PINE- HILL VIEW 230 KV LINE- CC IMPROVEMENTS",
+     "page": 251
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 251,
+     "iso": "2025-12-31"
+    },
+    "start_date": {
+     "text": "06/01/2023",
+     "page": 251,
+     "iso": "2023-06-01"
+    },
+    "description": [
+     {
+      "text": "Build a new 7.58 mile 200C 1351 ACSS conductor 230kV line between new Cass Pine and Hill View \n230kV substations.",
+      "page": 251
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cass Pine",
+      "page": 251
+     },
+     {
+      "text": "Hill View",
+      "page": 251
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20175",
+     "page": 252
+    },
+    "project_name": {
+     "text": "CC - PROJECT CHRONOS- SK/HYUNDAI",
+     "page": 252
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 252,
+     "iso": "2025-12-31"
+    },
+    "start_date": {
+     "text": "07/31/2023",
+     "page": 252,
+     "iso": "2023-07-31"
+    },
+    "description": [
+     {
+      "text": "GPC will build a 230/25kV station named Two Run Ranch and loop it into the Cartersville - Pinson \n230kV line to serve SK Battery/Hyundai and new load in the area.",
+      "page": 252
+     }
+    ],
+    "locations": [
+     {
+      "text": "Two Run Ranch",
+      "page": 252
+     },
+     {
+      "text": "Cartersville",
+      "page": 252
+     },
+     {
+      "text": "Pinson",
+      "page": 252
+     },
+     {
+      "text": "SK Battery/Hyundai",
+      "page": 252
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20010",
+     "page": 253
+    },
+    "project_name": {
+     "text": "GTC: ANTHONY SHOALS - WASHINGTON 115 KV LINE REBUILD",
+     "page": 253
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 253,
+     "iso": "2025-12-31"
+    },
+    "start_date": {
+     "text": "01/01/2024",
+     "page": 253,
+     "iso": "2024-01-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild 21 miles of the Double Branches Junction - Washington 115kV line section with 100C 795 \nACSR conductor or higher rated conductor.",
+      "page": 253
+     }
+    ],
+    "locations": [
+     {
+      "text": "Anthony Shoals",
+      "page": 253
+     },
+     {
+      "text": "Washington",
+      "page": 253
+     },
+     {
+      "text": "Double Branches Junction",
+      "page": 253
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18691",
+     "page": 254
+    },
+    "project_name": {
+     "text": "GTC: LIZARD LOPE - WESTOVER 115 KV NEW LINE",
+     "page": 254
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "03/01/2026",
+     "page": 254,
+     "iso": "2026-03-01"
+    },
+    "start_date": {
+     "text": "06/01/2021",
+     "page": 254,
+     "iso": "2021-06-01"
+    },
+    "description": [
+     {
+      "text": "Construct two new 115kV stations, Lizard Lope and Westover, and build a new 19.8 miles of 115kV \nline from Lizard Lope to Gillionville",
+      "page": 254
+     }
+    ],
+    "locations": [
+     {
+      "text": "Lizard Lope",
+      "page": 254
+     },
+     {
+      "text": "Westover",
+      "page": 254
+     },
+     {
+      "text": "Gillionville",
+      "page": 254
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20018",
+     "page": 255
+    },
+    "project_name": {
+     "text": "CC - QTS FAYETTEVILLE TRANSMISSION NEEDS",
+     "page": 255
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "04/01/2026",
+     "page": 255,
+     "iso": "2026-04-01"
+    },
+    "start_date": {
+     "text": "06/01/2023",
+     "page": 255,
+     "iso": "2023-06-01"
+    },
+    "description": [
+     {
+      "text": "Build a new 500/230kV substation (Ashley Park) splitting the Ohara - Union City 500kV line. Install \ntwo 500/230kV auto transformers at the Ashley Park station. At Ashley Park, the 500kV side will be a \n4 - breaker ring bus, while the 230kV side will be a 2 - rung Breaker and a Half configuration. Build \ntwo new 230kV lines (~6 miles each) from Ashley Park to the high side of customer substations. The \nnew lines will be built with bundled 200C 1351 ACSS Martin conductor.",
+      "page": 255
+     }
+    ],
+    "locations": [
+     {
+      "text": "QTS Fayetteville",
+      "page": 255
+     },
+     {
+      "text": "Ashley Park",
+      "page": 255
+     },
+     {
+      "text": "Ohara",
+      "page": 255
+     },
+     {
+      "text": "Union City",
+      "page": 255
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19597",
+     "page": 256
+    },
+    "project_name": {
+     "text": "ADAMSVILLE - BUZZARD ROOST 230KV REBUILD AND JUMPER UPGRADE",
+     "page": 256
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 256,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2024",
+     "page": 256,
+     "iso": "2024-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the line sections from Adamsville to Boat Rock Road (8.08 miles) on the Adamsville - Buzzard \nRoost 230kV line with 200C 1351 ACSS Martin conductor. Replace the AAC 750 jumper on the line at \nAdamsville with (2) 1590 AAC jumper. Replace 1590 AAC jumpers at Bakers Ferry and Boat Rock with \n(2) 1590 AAC jumpers. Replace 1600A line switches at Boat Rock with 3000A switches.",
+      "page": 256
+     }
+    ],
+    "locations": [
+     {
+      "text": "Adamsville",
+      "page": 256
+     },
+     {
+      "text": "Buzzard Roost",
+      "page": 256
+     },
+     {
+      "text": "Boat Rock Road",
+      "page": 256
+     },
+     {
+      "text": "Bakers Ferry",
+      "page": 256
+     },
+     {
+      "text": "Boat Rock",
+      "page": 256
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18960",
+     "page": 257
+    },
+    "project_name": {
+     "text": "BLANKETS CREEK – WOODSTOCK 115KV LINE REBUILD",
+     "page": 257
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 257,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 257,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the entire Blankets Creek - Woodstock 115kV line, approximately 7.1 miles, with 200C 795 \nACSS conductor.",
+      "page": 257
+     }
+    ],
+    "locations": [
+     {
+      "text": "Blankets Creek",
+      "page": 257
+     },
+     {
+      "text": "Woodstock",
+      "page": 257
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20243",
+     "page": 258
+    },
+    "project_name": {
+     "text": "CC - GARRETT ROAD SWITCHING STATION - TRAE LANE",
+     "page": 258
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 258,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "04/30/2023",
+     "page": 258,
+     "iso": "2023-04-30"
+    },
+    "description": [
+     {
+      "text": "Build the new Garrett Road 230kV switching station (three - element ring bus) splitting the Villa Rica - \nWest Marietta 230kV line. Build a new 230kV line (8.6 miles) from the Trae Lane substation to the \nGarrett Road switching station with bundled 100C 1351 ACSR conductor.",
+      "page": 258
+     }
+    ],
+    "locations": [
+     {
+      "text": "Garrett Road",
+      "page": 258
+     },
+     {
+      "text": "Trae Lane",
+      "page": 258
+     },
+     {
+      "text": "Villa Rica",
+      "page": 258
+     },
+     {
+      "text": "West Marietta",
+      "page": 258
+     }
+    ]
+   }
+  ]
+ }
+}

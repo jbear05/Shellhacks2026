@@ -1,0 +1,464 @@
+{
+ "task": "extract",
+ "pages": [
+  386,
+  387,
+  388,
+  389,
+  390,
+  391,
+  392,
+  393,
+  394
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7820,
+  "output_tokens": 3028
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 386,
+    "kind": "project_detail"
+   },
+   {
+    "page": 387,
+    "kind": "project_detail"
+   },
+   {
+    "page": 388,
+    "kind": "project_detail"
+   },
+   {
+    "page": 389,
+    "kind": "project_detail"
+   },
+   {
+    "page": 390,
+    "kind": "project_detail"
+   },
+   {
+    "page": 391,
+    "kind": "project_detail"
+   },
+   {
+    "page": 392,
+    "kind": "project_detail"
+   },
+   {
+    "page": 393,
+    "kind": "project_detail"
+   },
+   {
+    "page": 394,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "20375",
+     "page": 386
+    },
+    "project_name": {
+     "text": "GTC: EAST WATKINSVILLE 230 KV STATION MODIFICATION",
+     "page": 386
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 386
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 386,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2028",
+     "page": 386,
+     "iso": "2028-06-01"
+    },
+    "description": [
+     {
+      "text": "Replace the 1600A reactors at East Watkinsville on the Russell Dam 230kV line with larger size.",
+      "page": 386
+     }
+    ],
+    "locations": [
+     {
+      "text": "East Watkinsville",
+      "page": 386
+     },
+     {
+      "text": "Russell Dam",
+      "page": 386
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21131",
+     "page": 387
+    },
+    "project_name": {
+     "text": "GTC: POND FORK - MIDWAY 115KV LINE",
+     "page": 387
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 387
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 387,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 387,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC: Construct approximately 6 miles of 115kV line with minimum 170C 1351 ACSS conductor from Gillsville Tap Junction to Pond Fork, utilizing the existing GTC owned portion of the North Jackson - Lawrence Smith 46kV ROW.  At Pond Fork, install a second 230/115kV 400MVA auto transformer and terminate the Pond Fork - Midway 115kV line.",
+      "page": 387
+     }
+    ],
+    "locations": [
+     {
+      "text": "Pond Fork",
+      "page": 387
+     },
+     {
+      "text": "Midway",
+      "page": 387
+     },
+     {
+      "text": "Gillsville",
+      "page": 387
+     },
+     {
+      "text": "North Jackson",
+      "page": 387
+     },
+     {
+      "text": "Lawrence Smith",
+      "page": 387
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21077",
+     "page": 388
+    },
+    "project_name": {
+     "text": "GTC: ROCKVILLE - TIGER CREEK -WARTHEN 500KV LINES",
+     "page": 388
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 388
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 388,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2024",
+     "page": 388,
+     "iso": "2024-12-01"
+    },
+    "description": [
+     {
+      "text": "Build the new 500kV line from Rockville to Tiger Creek and Tiger Creek to Warthen, approximately 20 miles and 9 miles long respectively.  Build a 500kV yard at Tiger Creek and install a 500/230kV auto transformer.  Make all necessary accommodations at Warthen and Rockville for the new 500kV breakers.",
+      "page": 388
+     }
+    ],
+    "locations": [
+     {
+      "text": "Rockville",
+      "page": 388
+     },
+     {
+      "text": "Tiger Creek",
+      "page": 388
+     },
+     {
+      "text": "Warthen",
+      "page": 388
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21076",
+     "page": 389
+    },
+    "project_name": {
+     "text": "GTC: TALBOT #2 - TAZEWELL 500KV LINE",
+     "page": 389
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 389
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 389,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2024",
+     "page": 389,
+     "iso": "2024-12-01"
+    },
+    "description": [
+     {
+      "text": "Build a new 500kV line from Tazewell to Talbot #2, approximately 20 miles.   Make all necessary accommodations at Tazewell and Talbot #2 for the new 500kV breakers and line termination.",
+      "page": 389
+     }
+    ],
+    "locations": [
+     {
+      "text": "Tazewell",
+      "page": 389
+     },
+     {
+      "text": "Talbot #2",
+      "page": 389
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21094",
+     "page": 390
+    },
+    "project_name": {
+     "text": "GTC: TIGER CREEK-ROCKVILLE-NORTH SPA 230KV PROJECT",
+     "page": 390
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 390
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 390,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2025",
+     "page": 390,
+     "iso": "2025-01-01"
+    },
+    "description": [
+     {
+      "text": "Build a new 4 - breaker 230kV ring bus at Rockville substation (no auto transformer to be added at this time).    Loop in the Eatonton Primary #2 - Wallace Dam 230kV line. Build a new line 230kV line to Tiger Creek.    Build a new 230kV line to North Spa.",
+      "page": 390
+     }
+    ],
+    "locations": [
+     {
+      "text": "Rockville",
+      "page": 390
+     },
+     {
+      "text": "Eatonton Primary #2",
+      "page": 390
+     },
+     {
+      "text": "Wallace Dam",
+      "page": 390
+     },
+     {
+      "text": "Tiger Creek",
+      "page": 390
+     },
+     {
+      "text": "North Spa",
+      "page": 390
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20789",
+     "page": 391
+    },
+    "project_name": {
+     "text": "JEFFERSON ROAD - WINDER PRIMARY 115KV REBUILD",
+     "page": 391
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 391,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 391,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 11 miles of the Jefferson Road - Russell - Richardson Street Junction segments of the Jefferson Road - Winder Primary 115kV line with 200C 1351 ACSS Martin conductor.",
+      "page": 391
+     }
+    ],
+    "locations": [
+     {
+      "text": "Jefferson Road",
+      "page": 391
+     },
+     {
+      "text": "Winder Primary",
+      "page": 391
+     },
+     {
+      "text": "Russell",
+      "page": 391
+     },
+     {
+      "text": "Richardson Street Junction",
+      "page": 391
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20284",
+     "page": 392
+    },
+    "project_name": {
+     "text": "KETTLE CREEK PRIMARY - PINE GROVE PRIMARY 115KV REBUILD",
+     "page": 392
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 392,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/02/2026",
+     "page": 392,
+     "iso": "2026-06-02"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 38.04 miles of 50C 4/0 ACSR conductor from the Pine Grove to the Pearson tap using 200C 1351 ACSS conductor.",
+      "page": 392
+     }
+    ],
+    "locations": [
+     {
+      "text": "Kettle Creek Primary",
+      "page": 392
+     },
+     {
+      "text": "Pine Grove",
+      "page": 392
+     },
+     {
+      "text": "Pearson",
+      "page": 392
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21118",
+     "page": 393
+    },
+    "project_name": {
+     "text": "MEAG: ATHENA - WARRENTON 230KV CONVERSION",
+     "page": 393
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 393
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 393,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 393,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Reconductor/rebuild and convert the 115kV lines from Athena - Union Point - Ray Place Road - Warrenton Primary to 230kV operation. Expand Athena 230kV bus for new line termination, construct 230kV bus at Union Point, and expand 230kV bus at Warrenton Primary for new line termination. Install 230/115kV auto transformers at Union Point Primary and Ray Place Road. Replace limiting network equipment at substations along the line.",
+      "page": 393
+     }
+    ],
+    "locations": [
+     {
+      "text": "Athena",
+      "page": 393
+     },
+     {
+      "text": "Union Point",
+      "page": 393
+     },
+     {
+      "text": "Ray Place Road",
+      "page": 393
+     },
+     {
+      "text": "Warrenton Primary",
+      "page": 393
+     },
+     {
+      "text": "Union Point Primary",
+      "page": 393
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20857",
+     "page": 394
+    },
+    "project_name": {
+     "text": "NEW CAVENDER DRIVE - TRIBUTARY 230KV LINE",
+     "page": 394
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 394,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 394,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "Build a new 4 mile 230kV line from Cavender Drive to Tributary with 200C 1351 ACSS Martin.",
+      "page": 394
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cavender Drive",
+      "page": 394
+     },
+     {
+      "text": "Tributary",
+      "page": 394
+     }
+    ]
+   }
+  ]
+ }
+}

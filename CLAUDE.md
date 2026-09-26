@@ -2,8 +2,8 @@
 
 ## Claude Code notes
 
-- The workflows listed in AGENTS.md are skills here: `/handoff`, `/regenerate-data` and
-  `/geocode`.
+- The workflows listed in AGENTS.md are skills here: `/handoff`, `/regenerate-data`,
+  `/geocode` and `/ai-parse`.
 - `.claude/settings.json` pre-approves the tests, both parsers and read-only git
   commands, and blocks edits under `Sperry-Tech-Challenge/`. Put personal settings in
   `.claude/settings.local.json` and personal notes in `CLAUDE.local.md`. Both are

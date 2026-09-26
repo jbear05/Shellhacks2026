@@ -58,6 +58,22 @@ column names and formats. Project IDs are spelled as in the Geolocator's project
 which supplies the locations, project type and voltages. The columns are described in
 [docs/data.md](docs/data.md#dataprocesseddominion_projectscsv).
 
+## AI parser
+
+```bash
+python -m parsers.ai_parser PDF --utility "Georgia Power" --state Georgia --prefix georgia_power_ai --dry-run
+python -m parsers.ai_parser.evaluate data/processed/ai/georgia_power_ai_projects.csv data/processed/georgia_power_projects.csv
+```
+
+Reads the projects out of any utility project-list PDF with Claude, for PDFs that have
+no parser of their own. The model copies each value along with the text and page it
+came from, and a value whose text isn't on that page is left blank and listed in
+`data/processed/ai/<prefix>_review.csv`. It needs an `ANTHROPIC_API_KEY` and costs
+money, so start with `--dry-run`; replies are cached in `data/ai_cache/`, and
+`--offline` rebuilds the saved outputs from the cache for free. The eval scores it
+against the hand-written parsers: on DESC and Georgia Power it finds every project,
+with the right owner. See [docs/ai-parser.md](docs/ai-parser.md).
+
 ## Tests
 
 ```bash

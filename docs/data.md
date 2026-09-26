@@ -107,6 +107,53 @@ Written by `python dominionScript.py`: 44 rows, one per page of the DESC PDF.
 | `cost_2028` | Budget for 2028 |
 | `cost_total` | "Total" as printed. It isn't the sum of the other amounts for 0139 M,N, 06367 A-C, H and 06810 F (see [sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table)) |
 
+## `data/processed/ai/<prefix>_projects.csv`
+
+Written by `python -m parsers.ai_parser`: one row per project the model read from the
+PDF, whatever its layout. How the values are read and checked is in
+[ai-parser.md](ai-parser.md). A value that failed a check is blank, and its row is
+`NEEDS_REVIEW`. Its columns are the Georgia parser CSV's, without the Georgia-only ones
+(`plan_year`, `zone` and the rest), plus `pages` and `status`, so the file can go to
+the Geolocator's `--projects-csv`.
+
+| Column | Meaning |
+|---|---|
+| `project_id` | The ID as printed, with the spaces around `-` removed (the DESC rule) |
+| `utility` | The owner, from the sponsor. For Georgia Power's plan, the sponsor code's utility, as in `georgia_power_projects.csv`; blank if no sponsor was read. Otherwise `--utility`, unless the printed sponsor names another. See [ai-parser.md](ai-parser.md#how-it-works) |
+| `sponsor` | As printed for the project, or `--sponsor` if the PDF prints none |
+| `state` | `--state`, on every row |
+| `project_name` | The title as printed, whitespace collapsed, dashes as hyphens |
+| `project_type` | Always blank. The Geolocator only passes it through |
+| `location_1` | First place name the model found in the title and description, as printed |
+| `location_2` | Second place name, or blank |
+| `location_3` | Third place name, or blank |
+| `other_locations` | Fourth and later names, `; `-separated |
+| `voltage_1` | Highest kV figure in the title (or the description if the title has none), in volts |
+| `voltage_2` | Second-highest, or blank |
+| `in_service_date` | In-service or need date. For a phased project, the last phase's. When two places disagree, the earlier page's |
+| `start_date` | Start date, only when the PDF prints one. Blank for DESC |
+| `line_miles` | The mileage when the title and description give exactly one |
+| `miles_mentioned` | Every mileage in the title and description |
+| `description` | The scope text, joined across pages |
+| `pages` | PDF pages (1-based) the row's values came from, `; `-separated |
+| `status` | `VERIFIED`: every value passed its checks. `NEEDS_REVIEW`: see the review file |
+
+`<prefix>_evidence.json`, next to it, holds every value with the quote and page it came
+from, the model's label for each page, and the run's settings.
+
+## `data/processed/ai/<prefix>_review.csv`
+
+Written by `python -m parsers.ai_parser`: one row per problem.
+
+| Column | Meaning |
+|---|---|
+| `project_id` | The project, or blank for a problem with a page |
+| `field` | The column the problem is in, `locations`, `project_id` or `page` |
+| `value` | The value that was rejected or not kept, if any |
+| `quote` | The text the model said it copied |
+| `page` | The page it cited, or the page the problem is on |
+| `reason` | What failed, for example "not on page 14, but on page 34" |
+
 ## `<prefix>_project_locations.csv`
 
 Written to `data/processed/` by `gridlock_desc_locator.py`: one row per location name

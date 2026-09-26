@@ -1,0 +1,2084 @@
+{
+ "source_pdf": "Sperry-Tech-Challenge/Project Listings/Dominion Energy/2024-2028-2million-and-above-project-descriptions.pdf",
+ "pdf_sha256": "890876d0faefd40576a0b5e598a804b54b4d8d2d56dd96fb7e40d5a406db0f46",
+ "pages": "all",
+ "model": "claude-opus-5",
+ "answered_by": {
+  "claude-opus-5": 7
+ },
+ "settings": {
+  "utility": "Dominion Energy South Carolina",
+  "state": "South Carolina",
+  "sponsor": "DESC",
+  "chunk_chars": 12000,
+  "effort": "high",
+  "inventory": true,
+  "workers": 3
+ },
+ "skipped_pages": [],
+ "page_labels": {
+  "1": [
+   "project_detail"
+  ],
+  "2": [
+   "project_detail"
+  ],
+  "3": [
+   "project_detail"
+  ],
+  "4": [
+   "project_detail"
+  ],
+  "5": [
+   "project_detail"
+  ],
+  "6": [
+   "project_detail"
+  ],
+  "7": [
+   "project_detail"
+  ],
+  "8": [
+   "project_detail"
+  ],
+  "9": [
+   "project_detail"
+  ],
+  "10": [
+   "project_detail"
+  ],
+  "11": [
+   "project_detail"
+  ],
+  "12": [
+   "project_detail"
+  ],
+  "13": [
+   "project_detail"
+  ],
+  "14": [
+   "project_detail"
+  ],
+  "15": [
+   "project_detail"
+  ],
+  "16": [
+   "project_detail"
+  ],
+  "17": [
+   "project_detail"
+  ],
+  "18": [
+   "project_detail"
+  ],
+  "19": [
+   "project_detail"
+  ],
+  "20": [
+   "project_detail"
+  ],
+  "21": [
+   "project_detail"
+  ],
+  "22": [
+   "project_detail"
+  ],
+  "23": [
+   "project_detail"
+  ],
+  "24": [
+   "project_detail"
+  ],
+  "25": [
+   "project_detail"
+  ],
+  "26": [
+   "project_detail"
+  ],
+  "27": [
+   "project_detail"
+  ],
+  "28": [
+   "project_detail"
+  ],
+  "29": [
+   "project_detail"
+  ],
+  "30": [
+   "project_detail"
+  ],
+  "31": [
+   "project_detail"
+  ],
+  "32": [
+   "project_detail"
+  ],
+  "33": [
+   "project_detail"
+  ],
+  "34": [
+   "project_detail"
+  ],
+  "35": [
+   "project_detail"
+  ],
+  "36": [
+   "project_detail"
+  ],
+  "37": [
+   "project_detail"
+  ],
+  "38": [
+   "project_detail"
+  ],
+  "39": [
+   "project_detail"
+  ],
+  "40": [
+   "project_detail"
+  ],
+  "41": [
+   "project_detail"
+  ],
+  "42": [
+   "project_detail"
+  ],
+  "43": [
+   "project_detail"
+  ],
+  "44": [
+   "project_detail"
+  ]
+ },
+ "projects": [
+  {
+   "project_id": "6807 B",
+   "status": "VERIFIED",
+   "pages": [
+    1
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Queensboro - Ft Johnson 115 kV & Queensboro-Bayfront 115kV (Queensboro-James Island Sect)",
+     "quote": "Queensboro - Ft Johnson 115 kV & Queensboro-Bayfront 115kV (Queensboro-James Island Sect)",
+     "page": 1
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 1
+    },
+    "in_service_date": {
+     "value": "2023-12-31",
+     "quote": "12/31/23",
+     "page": 1
+    }
+   },
+   "description": {
+    "value": "Replace the Queensboro - Ft Johnson 115 kV Line and structures as they have reached the end of life.",
+    "quote": "Replace the Queensboro – Ft Johnson 115 kV Line and structures as they have reached the end of life.",
+    "page": 1
+   },
+   "locations": [
+    {
+     "value": "Queensboro",
+     "quote": "Queensboro",
+     "page": 1
+    },
+    {
+     "value": "Ft Johnson",
+     "quote": "Ft Johnson",
+     "page": 1
+    },
+    {
+     "value": "Bayfront",
+     "quote": "Bayfront",
+     "page": 1
+    },
+    {
+     "value": "James Island",
+     "quote": "James Island",
+     "page": 1
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "0167C-D",
+   "status": "VERIFIED",
+   "pages": [
+    2
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Union Pier 115-13.8 kV Sub: Tap",
+     "quote": "Union Pier 115-13.8 kV Sub: Tap",
+     "page": 2
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 2
+    },
+    "in_service_date": {
+     "value": "2027-12-31",
+     "quote": "12/31/27",
+     "page": 2
+    }
+   },
+   "description": {
+    "value": "Installing a 115 kV Tap to feed the future Union Pier 115 kV Sub.",
+    "quote": "Installing a 115 kV Tap to feed the future Union Pier 115 kV Sub.",
+    "page": 2
+   },
+   "locations": [
+    {
+     "value": "Union Pier",
+     "quote": "Union Pier",
+     "page": 2
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "0139 M,N",
+   "status": "VERIFIED",
+   "pages": [
+    3
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Okatie 230-115kV Substation, Jasper - Yemassee 230kV #1 Fold-in",
+     "quote": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+     "page": 3
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 3
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/2024",
+     "page": 3
+    }
+   },
+   "description": {
+    "value": "Expand existing Okatie Transmission sub, add a 230-115 autobank and fold the Jasper - Yemassee 230 kV #1 line into the 230 kV side. Construct two additional 115 kV bus tie lines.",
+    "quote": "Expand existing Okatie Transmission sub, add a 230-115 autobank and fold the Jasper – Yemassee 230 kV #1 line into the 230 kV side. Construct two additional 115 kV bus tie lines.",
+    "page": 3
+   },
+   "locations": [
+    {
+     "value": "Okatie",
+     "quote": "Okatie",
+     "page": 3
+    },
+    {
+     "value": "Jasper",
+     "quote": "Jasper",
+     "page": 3
+    },
+    {
+     "value": "Yemassee",
+     "quote": "Yemassee",
+     "page": 3
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6341 A-F",
+   "status": "VERIFIED",
+   "pages": [
+    4
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy - Hamlin 115 kV #2: Construct New 115 kV Line",
+     "quote": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
+     "page": 4
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 4
+    },
+    "in_service_date": {
+     "value": "2025-12-01",
+     "quote": "12/01/25",
+     "page": 4
+    }
+   },
+   "description": {
+    "value": "Upgrade the 954 ACSR portion of the Cainhoy - Hamlin 115 kV line to B795 ACSR conductor, construct a new Cainhoy - Hamlin 115 kV #2 line, add terminals to Cainhoy and Hamlin sub to accommodate upgrades.",
+    "quote": "Upgrade the 954 ACSR portion of the Cainhoy – Hamlin 115 kV line to B795 ACSR conductor, construct a new Cainhoy – Hamlin 115 kV #2 line, add terminals to Cainhoy and Hamlin sub to accommodate upgrades.",
+    "page": 4
+   },
+   "locations": [
+    {
+     "value": "Cainhoy",
+     "quote": "Cainhoy",
+     "page": 4
+    },
+    {
+     "value": "Hamlin",
+     "quote": "Hamlin",
+     "page": 4
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 J",
+   "status": "VERIFIED",
+   "pages": [
+    5
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Eastover - Square D 115kV: Rebuild",
+     "quote": "Eastover - Square D 115kV: Rebuild",
+     "page": 5
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 5
+    },
+    "in_service_date": {
+     "value": "2024-06-01",
+     "quote": "06/01/24",
+     "page": 5
+    }
+   },
+   "description": {
+    "value": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor.",
+    "quote": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor.",
+    "page": 5
+   },
+   "locations": [
+    {
+     "value": "Eastover",
+     "quote": "Eastover",
+     "page": 5
+    },
+    {
+     "value": "Square D",
+     "quote": "Square D",
+     "page": 5
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 K",
+   "status": "VERIFIED",
+   "pages": [
+    6
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Burton-St Helena 115kV: Rebuild Burton-Frogmore Transmission Section",
+     "quote": "Burton-St Helena 115kV: Rebuild Burton-Frogmore Transmission Section",
+     "page": 6
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 6
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/24",
+     "page": 6
+    }
+   },
+   "description": {
+    "value": "Replace wooden structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor for the Burton - Frogmore Transmission section.",
+    "quote": "Replace wooden structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor for the Burton – Frogmore Transmission section.",
+    "page": 6
+   },
+   "locations": [
+    {
+     "value": "Burton",
+     "quote": "Burton",
+     "page": 6
+    },
+    {
+     "value": "St Helena",
+     "quote": "St Helena",
+     "page": 6
+    },
+    {
+     "value": "Frogmore",
+     "quote": "Frogmore",
+     "page": 6
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 L",
+   "status": "VERIFIED",
+   "pages": [
+    7
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Burton-St Helena 115kV: Frogmore Distribution - St Helena",
+     "quote": "Burton-St Helena 115kV: Frogmore Distribution - St Helena",
+     "page": 7
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 7
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/25",
+     "page": 7
+    }
+   },
+   "description": {
+    "value": "Replace wooden structures with Self Supporting Steel Structures and upgrade to 795 ACSR for the Frogmore Distribution Tap - St. Helena section.",
+    "quote": "Replace wooden structures with Self Supporting Steel Structures and upgrade to 795 ACSR for the Frogmore Distribution Tap – St. Helena section.",
+    "page": 7
+   },
+   "locations": [
+    {
+     "value": "Burton",
+     "quote": "Burton",
+     "page": 7
+    },
+    {
+     "value": "St Helena",
+     "quote": "St Helena",
+     "page": 7
+    },
+    {
+     "value": "Frogmore Distribution",
+     "quote": "Frogmore Distribution",
+     "page": 7
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 N,O",
+   "status": "VERIFIED",
+   "pages": [
+    8
+   ],
+   "fields": {
+    "project_name": {
+     "value": "VCS1-Denny Terrace 230kV & VCS1-Pineland 230kV: Rebuild Single Circuit Sections",
+     "quote": "VCS1-Denny Terrace 230kV & VCS1-Pineland 230kV: Rebuild Single Circuit Sections",
+     "page": 8
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 8
+    },
+    "in_service_date": {
+     "value": "2026-12-31",
+     "quote": "12/31/26",
+     "page": 8
+    }
+   },
+   "description": {
+    "value": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with standard 1272 ACSR conductor.",
+    "quote": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with standard 1272 ACSR conductor.",
+    "page": 8
+   },
+   "locations": [
+    {
+     "value": "VCS1",
+     "quote": "VCS1",
+     "page": 8
+    },
+    {
+     "value": "Denny Terrace",
+     "quote": "Denny Terrace",
+     "page": 8
+    },
+    {
+     "value": "Pineland",
+     "quote": "Pineland",
+     "page": 8
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 R",
+   "status": "VERIFIED",
+   "pages": [
+    9
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Wateree-Killian 230kV: Rebuild",
+     "quote": "Wateree-Killian 230kV: Rebuild",
+     "page": 9
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 9
+    },
+    "in_service_date": {
+     "value": "2028-12-31",
+     "quote": "12/31/28",
+     "page": 9
+    }
+   },
+   "description": {
+    "value": "Replace wooden H-Frame structures with Self Supporting Steel Structures.",
+    "quote": "Replace wooden H-Frame structures with Self Supporting Steel Structures.",
+    "page": 9
+   },
+   "locations": [
+    {
+     "value": "Wateree",
+     "quote": "Wateree",
+     "page": 9
+    },
+    {
+     "value": "Killian",
+     "quote": "Killian",
+     "page": 9
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 S",
+   "status": "VERIFIED",
+   "pages": [
+    10
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Okatie-Bluffton 115kV: Rebuild",
+     "quote": "Okatie-Bluffton 115kV: Rebuild",
+     "page": 10
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 10
+    },
+    "in_service_date": {
+     "value": "2025-06-01",
+     "quote": "06/01/2025",
+     "page": 10
+    }
+   },
+   "description": {
+    "value": "Replace wooden H-Frame structures with Self Supporting Steel Structures and upgrade conductor to standard 1272 ACSR.",
+    "quote": "Replace wooden H-Frame structures with Self Supporting Steel Structures and upgrade conductor to standard 1272 ACSR.",
+    "page": 10
+   },
+   "locations": [
+    {
+     "value": "Okatie",
+     "quote": "Okatie",
+     "page": 10
+    },
+    {
+     "value": "Bluffton",
+     "quote": "Bluffton",
+     "page": 10
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 U",
+   "status": "VERIFIED",
+   "pages": [
+    11
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Hopkins-CIP 230kV: Rebuild",
+     "quote": "Hopkins-CIP 230kV: Rebuild",
+     "page": 11
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 11
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/25",
+     "page": 11
+    }
+   },
+   "description": {
+    "value": "Replace wooden H-Frame structures with Self Supporting Steel Structures.",
+    "quote": "Replace wooden H-Frame structures with Self Supporting Steel Structures.",
+    "page": 11
+   },
+   "locations": [
+    {
+     "value": "Hopkins",
+     "quote": "Hopkins",
+     "page": 11
+    },
+    {
+     "value": "CIP",
+     "quote": "CIP",
+     "page": 11
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 V",
+   "status": "VERIFIED",
+   "pages": [
+    12
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Faber Place-Bayfront 115kV: Rebuild North Bridge Terrace to Bayfront Section",
+     "quote": "Faber Place-Bayfront 115kV: Rebuild North Bridge Terrace to Bayfront Section",
+     "page": 12
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 12
+    },
+    "in_service_date": {
+     "value": "2028-12-31",
+     "quote": "12/31/28",
+     "page": 12
+    }
+   },
+   "description": {
+    "value": "Replace wooden structures with Self Supporting Steel Structures and upgrade conductor to standard 1272 ACSR.",
+    "quote": "Replace wooden structures with Self Supporting Steel Structures and upgrade conductor to standard 1272 ACSR.",
+    "page": 12
+   },
+   "locations": [
+    {
+     "value": "Faber Place",
+     "quote": "Faber Place",
+     "page": 12
+    },
+    {
+     "value": "Bayfront",
+     "quote": "Bayfront",
+     "page": 12
+    },
+    {
+     "value": "North Bridge Terrace",
+     "quote": "North Bridge Terrace",
+     "page": 12
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6808 W",
+   "status": "VERIFIED",
+   "pages": [
+    13
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Square D - Hopkins 115kV: Rebuild",
+     "quote": "Square D - Hopkins 115kV: Rebuild",
+     "page": 13
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 13
+    },
+    "in_service_date": {
+     "value": "2024-09-30",
+     "quote": "9/30/2024",
+     "page": 13
+    }
+   },
+   "description": {
+    "value": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor.",
+    "quote": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor.",
+    "page": 13
+   },
+   "locations": [
+    {
+     "value": "Square D",
+     "quote": "Square D",
+     "page": 13
+    },
+    {
+     "value": "Hopkins",
+     "quote": "Hopkins",
+     "page": 13
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6809 E",
+   "status": "VERIFIED",
+   "pages": [
+    14
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Stevens Creek - Hooks 115kV/LR Plumb Branch 46kV Rebuilds",
+     "quote": "Stevens Creek - Hooks 115kV/LR Plumb Branch 46kV Rebuilds",
+     "page": 14
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 14
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/24",
+     "page": 14
+    }
+   },
+   "description": {
+    "value": "9.5 miles. Scope includes rebuilding the 115 and 46 kV lines in this corridor SPDC.",
+    "quote": "9.5 miles. Scope includes rebuilding the 115 and 46 kV lines in this corridor SPDC.",
+    "page": 14
+   },
+   "locations": [
+    {
+     "value": "Stevens Creek",
+     "quote": "Stevens Creek",
+     "page": 14
+    },
+    {
+     "value": "Hooks",
+     "quote": "Hooks",
+     "page": 14
+    },
+    {
+     "value": "LR Plumb Branch",
+     "quote": "LR Plumb Branch",
+     "page": 14
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6809 G",
+   "status": "VERIFIED",
+   "pages": [
+    15
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Stevens Creek - Hooks 115kV/LR Plumb Branch 46kV",
+     "quote": "Stevens Creek - Hooks 115kV/LR Plumb Branch 46kV",
+     "page": 15
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 15
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/25",
+     "page": 15
+    }
+   },
+   "description": {
+    "value": "Upgrade 6.5 miles of aging conductor with 1272 ACSR and rebuild with SPDC.",
+    "quote": "Upgrade 6.5 miles of aging conductor with 1272 ACSR and rebuild with SPDC.",
+    "page": 15
+   },
+   "locations": [
+    {
+     "value": "Stevens Creek",
+     "quote": "Stevens Creek",
+     "page": 15
+    },
+    {
+     "value": "Hooks",
+     "quote": "Hooks",
+     "page": 15
+    },
+    {
+     "value": "LR Plumb Branch",
+     "quote": "LR Plumb Branch",
+     "page": 15
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6805 G",
+   "status": "VERIFIED",
+   "pages": [
+    16
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Edenwood Sub: #1 & #2 230-115kV Autobanks, Replace with 336MVA",
+     "quote": "Edenwood Sub: #1 & #2 230-115kV Autobanks, Replace with 336MVA",
+     "page": 16
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 16
+    },
+    "in_service_date": {
+     "value": "2024-12-25",
+     "quote": "12/25/24",
+     "page": 16
+    }
+   },
+   "description": {
+    "value": "Replace Autobank 1 and 2 at Edenwood Substation.",
+    "quote": "Replace Autobank 1 and 2 at Edenwood Substation.",
+    "page": 16
+   },
+   "locations": [
+    {
+     "value": "Edenwood",
+     "quote": "Edenwood",
+     "page": 16
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "1060A, I, L",
+   "status": "VERIFIED",
+   "pages": [
+    17
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Williams St Sub: Replace Sw House & Relays, AM Williams Sub: Replace Sw House, and McMeekin Sub: Add Sw House",
+     "quote": "Williams St Sub: Replace Sw House & Relays, AM Williams Sub: Replace Sw House, and McMeekin Sub: Add Sw House",
+     "page": 17
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 17
+    },
+    "in_service_date": {
+     "value": "2028-12-31",
+     "quote": "12/31/28",
+     "page": 17
+    }
+   },
+   "description": {
+    "value": "Replace switch house, switch house equipment, and relay panels at Williams Street substation. Replace the switch house at AM Williams substation. Add Switching House at McMeekin Substation to move relays from plant relay room.",
+    "quote": "Replace switch house, switch house equipment, and relay panels at Williams Street substation. Replace the switch house at AM Williams substation. Add Switching House at McMeekin Substation to move relays from plant relay room.",
+    "page": 17
+   },
+   "locations": [
+    {
+     "value": "Williams Street",
+     "quote": "Williams Street",
+     "page": 17
+    },
+    {
+     "value": "AM Williams",
+     "quote": "AM Williams",
+     "page": 17
+    },
+    {
+     "value": "McMeekin",
+     "quote": "McMeekin",
+     "page": 17
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06005 B",
+   "status": "VERIFIED",
+   "pages": [
+    18
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Harleyville 115KV Transmission Tap - Construct (1.4 miles)",
+     "quote": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)",
+     "page": 18
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 18
+    },
+    "in_service_date": {
+     "value": "2027-03-31",
+     "quote": "3/31/2027",
+     "page": 18
+    }
+   },
+   "description": {
+    "value": "Extend the 115 kV line from the Blue Circle tap to the Harleyville substation to provide 115 kV service.",
+    "quote": "Extend the 115 kV line from the Blue Circle tap to the Harleyville substation to provide 115 kV service.",
+    "page": 18
+   },
+   "locations": [
+    {
+     "value": "Harleyville",
+     "quote": "Harleyville",
+     "page": 18
+    },
+    {
+     "value": "Blue Circle",
+     "quote": "Blue Circle",
+     "page": 18
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "05004 P",
+   "status": "VERIFIED",
+   "pages": [
+    19
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Summerville: Replace and Spare 230-115kV 336MVA Auto Bank",
+     "quote": "Summerville: Replace and Spare 230-115kV 336MVA Auto Bank",
+     "page": 19
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 19
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/2024",
+     "page": 19
+    }
+   },
+   "description": {
+    "value": "Purchase a spare 230/115kV, 336MVA Autobank for the Southern Region to be stored at Summerville 230kV Sub. Include a pad, AC for heaters, and possibly a pit for oil containment.",
+    "quote": "Purchase a spare 230/115kV, 336MVA Autobank for the Southern Region to be stored at Summerville 230kV Sub.  Include a pad, AC for heaters, and possibly a pit for oil containment.",
+    "page": 19
+   },
+   "locations": [
+    {
+     "value": "Summerville",
+     "quote": "Summerville",
+     "page": 19
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06076A",
+   "status": "VERIFIED",
+   "pages": [
+    20
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Canadys-Ritter 115KV-Rebld SPDC 230/115KV 1272 (Approx 18 Miles)",
+     "quote": "Canadys-Ritter 115KV-Rebld SPDC 230/115KV 1272 (Approx 18 Miles)",
+     "page": 20
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 20
+    },
+    "in_service_date": {
+     "value": "2026-06-01",
+     "quote": "6/1/2026",
+     "page": 20
+    }
+   },
+   "description": {
+    "value": "Rebuild Canadys-Ritter 115 kV line as SPDC with 230 kV on one side and 115 kV on the other side.",
+    "quote": "Rebuild Canadys-Ritter 115 kV line as SPDC with 230 kV on one side and 115 kV on the other side.",
+    "page": 20
+   },
+   "locations": [
+    {
+     "value": "Canadys",
+     "quote": "Canadys",
+     "page": 20
+    },
+    {
+     "value": "Ritter",
+     "quote": "Ritter",
+     "page": 20
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6359",
+   "status": "VERIFIED",
+   "pages": [
+    21
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Yemassee- Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "quote": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "page": 21
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 21
+    },
+    "in_service_date": {
+     "value": "2026-06-01",
+     "quote": "6/1/2026",
+     "page": 21
+    }
+   },
+   "description": {
+    "value": "Construct Ritter - Yemassee 230kV #1 and #2 SPDC with B1272 ACSR on both sides. Convert the existing Ritter - Yemassee 230 kV to 115 kV operation. Convert and add terminals at Ritter and Yemassee. Add 230 kV bus tie at Ritter and upgrade the Yemassee 230 kV bus tie.",
+    "quote": "Construct Ritter – Yemassee 230kV #1 and #2 SPDC with B1272 ACSR on both sides. Convert the existing Ritter – Yemassee 230 kV to 115 kV operation. Convert and add terminals at Ritter and Yemassee. Add 230 kV bus tie at Ritter and upgrade the Yemassee 230 kV bus tie.",
+    "page": 21
+   },
+   "locations": [
+    {
+     "value": "Yemassee",
+     "quote": "Yemassee",
+     "page": 21
+    },
+    {
+     "value": "Ritter",
+     "quote": "Ritter",
+     "page": 21
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06367 A-C, H",
+   "status": "VERIFIED",
+   "pages": [
+    22
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Riverport Tap: Construct Tap",
+     "quote": "Riverport Tap: Construct Tap",
+     "page": 22
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 22
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/25",
+     "page": 22
+    }
+   },
+   "description": {
+    "value": "Construct Okatie - Riverport 230 kV to feed new Distribution substation.",
+    "quote": "Construct Okatie – Riverport 230 kV to feed new Distribution substation.",
+    "page": 22
+   },
+   "locations": [
+    {
+     "value": "Riverport",
+     "quote": "Riverport",
+     "page": 22
+    },
+    {
+     "value": "Okatie",
+     "quote": "Okatie",
+     "page": 22
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06367 D-G",
+   "status": "VERIFIED",
+   "pages": [
+    23
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Jasper - Okatie 230 kV #2: Construct",
+     "quote": "Jasper – Okatie 230 kV #2: Construct",
+     "page": 23
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 23
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/25",
+     "page": 23
+    }
+   },
+   "description": {
+    "value": "Construct a 230 kV line with B1272 ACSR from Jasper to Okatie 230/115kV Substation. The line is estimated to be 6.5 miles long. This makes Jasper a Medium Impact substation and will require a new CIP Hut.",
+    "quote": "Construct a 230 kV line with B1272 ACSR from Jasper to Okatie 230/115kV Substation. The line is estimated to be 6.5 miles long. This makes Jasper a Medium Impact substation and will require a new CIP Hut.",
+    "page": 23
+   },
+   "locations": [
+    {
+     "value": "Jasper",
+     "quote": "Jasper",
+     "page": 23
+    },
+    {
+     "value": "Okatie",
+     "quote": "Okatie",
+     "page": 23
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06371 D",
+   "status": "VERIFIED",
+   "pages": [
+    24
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Wagener 115kV Tap: Construct Tap",
+     "quote": "Wagener 115kV Tap: Construct Tap",
+     "page": 24
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 24
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/25",
+     "page": 24
+    }
+   },
+   "description": {
+    "value": "Constructing a 115 kV Tap off the Edmund Switching Station- Owens Corning 115 kV Line to feed new Wagener Distribution substation.",
+    "quote": "Constructing a 115 kV Tap off the Edmund Switching  Station- Owens Corning 115 kV Line to feed new Wagener Distribution substation.",
+    "page": 24
+   },
+   "locations": [
+    {
+     "value": "Wagener",
+     "quote": "Wagener",
+     "page": 24
+    },
+    {
+     "value": "Edmund",
+     "quote": "Edmund",
+     "page": 24
+    },
+    {
+     "value": "Owens Corning",
+     "quote": "Owens Corning",
+     "page": 24
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06372 A",
+   "status": "VERIFIED",
+   "pages": [
+    25
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Church Creek - Ritter 230kV - Replace 38 Large Angles and Dead Ends",
+     "quote": "Church Creek - Ritter 230kV - Replace 38 Large Angles and Dead Ends",
+     "page": 25
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 25
+    },
+    "in_service_date": {
+     "value": "2024-06-01",
+     "quote": "6/1/2024",
+     "page": 25
+    }
+   },
+   "description": {
+    "value": "Replace 6.5 miles of aging conductor.",
+    "quote": "Replace 6.5 miles of aging conductor.",
+    "page": 25
+   },
+   "locations": [
+    {
+     "value": "Church Creek",
+     "quote": "Church Creek",
+     "page": 25
+    },
+    {
+     "value": "Ritter",
+     "quote": "Ritter",
+     "page": 25
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06810 F",
+   "status": "VERIFIED",
+   "pages": [
+    26
+   ],
+   "fields": {
+    "project_name": {
+     "value": "VCS2-Ward 230kV: Rebuild Line",
+     "quote": "VCS2-Ward 230kV: Rebuild Line",
+     "page": 26
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 26
+    },
+    "in_service_date": {
+     "value": "2029-12-31",
+     "quote": "12/31/29",
+     "page": 26
+    }
+   },
+   "description": {
+    "value": "Rebuild 40 miles of 230 kV line.",
+    "quote": "Rebuild 40 miles of 230 kV line.",
+    "page": 26
+   },
+   "locations": [
+    {
+     "value": "VCS2",
+     "quote": "VCS2",
+     "page": 26
+    },
+    {
+     "value": "Ward",
+     "quote": "Ward",
+     "page": 26
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06810 G",
+   "status": "VERIFIED",
+   "pages": [
+    27
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Goose Creek Reservoir: Rebuild Transmission Line Crossings",
+     "quote": "Goose Creek Reservoir: Rebuild Transmission Line Crossings",
+     "page": 27
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 27
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/24",
+     "page": 27
+    }
+   },
+   "description": {
+    "value": "Rebuilding the Williams Goose Creek 230 and 115 kV lines and the Williams - Faber Place 230 kV line across the Goose Creek Reservoir.",
+    "quote": "Rebuilding the Williams Goose Creek 230 and 115 kV lines and the Williams - Faber Place 230 kV line across the Goose Creek Reservoir.",
+    "page": 27
+   },
+   "locations": [
+    {
+     "value": "Goose Creek Reservoir",
+     "quote": "Goose Creek Reservoir",
+     "page": 27
+    },
+    {
+     "value": "Williams",
+     "quote": "Williams",
+     "page": 27
+    },
+    {
+     "value": "Goose Creek",
+     "quote": "Goose Creek",
+     "page": 27
+    },
+    {
+     "value": "Faber Place",
+     "quote": "Faber Place",
+     "page": 27
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "06810 H",
+   "status": "VERIFIED",
+   "pages": [
+    28
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Summerville 115kV Loop: Rebuild",
+     "quote": "Summerville 115kV Loop: Rebuild",
+     "page": 28
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 28
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/24",
+     "page": 28
+    }
+   },
+   "description": {
+    "value": "Replacing several wood pole sections on the Summerville 115 kV Loop that have reached the end of life.",
+    "quote": "Replacing several wood pole sections on the Summerville 115 kV Loop that have reached the end of life.",
+    "page": 28
+   },
+   "locations": [
+    {
+     "value": "Summerville",
+     "quote": "Summerville",
+     "page": 28
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6809 M",
+   "status": "VERIFIED",
+   "pages": [
+    29
+   ],
+   "fields": {
+    "project_name": {
+     "value": "St George - Sumter 230kV Tie: Rebuild Line from Santee Substation - Duke/Progress Energy Tie",
+     "quote": "St George - Sumter 230kV Tie: Rebuild Line from Santee Substation - Duke/Progress Energy Tie",
+     "page": 29
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 29
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/2025",
+     "page": 29
+    }
+   },
+   "description": {
+    "value": "Rebuild Line from Santee Substation - Duke/Progress Energy Tie.",
+    "quote": "Rebuild Line from Santee Substation - Duke/Progress Energy Tie.",
+    "page": 29
+   },
+   "locations": [
+    {
+     "value": "St George",
+     "quote": "St George",
+     "page": 29
+    },
+    {
+     "value": "Sumter",
+     "quote": "Sumter",
+     "page": 29
+    },
+    {
+     "value": "Santee",
+     "quote": "Santee",
+     "page": 29
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "5392 A-C",
+   "status": "VERIFIED",
+   "pages": [
+    30
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Coit - Gills Creek 115kV: Construct",
+     "quote": "Coit – Gills Creek 115kV: Construct",
+     "page": 30
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 30
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/2024",
+     "page": 30
+    }
+   },
+   "description": {
+    "value": "Convert the existing Coit - Gills Creek 33 kV Line to 115 kV. Approximately 1.25 miles. Construct Gills Creek Terminal at Coit Bus #1.",
+    "quote": "Convert the existing Coit - Gills Creek 33 kV Line to 115 kV. Approximately 1.25 miles. Construct Gills Creek Terminal at Coit Bus #1.",
+    "page": 30
+   },
+   "locations": [
+    {
+     "value": "Coit",
+     "quote": "Coit",
+     "page": 30
+    },
+    {
+     "value": "Gills Creek",
+     "quote": "Gills Creek",
+     "page": 30
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6810 A",
+   "status": "VERIFIED",
+   "pages": [
+    31
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Hooks - Thurmond 115kV Tie: Rebuild",
+     "quote": "Hooks - Thurmond 115kV Tie: Rebuild",
+     "page": 31
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 31
+    },
+    "in_service_date": {
+     "value": "2024-12-31",
+     "quote": "12/31/2024",
+     "page": 31
+    }
+   },
+   "description": {
+    "value": "Rebuilding section of line between Hooks and Thurmond. Approximately 2.3 miles. The line will be rebuilt on existing R/W using steel poles, 115 kV insulation, and 1272 ACSR conductor.",
+    "quote": "Rebuilding section of line between Hooks and Thurmond. Approximately 2.3 miles. The line will be rebuilt on existing R/W using steel poles, 115 kV insulation, and 1272 ACSR conductor.",
+    "page": 31
+   },
+   "locations": [
+    {
+     "value": "Hooks",
+     "quote": "Hooks",
+     "page": 31
+    },
+    {
+     "value": "Thurmond",
+     "quote": "Thurmond",
+     "page": 31
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6809 N",
+   "status": "VERIFIED",
+   "pages": [
+    32
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Batesburg - Saluda County 115kV: Rebuild",
+     "quote": "Batesburg - Saluda County 115kV: Rebuild",
+     "page": 32
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 32
+    },
+    "in_service_date": {
+     "value": "2025-12-31",
+     "quote": "12/31/2025",
+     "page": 32
+    }
+   },
+   "description": {
+    "value": "Rebuild 13.5 miles of conductor.",
+    "quote": "Rebuild 13.5 miles of conductor.",
+    "page": 32
+   },
+   "locations": [
+    {
+     "value": "Batesburg",
+     "quote": "Batesburg",
+     "page": 32
+    },
+    {
+     "value": "Saluda County",
+     "quote": "Saluda County",
+     "page": 32
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6853 B-F",
+   "status": "VERIFIED",
+   "pages": [
+    33
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Scout 230 kV Sub and Fold-in: Construct",
+     "quote": "Scout 230 kV Sub and Fold-in: Construct",
+     "page": 33
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 33
+    },
+    "in_service_date": {
+     "value": "2026-03-31",
+     "quote": "3/31/2026",
+     "page": 33
+    }
+   },
+   "description": {
+    "value": "Construct 230kV Transmission Line for Scout Customer Substation and modify VCS1 and Killian terminals.",
+    "quote": "Construct 230kV Transmission Line for Scout Customer Substation and modify VCS1 and Killian \nterminals.",
+    "page": 33
+   },
+   "locations": [
+    {
+     "value": "Scout",
+     "quote": "Scout",
+     "page": 33
+    },
+    {
+     "value": "VCS1",
+     "quote": "VCS1",
+     "page": 33
+    },
+    {
+     "value": "Killian",
+     "quote": "Killian",
+     "page": 33
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6859",
+   "status": "VERIFIED",
+   "pages": [
+    34
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Dawson 230kV Sub and Fold-in: Construct and Rebuild",
+     "quote": "Dawson 230kV Sub and Fold-in: Construct and Rebuild",
+     "page": 34
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 34
+    },
+    "in_service_date": {
+     "value": "2026-10-01",
+     "quote": "10/1/2025 (phase 1) and 10/1/2026 (phase 2)",
+     "page": 34
+    }
+   },
+   "description": {
+    "value": "Construct Dawson 230kV substation. Fold in the existing Canadys - Church Creek and Canadys - Faber Place 230kV lines at the Dawson 230kV substation (phase 1). Rebuild Canadys - Dawson 230kV #1 and #2 with B1272 ACSR (phase 2).",
+    "quote": "Construct Dawson 230kV substation. Fold in the existing Canadys – Church Creek and Canadys – Faber \nPlace 230kV lines at the Dawson 230kV substation (phase 1). Rebuild Canadys – Dawson 230kV #1 and \n#2 with B1272 ACSR (phase 2).",
+    "page": 34
+   },
+   "locations": [
+    {
+     "value": "Dawson",
+     "quote": "Dawson",
+     "page": 34
+    },
+    {
+     "value": "Canadys",
+     "quote": "Canadys",
+     "page": 34
+    },
+    {
+     "value": "Church Creek",
+     "quote": "Church Creek",
+     "page": 34
+    },
+    {
+     "value": "Faber Place",
+     "quote": "Faber \nPlace",
+     "page": 34
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6852",
+   "status": "VERIFIED",
+   "pages": [
+    35
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Urquhart - Toolebeck 115kV line: Rebuild",
+     "quote": "Urquhart – Toolebeck 115kV line: Rebuild",
+     "page": 35
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 35
+    },
+    "in_service_date": {
+     "value": "2026-08-12",
+     "quote": "8/12/2026",
+     "page": 35
+    }
+   },
+   "description": {
+    "value": "Upgrade the 477 ACSR portions of the Urquhart - Toolebeck 115 kV line to 1272 ACSR. Replace existing structures with Single Pole Double Circuit Structures. Approximately 12.5 miles.",
+    "quote": "Upgrade the 477 ACSR portions of the Urquhart – Toolebeck 115 kV line to 1272 ACSR. Replace existing \nstructures with Single Pole Double Circuit Structures. Approximately 12.5 miles.",
+    "page": 35
+   },
+   "locations": [
+    {
+     "value": "Urquhart",
+     "quote": "Urquhart",
+     "page": 35
+    },
+    {
+     "value": "Toolebeck",
+     "quote": "Toolebeck",
+     "page": 35
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6388 A",
+   "status": "VERIFIED",
+   "pages": [
+    36
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Williams-Summerville 230kV: Upgrade to SPDC B1272 ACSR",
+     "quote": "Williams-Summerville 230kV: Upgrade to SPDC B1272 ACSR",
+     "page": 36
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 36
+    },
+    "in_service_date": {
+     "value": "2027-05-01",
+     "quote": "5/1/2027",
+     "page": 36
+    }
+   },
+   "description": {
+    "value": "Rebuild the section of the Williams - Summerville 230 kV line from Ladson Jct to Williams. Line to upgraded to B-1272 and designed for a future second circuit. Approximately 10 miles.",
+    "quote": "Rebuild the section of the Williams - Summerville 230 kV line from Ladson Jct to Williams. Line to \nupgraded to B-1272 and designed for a future second circuit. Approximately 10 miles.",
+    "page": 36
+   },
+   "locations": [
+    {
+     "value": "Williams",
+     "quote": "Williams",
+     "page": 36
+    },
+    {
+     "value": "Summerville",
+     "quote": "Summerville",
+     "page": 36
+    },
+    {
+     "value": "Ladson Jct",
+     "quote": "Ladson Jct",
+     "page": 36
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "0147 C, K",
+   "status": "VERIFIED",
+   "pages": [
+    37
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Cainhoy 115 kV Tap: Construct",
+     "quote": "Cainhoy 115 kV Tap: Construct",
+     "page": 37
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 37
+    },
+    "in_service_date": {
+     "value": "2027-12-31",
+     "quote": "12/31/2027",
+     "page": 37
+    }
+   },
+   "description": {
+    "value": "Construct a 115 kV tap from Cainhoy to Clements Ferry. Approximately 2.8 miles. Construct terminal at Cainhoy.",
+    "quote": "Construct a 115 kV tap from Cainhoy to Clements Ferry. Approximately 2.8 miles. Construct terminal at \nCainhoy.",
+    "page": 37
+   },
+   "locations": [
+    {
+     "value": "Cainhoy",
+     "quote": "Cainhoy",
+     "page": 37
+    },
+    {
+     "value": "Clements Ferry",
+     "quote": "Clements Ferry",
+     "page": 37
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "0147 B, J",
+   "status": "VERIFIED",
+   "pages": [
+    38
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Jack Primus 115 kV Tap: Construct",
+     "quote": "Jack Primus 115 kV Tap: Construct",
+     "page": 38
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 38
+    },
+    "in_service_date": {
+     "value": "2027-12-31",
+     "quote": "12/31/2027",
+     "page": 38
+    }
+   },
+   "description": {
+    "value": "Construct a 115 kV tap from Jack Primus to Clements Ferry. Approximately 2.2 miles. Construct terminals at Jack Primus.",
+    "quote": "Construct a 115 kV tap from Jack Primus to Clements Ferry. Approximately 2.2 miles. Construct \nterminals at Jack Primus.",
+    "page": 38
+   },
+   "locations": [
+    {
+     "value": "Jack Primus",
+     "quote": "Jack Primus",
+     "page": 38
+    },
+    {
+     "value": "Clements Ferry",
+     "quote": "Clements Ferry",
+     "page": 38
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6847 A-B, D-H",
+   "status": "VERIFIED",
+   "pages": [
+    39
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Church Creek - Faber Place - Charleston Transmission: Add 230kV Line",
+     "quote": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
+     "page": 39
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 39
+    },
+    "in_service_date": {
+     "value": "2027-05-01",
+     "quote": "05/01/2027",
+     "page": 39
+    }
+   },
+   "description": {
+    "value": "Construct a 230 kV transmission line from Church Creek to Charleston Transmission. The Church Creek - Faber Place 230kV and 115kV lines will be rebuilt, and a 230kV line will be added between Faber Place and Charleston Transmission. Add 230/115kV transformer at Charleston Transmission. Add/upgrade terminals and bus work at impacted substations.",
+    "quote": "Construct a 230 kV transmission line from Church Creek to Charleston Transmission. The Church Creek – \nFaber Place 230kV and 115kV lines will be rebuilt, and a 230kV line will be added between Faber Place \nand Charleston Transmission. Add 230/115kV transformer at Charleston Transmission. Add/upgrade \nterminals and bus work at impacted substations.",
+    "page": 39
+   },
+   "locations": [
+    {
+     "value": "Church Creek",
+     "quote": "Church Creek",
+     "page": 39
+    },
+    {
+     "value": "Faber Place",
+     "quote": "Faber Place",
+     "page": 39
+    },
+    {
+     "value": "Charleston Transmission",
+     "quote": "Charleston Transmission",
+     "page": 39
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6846 A",
+   "status": "VERIFIED",
+   "pages": [
+    40
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Eastover - Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+     "quote": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+     "page": 40
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 40
+    },
+    "in_service_date": {
+     "value": "2026-05-31",
+     "quote": "05/31/2026",
+     "page": 40
+    }
+   },
+   "description": {
+    "value": "Upgrade the DESC section (approx. 1 mile) of the tie line from 397.5 ACSR Ibis to 1272 ACSR.",
+    "quote": "Upgrade the DESC section (approx. 1 mile) of the tie line from 397.5 ACSR Ibis to 1272 ACSR.",
+    "page": 40
+   },
+   "locations": [
+    {
+     "value": "Eastover",
+     "quote": "Eastover",
+     "page": 40
+    },
+    {
+     "value": "Sumter",
+     "quote": "Sumter",
+     "page": 40
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6810 U",
+   "status": "VERIFIED",
+   "pages": [
+    41
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Cameron Jct - Elloree 46 kV Rebuild",
+     "quote": "Cameron Jct – Elloree 46 kV Rebuild",
+     "page": 41
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 41
+    },
+    "in_service_date": {
+     "value": "2026-12-31",
+     "quote": "12/31/2026",
+     "page": 41
+    }
+   },
+   "description": {
+    "value": "Rebuilding the Cameron Jct - Elloree 46 kV Line. 7.3 miles.",
+    "quote": "Rebuilding the Cameron Jct – Elloree 46 kV Line. 7.3 miles.",
+    "page": 41
+   },
+   "locations": [
+    {
+     "value": "Cameron Jct",
+     "quote": "Cameron Jct",
+     "page": 41
+    },
+    {
+     "value": "Elloree",
+     "quote": "Elloree",
+     "page": 41
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6810 J",
+   "status": "VERIFIED",
+   "pages": [
+    42
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Elloree - Santee City 46 kV: Rebuild",
+     "quote": "Elloree – Santee City 46 kV: Rebuild",
+     "page": 42
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 42
+    },
+    "in_service_date": {
+     "value": "2027-12-31",
+     "quote": "12/31/2027",
+     "page": 42
+    }
+   },
+   "description": {
+    "value": "Rebuilding the 46 kV line between Elloree and Santee City. 7 miles.",
+    "quote": "Rebuilding the 46 kV line between Elloree and Santee City. 7 miles.",
+    "page": 42
+   },
+   "locations": [
+    {
+     "value": "Elloree",
+     "quote": "Elloree",
+     "page": 42
+    },
+    {
+     "value": "Santee City",
+     "quote": "Santee City",
+     "page": 42
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6810 O",
+   "status": "VERIFIED",
+   "pages": [
+    43
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Urquhart - Aiken PSA 46 kV: Rebuild",
+     "quote": "Urquhart – Aiken PSA 46 kV: Rebuild",
+     "page": 43
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 43
+    },
+    "in_service_date": {
+     "value": "2027-12-31",
+     "quote": "12/31/2027",
+     "page": 43
+    }
+   },
+   "description": {
+    "value": "Rebuilding the section of 46 kV line from Urquhart to the Aiken PSA tap point. TBD if the scope of this project includes rebuilding the actual tap Aiken PSA. 4.5 miles.",
+    "quote": "Rebuilding the section of 46 kV line from Urquhart to the Aiken PSA tap point. TBD if the scope of this \nproject includes rebuilding the actual tap Aiken PSA.  4.5 miles.",
+    "page": 43
+   },
+   "locations": [
+    {
+     "value": "Urquhart",
+     "quote": "Urquhart",
+     "page": 43
+    },
+    {
+     "value": "Aiken PSA",
+     "quote": "Aiken PSA",
+     "page": 43
+    }
+   ],
+   "problems": []
+  },
+  {
+   "project_id": "6810 T",
+   "status": "VERIFIED",
+   "pages": [
+    44
+   ],
+   "fields": {
+    "project_name": {
+     "value": "Cameron Jct - Cameron - St Matthews 46 kV Rebuild",
+     "quote": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+     "page": 44
+    },
+    "sponsor": {
+     "value": "Dominion Energy South Carolina",
+     "quote": "Dominion Energy South Carolina",
+     "page": 44
+    },
+    "in_service_date": {
+     "value": "2028-12-31",
+     "quote": "12/31/2028",
+     "page": 44
+    }
+   },
+   "description": {
+    "value": "Rebuilding the 46 kV line between Cameron Jct and St Matthews. 9.8 miles.",
+    "quote": "Rebuilding the 46 kV line between Cameron Jct and St Matthews. 9.8 miles.",
+    "page": 44
+   },
+   "locations": [
+    {
+     "value": "Cameron Jct",
+     "quote": "Cameron Jct",
+     "page": 44
+    },
+    {
+     "value": "Cameron",
+     "quote": "Cameron",
+     "page": 44
+    },
+    {
+     "value": "St Matthews",
+     "quote": "St Matthews",
+     "page": 44
+    }
+   ],
+   "problems": []
+  }
+ ],
+ "other_problems": []
+}

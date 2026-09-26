@@ -2,4 +2,4 @@
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "--strict-markers"
-markers = ["slow: parses the real 668-page Georgia Power PDF (about 10 seconds)"]
+markers = ["slow: parses the real 668-page Georgia Power PDF (about 10 seconds), or loads the Anthropic SDK"]

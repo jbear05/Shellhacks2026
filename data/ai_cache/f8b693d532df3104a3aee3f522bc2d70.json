@@ -1,0 +1,432 @@
+{
+ "task": "extract",
+ "pages": [
+  378,
+  379,
+  380,
+  381,
+  382,
+  383,
+  384,
+  385,
+  386
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7599,
+  "output_tokens": 2724
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 378,
+    "kind": "project_detail"
+   },
+   {
+    "page": 379,
+    "kind": "project_detail"
+   },
+   {
+    "page": 380,
+    "kind": "project_detail"
+   },
+   {
+    "page": 381,
+    "kind": "project_detail"
+   },
+   {
+    "page": 382,
+    "kind": "project_detail"
+   },
+   {
+    "page": 383,
+    "kind": "project_detail"
+   },
+   {
+    "page": 384,
+    "kind": "project_detail"
+   },
+   {
+    "page": 385,
+    "kind": "project_detail"
+   },
+   {
+    "page": 386,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "20298",
+     "page": 378
+    },
+    "project_name": {
+     "text": "GLENWOOD SPRINGS - LAKE OCONEE 115KV LINE REBUILD",
+     "page": 378
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 378,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2027",
+     "page": 378,
+     "iso": "2027-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the North Eatonton Junction - Putnam Sawmill Junction line with 200C 1351 ACSS conductor.",
+      "page": 378
+     }
+    ],
+    "locations": [
+     {
+      "text": "GLENWOOD SPRINGS",
+      "page": 378
+     },
+     {
+      "text": "LAKE OCONEE",
+      "page": 378
+     },
+     {
+      "text": "North Eatonton Junction",
+      "page": 378
+     },
+     {
+      "text": "Putnam Sawmill Junction",
+      "page": 378
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21128",
+     "page": 379
+    },
+    "project_name": {
+     "text": "GOAT ROCK REACTORS INSTALLATION",
+     "page": 379
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 379,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2028",
+     "page": 379,
+     "iso": "2028-06-01"
+    },
+    "description": [
+     {
+      "text": "Install 1% series reactors on the Fortson - Goat Rock (Black) 230kV and Fortson - Goat Rock (White) 230kV.",
+      "page": 379
+     }
+    ],
+    "locations": [
+     {
+      "text": "GOAT ROCK",
+      "page": 379
+     },
+     {
+      "text": "Fortson",
+      "page": 379
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19996",
+     "page": 380
+    },
+    "project_name": {
+     "text": "GOLDENS CREEK - WARRENTON PRIMARY 230KV REBUILD",
+     "page": 380
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 380,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2028",
+     "page": 380,
+     "iso": "2028-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 0.34 miles of the Goldens Creek - Warrenton Primary 230kV line from 100C 1 - 1351.5 ACSR Martin conductor to 200C 1351 ACCR Martin conductor or equivalent.",
+      "page": 380
+     }
+    ],
+    "locations": [
+     {
+      "text": "Goldens Creek",
+      "page": 380
+     },
+     {
+      "text": "Warrenton Primary",
+      "page": 380
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20428",
+     "page": 381
+    },
+    "project_name": {
+     "text": "GORDON-SANDERSVILLE #1 115KV LINE REBUILD (DEEPSTEP-SAND #6)",
+     "page": 381
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 381,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2023",
+     "page": 381,
+     "iso": "2023-12-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the Deepstep - Robins Spring (7.6 miles) Robins Spring - Kaolin J (2.23mi), and Kaolin J - Sandersville #6 (0.66 miles) line sections of the Gordon - Sandersville #1 115kV line. Rebuild a total of 10.49 miles from 100C 336 ACSR to 100C ACSR 795 conductor.",
+      "page": 381
+     }
+    ],
+    "locations": [
+     {
+      "text": "GORDON",
+      "page": 381
+     },
+     {
+      "text": "SANDERSVILLE",
+      "page": 381
+     },
+     {
+      "text": "Deepstep",
+      "page": 381
+     },
+     {
+      "text": "Robins Spring",
+      "page": 381
+     },
+     {
+      "text": "Kaolin J",
+      "page": 381
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21116",
+     "page": 382
+    },
+    "project_name": {
+     "text": "GOSHEN AREA STRATEGIC SOLUTION",
+     "page": 382
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 382,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 382,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Construct a 230kV switching station on the Waynesboro - Wilson 230kV line and a new 230kV line between the switching station and Goshen, approximately 12.3 miles. Provides an alternate power flow path into Goshen outside of the existing constrained Goshen - Vogtle corridor.",
+      "page": 382
+     }
+    ],
+    "locations": [
+     {
+      "text": "Goshen",
+      "page": 382
+     },
+     {
+      "text": "Waynesboro",
+      "page": 382
+     },
+     {
+      "text": "Wilson",
+      "page": 382
+     },
+     {
+      "text": "Vogtle",
+      "page": 382
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21073",
+     "page": 383
+    },
+    "project_name": {
+     "text": "GTC: BIG SMARR - TOMOCHICHI 500KV",
+     "page": 383
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 383,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2024",
+     "page": 383,
+     "iso": "2024-12-01"
+    },
+    "description": [
+     {
+      "text": "Construct a 500kV line from Big Smarr to Tomochichi, approximately 36 miles long.  Make the necessary modifications at Big Smarr and Tomochichi to add breakers and terminate the line.",
+      "page": 383
+     }
+    ],
+    "locations": [
+     {
+      "text": "Big Smarr",
+      "page": 383
+     },
+     {
+      "text": "Tomochichi",
+      "page": 383
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21014",
+     "page": 384
+    },
+    "project_name": {
+     "text": "GTC: BUZZARD ROOST - CAVENDER DRIVE 230KV NEW LINE",
+     "page": 384
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 384
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 384,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 384,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC is building a new 7 mile 230kV line from Cavender Drive to Buzzard Roost with 200C 1351 ACSS Martin.",
+      "page": 384
+     }
+    ],
+    "locations": [
+     {
+      "text": "Buzzard Roost",
+      "page": 384
+     },
+     {
+      "text": "Cavender Drive",
+      "page": 384
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21013",
+     "page": 385
+    },
+    "project_name": {
+     "text": "GTC: CAVENDER DRIVE 500/230KV AUTOBANK",
+     "page": 385
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 385
+    },
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 385,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 385,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC will turn Cavender Drive into a 500/230kV station looping in the Villa Rica - Union City 500kV line, installing a 2016 MVA auto transformer.",
+      "page": 385
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cavender Drive",
+      "page": 385
+     },
+     {
+      "text": "Villa Rica",
+      "page": 385
+     },
+     {
+      "text": "Union City",
+      "page": 385
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20375",
+     "page": 386
+    },
+    "project_name": {
+     "text": "GTC: EAST WATKINSVILLE 230 KV STATION MODIFICATION",
+     "page": 386
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 386,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2028",
+     "page": 386,
+     "iso": "2028-06-01"
+    },
+    "description": [
+     {
+      "text": "Replace the 1600A reactors at East Watkinsville on the Russell Dam 230kV line with larger size.",
+      "page": 386
+     }
+    ],
+    "locations": [
+     {
+      "text": "East Watkinsville",
+      "page": 386
+     },
+     {
+      "text": "Russell Dam",
+      "page": 386
+     }
+    ]
+   }
+  ]
+ }
+}

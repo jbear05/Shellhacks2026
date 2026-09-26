@@ -6,8 +6,10 @@ whether it has been run, and what's left, is in [status.md](status.md).
 ```text
 Source PDFs (Sperry-Tech-Challenge/Project Listings/)
   |  parsers/georgia_power.py, dominionScript.py                  built
+  |  parsers/ai_parser (any PDF, checked against the page text)   built
   v
 data/processed/georgia_power_projects.csv, dominion_projects.csv  committed
+data/processed/ai/<prefix>_projects.csv                           saved runs; current code needs fixes
   |  gridlock_desc_locator.py                                     built
   v
 data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
@@ -37,6 +39,12 @@ in [sources/](sources/).
 
 Both parsers stop with an error and write nothing if the PDF's layout no longer
 matches what they expect. Problems in the source data are logged as warnings.
+
+- **Any other PDF** (`python -m parsers.ai_parser`): Claude copies each project's values with the text and page they came from, and
+  Python checks each one against the page before keeping it. It writes
+  `data/processed/ai/<prefix>_projects.csv` with the Georgia parser CSV's shared
+  columns and a `utility` per project, so it can go to the Geolocator's `--projects-csv`, and its eval scores it against the
+  two parsers above. See [ai-parser.md](ai-parser.md).
 
 ## 2. Locate
 
