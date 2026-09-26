@@ -50,8 +50,8 @@ decision is reversed, say so under the old entry instead of deleting it.
 - **Operator names per utility** (2026-09-26). OpenStreetMap tags Georgia substations
   "Georgia Power" even around GTC and MEAG projects, so all four Georgia owners accept
   it.
-- **Failed Overpass requests are retried, not cached** (2026-09-26), so a failure
-  doesn't look like "no substation nearby".
+- **Failed Nominatim and Overpass requests are retried, not cached** (2026-09-26), so
+  a failure doesn't look like "not found" or "no substation nearby".
 
 ## Process
 

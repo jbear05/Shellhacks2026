@@ -59,8 +59,8 @@ Check with a teammate before committing to their branch.
 
 ## Open issues
 
-- **Geolocator cache:** failed Nominatim requests are cached as `null` and never
-  retried. The cache file is overwritten in place, so an interrupted write can lose it.
+- **Geolocator cache:** the cache file is overwritten in place, so an interrupted
+  write can lose it.
   The cache and outputs are relative to the current directory. Details:
   [geolocator.md](geolocator.md#cache).
 - **Project centers** average every located point, LOW fallbacks included, which

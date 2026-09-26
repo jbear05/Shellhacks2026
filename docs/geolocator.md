@@ -30,7 +30,8 @@ PR #3. Its output columns are described in [data.md](data.md). To run it, follow
    within 25 km of the seed.
 3. **Best match.** Each candidate is scored (below) and the highest score wins.
 4. **Fallbacks.** With no candidate, the seed point itself is used, rated LOW. If
-   Nominatim found nothing, the row has no coordinates and is rated LOW.
+   Nominatim found nothing, or its request failed, the row has no coordinates and is
+   rated LOW.
 
 ## Scoring
 
@@ -61,13 +62,14 @@ that name.
 `nominatim::<query>` and `overpass::<lat>,<lon>,<radius>`. It's rewritten after each new
 result and committed, so a second run only repeats requests that failed.
 
-- An Overpass request that fails on every server isn't cached. The row says "Overpass
-  request failed; re-run to retry", and the next run tries again.
-- A failed Nominatim request is cached as `null`, the same as "not found", so it's
-  never retried. The committed cache has 7 `null` entries from the first run, and some
-  may be errors rather than real misses: Queensboro, Square D, VCS1, CIP, North Bridge
-  Terrace, Plumb Branch and VCS2 (all searched in South Carolina). Delete a key to
-  retry it.
+- Failed requests aren't cached. The row says "Nominatim request failed; re-run to
+  retry" or "Overpass request failed; re-run to retry" (when every Overpass server
+  failed), and the next run tries again.
+- A `null` Nominatim entry means Nominatim found nothing, and it isn't retried. The
+  first version cached failed requests as `null` too, so some of the committed cache's
+  7 `null` entries may be errors rather than real misses: Queensboro, Square D, VCS1,
+  CIP, North Bridge Terrace, Plumb Branch and VCS2 (all searched in South Carolina).
+  Delete a key to retry it.
 - The file is overwritten in place. Stopping the run in the middle of a write can leave
   a truncated file, which then loads as an empty cache, and the next run overwrites it.
   Back the cache up before a long run.

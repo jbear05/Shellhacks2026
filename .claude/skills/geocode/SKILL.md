@@ -49,7 +49,8 @@ grep -c "re-run to retry" <prefix>_project_locations.csv
 Run the same command again until the count is 0 or stops going down. Overpass often
 returns 429 or 504: wait a few minutes between runs rather than retrying in a loop.
 
-A failed Nominatim request is cached as `null` and isn't retried. To retry one,
+A `null` Nominatim entry in the cache means "not found" and isn't retried. The first
+version also cached failed requests as `null` (see docs/geolocator.md). To retry one,
 remove its `nominatim::<name>, <state>, USA` key from the cache.
 
 ## 5. Summarize for the user

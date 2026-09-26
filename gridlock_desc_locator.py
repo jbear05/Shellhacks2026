@@ -230,11 +230,14 @@ def haversine_miles(lat1, lon1, lat2, lon2):
 
 
 def geocode_general_location(location_name, state):
+    # Returns (place, failed). place is None when Nominatim finds nothing
+    # or the request fails. Failures are not cached, so the next run
+    # retries them.
     query = f"{location_name}, {state}, {COUNTRY}"
     cache_key = f"nominatim::{query}"
 
     if cache_key in CACHE:
-        return CACHE[cache_key]
+        return CACHE[cache_key], False
 
     print(f"    Nominatim: {query}")
 
@@ -245,6 +248,7 @@ def geocode_general_location(location_name, state):
         "limit": 1,
     }
     headers = {"User-Agent": USER_AGENT}
+    failed = False
 
     try:
         response = requests.get(
@@ -268,13 +272,15 @@ def geocode_general_location(location_name, state):
     except requests.RequestException as error:
         print(f"    Nominatim error: {error}")
         result = None
+        failed = True
 
-    CACHE[cache_key] = result
-    save_cache(CACHE)
+    if not failed:
+        CACHE[cache_key] = result
+        save_cache(CACHE)
 
     # Keep public Nominatim usage at <= 1 request/second.
     time.sleep(NOMINATIM_DELAY_SECONDS)
-    return result
+    return result, failed
 
 
 def trim_osm_element(element):
@@ -409,7 +415,7 @@ def confidence_from_candidate(candidate):
 def locate_project_location(project, location_name, role_number):
     print(f"\n  Location {role_number}: {location_name}")
     state = LOCATION_STATE_OVERRIDES.get(location_name.lower(), project["state"])
-    seed = geocode_general_location(search_name(location_name), state)
+    seed, seed_failed = geocode_general_location(search_name(location_name), state)
 
     if seed is None:
         return {
@@ -436,7 +442,10 @@ def locate_project_location(project, location_name, role_number):
             "match_score": 0,
             "confidence": "LOW",
             "source": "No match",
-            "reasons": "Nominatim could not find general location",
+            "reasons": (
+                "Nominatim request failed; re-run to retry" if seed_failed
+                else "Nominatim could not find general location"
+            ),
         }
 
     print(f"    Seed: {seed['lat']}, {seed['lon']}")
