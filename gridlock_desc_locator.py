@@ -41,14 +41,30 @@ CACHE_FILE = "gridlock_geocode_cache.json"
 # Set this to 3 while testing. Leave None to run all projects.
 PROJECT_LIMIT = None
 
-OPERATOR_ALIASES = [
-    "dominion",
-    "dominion energy",
-    "dominion energy south carolina",
-    "desc",
-    "sce&g",
-    "south carolina electric & gas",
-]
+# Operator names that earn the operator bonus, by the project's utility.
+# Georgia's transmission system is shared by these four owners, and OSM
+# tags most of its substations "Georgia Power", even around GTC and MEAG
+# projects.
+OPERATOR_ALIASES = {
+    "Dominion Energy South Carolina": [
+        "dominion",
+        "dominion energy",
+        "dominion energy south carolina",
+        "desc",
+        "sce&g",
+        "south carolina electric & gas",
+    ],
+    "Georgia Power": ["georgia power"],
+    "Georgia Transmission Corporation": ["georgia transmission", "georgia power"],
+    "MEAG Power": ["meag", "georgia power"],
+    "Dalton Utilities": ["dalton utilities", "georgia power"],
+}
+
+# Locations across the state line from their project's state, searched
+# in the state they are actually in. Keys are lowercase location names.
+LOCATION_STATE_OVERRIDES = {
+    "purrysburg": "South Carolina",  # GA 20277 McIntosh - Purrysburg
+}
 
 # Project location names below come from the supplied DESC planning PDF.
 # Multi-site/line projects intentionally keep multiple named places rather
@@ -143,6 +159,11 @@ GENERIC_WORDS = {
     "switching", "distribution", "tap", "line",
 }
 
+# Left out of the Nominatim search but kept for scoring: Nominatim finds
+# nothing for "Evans Primary", while OSM names the substation
+# "Evans Primary Substation".
+SEARCH_DROP_WORDS = {"primary"}
+
 
 def normalize_name(text):
     if not text:
@@ -154,6 +175,11 @@ def normalize_name(text):
     text = re.sub(r"[^a-z0-9 ]+", " ", text)
     words = [word for word in text.split() if word not in GENERIC_WORDS]
     return " ".join(words)
+
+
+def search_name(location_name):
+    words = [word for word in location_name.split() if word.lower() not in SEARCH_DROP_WORDS]
+    return " ".join(words) or location_name
 
 
 def name_match_score(target_name, candidate_name):
@@ -180,9 +206,9 @@ def name_match_score(target_name, candidate_name):
     return 0, None
 
 
-def operator_matches(operator):
+def operator_matches(operator, utility):
     operator_lower = (operator or "").lower()
-    return any(alias in operator_lower for alias in OPERATOR_ALIASES)
+    return any(alias in operator_lower for alias in OPERATOR_ALIASES.get(utility, []))
 
 
 def extract_voltage_numbers(voltage_text):
@@ -203,8 +229,8 @@ def haversine_miles(lat1, lon1, lat2, lon2):
     return r * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 
-def geocode_general_location(location_name):
-    query = f"{location_name}, {STATE}, {COUNTRY}"
+def geocode_general_location(location_name, state):
+    query = f"{location_name}, {state}, {COUNTRY}"
     cache_key = f"nominatim::{query}"
 
     if cache_key in CACHE:
@@ -296,7 +322,7 @@ def get_osm_coordinates(element):
     return center.get("lat"), center.get("lon")
 
 
-def score_candidate(target_name, expected_voltages, seed_lat, seed_lon, element):
+def score_candidate(target_name, expected_voltages, utility, seed_lat, seed_lon, element):
     tags = element.get("tags", {})
     candidate_name = tags.get("name", "")
     operator = tags.get("operator", "")
@@ -314,9 +340,9 @@ def score_candidate(target_name, expected_voltages, seed_lat, seed_lon, element)
     if reason:
         reasons.append(reason)
 
-    if operator_matches(operator):
+    if operator_matches(operator, utility):
         score += 2
-        reasons.append("Operator matches Dominion/DESC")
+        reasons.append(f"Operator matches {utility}")
 
     matches = voltage_match_count(expected_voltages, voltage)
     if matches:
@@ -364,7 +390,8 @@ def confidence_from_candidate(candidate):
 
 def locate_project_location(project, location_name, role_number):
     print(f"\n  Location {role_number}: {location_name}")
-    seed = geocode_general_location(location_name)
+    state = LOCATION_STATE_OVERRIDES.get(location_name.lower(), project["state"])
+    seed = geocode_general_location(search_name(location_name), state)
 
     if seed is None:
         return {
@@ -403,6 +430,7 @@ def locate_project_location(project, location_name, role_number):
         scored = score_candidate(
             location_name,
             project["voltages"],
+            project["utility"],
             seed["lat"],
             seed["lon"],
             element,
