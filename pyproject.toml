@@ -1,0 +1,5 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "--strict-markers"
+markers = ["slow: parses the real 668-page Georgia Power PDF (about 10 seconds)"]
