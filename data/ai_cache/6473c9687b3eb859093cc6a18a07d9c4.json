@@ -1,0 +1,443 @@
+{
+ "task": "extract",
+ "pages": [
+  274,
+  275,
+  276,
+  277,
+  278,
+  279,
+  280,
+  281,
+  282
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7740,
+  "output_tokens": 2853
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 274,
+    "kind": "project_detail"
+   },
+   {
+    "page": 275,
+    "kind": "project_detail"
+   },
+   {
+    "page": 276,
+    "kind": "project_detail"
+   },
+   {
+    "page": 277,
+    "kind": "project_detail"
+   },
+   {
+    "page": 278,
+    "kind": "project_detail"
+   },
+   {
+    "page": 279,
+    "kind": "project_detail"
+   },
+   {
+    "page": 280,
+    "kind": "project_detail"
+   },
+   {
+    "page": 281,
+    "kind": "project_detail"
+   },
+   {
+    "page": 282,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "20270",
+     "page": 274
+    },
+    "project_name": {
+     "text": "MEAG: RAY PLACE RD - WASHINGTON #3",
+     "page": 274
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 274
+    },
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 274,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2024",
+     "page": 274,
+     "iso": "2024-01-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the Ray Place Rd - Washington 115kV line with 100C 795 ACSR conductor (total 17.4 Miles) between Ray Place Rd and Washington 2. Replace Jumpers and bus at Washington 2.",
+      "page": 274
+     }
+    ],
+    "locations": [
+     {
+      "text": "Ray Place Rd",
+      "page": 274
+     },
+     {
+      "text": "Washington 2",
+      "page": 274
+     },
+     {
+      "text": "Washington",
+      "page": 274
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20271",
+     "page": 275
+    },
+    "project_name": {
+     "text": "MEAG: RAY PLACE RD - WASHINGTON (WASHINGTON - WASHINGTON 3)",
+     "page": 275
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 275
+    },
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 275,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 275,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "MEAG will rebuild the Ray Place Rd - Washington 115kV line with 100C 1351 ACSR conductor (total 1.2 Miles) between Washington and Washington 3. Replace jumpers at Washington.",
+      "page": 275
+     }
+    ],
+    "locations": [
+     {
+      "text": "Ray Place Rd",
+      "page": 275
+     },
+     {
+      "text": "Washington",
+      "page": 275
+     },
+     {
+      "text": "Washington 3",
+      "page": 275
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18690",
+     "page": 276
+    },
+    "project_name": {
+     "text": "PALMYRA REACTOR REMOVAL",
+     "page": 276
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 276,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "05/01/2023",
+     "page": 276,
+     "iso": "2023-05-01"
+    },
+    "description": [
+     {
+      "text": "Remove the 6% reactor at the Palmyra Substation.",
+      "page": 276
+     }
+    ],
+    "locations": [
+     {
+      "text": "Palmyra",
+      "page": 276
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20066",
+     "page": 277
+    },
+    "project_name": {
+     "text": "SAV: BOULEVARD - DEPTFORD 115KV RECONDUCTOR",
+     "page": 277
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 277,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 277,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Reconductor the Boulevard - Deptford 115kV line (approximately 8 miles) using 973.1 C7 ACCS (Everglades) conductor. Upgrade main bus and jumpers at Bolton substation from 90C 1590 AAC Coreopsis to 90C (2)1590 AAC Coreopsis or higher rated equipment.",
+      "page": 277
+     }
+    ],
+    "locations": [
+     {
+      "text": "Boulevard",
+      "page": 277
+     },
+     {
+      "text": "Deptford",
+      "page": 277
+     },
+     {
+      "text": "Bolton",
+      "page": 277
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19966",
+     "page": 278
+    },
+    "project_name": {
+     "text": "SAV: CC - BIG OGEECHEE 500/230KV (CC NETWORK IMPROVEMENTS)",
+     "page": 278
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 278,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2023",
+     "page": 278,
+     "iso": "2023-06-01"
+    },
+    "description": [
+     {
+      "text": "Construct a new substation near Little Ogeechee, adjacent to the 500kV and 230kV shared right of way for McCall Road - Thalmann 500kV and the Little Ogeechee - Meldrim 230kV Black and White lines. The new substation will loop in the existing McCall Road - Thalmann 500kV line, the existing Little Ogeechee - Meldrim 230kV lines, and accommodate a new 1344MVA 500/230kV auto transformers with an additional 230kV connection to Little Ogeechee.",
+      "page": 278
+     }
+    ],
+    "locations": [
+     {
+      "text": "Big Ogeechee",
+      "page": 278
+     },
+     {
+      "text": "Little Ogeechee",
+      "page": 278
+     },
+     {
+      "text": "McCall Road",
+      "page": 278
+     },
+     {
+      "text": "Thalmann",
+      "page": 278
+     },
+     {
+      "text": "Meldrim",
+      "page": 278
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "17900",
+     "page": 279
+    },
+    "project_name": {
+     "text": "UNION CITY - YATES 230 KV WHITE LINE REBUILD",
+     "page": 279
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 279,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2023",
+     "page": 279,
+     "iso": "2023-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild 23.4 miles of the Union City - Yates 230kV White line with bundled 1351 ACSS Martin conductor at 200C.",
+      "page": 279
+     }
+    ],
+    "locations": [
+     {
+      "text": "Union City",
+      "page": 279
+     },
+     {
+      "text": "Yates",
+      "page": 279
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20691",
+     "page": 280
+    },
+    "project_name": {
+     "text": "UNION CITY - YATES 230KV (WHITE) SWITCH AND TRAP REPLACEMENT",
+     "page": 280
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 280,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "05/15/2024",
+     "page": 280,
+     "iso": "2024-05-15"
+    },
+    "description": [
+     {
+      "text": "Replace the limiting elements at Union City and Yates substations along the Union City - Yates 230kV (White) line.",
+      "page": 280
+     }
+    ],
+    "locations": [
+     {
+      "text": "Union City",
+      "page": 280
+     },
+     {
+      "text": "Yates",
+      "page": 280
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20223",
+     "page": 281
+    },
+    "project_name": {
+     "text": "CC - PROJECT PAYTON BAINBRIDGE",
+     "page": 281
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/30/2026",
+     "page": 281,
+     "iso": "2026-06-30"
+    },
+    "start_date": {
+     "text": "06/01/2024",
+     "page": 281,
+     "iso": "2024-06-01"
+    },
+    "description": [
+     {
+      "text": "Split Farley - South Bainbridge 230kV line with a 230kV station (Dothan Road) and bring an 8.5 mile 200C 1351 ACSS 230kV line from Dothan Rd to new customer sub Downrange. Bring another 10mile 200C 1351 ACSS 230kV line from Climax to customer sub Downrange.",
+      "page": 281
+     }
+    ],
+    "locations": [
+     {
+      "text": "Bainbridge",
+      "page": 281
+     },
+     {
+      "text": "Farley",
+      "page": 281
+     },
+     {
+      "text": "South Bainbridge",
+      "page": 281
+     },
+     {
+      "text": "Dothan Road",
+      "page": 281
+     },
+     {
+      "text": "Downrange",
+      "page": 281
+     },
+     {
+      "text": "Climax",
+      "page": 281
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20874",
+     "page": 282
+    },
+    "project_name": {
+     "text": "GTC: BARNESVILLE PRIMARY-BARNESVILLE #1 115KV RECONDUCTOR",
+     "page": 282
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 282
+    },
+    "in_service_date": {
+     "text": "12/01/2026",
+     "page": 282,
+     "iso": "2026-12-01"
+    },
+    "start_date": {
+     "text": "06/01/2024",
+     "page": 282,
+     "iso": "2024-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 4.53 miles of the Barnesville Primary - Barnesville #1 segment on the Barnesville Primary - Lamar County Industrial 115kV line.",
+      "page": 282
+     }
+    ],
+    "locations": [
+     {
+      "text": "Barnesville Primary",
+      "page": 282
+     },
+     {
+      "text": "Barnesville #1",
+      "page": 282
+     },
+     {
+      "text": "Lamar County Industrial",
+      "page": 282
+     }
+    ]
+   }
+  ]
+ }
+}

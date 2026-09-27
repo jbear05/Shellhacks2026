@@ -1,0 +1,40 @@
+{
+ "task": "extract",
+ "pages": [
+  171,
+  172,
+  173,
+  174,
+  175
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 5867,
+  "output_tokens": 86
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 171,
+    "kind": "other"
+   },
+   {
+    "page": 172,
+    "kind": "other"
+   },
+   {
+    "page": 173,
+    "kind": "other"
+   },
+   {
+    "page": 174,
+    "kind": "other"
+   },
+   {
+    "page": 175,
+    "kind": "other"
+   }
+  ],
+  "projects": []
+ }
+}

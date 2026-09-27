@@ -1,0 +1,700 @@
+{
+ "task": "extract",
+ "pages": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 8051,
+  "output_tokens": 4140
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 1,
+    "kind": "project_detail"
+   },
+   {
+    "page": 2,
+    "kind": "project_detail"
+   },
+   {
+    "page": 3,
+    "kind": "project_detail"
+   },
+   {
+    "page": 4,
+    "kind": "project_detail"
+   },
+   {
+    "page": 5,
+    "kind": "project_detail"
+   },
+   {
+    "page": 6,
+    "kind": "project_detail"
+   },
+   {
+    "page": 7,
+    "kind": "project_detail"
+   },
+   {
+    "page": 8,
+    "kind": "project_detail"
+   },
+   {
+    "page": 9,
+    "kind": "project_detail"
+   },
+   {
+    "page": 10,
+    "kind": "project_detail"
+   },
+   {
+    "page": 11,
+    "kind": "project_detail"
+   },
+   {
+    "page": 12,
+    "kind": "project_detail"
+   },
+   {
+    "page": 13,
+    "kind": "project_detail"
+   },
+   {
+    "page": 14,
+    "kind": "project_detail"
+   },
+   {
+    "page": 15,
+    "kind": "project_detail"
+   },
+   {
+    "page": 16,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "6807 B",
+     "page": 1
+    },
+    "project_name": {
+     "text": "Queensboro - Ft Johnson 115 kV & Queensboro-Bayfront 115kV (Queensboro-James Island Sect)",
+     "page": 1
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 1
+    },
+    "in_service_date": {
+     "text": "12/31/23",
+     "page": 1,
+     "iso": "2023-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace the Queensboro – Ft Johnson 115 kV Line and structures as they have reached the end of life.",
+      "page": 1
+     }
+    ],
+    "locations": [
+     {
+      "text": "Queensboro",
+      "page": 1
+     },
+     {
+      "text": "Ft Johnson",
+      "page": 1
+     },
+     {
+      "text": "Bayfront",
+      "page": 1
+     },
+     {
+      "text": "James Island",
+      "page": 1
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "0167C-D",
+     "page": 2
+    },
+    "project_name": {
+     "text": "Union Pier 115-13.8 kV Sub: Tap",
+     "page": 2
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 2
+    },
+    "in_service_date": {
+     "text": "12/31/27",
+     "page": 2,
+     "iso": "2027-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Installing a 115 kV Tap to feed the future Union Pier 115 kV Sub.",
+      "page": 2
+     }
+    ],
+    "locations": [
+     {
+      "text": "Union Pier",
+      "page": 2
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "0139 M,N",
+     "page": 3
+    },
+    "project_name": {
+     "text": "Okatie 230-115kV Substation, Jasper – Yemassee 230kV #1 Fold-in",
+     "page": 3
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 3
+    },
+    "in_service_date": {
+     "text": "12/31/2024",
+     "page": 3,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Expand existing Okatie Transmission sub, add a 230-115 autobank and fold the Jasper – Yemassee 230 kV #1 line into the 230 kV side. Construct two additional 115 kV bus tie lines.",
+      "page": 3
+     }
+    ],
+    "locations": [
+     {
+      "text": "Okatie",
+      "page": 3
+     },
+     {
+      "text": "Jasper",
+      "page": 3
+     },
+     {
+      "text": "Yemassee",
+      "page": 3
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6341 A-F",
+     "page": 4
+    },
+    "project_name": {
+     "text": "Cainhoy - Hamlin 115kV: Rebuild Line and Cainhoy – Hamlin 115 kV #2: Construct New 115 kV Line",
+     "page": 4
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 4
+    },
+    "in_service_date": {
+     "text": "12/01/25",
+     "page": 4,
+     "iso": "2025-12-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Upgrade the 954 ACSR portion of the Cainhoy – Hamlin 115 kV line to B795 ACSR conductor, construct a new Cainhoy – Hamlin 115 kV #2 line, add terminals to Cainhoy and Hamlin sub to accommodate upgrades.",
+      "page": 4
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cainhoy",
+      "page": 4
+     },
+     {
+      "text": "Hamlin",
+      "page": 4
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 J",
+     "page": 5
+    },
+    "project_name": {
+     "text": "Eastover - Square D 115kV: Rebuild",
+     "page": 5
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 5
+    },
+    "in_service_date": {
+     "text": "06/01/24",
+     "page": 5,
+     "iso": "2024-06-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor.",
+      "page": 5
+     }
+    ],
+    "locations": [
+     {
+      "text": "Eastover",
+      "page": 5
+     },
+     {
+      "text": "Square D",
+      "page": 5
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 K",
+     "page": 6
+    },
+    "project_name": {
+     "text": "Burton-St Helena 115kV: Rebuild Burton-Frogmore Transmission Section",
+     "page": 6
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 6
+    },
+    "in_service_date": {
+     "text": "12/31/24",
+     "page": 6,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor for the Burton – Frogmore Transmission section.",
+      "page": 6
+     }
+    ],
+    "locations": [
+     {
+      "text": "Burton",
+      "page": 6
+     },
+     {
+      "text": "St Helena",
+      "page": 6
+     },
+     {
+      "text": "Frogmore",
+      "page": 6
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 L",
+     "page": 7
+    },
+    "project_name": {
+     "text": "Burton-St Helena 115kV: Frogmore Distribution - St Helena",
+     "page": 7
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 7
+    },
+    "in_service_date": {
+     "text": "12/31/25",
+     "page": 7,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden structures with Self Supporting Steel Structures and upgrade to 795 ACSR for the Frogmore Distribution Tap – St. Helena section.",
+      "page": 7
+     }
+    ],
+    "locations": [
+     {
+      "text": "Burton",
+      "page": 7
+     },
+     {
+      "text": "St Helena",
+      "page": 7
+     },
+     {
+      "text": "Frogmore Distribution",
+      "page": 7
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 N,O",
+     "page": 8
+    },
+    "project_name": {
+     "text": "VCS1-Denny Terrace 230kV & VCS1-Pineland 230kV: Rebuild Single Circuit Sections",
+     "page": 8
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 8
+    },
+    "in_service_date": {
+     "text": "12/31/26",
+     "page": 8,
+     "iso": "2026-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with standard 1272 ACSR conductor.",
+      "page": 8
+     }
+    ],
+    "locations": [
+     {
+      "text": "VCS1",
+      "page": 8
+     },
+     {
+      "text": "Denny Terrace",
+      "page": 8
+     },
+     {
+      "text": "Pineland",
+      "page": 8
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 R",
+     "page": 9
+    },
+    "project_name": {
+     "text": "Wateree-Killian 230kV: Rebuild",
+     "page": 9
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 9
+    },
+    "in_service_date": {
+     "text": "12/31/28",
+     "page": 9,
+     "iso": "2028-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden H-Frame structures with Self Supporting Steel Structures.",
+      "page": 9
+     }
+    ],
+    "locations": [
+     {
+      "text": "Wateree",
+      "page": 9
+     },
+     {
+      "text": "Killian",
+      "page": 9
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 S",
+     "page": 10
+    },
+    "project_name": {
+     "text": "Okatie-Bluffton 115kV: Rebuild",
+     "page": 10
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 10
+    },
+    "in_service_date": {
+     "text": "06/01/2025",
+     "page": 10,
+     "iso": "2025-06-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden H-Frame structures with Self Supporting Steel Structures and upgrade conductor to standard 1272 ACSR.",
+      "page": 10
+     }
+    ],
+    "locations": [
+     {
+      "text": "Okatie",
+      "page": 10
+     },
+     {
+      "text": "Bluffton",
+      "page": 10
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 U",
+     "page": 11
+    },
+    "project_name": {
+     "text": "Hopkins-CIP 230kV: Rebuild",
+     "page": 11
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 11
+    },
+    "in_service_date": {
+     "text": "12/31/25",
+     "page": 11,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden H-Frame structures with Self Supporting Steel Structures.",
+      "page": 11
+     }
+    ],
+    "locations": [
+     {
+      "text": "Hopkins",
+      "page": 11
+     },
+     {
+      "text": "CIP",
+      "page": 11
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 V",
+     "page": 12
+    },
+    "project_name": {
+     "text": "Faber Place-Bayfront 115kV: Rebuild North Bridge Terrace to Bayfront Section",
+     "page": 12
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 12
+    },
+    "in_service_date": {
+     "text": "12/31/28",
+     "page": 12,
+     "iso": "2028-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden structures with Self Supporting Steel Structures and upgrade conductor to standard 1272 ACSR.",
+      "page": 12
+     }
+    ],
+    "locations": [
+     {
+      "text": "Faber Place",
+      "page": 12
+     },
+     {
+      "text": "Bayfront",
+      "page": 12
+     },
+     {
+      "text": "North Bridge Terrace",
+      "page": 12
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6808 W",
+     "page": 13
+    },
+    "project_name": {
+     "text": "Square D - Hopkins 115kV: Rebuild",
+     "page": 13
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 13
+    },
+    "in_service_date": {
+     "text": "9/30/2024",
+     "page": 13,
+     "iso": "2024-09-30"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace wooden H-Frame structures with Self Supporting Steel Structures and restring with 1272 ACSR conductor.",
+      "page": 13
+     }
+    ],
+    "locations": [
+     {
+      "text": "Square D",
+      "page": 13
+     },
+     {
+      "text": "Hopkins",
+      "page": 13
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6809 E",
+     "page": 14
+    },
+    "project_name": {
+     "text": "Stevens Creek - Hooks 115kV/LR Plumb Branch 46kV Rebuilds",
+     "page": 14
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 14
+    },
+    "in_service_date": {
+     "text": "12/31/24",
+     "page": 14,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "9.5 miles. Scope includes rebuilding the 115 and 46 kV lines in this corridor SPDC.",
+      "page": 14
+     }
+    ],
+    "locations": [
+     {
+      "text": "Stevens Creek",
+      "page": 14
+     },
+     {
+      "text": "Hooks",
+      "page": 14
+     },
+     {
+      "text": "LR Plumb Branch",
+      "page": 14
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6809 G",
+     "page": 15
+    },
+    "project_name": {
+     "text": "Stevens Creek - Hooks 115kV/LR Plumb Branch 46kV",
+     "page": 15
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 15
+    },
+    "in_service_date": {
+     "text": "12/31/25",
+     "page": 15,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Upgrade 6.5 miles of aging conductor with 1272 ACSR and rebuild with SPDC.",
+      "page": 15
+     }
+    ],
+    "locations": [
+     {
+      "text": "Stevens Creek",
+      "page": 15
+     },
+     {
+      "text": "Hooks",
+      "page": 15
+     },
+     {
+      "text": "LR Plumb Branch",
+      "page": 15
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6805 G",
+     "page": 16
+    },
+    "project_name": {
+     "text": "Edenwood Sub: #1 & #2 230-115kV Autobanks, Replace with 336MVA",
+     "page": 16
+    },
+    "sponsor": {
+     "text": "Dominion Energy South Carolina",
+     "page": 16
+    },
+    "in_service_date": {
+     "text": "12/25/24",
+     "page": 16,
+     "iso": "2024-12-25"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace Autobank 1 and 2 at Edenwood Substation.",
+      "page": 16
+     }
+    ],
+    "locations": [
+     {
+      "text": "Edenwood",
+      "page": 16
+     }
+    ]
+   }
+  ]
+ }
+}

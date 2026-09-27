@@ -1,0 +1,425 @@
+{
+ "task": "extract",
+ "pages": [
+  298,
+  299,
+  300,
+  301,
+  302,
+  303,
+  304,
+  305,
+  306
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7613,
+  "output_tokens": 2903
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 298,
+    "kind": "project_detail"
+   },
+   {
+    "page": 299,
+    "kind": "project_detail"
+   },
+   {
+    "page": 300,
+    "kind": "project_detail"
+   },
+   {
+    "page": 301,
+    "kind": "project_detail"
+   },
+   {
+    "page": 302,
+    "kind": "project_detail"
+   },
+   {
+    "page": 303,
+    "kind": "project_detail"
+   },
+   {
+    "page": 304,
+    "kind": "project_detail"
+   },
+   {
+    "page": 305,
+    "kind": "project_detail"
+   },
+   {
+    "page": 306,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "20776",
+     "page": 298
+    },
+    "project_name": {
+     "text": "GTC: DOUGLASVILLE - VILLA RICA 230KV REBUILD (CC IMPROVEMENT)",
+     "page": 298
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 298
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 298,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 298,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the 2.5 mile section from Villa to the new East Villa Rica Switching station on the Douglasville \n- Villa Rica 230kV line with bundled 200C 1351 ACSS Martin.",
+      "page": 298
+     }
+    ],
+    "locations": [
+     {
+      "text": "Villa",
+      "page": 298
+     },
+     {
+      "text": "East Villa Rica Switching station",
+      "page": 298
+     },
+     {
+      "text": "Douglasville",
+      "page": 298
+     },
+     {
+      "text": "Villa Rica",
+      "page": 298
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20778",
+     "page": 299
+    },
+    "project_name": {
+     "text": "GTC: DOYLE - WINDER PRIMARY 230KV LINE JUMPER REPLACEMENT",
+     "page": 299
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 299
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 299,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "12/31/2025",
+     "page": 299,
+     "iso": "2025-12-31"
+    },
+    "description": [
+     {
+      "text": "Replace the limiting AAC 1033 jumper with AAC 1590 at Doyle on the Doyle - Winder Primary 230kV \nline.",
+      "page": 299
+     }
+    ],
+    "locations": [
+     {
+      "text": "Doyle",
+      "page": 299
+     },
+     {
+      "text": "Winder",
+      "page": 299
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19358",
+     "page": 300
+    },
+    "project_name": {
+     "text": "GTC: EAST MOULTRIE - HIGHWAY 112 230 KV LINE",
+     "page": 300
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 300
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 300,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2022",
+     "page": 300,
+     "iso": "2022-06-01"
+    },
+    "description": [
+     {
+      "text": "Build a new 27 miles of 230kV line between HWY 112 and East Moultrie substations with 100C 1351 \nACSR conductor.",
+      "page": 300
+     }
+    ],
+    "locations": [
+     {
+      "text": "HWY 112",
+      "page": 300
+     },
+     {
+      "text": "East Moultrie",
+      "page": 300
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "09662",
+     "page": 301
+    },
+    "project_name": {
+     "text": "GTC: EAST WALTON 500/230KV PROJECT",
+     "page": 301
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 301
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 301,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2023",
+     "page": 301,
+     "iso": "2023-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC:  \n - Construct the East Walton 500/230kV substation.  \n - Construct the Bostwick 230kV switching station.  \n - Construct the East Walton - Rockville 500kV line (3 - 100C 1113 ACSR).  \n - Construct the Bethabara - East Walton 230kV line (170C 1351.5 ACSS).  \n - Construct the Bostwick - East Walton 230kV line (170C 1351.5 ACSS).  \n - Construct the East Walton - Jack's Creek 230kV line (170C 1351.5 ACSS).  \n - At Bethabara, terminate the East Walton 230kV line.  \n - Loop the East Social Circle - East Watkinsville 230kV line into Bostwick.  \n - Replace line trap at East Watkinsville on the Bostwick 230kV line.  \n  \nGPC:  \n - Construct the Rockville 500kV switching station.  \n - Loop the Scherer - Warthen 500kV line into Rockville.  \n - Loop the Doyle - LG&E Monroe 230kV line into Jack's Creek.  \n  \nMEAG:  \n - Construct the Jack's Creek 230kV switching station.",
+      "page": 301
+     }
+    ],
+    "locations": [
+     {
+      "text": "East Walton",
+      "page": 301
+     },
+     {
+      "text": "Bostwick",
+      "page": 301
+     },
+     {
+      "text": "Rockville",
+      "page": 301
+     },
+     {
+      "text": "Bethabara",
+      "page": 301
+     },
+     {
+      "text": "Jack's Creek",
+      "page": 301
+     },
+     {
+      "text": "East Social Circle",
+      "page": 301
+     },
+     {
+      "text": "East Watkinsville",
+      "page": 301
+     },
+     {
+      "text": "Scherer",
+      "page": 301
+     },
+     {
+      "text": "Warthen",
+      "page": 301
+     },
+     {
+      "text": "Doyle",
+      "page": 301
+     },
+     {
+      "text": "LG&E Monroe",
+      "page": 301
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20505",
+     "page": 303
+    },
+    "project_name": {
+     "text": "GTC: GARRETT RD - V. RICA 230KV LINE RECONDUCTOR (CC NET IM)",
+     "page": 303
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 303
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 303,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2027",
+     "page": 303,
+     "iso": "2027-01-01"
+    },
+    "description": [
+     {
+      "text": "GTC will reconductor the section from East Villa Rica Switching station to Garrett Rd with 160C 1351 \nACSS on 11.5 miles of the Garrett Road - Villa Rica 230kV line. Additionally, the 2.5 miles section from \nEast Villa Rica Switching Station to Villa Rica will be rebuilt with bundled 200C 1351 ACSS Martin.",
+      "page": 303
+     }
+    ],
+    "locations": [
+     {
+      "text": "East Villa Rica Switching station",
+      "page": 303
+     },
+     {
+      "text": "Garrett Rd",
+      "page": 303
+     },
+     {
+      "text": "Garrett Road",
+      "page": 303
+     },
+     {
+      "text": "Villa Rica",
+      "page": 303
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19622",
+     "page": 304
+    },
+    "project_name": {
+     "text": "GTC: RIDDLEVILLE BUS REPLACEMENT",
+     "page": 304
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 304
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 304,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "01/09/2023",
+     "page": 304,
+     "iso": "2023-01-09"
+    },
+    "description": [
+     {
+      "text": "GTC will replace the main 115kV bus at Riddleville substation with higher rating.",
+      "page": 304
+     }
+    ],
+    "locations": [
+     {
+      "text": "Riddleville",
+      "page": 304
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19606",
+     "page": 305
+    },
+    "project_name": {
+     "text": "GTC: SKC 115KV BUS AND JUMPER REPLACEMENT",
+     "page": 305
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 305
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 305,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 305,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Replace the 115kV bus and jumpers at SKC substation with higher rated bus and jumpers with rating \nhigher than 255MVA.",
+      "page": 305
+     }
+    ],
+    "locations": [
+     {
+      "text": "SKC",
+      "page": 305
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20020",
+     "page": 306
+    },
+    "project_name": {
+     "text": "GTC: SOUTH HAZLEHURST - NEW LACY 230KV LINE",
+     "page": 306
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 306
+    },
+    "in_service_date": {
+     "text": "06/01/2027",
+     "page": 306,
+     "iso": "2027-06-01"
+    },
+    "start_date": {
+     "text": "01/15/2024",
+     "page": 306,
+     "iso": "2024-01-15"
+    },
+    "description": [
+     {
+      "text": "GTC will build a new 230kV transmission line between South Hazlehurst (bus 2) and New Lacy \nsubstation (approximately 25 miles) with 100C ACSR 1351 Martin conductor. Do all the necessary \nupgrade work to accommodate the additional line in both facilities.",
+      "page": 306
+     }
+    ],
+    "locations": [
+     {
+      "text": "South Hazlehurst",
+      "page": 306
+     },
+     {
+      "text": "New Lacy",
+      "page": 306
+     }
+    ]
+   }
+  ]
+ }
+}

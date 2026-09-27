@@ -1,0 +1,344 @@
+{
+ "task": "extract",
+ "pages": [
+  226,
+  227,
+  228,
+  229,
+  230,
+  231,
+  232,
+  233,
+  234
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7580,
+  "output_tokens": 2328
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 226,
+    "kind": "other"
+   },
+   {
+    "page": 227,
+    "kind": "project_detail"
+   },
+   {
+    "page": 228,
+    "kind": "project_detail"
+   },
+   {
+    "page": 229,
+    "kind": "project_detail"
+   },
+   {
+    "page": 230,
+    "kind": "other"
+   },
+   {
+    "page": 231,
+    "kind": "project_detail"
+   },
+   {
+    "page": 232,
+    "kind": "project_detail"
+   },
+   {
+    "page": 233,
+    "kind": "project_detail"
+   },
+   {
+    "page": 234,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "20277",
+     "page": 227
+    },
+    "project_name": {
+     "text": "SAV: MCINTOSH - PURRYSBURG 230KV REACTORS",
+     "page": 227
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 227,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2024",
+     "page": 227,
+     "iso": "2024-01-01"
+    },
+    "description": [
+     {
+      "text": "Install reactors on the McIntosh - Purrysburg (Black and White) 230kV tie lines at McIntosh. Rebuild 0.1 miles (GPC portion) for both lines to (2) 200C 1351 ACSS conductor.",
+      "page": 227
+     }
+    ],
+    "locations": [
+     {
+      "text": "McIntosh",
+      "page": 227
+     },
+     {
+      "text": "Purrysburg",
+      "page": 227
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21111",
+     "page": 228
+    },
+    "project_name": {
+     "text": "GTC: HARTWELL DAM - HARTWELL ENERGY 230KV SERIES REACTORS",
+     "page": 228
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 228,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2027",
+     "page": 228,
+     "iso": "2027-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC: Replace the 1600A series reactors on the Hartwell Dam - Hartwell Energy 230kV line with 3000A.",
+      "page": 228
+     }
+    ],
+    "locations": [
+     {
+      "text": "Hartwell Dam",
+      "page": 228
+     },
+     {
+      "text": "Hartwell Energy",
+      "page": 228
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21113",
+     "page": 229
+    },
+    "project_name": {
+     "text": "GTC: HARTWELL ENERGY - MIDDLE FORK 230KV LINE",
+     "page": 229
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2030",
+     "page": 229,
+     "iso": "2030-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2027",
+     "page": 229,
+     "iso": "2027-06-01"
+    },
+    "description": [
+     {
+      "text": "Construct a new 230kV line, approx. 35 miles, from Hartwell Energy to Middle Fork with 200C (2) 1351 ACSS conductor. GTC: Expand Hartwell Energy 230kV and Middle Fork 230kV as necessary to install breakers to accept new line termination.",
+      "page": 229
+     }
+    ],
+    "locations": [
+     {
+      "text": "Hartwell Energy",
+      "page": 229
+     },
+     {
+      "text": "Middle Fork",
+      "page": 229
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19523",
+     "page": 231
+    },
+    "project_name": {
+     "text": "SAV: CC - HYUNDAI MOTORS SAVANNAH AKA. PROJECT EA",
+     "page": 231
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "04/25/2025",
+     "page": 231,
+     "iso": "2025-04-25"
+    },
+    "start_date": {
+     "text": "06/01/2022",
+     "page": 231,
+     "iso": "2022-06-01"
+    },
+    "description": [
+     {
+      "text": "Construct a new Hyundai 230kV substation with an eight element 230kV ring bus and four 230/25kV banks. Construct a new Newton Rd 230kV substation with a five element 230kV ring bus and loop through the Little Ogeechee - Meldrim Black and White 230kV lines. Build two new 230kV lines connecting from Hyundai - Newton Rd (12 miles) and Hyundai - Meldrim (10 miles). At Meldrim, add a breaker to accommodate for the new Hyundai line. Install a 115/25kV bank at Interstate Centre and build a new 115kV line from Interstate Centre - Hyundai (2.3 miles) for bridge power.",
+      "page": 231
+     }
+    ],
+    "locations": [
+     {
+      "text": "Hyundai",
+      "page": 231
+     },
+     {
+      "text": "Newton Rd",
+      "page": 231
+     },
+     {
+      "text": "Little Ogeechee",
+      "page": 231
+     },
+     {
+      "text": "Meldrim",
+      "page": 231
+     },
+     {
+      "text": "Interstate Centre",
+      "page": 231
+     },
+     {
+      "text": "SAVANNAH",
+      "page": 231
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18670",
+     "page": 232
+    },
+    "project_name": {
+     "text": "GTC: BANKS CROSSING - POND FORK 115 KV",
+     "page": 232
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "05/01/2025",
+     "page": 232,
+     "iso": "2025-05-01"
+    },
+    "start_date": {
+     "text": "06/01/2021",
+     "page": 232,
+     "iso": "2021-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC will build a new 115kV line from McClure Industrial to structure 21N on the Ridgeway Church Road Junction or tap point (approximately 3 miles). Close normally open switch at Ridgeway Church Road to establish the Banks Crossing - Pond Fork 115kV line. All new conductors should be 100C 1351 ACSR Martin.",
+      "page": 232
+     }
+    ],
+    "locations": [
+     {
+      "text": "Banks Crossing",
+      "page": 232
+     },
+     {
+      "text": "Pond Fork",
+      "page": 232
+     },
+     {
+      "text": "McClure Industrial",
+      "page": 232
+     },
+     {
+      "text": "Ridgeway Church Road",
+      "page": 232
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18492",
+     "page": 233
+    },
+    "project_name": {
+     "text": "MITCHELL - NORTH TIFTON 230KV RECONDUCTOR",
+     "page": 233
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "05/01/2025",
+     "page": 233,
+     "iso": "2025-05-01"
+    },
+    "start_date": {
+     "text": "12/31/2021",
+     "page": 233,
+     "iso": "2021-12-31"
+    },
+    "description": [
+     {
+      "text": "Rebuild 35.21 miles of the Mitchell - North Tifton 230kV line from 100C 795 ACSR to 100C 1351 ACSR.",
+      "page": 233
+     }
+    ],
+    "locations": [
+     {
+      "text": "Mitchell",
+      "page": 233
+     },
+     {
+      "text": "North Tifton",
+      "page": 233
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19676",
+     "page": 234
+    },
+    "project_name": {
+     "text": "ADAMSVILLE - JACK MCDONOUGH 230KV LINE REBUILD",
+     "page": 234
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2025",
+     "page": 234,
+     "iso": "2025-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2023",
+     "page": 234,
+     "iso": "2023-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the entire 6.1 mile Adamsville - Jack McDonough 230kV line with 160C 1351 ACSS.",
+      "page": 234
+     }
+    ],
+    "locations": [
+     {
+      "text": "Adamsville",
+      "page": 234
+     },
+     {
+      "text": "Jack McDonough",
+      "page": 234
+     }
+    ]
+   }
+  ]
+ }
+}

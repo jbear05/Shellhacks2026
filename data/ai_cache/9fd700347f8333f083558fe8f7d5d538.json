@@ -1,0 +1,1192 @@
+{
+ "task": "extract",
+ "pages": [
+  188,
+  189,
+  190,
+  191,
+  192,
+  193
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 9213,
+  "output_tokens": 6610
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 188,
+    "kind": "project_list"
+   },
+   {
+    "page": 189,
+    "kind": "project_list"
+   },
+   {
+    "page": 190,
+    "kind": "project_list"
+   },
+   {
+    "page": 191,
+    "kind": "excluded_list"
+   },
+   {
+    "page": 192,
+    "kind": "excluded_list"
+   },
+   {
+    "page": 193,
+    "kind": "other"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "21077",
+     "page": 188
+    },
+    "project_name": {
+     "text": "GTC: ROCKVILLE - TIGER CREEK -WARTHEN 500KV LINES",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "ROCKVILLE",
+      "page": 188
+     },
+     {
+      "text": "TIGER CREEK",
+      "page": 188
+     },
+     {
+      "text": "WARTHEN",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21076",
+     "page": 188
+    },
+    "project_name": {
+     "text": "GTC: TALLBOT #2 - TAZEWELL 500KV LINE",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "TALLBOT #2",
+      "page": 188
+     },
+     {
+      "text": "TAZEWELL",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21094",
+     "page": 188
+    },
+    "project_name": {
+     "text": "GTC: TIGER CREEK-ROCKVILLE-NORTH SPA 230KV PROJECT",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "TIGER CREEK",
+      "page": 188
+     },
+     {
+      "text": "ROCKVILLE",
+      "page": 188
+     },
+     {
+      "text": "NORTH SPA",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20789",
+     "page": 188
+    },
+    "project_name": {
+     "text": "JEFFERSON ROAD - WINDER PRIMARY 115KV REBUILD",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "JEFFERSON ROAD",
+      "page": 188
+     },
+     {
+      "text": "WINDER PRIMARY",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20284",
+     "page": 188
+    },
+    "project_name": {
+     "text": "KETTLE CREEK PRIMARY - PINE GROVE PRIMARY 115KV REBUILD",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "KETTLE CREEK PRIMARY",
+      "page": 188
+     },
+     {
+      "text": "PINE GROVE PRIMARY",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21118",
+     "page": 188
+    },
+    "project_name": {
+     "text": "MEAG: ATHENA - WARRENTON 230KV CONVERSION",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "ATHENA",
+      "page": 188
+     },
+     {
+      "text": "WARRENTON",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20857",
+     "page": 188
+    },
+    "project_name": {
+     "text": "NEW CAVENDER DRIVE - TRIBUTARY 230KV LINE",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "NEW CAVENDER DRIVE",
+      "page": 188
+     },
+     {
+      "text": "TRIBUTARY",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21093",
+     "page": 188
+    },
+    "project_name": {
+     "text": "NORTH SPA 230KV STRATEGIC PROJECT",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "NORTH SPA",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19995",
+     "page": 188
+    },
+    "project_name": {
+     "text": "TALLULAH LODGE - TOCCOA 115 KV REBUILD",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "TALLULAH LODGE",
+      "page": 188
+     },
+     {
+      "text": "TOCCOA",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21098",
+     "page": 188
+    },
+    "project_name": {
+     "text": "TRIBUTARY - THORNTON RD 230KV REBUILD",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2030",
+     "page": 188,
+     "iso": "2030-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "TRIBUTARY",
+      "page": 188
+     },
+     {
+      "text": "THORNTON RD",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20160",
+     "page": 188
+    },
+    "project_name": {
+     "text": "THOMASTON 230 NEW BUILD SUB",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "11/1/2030",
+     "page": 188,
+     "iso": "2030-11-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "THOMASTON",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18848",
+     "page": 188
+    },
+    "project_name": {
+     "text": "BAINBRIDGE TRANSMISSION: EAST RIVER ROAD, EAST BAINBRIDGE",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "12/31/2030",
+     "page": 188,
+     "iso": "2030-12-31"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BAINBRIDGE",
+      "page": 188
+     },
+     {
+      "text": "EAST RIVER ROAD",
+      "page": 188
+     },
+     {
+      "text": "EAST BAINBRIDGE",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19626",
+     "page": 188
+    },
+    "project_name": {
+     "text": "GLENWOOD SPRINGS 115KV CAP BANK",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "12/31/2030",
+     "page": 188,
+     "iso": "2030-12-31"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "GLENWOOD SPRINGS",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20690",
+     "page": 188
+    },
+    "project_name": {
+     "text": "EAST POINT - UNION CITY (WHITE) 230KV REBUILD",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "5/1/2031",
+     "page": 188,
+     "iso": "2031-05-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EAST POINT",
+      "page": 188
+     },
+     {
+      "text": "UNION CITY",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19632",
+     "page": 188
+    },
+    "project_name": {
+     "text": "AVERY - HOPEWELL 115KV RECONDUCTOR",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2031",
+     "page": 188,
+     "iso": "2031-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "AVERY",
+      "page": 188
+     },
+     {
+      "text": "HOPEWELL",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "10811",
+     "page": 188
+    },
+    "project_name": {
+     "text": "BOWEN #10 500/230KV AUTOBANK REPLACEMENT",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2031",
+     "page": 188,
+     "iso": "2031-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BOWEN",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20756",
+     "page": 188
+    },
+    "project_name": {
+     "text": "HATCH - WADLEY 500 KV LINE STRATEGIC PROJECT",
+     "page": 188
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 188
+    },
+    "in_service_date": {
+     "text": "6/1/2031",
+     "page": 188,
+     "iso": "2031-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "HATCH",
+      "page": 188
+     },
+     {
+      "text": "WADLEY",
+      "page": 188
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21099",
+     "page": 189
+    },
+    "project_name": {
+     "text": "MEAG: PIO NONO 230/115KV AREA SOLUTION",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2031",
+     "page": 189,
+     "iso": "2031-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "PIO NONO",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21114",
+     "page": 189
+    },
+    "project_name": {
+     "text": "MEAG: SOUTH GRIFFIN 230/115KV BANK #5",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "MEAG",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2032",
+     "page": 189,
+     "iso": "2032-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "SOUTH GRIFFIN",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20784",
+     "page": 189
+    },
+    "project_name": {
+     "text": "SAV: COLEMAN - MELDRIM 115KV LINE REBUILD",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "SAV",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2032",
+     "page": 189,
+     "iso": "2032-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "COLEMAN",
+      "page": 189
+     },
+     {
+      "text": "MELDRIM",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20767",
+     "page": 189
+    },
+    "project_name": {
+     "text": "ARKWRIGHT BUS AND JUMPER REPLACEMENT",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "ARKWRIGHT",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20758",
+     "page": 189
+    },
+    "project_name": {
+     "text": "BAY CREEK - CONYERS 230KV LIMITING ELEMENT REPLACEMENT",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "BAY CREEK",
+      "page": 189
+     },
+     {
+      "text": "CONYERS",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20793",
+     "page": 189
+    },
+    "project_name": {
+     "text": "EVANS PRIMARY - THURMOND DAM (USA) #5 115KV REBUILD",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EVANS PRIMARY",
+      "page": 189
+     },
+     {
+      "text": "THURMOND DAM",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20794",
+     "page": 189
+    },
+    "project_name": {
+     "text": "EVANS PRIMARY - THURMOND DAM (USA) #6 115KV REBUILD",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EVANS PRIMARY",
+      "page": 189
+     },
+     {
+      "text": "THURMOND DAM",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "12217",
+     "page": 189
+    },
+    "project_name": {
+     "text": "GTC: CENTER PRIMARY - CLARKSBORO 230 KV REBUILD",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "CENTER PRIMARY",
+      "page": 189
+     },
+     {
+      "text": "CLARKSBORO",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20773",
+     "page": 189
+    },
+    "project_name": {
+     "text": "GTC: CLARKSBORO - WINDER PRIMARY 230KV REBUILD",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "CLARKSBORO",
+      "page": 189
+     },
+     {
+      "text": "WINDER PRIMARY",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "12147",
+     "page": 189
+    },
+    "project_name": {
+     "text": "GTC: EAST SOCIAL CIRCLE - SNELLVILLE 230KV EQUIPMENT UPGRADE",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EAST SOCIAL CIRCLE",
+      "page": 189
+     },
+     {
+      "text": "SNELLVILLE",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21075",
+     "page": 189
+    },
+    "project_name": {
+     "text": "GTC: EAST WALTON - MIDDLE FORK 500KV",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EAST WALTON",
+      "page": 189
+     },
+     {
+      "text": "MIDDLE FORK",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20791",
+     "page": 189
+    },
+    "project_name": {
+     "text": "GTC: SHOAL CREEK - SOUTH HALL 230KV REBUILD",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "SHOAL CREEK",
+      "page": 189
+     },
+     {
+      "text": "SOUTH HALL",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21053",
+     "page": 189
+    },
+    "project_name": {
+     "text": "MCEVER ROAD - SHOAL CREEK 115KV REBUILD PHASE III",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MCEVER ROAD",
+      "page": 189
+     },
+     {
+      "text": "SHOAL CREEK",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "09661",
+     "page": 189
+    },
+    "project_name": {
+     "text": "MCGRAU FORD - MIDDLE FORK 500KV LINE PROJECT",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MCGRAU FORD",
+      "page": 189
+     },
+     {
+      "text": "MIDDLE FORK",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20796",
+     "page": 189
+    },
+    "project_name": {
+     "text": "SAV: MELDRIM BANK D REPLACEMENT",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "SAV",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "MELDRIM",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "14222",
+     "page": 189
+    },
+    "project_name": {
+     "text": "THOMSON PRIMARY 230/115KV SECOND TRANSFORMER",
+     "page": 189
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 189
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 189,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "THOMSON PRIMARY",
+      "page": 189
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20759",
+     "page": 190
+    },
+    "project_name": {
+     "text": "WINDER PRIMARY 230KV BUS 1-2 PARALLEL BUS-TIE INSTALLATION",
+     "page": 190
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 190
+    },
+    "in_service_date": {
+     "text": "6/1/2033",
+     "page": 190,
+     "iso": "2033-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "WINDER PRIMARY",
+      "page": 190
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "10487",
+     "page": 190
+    },
+    "project_name": {
+     "text": "PINE GROVE PRIMARY - WEST VALDOSTA 115 KV RECONDUCTOR",
+     "page": 190
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 190
+    },
+    "in_service_date": {
+     "text": "12/31/2033",
+     "page": 190,
+     "iso": "2033-12-31"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "PINE GROVE PRIMARY",
+      "page": 190
+     },
+     {
+      "text": "WEST VALDOSTA",
+      "page": 190
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "18700",
+     "page": 190
+    },
+    "project_name": {
+     "text": "DAWSON CROSSING - GAINESVILLE #1 115 KV",
+     "page": 190
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 190
+    },
+    "in_service_date": {
+     "text": "6/1/2034",
+     "page": 190,
+     "iso": "2034-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "DAWSON CROSSING",
+      "page": 190
+     },
+     {
+      "text": "GAINESVILLE",
+      "page": 190
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20787",
+     "page": 190
+    },
+    "project_name": {
+     "text": "SAV: LITTLE OGEECHEE 230/115KV BANK REPLACEMENT",
+     "page": 190
+    },
+    "sponsor": {
+     "text": "SAV",
+     "page": 190
+    },
+    "in_service_date": {
+     "text": "6/1/2034",
+     "page": 190,
+     "iso": "2034-06-01"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "LITTLE OGEECHEE",
+      "page": 190
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "17993",
+     "page": 190
+    },
+    "project_name": {
+     "text": "EVANS PRIMARY - THOMSON PRIMARY 115KV REBUILD",
+     "page": 190
+    },
+    "sponsor": {
+     "text": "GPC",
+     "page": 190
+    },
+    "in_service_date": {
+     "text": "12/31/2034",
+     "page": 190,
+     "iso": "2034-12-31"
+    },
+    "start_date": null,
+    "description": [],
+    "locations": [
+     {
+      "text": "EVANS PRIMARY",
+      "page": 190
+     },
+     {
+      "text": "THOMSON PRIMARY",
+      "page": 190
+     }
+    ]
+   }
+  ]
+ }
+}

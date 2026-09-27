@@ -10,6 +10,7 @@ import pytest
 
 import dominionScript as ds
 from parsers import georgia_power as gp
+from parsers.ai_parser import records as ai_records
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DOCS = sorted(
@@ -63,6 +64,8 @@ def test_relative_links_resolve(doc):
 CSV_COLUMNS = {
     "`data/processed/georgia_power_projects.csv`": [field.name for field in dataclasses.fields(gp.ProjectRecord)],
     "`data/processed/dominion_projects.csv`": ds.COLUMNS,
+    "`data/processed/ai/<prefix>_projects.csv`": ai_records.COLUMNS,
+    "`data/processed/ai/<prefix>_review.csv`": ai_records.REVIEW_COLUMNS,
     "`<prefix>_project_locations.csv`": _locator_constant("LOCATION_FIELDS"),
     "`<prefix>_projects_summary.csv`": _locator_constant("SUMMARY_FIELDS"),
 }

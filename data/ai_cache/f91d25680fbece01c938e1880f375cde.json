@@ -1,0 +1,195 @@
+{
+ "task": "extract",
+ "pages": [
+  211,
+  212,
+  213,
+  214,
+  215,
+  216,
+  217
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 8011,
+  "output_tokens": 1128
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 211,
+    "kind": "other"
+   },
+   {
+    "page": 212,
+    "kind": "other"
+   },
+   {
+    "page": 213,
+    "kind": "other"
+   },
+   {
+    "page": 214,
+    "kind": "project_detail"
+   },
+   {
+    "page": 215,
+    "kind": "project_detail"
+   },
+   {
+    "page": 216,
+    "kind": "project_detail"
+   },
+   {
+    "page": 217,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "21046",
+     "page": 214
+    },
+    "project_name": {
+     "text": "THALMANN AND COLERAIN 23O KV LINE RELAY PANEL UPGRADES",
+     "page": 214
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2025",
+     "page": 214,
+     "iso": "2025-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2024",
+     "page": 214,
+     "iso": "2024-12-01"
+    },
+    "description": [
+     {
+      "text": "Relay protection modifications at GPC's Thalmann and Colerain substations to match relay scheme used at GTC's new Camden Industrial Park 230/115kV substation.",
+      "page": 214
+     }
+    ],
+    "locations": [
+     {
+      "text": "Thalmann",
+      "page": 214
+     },
+     {
+      "text": "Colerain",
+      "page": 214
+     },
+     {
+      "text": "Camden Industrial Park",
+      "page": 214
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20326",
+     "page": 215
+    },
+    "project_name": {
+     "text": "ANTHONY SHOALS STATCOM SYSTEM",
+     "page": 215
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 215,
+     "iso": "2025-12-31"
+    },
+    "start_date": {
+     "text": "08/04/2023",
+     "page": 215,
+     "iso": "2023-08-04"
+    },
+    "description": [
+     {
+      "text": "Install a + 150 / - 150 MVAR turnkey STATCOM system at Anthony Shoals 230kV substation.",
+      "page": 215
+     }
+    ],
+    "locations": [
+     {
+      "text": "Anthony Shoals",
+      "page": 215
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "17075",
+     "page": 216
+    },
+    "project_name": {
+     "text": "SAV: LITTLE OGEECHEE 230-115KV: RELAY MODERNIZATION",
+     "page": 216
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 216,
+     "iso": "2025-12-31"
+    },
+    "start_date": {
+     "text": "06/01/2022",
+     "page": 216,
+     "iso": "2022-06-01"
+    },
+    "description": [
+     {
+      "text": "Relay modernization with conversion of the 230kV ring bus to BAAH topology and addition of BAAH rung for Big Ogeechee - Little Ogeechee (Red) 230kV Line. Rebuild 115kV straight bus to BAAH design.",
+      "page": 216
+     }
+    ],
+    "locations": [
+     {
+      "text": "LITTLE OGEECHEE",
+      "page": 216
+     },
+     {
+      "text": "Big Ogeechee",
+      "page": 216
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20491",
+     "page": 217
+    },
+    "project_name": {
+     "text": "EAST POINT RELAY MODERNIZATION",
+     "page": 217
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2026",
+     "page": 217,
+     "iso": "2026-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2024",
+     "page": 217,
+     "iso": "2024-01-01"
+    },
+    "description": [
+     {
+      "text": "Upgrade protection on 230kV buses, 115kV buses, and 230/115kV auto transformer at the East Point station. Add adequate monitoring on DC supply.",
+      "page": 217
+     }
+    ],
+    "locations": [
+     {
+      "text": "East Point",
+      "page": 217
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -4,3 +4,7 @@ pypdf==6.19.0
 requests==2.34.2
 # For the Streamlit UI pages on origin/NA. pandas 3 needs Python 3.11 or newer.
 pandas==3.0.6
+# AI parser (parsers/ai_parser): the Claude API client. Pydantic comes with it, and is
+# pinned because its JSON schemas are part of the reply cache's keys.
+anthropic==1.8.0
+pydantic==2.13.5

@@ -10,8 +10,14 @@ __pycache__/
 # Office lock files, created while a .docx/.xlsx is open
 ~$*
 
-# The Geolocator's cache while it's being saved
+# Caches while they're being saved: the Geolocator's, and the AI parser's replies
 gridlock_geocode_cache.json.tmp
+data/ai_cache/*.json.tmp
+
+# Secrets: API keys belong in environment variables, never in the repo
+.env
+.env.*
+!.env.example
 
 # Personal Claude Code settings and notes (shared ones are in .claude/settings.json and CLAUDE.md)
 .claude/settings.local.json

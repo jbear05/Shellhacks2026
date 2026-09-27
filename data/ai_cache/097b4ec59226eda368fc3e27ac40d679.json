@@ -1,0 +1,418 @@
+{
+ "task": "extract",
+ "pages": [
+  354,
+  355,
+  356,
+  357,
+  358,
+  359,
+  360,
+  361,
+  362
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7554,
+  "output_tokens": 2606
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 354,
+    "kind": "project_detail"
+   },
+   {
+    "page": 355,
+    "kind": "project_detail"
+   },
+   {
+    "page": 356,
+    "kind": "project_detail"
+   },
+   {
+    "page": 357,
+    "kind": "project_detail"
+   },
+   {
+    "page": 358,
+    "kind": "project_detail"
+   },
+   {
+    "page": 359,
+    "kind": "project_detail"
+   },
+   {
+    "page": 360,
+    "kind": "project_detail"
+   },
+   {
+    "page": 361,
+    "kind": "project_detail"
+   },
+   {
+    "page": 362,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "21123",
+     "page": 354
+    },
+    "project_name": {
+     "text": "GTC: TENASKA - WANSLEY 500KV NEW LINE",
+     "page": 354
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 354,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2024",
+     "page": 354,
+     "iso": "2024-12-01"
+    },
+    "description": [
+     {
+      "text": "Construct a 5 mile long 500kV line between Tenaska and Wansley.  Make all necessary accommodations at the substations for the line termination.",
+      "page": 354
+     }
+    ],
+    "locations": [
+     {
+      "text": "Tenaska",
+      "page": 354
+     },
+     {
+      "text": "Wansley",
+      "page": 354
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21141",
+     "page": 355
+    },
+    "project_name": {
+     "text": "LLOYD SHOALS - PORTERDALE PRIMARY 115KV REBUILD",
+     "page": 355
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 355,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "03/01/2026",
+     "page": 355,
+     "iso": "2026-03-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild 15.8 miles of 50C 397.5 ACSR Ibis with 200C 1351 ACSS Martin from Jackson Lake to Lloyd Shoals and Jackson Lake to South. Covington Junction.",
+      "page": 355
+     }
+    ],
+    "locations": [
+     {
+      "text": "Lloyd Shoals",
+      "page": 355
+     },
+     {
+      "text": "Porterdale Primary",
+      "page": 355
+     },
+     {
+      "text": "Jackson Lake",
+      "page": 355
+     },
+     {
+      "text": "South. Covington Junction",
+      "page": 355
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20285",
+     "page": 356
+    },
+    "project_name": {
+     "text": "LOWER RIVER - WEBB (APC) 115KV RECONDUCTOR",
+     "page": 356
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 356,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 356,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "Reconductor 0.97 miles of 100C 636 Grosbeak Lower River - Webb 115kV line with 200C 795 ACSS Drake conductor.",
+      "page": 356
+     }
+    ],
+    "locations": [
+     {
+      "text": "Lower River",
+      "page": 356
+     },
+     {
+      "text": "Webb",
+      "page": 356
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19621",
+     "page": 357
+    },
+    "project_name": {
+     "text": "MCEVER ROAD - SHOAL CREEK 115KV REBUILD",
+     "page": 357
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 357,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "12/31/2024",
+     "page": 357,
+     "iso": "2024-12-31"
+    },
+    "description": [
+     {
+      "text": "Rebuild the 636 ACSR (1 mile) of the McEver Road - College Square section, and 2 - 4/0 copper part (2.05 miles) of the College Square to Lakeside WTP B line section, part of the McEver Road - Shoal Creek 115kV line, using 200C 1351 ACSS conductor.",
+      "page": 357
+     }
+    ],
+    "locations": [
+     {
+      "text": "McEver Road",
+      "page": 357
+     },
+     {
+      "text": "Shoal Creek",
+      "page": 357
+     },
+     {
+      "text": "College Square",
+      "page": 357
+     },
+     {
+      "text": "Lakeside WTP",
+      "page": 357
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20346",
+     "page": 358
+    },
+    "project_name": {
+     "text": "MCMANUS - WEST BRUNSWICK 115KV REBUILD",
+     "page": 358
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 358,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2026",
+     "page": 358,
+     "iso": "2026-01-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the McManus - West Brunswick 115kV line, approximately 5.7 miles, with 200C 1351 ACSS Martin conductor.",
+      "page": 358
+     }
+    ],
+    "locations": [
+     {
+      "text": "McManus",
+      "page": 358
+     },
+     {
+      "text": "West Brunswick",
+      "page": 358
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "17706",
+     "page": 359
+    },
+    "project_name": {
+     "text": "MEAG: AULTMAN ROAD - FORT VALLEY #1 115 KV REBUILD",
+     "page": 359
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 359,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 359,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 8 miles of the Aultman Road - Fort Valley #1 115kV line with 200C 1351 ACSS conductor.",
+      "page": 359
+     }
+    ],
+    "locations": [
+     {
+      "text": "Aultman Road",
+      "page": 359
+     },
+     {
+      "text": "Fort Valley",
+      "page": 359
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "11051",
+     "page": 360
+    },
+    "project_name": {
+     "text": "MEAG: SLAPPEY DRIVE - WESTOVER 115KV LINE REBUILD",
+     "page": 360
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 360,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 360,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild 2.92 miles of 100C sagged 477 ACSR Hawk conductor from Slappey Drive to Albany #9 with 1351 ACSR.",
+      "page": 360
+     }
+    ],
+    "locations": [
+     {
+      "text": "Slappey Drive",
+      "page": 360
+     },
+     {
+      "text": "Westover",
+      "page": 360
+     },
+     {
+      "text": "Albany #9",
+      "page": 360
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20757",
+     "page": 361
+    },
+    "project_name": {
+     "text": "NORCROSS - NORTH DRUID HILLS 115KV REBUILD",
+     "page": 361
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 361,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2025",
+     "page": 361,
+     "iso": "2025-01-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the Norcross - Norcross Junction (674) segment, approximately 3.9 miles, from 100C 477 ACSR Hawk conductor to 200C 1351 ACSS \"Martin\" conductor.",
+      "page": 361
+     }
+    ],
+    "locations": [
+     {
+      "text": "Norcross",
+      "page": 361
+     },
+     {
+      "text": "North Druid Hills",
+      "page": 361
+     },
+     {
+      "text": "Norcross Junction",
+      "page": 361
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21006",
+     "page": 362
+    },
+    "project_name": {
+     "text": "SAV: BOULEVARD - MAGNOLIA  115 KV LINE REBUILD",
+     "page": 362
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 362,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2027",
+     "page": 362,
+     "iso": "2027-01-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the entire line from Boulevard to Magnolia (4.56 miles) from 100C 795 ACSR Drake to 200C 1351 ACSS Martin",
+      "page": 362
+     }
+    ],
+    "locations": [
+     {
+      "text": "Boulevard",
+      "page": 362
+     },
+     {
+      "text": "Magnolia",
+      "page": 362
+     }
+    ]
+   }
+  ]
+ }
+}

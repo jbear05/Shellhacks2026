@@ -1,0 +1,99 @@
+{
+ "task": "inventory",
+ "pages": [
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 6716,
+  "output_tokens": 260
+ },
+ "output": {
+  "project_ids": [
+   {
+    "text": "06371 D",
+    "page": 24
+   },
+   {
+    "text": "06372 A",
+    "page": 25
+   },
+   {
+    "text": "06810 F",
+    "page": 26
+   },
+   {
+    "text": "06810 G",
+    "page": 27
+   },
+   {
+    "text": "06810 H",
+    "page": 28
+   },
+   {
+    "text": "6809 M",
+    "page": 29
+   },
+   {
+    "text": "5392 A-C",
+    "page": 30
+   },
+   {
+    "text": "6810 A",
+    "page": 31
+   },
+   {
+    "text": "6809 N",
+    "page": 32
+   },
+   {
+    "text": "6853 B-F",
+    "page": 33
+   },
+   {
+    "text": "6859",
+    "page": 34
+   },
+   {
+    "text": "6852",
+    "page": 35
+   },
+   {
+    "text": "6388 A",
+    "page": 36
+   },
+   {
+    "text": "0147 C, K",
+    "page": 37
+   },
+   {
+    "text": "0147 B, J",
+    "page": 38
+   },
+   {
+    "text": "6847 A-B, D-H",
+    "page": 39
+   },
+   {
+    "text": "6846 A",
+    "page": 40
+   }
+  ]
+ }
+}

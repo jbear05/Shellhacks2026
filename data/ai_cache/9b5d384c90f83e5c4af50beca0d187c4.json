@@ -1,0 +1,69 @@
+{
+ "task": "inventory",
+ "pages": [
+  177,
+  231,
+  232
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 3592,
+  "output_tokens": 168
+ },
+ "output": {
+  "project_ids": [
+   {
+    "text": "19523",
+    "page": 177
+   },
+   {
+    "text": "18670",
+    "page": 177
+   },
+   {
+    "text": "18492",
+    "page": 177
+   },
+   {
+    "text": "19676",
+    "page": 177
+   },
+   {
+    "text": "18800",
+    "page": 177
+   },
+   {
+    "text": "19187",
+    "page": 177
+   },
+   {
+    "text": "18153",
+    "page": 177
+   },
+   {
+    "text": "20342",
+    "page": 177
+   },
+   {
+    "text": "20590",
+    "page": 177
+   },
+   {
+    "text": "11821",
+    "page": 177
+   },
+   {
+    "text": "13753",
+    "page": 177
+   },
+   {
+    "text": "13787",
+    "page": 177
+   },
+   {
+    "text": "20464",
+    "page": 177
+   }
+  ]
+ }
+}

@@ -55,3 +55,12 @@ redacted.
   detail pages. The parser uses Table 2 and logs a warning.
 - TEAMS 20248 (Bay Creek - Conyers) starts on 2031-06-01 but is due on 2029-12-31 in
   both places. No warning is logged for it yet.
+- Four titles differ between Table 2 and the detail page. The parser uses Table 2's
+  and doesn't compare them; the AI parser found these
+  ([ai-parser.md](../ai-parser.md#results)):
+  - 18832: `MEAG: FORTSON 230KV SUBSTATION MODERNIZATION`, and on PDF 223 without
+    `230KV`.
+  - 20781: `(CC IMPROVMNT)`, and `(CC IMPROVEMENT)` on PDF 294.
+  - 21076: `GTC: TALLBOT #2 - TAZEWELL 500KV LINE`, and `TALBOT` on PDF 389.
+  - 21053: `MCEVER ROAD - SHOAL CREEK 115KV REBUILD PHASE III`, and without
+    `PHASE III` on PDF 417.

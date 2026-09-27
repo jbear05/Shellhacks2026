@@ -1,0 +1,137 @@
+utility,project_id,column,outcome,ai,reference
+Georgia Power,19523,locations,differ,hyundai; hyundai motors savannah; interstate centre; little ogeechee; meldrim; newton rd; savannah,hyundai motors savannah
+Georgia Transmission Corporation,18670,locations,differ,banks crossing; mcclure industrial; pond fork; ridgeway church road,banks crossing; pond fork
+Georgia Power,18800,locations,differ,echeconnee; south warner robins; wellston,echeconnee; wellston
+Georgia Power,19187,locations,differ,bremen; crooked creek; indian creek road,bremen; crooked creek
+Georgia Transmission Corporation,18153,locations,differ,bonaire pri; bonaire primary; echeconnee,bonaire primary; echeconnee
+Georgia Transmission Corporation,20342,locations,differ,camden industrial park; kinlaw,camden industrial park
+Georgia Transmission Corporation,20590,locations,differ,eatonton; eatonton primary; lake oconee; lick creek,eatonton primary; lick creek
+Georgia Power,11821,locations,differ,jesup; ludowici primary; north jesup; rayonier,jesup; ludowici primary
+MEAG Power,13753,locations,differ,alcovy road; alcovy road jct.; skc,alcovy road; skc
+MEAG Power,13787,locations,differ,aultman road; bonaire primary; peach blossom; sleepy hollow,aultman road; bonaire primary
+Georgia Power,20466,locations,only in AI,branch; eatonton primary; oasis,
+Georgia Power,21046,voltage_2,only in AI,115000,
+Georgia Power,21046,locations,differ,camden industrial park; colerain; thalmann,colerain; thalmann
+Georgia Power,20684,locations,differ,camden industrial park; colerain; kingsland; kinlaw; thalman,camden industrial park
+Georgia Power,18889,locations,differ,jefferson street#3; northwest; northwest (white); white,jefferson street; northwest
+Georgia Power,20175,locations,differ,cartersville; pinson; sk battery/hyundai; sk/hyundai; two run ranch,sk/hyundai
+Georgia Transmission Corporation,20010,locations,differ,anthony shoals; double branches junction; washington,anthony shoals; washington
+Georgia Power,17075,locations,differ,big ogeechee; little ogeechee,little ogeechee
+Georgia Transmission Corporation,18691,locations,differ,gillionville; lizard lope; westover,lizard lope; westover
+Georgia Power,20018,locations,differ,ashley park; ohara; qts fayetteville; union city,qts fayetteville
+Georgia Power,19597,locations,differ,adamsville; bakers ferry; boat rock; boat rock road; buzzard roost,adamsville; buzzard roost
+Georgia Power,20243,locations,differ,garrett road; trae lane; villa rica; west marietta,garrett road; trae lane
+Georgia Power,20216,locations,differ,east point; stonewall tell road; stonewall tell road (ta realty); ta realty; union city,stonewall tell road
+Dalton Utilities,18679,locations,differ,dalton; east dalton; oostanaula,east dalton; oostanaula
+Georgia Power,16007,locations,differ,east augusta jct.; fenwick street; sand bar ferry,fenwick street; sand bar ferry
+Georgia Power,20516,locations,differ,goat rock; north opelika,goat rock
+Georgia Power,19618,locations,differ,engelhard mcintyre; engl mci j; gordon; n dublin; north dublin,gordon; north dublin
+Georgia Power,21139,locations,differ,grady; moreland way; morrow; morrow (white),grady; morrow
+Georgia Power,19706,locations,differ,gainesville #2; grid,gainesville
+Georgia Transmission Corporation,21137,locations,differ,conyers; cornish mountain; cornish mtn; north conyers,conyers; cornish mountain
+Georgia Transmission Corporation,19334,locations,differ,lagrange; metering station; north opelika,lagrange; north opelika
+Georgia Transmission Corporation,20015,locations,differ,morning hornet; thumbs up,morning hornet
+Georgia Power,20512,locations,differ,big grocery creek; bonaire primary; kathleen,kathleen
+MEAG Power,19598,locations,differ,dresden; lagrange; lagrange primary,dresden; lagrange primary
+MEAG Power,20270,locations,differ,ray place rd; washington; washington #3; washington 2,ray place road; washington
+MEAG Power,20271,locations,differ,ray place rd; washington; washington 3,ray place road; washington
+Georgia Power,20066,locations,differ,bolton; boulevard; deptford,boulevard; deptford
+Georgia Power,19966,locations,differ,big ogeechee; little ogeechee; mccall road; meldrim; thalmann,big ogeechee
+Georgia Power,20223,locations,only in AI,bainbridge; climax; dothan road; downrange; farley; south bainbridge,
+Georgia Power,21022,locations,differ,ohara; tara,ohara
+Georgia Power,20668,locations,differ,dresden; o'hara; wansley,dresden
+Georgia Transmission Corporation,20874,locations,differ,barnesville; barnesville #1; barnesville primary; lamar county industrial,barnesville; barnesville primary
+Georgia Transmission Corporation,20273,locations,differ,dresden; o'hara; talbot; wansley,dresden
+Georgia Transmission Corporation,20002,locations,differ,gordon; sandersville; sandersville #1,gordon; sandersville
+Georgia Power,20151,locations,differ,cass pine; great valley; hill view; qcells,cass pine; qcells
+Georgia Power,19363,locations,differ,barnett road; morrow; mountain view,morrow; mountain view
+Georgia Power,20509,locations,differ,buzzard roost; douglasville; emblem riverside; flexential,emblem riverside
+Georgia Power,19601,locations,differ,fairburn sw; fife; morrow; owens corning; yates common,morrow; yates common
+Georgia Power,15879,locations,differ,clem; oak mountain; possum branch; yates common,possum branch; yates common
+Georgia Power,20771,locations,differ,fairburn #2; gullatt road; line creek; morrow; north coweta; owens corning; yates common,gullatt road
+Georgia Power,18736,locations,differ,line creek; microsoft; morrow; shugart; shugart farms; union city; yates,microsoft; shugart
+Georgia Power,20781,locations,differ,east villa rica; summer lake; villa rica,summer lake; villa rica
+Georgia Power,20736,locations,differ,austin drive; morrow; ta realty ellenwood,ta realty ellenwood
+Georgia Power,20234,locations,differ,doyle; jack's creek; jacks creek; lg&e monroe,doyle; lg&e monroe
+Georgia Transmission Corporation,20858,locations,differ,adamsville; boat rock road; buzzard roost,adamsville; buzzard roost
+Georgia Transmission Corporation,20776,locations,differ,douglasville; east villa rica; east villa rica switching station; villa; villa rica,douglasville; villa rica
+Georgia Transmission Corporation,20778,locations,differ,doyle; winder; winder primary,doyle; winder primary
+Georgia Transmission Corporation,19358,locations,differ,east moultrie; highway 112; hwy 112,east moultrie; highway 112
+Georgia Transmission Corporation,09662,locations,differ,bethabara; bostwick; doyle; east social circle; east walton; east watkinsville; jack's creek; lg&e monroe; rockville; scherer; warthen,east walton
+Georgia Transmission Corporation,20505,locations,differ,east villa rica switching station; garrett rd; garrett road; v. rica; villa rica,garrett road; villa rica
+Georgia Transmission Corporation,20506,locations,differ,switch way; thornton rd; thornton road,switch way; thornton road
+Georgia Power,10143,locations,differ,johns manville; lawrenceville; winder; winder primary,lawrenceville; winder
+MEAG Power,20264,locations,differ,ray place rd; warrenton; warrenton primary,ray place road; warrenton primary
+Georgia Power,19248,locations,differ,sandersville #1; wadley pri.; wadley primary,sandersville; wadley primary
+Georgia Power,20785,locations,differ,godley j; goshen (sav); kraft; rice hope,goshen; kraft
+Georgia Power,20065,locations,differ,georgia pacific (rincon); goshen (sav); goshen (savannah); mcintosh,goshen; mcintosh
+Georgia Power,20717,locations,differ,ohara; schere; tomochichi; towaliga river,tomochichi
+Georgia Power,17977,locations,differ,athena; east watkinsville; university of georgia,athena; east watkinsville
+Georgia Power,20150,locations,differ,cartersville; cass pine; grassy hollow; great valley; hill view; mcgrau ford,grassy hollow; hill view
+Georgia Power,20024,locations,differ,dyer road; east roanoke; east roanoke (apc); wansley,dyer road; east roanoke
+Georgia Power,19997,locations,differ,aultman road; langston road; perry; ppg j2,aultman road; perry
+Georgia Power,20797,locations,differ,east villa rica; villa rica,east villa rica
+Georgia Power,20774,locations,differ,bowen; union city; villa rica,villa rica
+Georgia Transmission Corporation,20873,locations,differ,bonaire; bonaire primary,bonaire primary
+Georgia Transmission Corporation,19992,locations,differ,bostwick; east social circle; east watkinsville,bostwick; east social circle
+Georgia Power,20777,locations,differ,jack mcdonough; northwest (black),jack mcdonough; northwest
+MEAG Power,19629,locations,differ,brumbley creek; roddenbery; south bainbridge; thomasville,brumbley creek; south bainbridge
+Georgia Power,20482,locations,differ,pittman road; west point dam (usa),pittman road; west point dam
+Georgia Power,20656,locations,differ,plant yates; yates,plant yates
+Georgia Power,21069,locations,differ,cavender drive; douglasville; east villa rica; summer lake; villa rica,east villa rica
+Georgia Power,20274,locations,differ,fairburn #1; line creek; union city; yates,union city; yates
+Georgia Power,10222,locations,differ,blakely; blakely primary; blakley primary; huckleberry,blakely primary; huckleberry
+Georgia Power,21047,locations,differ,broadway; echeconnee; griffin rd,broadway; echeconnee
+Georgia Power,16887,locations,differ,butler; thomaston; wesley,butler; thomaston
+Georgia Transmission Corporation,21140,locations,differ,bonaire primary; eastman primary; roddy,bonaire primary; eastman primary
+Georgia Transmission Corporation,19950,locations,differ,dresden; talbot; talbot county,dresden; talbot
+Georgia Power,21141,locations,differ,jackson lake; lloyd shoals; porterdale primary; south. covington junction,lloyd shoals; porterdale primary
+Georgia Power,20285,locations,differ,lower river; webb; webb (apc),lower river; webb
+Georgia Power,19621,locations,differ,college square; lakeside wtp; mcever road; shoal creek,mcever road; shoal creek
+MEAG Power,11051,locations,differ,albany #9; slappey drive; westover,slappey drive; westover
+Georgia Power,20757,locations,differ,norcross; norcross junction; north druid hills,norcross; north druid hills
+Georgia Power,21023,locations,differ,dean forest; little ogeechee; salt creek,dean forest; little ogeechee
+Georgia Power,20989,locations,differ,crossgate; mcintosh; rice hope,rice hope
+Georgia Power,13628,locations,differ,four mile; recovery; sinai; sinai (fpl); south bainbridge,sinai; south bainbridge
+Georgia Power,21129,locations,differ,anniston; goshen; hammond,anniston; hammond
+Georgia Power,20764,locations,differ,atkinson; chattahoochee; northside drive,atkinson; northside drive
+Georgia Power,20761,locations,differ,atkinson; northwest; tilford yards,atkinson; northwest
+Georgia Power,21130,locations,differ,east maysville; gillsville; lawrence smith; midway; north georgia; north jackson; pond fork,north georgia
+Georgia Power,10478,locations,differ,chase road; clarksville; cornelia; hollywood; tallulah lodge,cornelia; tallulah lodge
+Dalton Utilities,18669,locations,differ,dawson crossing; etowah; nelson; nelson (white); reavis mountain,dawson crossing; nelson
+Georgia Power,21097,locations,differ,cavender drive; east point; marietta 25; tributary,east point; tributary
+Georgia Power,20480,locations,differ,east point; flat shoals road; stonewall tell; union city,east point; union city
+Georgia Power,19627,locations,differ,echeconnee; north warner robins; wellston,echeconnee; wellston
+Georgia Power,21063,locations,differ,blacksmith; farley (apc); talbot; tazewell,farley; tazewell
+Georgia Power,12120,locations,differ,gainesville; gainesville #2; mcever rd; mcever road,gainesville; mcever road
+Georgia Power,20298,locations,differ,glenwood springs; lake oconee; north eatonton; north eatonton junction; putnam sawmill; putnam sawmill junction,glenwood springs; lake oconee
+Georgia Power,21128,locations,differ,fortson; goat rock,goat rock
+Georgia Power,20428,locations,differ,deepstep; gordon; kaolin j; robins spring; sandersville,gordon; sandersville
+Georgia Power,21116,locations,differ,goshen; vogtle; waynesboro; wilson,goshen
+Georgia Transmission Corporation,21013,locations,differ,cavender drive; union city; villa rica,cavender drive
+Georgia Transmission Corporation,20375,locations,differ,east watkinsville; russell dam,east watkinsville
+Georgia Transmission Corporation,21131,locations,differ,gillsville; lawrence smith; midway; north jackson; pond fork,midway; pond fork
+Georgia Transmission Corporation,21076,locations,differ,talbot #2; tallbot; tallbot #2; tazewell,talbot; tazewell
+Georgia Transmission Corporation,21094,locations,differ,eatonton primary #2; north spa; rockville; tiger creek; wallace dam,north spa; rockville; tiger creek
+Georgia Power,20789,locations,differ,jefferson road; richardson street junction; russell; winder primary,jefferson road; winder primary
+Georgia Power,20284,locations,differ,kettle creek primary; pearson; pine grove; pine grove primary,kettle creek primary; pine grove primary
+MEAG Power,21118,locations,differ,athena; ray place road; union point; union point primary; warrenton; warrenton primary,athena; warrenton
+Georgia Power,20857,locations,differ,cavender drive; new cavender drive; tributary,new cavender drive; tributary
+Georgia Power,21093,locations,differ,cornish mountain; east social circle; north spa; oasis; rockville,north spa
+Georgia Power,21098,locations,differ,thornton rd; thornton road; tributary,thornton road; tributary
+Georgia Power,20690,locations,differ,east point; union city; union city (white); welcome all,east point; union city
+Georgia Power,19632,locations,differ,avery; birmingham; hopewell,avery; hopewell
+Georgia Power,20756,locations,differ,hatch; wadley; wadley primary,hatch; wadley
+MEAG Power,21099,locations,differ,big grocery; broadway; dorsett; pio nono; south griffin,pio nono
+Georgia Power,20784,locations,differ,coleman; four lakes; meldrim,coleman; meldrim
+Georgia Power,20767,locations,differ,arkwright; forrest rd (macon),arkwright
+Georgia Power,20758,locations,differ,bay creek; conyers; rockdale,bay creek; conyers
+Georgia Power,20793,locations,differ,euchee creek; evans primary; thurmond dam,evans primary; thurmond dam
+Georgia Transmission Corporation,12217,locations,differ,center primary; clarksboro; clarksboro primary,center primary; clarksboro
+Georgia Transmission Corporation,20773,locations,differ,clarksboro; winder; winder primary,clarksboro; winder primary
+Georgia Transmission Corporation,12147,locations,differ,east social circle; snellville; snellville primary,east social circle; snellville
+Georgia Transmission Corporation,20791,locations,differ,chestnut mountain; shoal creek; south hall; spout springs road,shoal creek; south hall
+Georgia Power,21053,locations,differ,gainesville ferry; lakeside wtp; mcever road; shoal creek,mcever road; shoal creek
+Georgia Power,10487,locations,differ,bemis; pine grove primary; west valdosta,pine grove primary; west valdosta
+Georgia Power,18700,locations,differ,dawson crossing; gainesville; gainesville #1,dawson crossing; gainesville
+Georgia Power,17993,locations,differ,evans primary; pumpkin center; thomson primary,evans primary; thomson primary
