@@ -11,9 +11,9 @@ Source PDFs (Sperry-Tech-Challenge/Project Listings/)
 data/processed/georgia_power_projects.csv, dominion_projects.csv  committed
 data/processed/ai/<prefix>_projects.csv                           saved runs; current code needs fixes
   |  gridlock_desc_locator.py                                     built
+  |  + data/overrides/location_overrides.csv (hand-checked)       built
   v
 data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
-  |  manual overrides                                             planned
   |  overlap finder                                               planned
   v
 overlap table and ranked list
@@ -52,18 +52,20 @@ matches what they expect. Problems in the source data are logged as warnings.
 then averages each project's points into a center. How it searches and scores is in
 [geolocator.md](geolocator.md). Its three output files are in [data.md](data.md).
 
-## 3. Manual overrides (planned)
+## 3. Manual overrides
 
-A file keyed by (`utility`, `project_id`), merged over the guessed columns, to fix
-what the heuristics and the Geolocator get wrong:
+**Locations (built):** `data/overrides/location_overrides.csv` gives a checked point
+for a location name the Geolocator gets wrong, or removes a wrong point when the real
+one is unknown. The Geolocator applies it in place of the search, so its outputs
+already include the fixes. Every row cites an OSM element or the PDF text. How it works
+and how to add a row: [geolocator.md](geolocator.md#overrides).
 
-- Georgia rows with no location (`UNKNOWN`) and customer-project names; see
-  [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
-- Wrong lookups, which need a corrected name, state or coordinate for a single
-  location; see [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+**Not covered yet:**
 
-Every override should say where its value came from (a PDF page, an OSM element), so it
-can be checked.
+- Georgia rows with no location name (`UNKNOWN`): the overrides match location names,
+  so a project without one can't get a point. Neither of the two is near South
+  Carolina; see [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
+- Other guessed parser columns, such as `project_type` and the voltages.
 
 ## 4. Overlaps (planned)
 
@@ -71,9 +73,10 @@ can be checked.
   overlap row. The organizers take the midpoint of two named points, or the one point
   that was located ([challenge.md](challenge.md#the-organizers-method)). The
   Geolocator's centroid is the mean of all of a project's located points instead, up
-  to 4 for DESC, including LOW fallbacks. Decide which to use, and carry each project's
-  `overall_confidence` into the overlap row so reviewers can see which centers are only
-  a town or county.
+  to 4 for DESC, including LOW fallbacks. Decide which to use: the organizers' rule
+  needs `<prefix>_project_locations.csv` (one row per point, with `location_role`),
+  not the summary. Carry each project's `overall_confidence` into the overlap row so
+  reviewers can see which centers are only a town or county.
 - **`time_gap`:** absolute days between the two `in_service_date`s.
 - **Build windows:** [`start_date`, `in_service_date`]. A blank DESC `start_date`
   means work began before 2024, so treat it as open-ended. Don't assume

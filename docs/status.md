@@ -57,7 +57,7 @@ In rough priority order:
    `data/processed/georgia_power_manual_review.csv`. Projects around Savannah and
    Augusta matter most.
 4. **Overrides file** for the heuristics' and Geolocator's known mistakes; see
-   [pipeline.md](pipeline.md#3-manual-overrides-planned).
+   [pipeline.md](pipeline.md#3-manual-overrides).
 5. **Overlap finder**, tested against the organizers' 6 example overlaps; see
    [pipeline.md](pipeline.md#4-overlaps-planned).
 6. **Wire ranking into the UI/export.** The current UI overlap export has names,

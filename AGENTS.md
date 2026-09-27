@@ -60,6 +60,7 @@ python -m venv .venv
 | `gridlock_desc_locator.py` | The Geolocator: coordinates from Nominatim and Overpass |
 | `gridlock_geocode_cache.json` | The Geolocator's request cache |
 | `data/processed/` | Parser output, committed so teammates don't need Python, and the Geolocator's output |
+| `data/overrides/` | Hand-checked fixes; `location_overrides.csv` corrects the Geolocator's wrong lookups |
 | `tests/` | pytest; the `slow` marker covers the tests that parse the 668-page PDF or load the Anthropic SDK |
 | `docs/` | Project knowledge; see [Where knowledge lives](#where-knowledge-lives) |
 | `.claude/skills/` | Step-by-step workflows in plain Markdown, usable by any agent |

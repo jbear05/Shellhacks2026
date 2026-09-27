@@ -75,11 +75,11 @@ Changing `TILE_DEGREES` downloads every tile again.
 - Failed requests aren't cached. The row says "Nominatim request failed; re-run to
   retry" or "Overpass request failed; re-run to retry" (when every Overpass server
   failed), and the next run tries again.
-- A `null` Nominatim entry means Nominatim found nothing, and it isn't retried. The
-  first version cached failed requests as `null` too, so some of the committed cache's
-  7 `null` entries may be errors rather than real misses: Queensboro, Square D, VCS1,
-  CIP, North Bridge Terrace, Plumb Branch and VCS2 (all searched in South Carolina).
-  Delete a key to retry it.
+- A `null` Nominatim entry means Nominatim found nothing, and it isn't retried. Delete
+  a key to retry it. The first version cached failed requests as `null` too, so its 7
+  `null` entries (Queensboro, Square D, VCS1, CIP, North Bridge Terrace, Plumb Branch
+  and VCS2, all searched in South Carolina) were deleted and retried on 2026-09-26.
+  Nominatim found none of them again, so they're real misses.
 - Each save writes `gridlock_geocode_cache.json.tmp` and then swaps it in, so stopping
   a run can't leave a half-written cache. If the file isn't valid JSON (for example
   after a git merge conflict), the script stops rather than start an empty cache and
@@ -126,17 +126,51 @@ To add one:
 
 ## Known wrong or weak lookups
 
-- `EVANS PRIMARY` finds Evans County instead of the town of Evans (Columbia County).
-- `MCINTOSH` finds McIntosh County instead of Plant McIntosh (Effingham County).
-- LOW rows are often just the town or county Nominatim found (for example "Jasper"
-  becomes the middle of Jasper County), and the project's centroid includes them.
-  Check `overall_confidence` before trusting a center.
-- Georgia's customer-project names and `UNKNOWN` rows (see [data.md](data.md)) aren't
-  places. 20466 and 20223 have no location names, so their summary rows have no
-  coordinates.
-- Why not retry a missing name in the other state: DESC's "North Bridge Terrace"
-  searched in Georgia finds a shop in Augusta. Thurmond Dam needs no override, because
-  its top result in a Georgia search is the dam on the South Carolina side.
+**What was checked (2026-09-26).** The committed outputs come from one full run of
+each utility, with no failed requests left, and the overrides applied:
 
-These fixes belong in the planned overrides file
-([pipeline.md](pipeline.md#3-manual-overrides-planned)), not in the output CSVs.
+| | Locations | HIGH | MEDIUM | LOW | No point | Overridden |
+|---|---|---|---|---|---|---|
+| DESC | 101 | 41 | 13 | 47 | 25 | 19 |
+| Georgia Power CSV (all sponsors) | 353 | 152 | 67 | 134 | 35 | 25 |
+
+- **By hand:** every location of the DESC projects near Georgia (6809 E, 6809 G,
+  6810 A, 6852, 6810 O, 0139 M,N, 6808 S, 06367 A-C, H, 06367 D-G), and of the GPC and
+  SAV projects in Georgia's zones 215 (Augusta) and 219 (Savannah). Their fixes are in
+  the overrides file, each with its evidence.
+- **A sweep for the rest:** any other point within 30 miles of the other utility's
+  points. It found DESC names from around Columbia matched in the Lowcountry
+  (Pineland, Killian, Scout) and Georgia names from Atlanta, Columbus and Brunswick
+  matched in Savannah or Augusta. After the overrides, only Burton and Yemassee (both
+  real HIGH matches) are left in it.
+- **Not checked:** the rest of both lists. Their LOW and MEDIUM rows are unconfirmed.
+- `tests/test_geolocations.py` holds the output to the organizers' 15 points
+  ([challenge.md](challenge.md#the-organizers-example-answers)); all are within half a
+  mile.
+
+**Patterns behind the wrong lookups:**
+
+- A name that's also a county, road or lake elsewhere: `EVANS PRIMARY` finds Evans
+  County, `MCINTOSH` McIntosh County, `BOULEVARD` Athens, `DEPTFORD` a road in Duluth.
+  Savannah Electric's names (Boulevard, Deptford, Magnolia, Kraft, Coleman) are the
+  worst, since the search covers the whole state.
+- One name, two places: `GOSHEN` is Savannah's for 20065 and 20785 and Augusta's for
+  21116, so its overrides are per project.
+- A wrong-named candidate still scores MEDIUM on operator, voltage and distance.
+  `FENWICK STREET` and `SAND BAR FERRY` (16007) match customer substations about a mile
+  from those Augusta streets, and `TRUMAN PARKWAY` (20407) matches Magnolia, the line's
+  other end. They're left as MEDIUM: the right substations aren't named in OSM.
+- LOW rows are often the town or county Nominatim found, or a nearby substation with
+  another name, and the summary's centroid includes them. Check `overall_confidence`
+  before trusting a center.
+
+**No point, on purpose:** Hooks, Riverport, Pineland, Killian, Scout, Owens Corning,
+Ritter (DESC) and Coleman, Jefferson Street, Tomochichi, First Avenue (Georgia) have
+blank overrides: the search result was wrong and OSM has no substation with that
+name. Plumb Branch, Aiken PSA, VCS1, VCS2, Big Ogeechee, Goldens Creek and others are
+names Nominatim can't find. Georgia's customer-project names and `UNKNOWN` rows (see
+[data.md](data.md)) aren't places; 20466 and 20223 have no location names at all.
+
+Why not retry a missing name in the other state: DESC's "North Bridge Terrace"
+searched in Georgia finds a shop in Augusta. Thurmond Dam needs no override, because
+its top result in a Georgia search is the dam on the South Carolina side.
