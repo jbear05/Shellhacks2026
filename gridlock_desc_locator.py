@@ -26,6 +26,12 @@ UTILITY = "Dominion Energy South Carolina"
 STATE = "South Carolina"
 COUNTRY = "USA"
 SEARCH_RADIUS_METERS = 25000
+# Overpass is asked for every substation in a tile this many degrees
+# square, and each tile is cached. One "around" query per location
+# often timed out on the public servers. A tile that fails is split
+# into quarters, down to MIN_TILE_DEGREES.
+TILE_DEGREES = 1
+MIN_TILE_DEGREES = 0.25
 NOMINATIM_DELAY_SECONDS = 1.1
 OVERPASS_DELAY_SECONDS = 0.5
 USER_AGENT = "GridLock-Hackathon/1.0 (student research project)"
@@ -39,6 +45,7 @@ OVERPASS_SERVERS = [
 # Found from this file's location, so the script works from any directory.
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 CACHE_FILE = os.path.join(REPO_ROOT, "gridlock_geocode_cache.json")
+OVERRIDES_FILE = os.path.join(REPO_ROOT, "data", "overrides", "location_overrides.csv")
 OUTPUT_DIR = os.path.join(REPO_ROOT, "data", "processed")
 
 # Set this to 3 while testing. Leave None to run all projects.
@@ -165,6 +172,59 @@ def save_cache(cache):
 
 
 CACHE = load_cache()
+
+# Hand-checked coordinates for locations the search gets wrong. Each row
+# says where its point came from; see docs/geolocator.md.
+OVERRIDE_FIELDS = [
+    "utility", "project_id", "target_location",
+    "latitude", "longitude", "matched_name", "osm_type", "osm_id",
+    "source", "note",
+]
+
+
+def load_overrides(filename=OVERRIDES_FILE):
+    # Keyed by (utility, project_id, lowercase location name). A blank
+    # project_id covers every project of that utility with that name.
+    # Blank coordinates remove a wrong point when the real one is unknown.
+    if not os.path.exists(filename):
+        return {}
+    overrides = {}
+    with open(filename, newline="", encoding="utf-8-sig") as file:
+        reader = csv.DictReader(file)
+        if reader.fieldnames != OVERRIDE_FIELDS:
+            raise SystemExit(
+                f"{filename} must have the columns {', '.join(OVERRIDE_FIELDS)}, "
+                f"in that order; found {', '.join(reader.fieldnames or [])}."
+            )
+        for line_number, row in enumerate(reader, start=2):
+            row = {key: (value or "").strip() for key, value in row.items()}
+            key = (row["utility"], row["project_id"], row["target_location"].lower())
+            if row["latitude"] or row["longitude"]:
+                try:
+                    float(row["latitude"])
+                    float(row["longitude"])
+                except ValueError:
+                    raise SystemExit(
+                        f"{filename} line {line_number}: latitude and longitude must both be numbers, or both blank."
+                    )
+            if not (row["utility"] and row["target_location"] and row["source"]):
+                raise SystemExit(f"{filename} line {line_number}: utility, target_location and source are required.")
+            if key in overrides:
+                raise SystemExit(f"{filename} line {line_number}: a second override for {key}.")
+            overrides[key] = row
+    return overrides
+
+
+OVERRIDES = load_overrides()
+
+
+def find_override(project, location_name):
+    name = location_name.lower()
+    return (
+        OVERRIDES.get((project["utility"], project["project_id"], name))
+        or OVERRIDES.get((project["utility"], "", name))
+    )
+
 
 GENERIC_WORDS = {
     "sub", "substation", "transmission", "station",
@@ -303,20 +363,76 @@ def trim_osm_element(element):
     return trimmed
 
 
-def search_nearby_substations(latitude, longitude):
-    # Returns None when every server fails. Failures are not cached, so
-    # the next run retries them.
-    cache_key = f"overpass::{latitude},{longitude},{SEARCH_RADIUS_METERS}"
+def tiles_near(latitude, longitude, radius_miles):
+    # South-west corners of the tiles that a circle of this radius
+    # around the point touches: 1 tile, or up to 4 near a tile's edge.
+    lat_margin = radius_miles / 69.0
+    lon_margin = radius_miles / (69.0 * math.cos(math.radians(latitude)))
+
+    def corners(low, high):
+        first = math.floor(low / TILE_DEGREES)
+        last = math.floor(high / TILE_DEGREES)
+        return [index * TILE_DEGREES for index in range(first, last + 1)]
+
+    return [
+        (south, west)
+        for south in corners(latitude - lat_margin, latitude + lat_margin)
+        for west in corners(longitude - lon_margin, longitude + lon_margin)
+    ]
+
+
+# Tiles that failed in this run. They aren't asked for again until the
+# next run, so a busy server doesn't cost minutes for every location.
+FAILED_TILES = set()
+
+
+def fetch_substation_tile(south, west, size=TILE_DEGREES):
+    # Every power=substation in one tile. When every server fails, the
+    # tile is fetched as 4 quarters instead, down to MIN_TILE_DEGREES.
+    # Returns None if that fails too. Failures are not cached, so the
+    # next run retries them.
+    cache_key = f"overpass-tile::{south},{west},{size}"
 
     if cache_key in CACHE:
         return CACHE[cache_key]
 
+    half = size / 2
+    quarters = [(south + lat_step, west + lon_step) for lat_step in (0, half) for lon_step in (0, half)]
+    already_split = any(f"overpass-tile::{quarter_south},{quarter_west},{half}" in CACHE for quarter_south, quarter_west in quarters)
+
+    if not already_split and cache_key not in FAILED_TILES:
+        elements = download_substations(south, west, size)
+        if elements is not None:
+            CACHE[cache_key] = elements
+            save_cache(CACHE)
+            return elements
+        FAILED_TILES.add(cache_key)
+
+    if half < MIN_TILE_DEGREES:
+        return None
+
+    # Stop at the first quarter that fails: the servers are probably busy,
+    # and the quarters already fetched are cached for the next run.
+    elements = []
+    for quarter_south, quarter_west in quarters:
+        part = fetch_substation_tile(quarter_south, quarter_west, half)
+        if part is None:
+            return None
+        elements.extend(part)
+    return elements
+
+
+def download_substations(south, west, size):
+    # Returns None when every server fails.
+    print(f"    Overpass: substations in tile {south},{west} ({size} degrees)")
+
+    bbox = f"{south},{west},{south + size},{west + size}"
     query = f"""
-[out:json][timeout:25];
+[out:json][timeout:90];
 (
-  node["power"="substation"](around:{SEARCH_RADIUS_METERS},{latitude},{longitude});
-  way["power"="substation"](around:{SEARCH_RADIUS_METERS},{latitude},{longitude});
-  relation["power"="substation"](around:{SEARCH_RADIUS_METERS},{latitude},{longitude});
+  node["power"="substation"]({bbox});
+  way["power"="substation"]({bbox});
+  relation["power"="substation"]({bbox});
 );
 out center tags;
 """
@@ -333,13 +449,11 @@ out center tags;
                 server,
                 data=body,
                 headers=headers,
-                timeout=45,
+                timeout=120,
             )
 
             if response.status_code == 200:
                 elements = [trim_osm_element(element) for element in response.json().get("elements", [])]
-                CACHE[cache_key] = elements
-                save_cache(CACHE)
                 time.sleep(OVERPASS_DELAY_SECONDS)
                 return elements
 
@@ -349,6 +463,28 @@ out center tags;
             print(f"    Overpass failed ({server}): {error}")
 
     return None
+
+
+def search_nearby_substations(latitude, longitude):
+    # Substations within SEARCH_RADIUS_METERS of the point, measured to
+    # each one's center. Returns None when a tile can't be downloaded.
+    radius_miles = SEARCH_RADIUS_METERS / 1609.344
+    nearby = {}
+
+    for south, west in tiles_near(latitude, longitude, radius_miles):
+        tile = fetch_substation_tile(south, west)
+        if tile is None:
+            return None
+
+        for element in tile:
+            element_lat, element_lon = get_osm_coordinates(element)
+            if element_lat is None or element_lon is None:
+                continue
+            if haversine_miles(latitude, longitude, element_lat, element_lon) <= radius_miles:
+                # A substation on a tile edge comes back in both tiles.
+                nearby[(element["type"], element["id"])] = element
+
+    return list(nearby.values())
 
 
 def get_osm_coordinates(element):
@@ -426,6 +562,38 @@ def confidence_from_candidate(candidate):
 
 def locate_project_location(project, location_name, role_number):
     print(f"\n  Location {role_number}: {location_name}")
+
+    # A hand-checked point replaces the search, so no request is sent.
+    override = find_override(project, location_name)
+    if override:
+        print(f"    Override: {override['matched_name']} ({override['source']})")
+        return {
+            "project_number": project["number"],
+            "project_id": project["project_id"],
+            "utility": project["utility"],
+            "state": project["state"],
+            "project_name": project["project_name"],
+            "project_type": project["project_type"],
+            "location_role": f"location_{role_number}",
+            "target_location": location_name,
+            "expected_voltages": ";".join(project["voltages"]),
+            "seed_latitude": "",
+            "seed_longitude": "",
+            "seed_display_name": "",
+            "matched_name": override["matched_name"],
+            "matched_operator": "",
+            "matched_voltage": "",
+            "latitude": override["latitude"],
+            "longitude": override["longitude"],
+            "osm_id": override["osm_id"],
+            "osm_type": override["osm_type"],
+            "distance_from_seed_miles": "",
+            "match_score": "",
+            "confidence": "HIGH" if override["latitude"] else "LOW",
+            "source": "Manual override",
+            "reasons": "; ".join(part for part in (override["source"], override["note"]) if part),
+        }
+
     state = LOCATION_STATE_OVERRIDES.get(location_name.lower(), project["state"])
     seed, seed_failed = geocode_general_location(search_name(location_name), state)
 

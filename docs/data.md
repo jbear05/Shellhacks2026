@@ -174,21 +174,21 @@ HIGH.
 | `location_role` | `location_N`: the position of the name in the project's list. For a parser CSV, it's the parser column the name came from (`location_1` to `location_3`). The built-in DESC list reaches `location_4` for 6807 B and 6859 |
 | `target_location` | The location name |
 | `expected_voltages` | The project's voltages in volts, `;`-separated |
-| `seed_latitude` | Nominatim's first result for the name; blank if none |
+| `seed_latitude` | Nominatim's first result for the name; blank if none, and for an override |
 | `seed_longitude` | As above |
 | `seed_display_name` | Nominatim's full name for that result |
-| `matched_name` | Best OpenStreetMap substation's `name` tag, or `Unnamed` |
-| `matched_operator` | Its `operator` tag, or `Unknown` |
-| `matched_voltage` | Its `voltage` tag, or `Unknown` |
-| `latitude` | The matched substation. If none matched, the seed point (a LOW fallback). Blank if Nominatim found nothing |
+| `matched_name` | Best OpenStreetMap substation's `name` tag, or `Unnamed`. For an override, the override's `matched_name` |
+| `matched_operator` | Its `operator` tag, or `Unknown`. Blank for an override |
+| `matched_voltage` | Its `voltage` tag, or `Unknown`. Blank for an override |
+| `latitude` | The override's point, else the matched substation. If none matched, the seed point (a LOW fallback). Blank if Nominatim found nothing |
 | `longitude` | As above |
 | `osm_id` | The matched OpenStreetMap element |
 | `osm_type` | `node`, `way` or `relation` |
-| `distance_from_seed_miles` | From the seed point to the matched substation |
-| `match_score` | 0 to 12; see [geolocator.md](geolocator.md#scoring) |
-| `confidence` | `HIGH`, `MEDIUM` or `LOW` |
-| `source` | `OpenStreetMap / Overpass`, `Nominatim general-location fallback` or `No match` |
-| `reasons` | The scoring reasons, `; `-separated, or why nothing was found. "... re-run to retry" means a request failed |
+| `distance_from_seed_miles` | From the seed point to the matched substation; blank for an override |
+| `match_score` | 0 to 12; see [geolocator.md](geolocator.md#scoring). Blank for an override |
+| `confidence` | `HIGH`, `MEDIUM` or `LOW`. For an override, `HIGH`, or `LOW` if it has no point |
+| `source` | `Manual override`, `OpenStreetMap / Overpass`, `Nominatim general-location fallback` or `No match` |
+| `reasons` | The scoring reasons, `; `-separated, or why nothing was found. "... re-run to retry" means a request failed. For an override, its `source` and `note` |
 
 ## `<prefix>_projects_summary.csv`
 
@@ -210,6 +210,25 @@ including projects with no location names.
 | `centroid_latitude` | Mean of every located point, including LOW fallbacks; blank if none |
 | `centroid_longitude` | As above |
 | `location_coordinates` | `name: lat,lon (CONFIDENCE)` for each location, joined with ` \| ` |
+
+## `data/overrides/location_overrides.csv`
+
+Written by hand and read by `gridlock_desc_locator.py`: one row per location name the
+search gets wrong. A matching row replaces the search, so no request is sent for that
+location. How to add one is in [geolocator.md](geolocator.md#overrides).
+
+| Column | Meaning |
+|---|---|
+| `utility` | As the Geolocator writes it, e.g. `Georgia Power` |
+| `project_id` | The one project it applies to, or blank for every project of that utility with this location name. A project's own row wins over a blank one |
+| `target_location` | The location name as in the input, matched ignoring case |
+| `latitude` | The checked point. Leave it and `longitude` blank to remove a wrong point when the real one isn't known |
+| `longitude` | As above |
+| `matched_name` | The substation's name in OpenStreetMap or the source, or blank |
+| `osm_type` | `node`, `way` or `relation`; blank if the point isn't from OpenStreetMap |
+| `osm_id` | The OpenStreetMap element, or blank |
+| `source` | Where the point came from, so it can be checked, e.g. `OSM way 123456` or a PDF page. Required |
+| `note` | Why the search got it wrong |
 
 ## `data/test/*_test_projects.csv`
 
