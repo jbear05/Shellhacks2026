@@ -26,6 +26,16 @@ only one is available. Extra locations do not enter this calculation. If neither
 endpoint is usable, the center stays blank. LOW points remain explicitly flagged.
 Project confidence is the weakest of the named endpoints, including missing ones.
 
+## PDF uploads
+
+`frontend/pdf_import.py` accepts the two exact organizer PDFs, recognized by SHA-256
+content rather than filename. It runs the existing deterministic parser in memory
+and joins its rows to saved location evidence. The Georgia upload selects GPC/SAV.
+Unknown/revised PDFs are rejected with instructions to import a project table;
+reusing coordinates from an older plan without review would be misleading. No
+generated CSV, source PDF, cache or API account is changed by an upload. The source
+hash is included in the imported project table. The real-PDF adapter tests are slow.
+
 For imports with coordinates but no endpoints, keep the supplied center and label
 its method `provided_center`. After endpoint edits, recalculate the center; clearing
 previously used endpoints clears the old center. A latitude from one incomplete
