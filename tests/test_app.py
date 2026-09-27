@@ -23,13 +23,29 @@ def test_demo_filters_reviews_and_exports_share_current_settings():
     app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=30).run()
     assert not app.exception
     click(app, "Explore the real-data demo")
-    assert len(app.session_state["overlaps"]) == 72
+    assert len(app.session_state["overlaps"]) == 73
     app.checkbox[0].uncheck().run()
     assert not app.exception
-    assert len(app.session_state["overlaps"]) == 30
+    assert len(app.session_state["overlaps"]) == 53
     app.selectbox[-1].select(0).run()
     assert not app.exception
     assert any("Opportunity #" in value.value for value in app.subheader)
+    assert any("Rough impact estimate" in value.value for value in app.markdown)
+    pairs = app.session_state["overlaps"]
+    unestimated_pair = pairs[pairs.land_saved_value_usd.isna()].index[0]
+    app.selectbox[-1].select(unestimated_pair).run()
+    assert not app.exception
+    assert any("No estimate:" in value.value for value in app.markdown)
+    estimated_pair = pairs[(pairs.project_id_a == "6810 A") & (pairs.project_id_b == "20793")].index[0]
+    app.selectbox[-1].select(estimated_pair).run()
+    assert not app.exception
+    assert next(metric.value for metric in app.metric if metric.label == "Land a shared corridor could save") == "27.9 acres"
+    assert next(metric.value for metric in app.metric if metric.label == "Land value") == "$137,303"
+    assert any("2.3 miles" in value.value for value in app.markdown)
+    app.checkbox(key="show_circles").uncheck().run()
+    assert not app.exception
+    app.checkbox(key="show_substations").check().run()
+    assert not app.exception
     app.switch_page("frontend/pages/2_Project_Review.py").run()
     assert not app.exception
     click(app, "Save Project Changes")
@@ -37,10 +53,10 @@ def test_demo_filters_reviews_and_exports_share_current_settings():
     click(app, "Save Location Reviews")
     click(app, "Continue to Overlap Results")
     assert app.session_state["include_low"] is False
-    assert len(app.session_state["overlaps"]) == 30
+    assert len(app.session_state["overlaps"]) == 53
     click(app, "Continue to Export")
     assert len(app.get("download_button")) == 3
-    assert next(metric.value for metric in app.metric if metric.label == "Qualifying pairs") == "30"
+    assert next(metric.value for metric in app.metric if metric.label == "Qualifying pairs") == "53"
 
 
 def test_setup_saved_plans_and_same_utility_guard():

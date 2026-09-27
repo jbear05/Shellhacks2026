@@ -111,6 +111,14 @@ To add one:
    `gridlock_geocode_cache.json` by name or by distance from a known point.
 2. Check its name, voltage and place against the PDF's description. Line lengths in
    the descriptions are a useful check on distances between endpoints.
+   - When no substation has the name, or two do, follow the lines from the project's
+     located endpoint and compare their length with the PDF's miles. That found VCS2,
+     Hooks (named "GPC <-> SCG&E Compensator Station"), Ritter (unnamed) and which
+     Coleman is meant. A line can join another partway along, so measure each way
+     between the nodes you pass through, not end to end.
+     Overpass often times out on these queries; the OSM API's `/way/{id}/full` and
+     `/node/{id}/ways` follow a line one way at a time. Keep to about 1 request per
+     second.
 3. Add the row, run the Geolocator again (everything is cached, so it takes seconds),
    and run `pytest tests/test_geolocations.py`. It checks that every override is in
    the output, and that the organizers' known points are within a mile.
@@ -131,8 +139,8 @@ each utility, with no failed requests left, and the overrides applied:
 
 | | Locations | HIGH | MEDIUM | LOW | No point | Overridden |
 |---|---|---|---|---|---|---|
-| DESC | 101 | 41 | 13 | 47 | 25 | 19 |
-| Georgia Power CSV (all sponsors) | 353 | 152 | 67 | 134 | 35 | 25 |
+| DESC | 101 | 50 | 13 | 38 | 16 | 22 |
+| Georgia Power CSV (all sponsors) | 353 | 154 | 67 | 132 | 33 | 25 |
 
 - **By hand:** every location of the DESC projects near Georgia (6809 E, 6809 G,
   6810 A, 6852, 6810 O, 0139 M,N, 6808 S, 06367 A-C, H, 06367 D-G), and of the GPC and
@@ -143,6 +151,13 @@ each utility, with no failed requests left, and the overrides applied:
   (Pineland, Killian, Scout) and Georgia names from Atlanta, Columbus and Brunswick
   matched in Savannah or Augusta. After the overrides, only Burton and Yemassee (both
   real HIGH matches) are left in it.
+- **Missing endpoints that could change a pair (2026-09-27):** VCS2 (06810 F, whose
+  40-mile line could otherwise bring it within 25 miles of Augusta) and VCS1 at the
+  same site, then Hooks (6810 A, 6809 E, 6809 G), Coleman (20783, 20784) and Ritter
+  (06076A, 6359, 06372 A). Each was matched by tracing OSM lines and comparing their
+  length with the PDF's miles; the evidence is in the overrides file. Both utilities
+  were re-run from the cache afterwards. Riverport (06367 A-C, H) is still missing:
+  the PDF calls it a new substation, so it may not be built or mapped yet.
 - **Not checked:** the rest of both lists. Their LOW and MEDIUM rows are unconfirmed.
 - `tests/test_geolocations.py` holds the output to the organizers' 15 points
   ([challenge.md](challenge.md#the-organizers-example-answers)); all are within half a
@@ -164,11 +179,12 @@ each utility, with no failed requests left, and the overrides applied:
   another name, and the summary's centroid includes them. Check `overall_confidence`
   before trusting a center.
 
-**No point, on purpose:** Hooks, Riverport, Pineland, Killian, Scout, Owens Corning,
-Ritter (DESC) and Coleman, Jefferson Street, Tomochichi, First Avenue (Georgia) have
-blank overrides: the search result was wrong and OSM has no substation with that
-name. Plumb Branch, Aiken PSA, VCS1, VCS2, Big Ogeechee, Goldens Creek and others are
-names Nominatim can't find. Georgia's customer-project names and `UNKNOWN` rows (see
+**No point, on purpose:** Riverport, Pineland, Killian, Scout, Owens Corning (DESC)
+and Jefferson Street, Tomochichi, First Avenue (Georgia) have blank overrides: the
+search result was wrong and OSM has no substation with that name. Hooks, Coleman and
+Ritter were blank too, until their lines were traced. Plumb Branch, Aiken PSA, Big
+Ogeechee, Goldens Creek and others are names Nominatim can't find (VCS1 and VCS2 were
+too, until their overrides). Georgia's customer-project names and `UNKNOWN` rows (see
 [data.md](data.md)) aren't places; 20466 and 20223 have no location names at all.
 
 Why not retry a missing name in the other state: DESC's "North Bridge Terrace"

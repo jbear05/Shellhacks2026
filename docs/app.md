@@ -26,6 +26,32 @@ only one is available. Extra locations do not enter this calculation. If neither
 endpoint is usable, the center stays blank. LOW points remain explicitly flagged.
 Project confidence is the weakest of the named endpoints, including missing ones.
 
+`Center Method` records which case applied: `endpoint_midpoint` (two points),
+`single_location` (only one endpoint named), `one_of_two_endpoints` (two named,
+but only one has usable coordinates, so the center is that endpoint rather than
+the midpoint) or `unavailable`. The fallback case is always LOW, because the
+missing endpoint counts as LOW. In the built-in demo on 2026-09-27, after the VCS1,
+VCS2, Hooks, Coleman and Ritter overrides, there were 12 DESC and 17 Georgia Power
+`one_of_two_endpoints` rows, and 4 DESC and 37 Georgia Power `single_location` rows.
+
+The Overlaps page's map (`frontend/map_view.py`) shows where each center comes from.
+A project's located substations are rings in its utility's color, joined by a thin
+straight line when there are two, so a midpoint center sits in the middle of that
+line. A `one_of_two_endpoints` center is drawn faint with a solid rim. Each center's
+tooltip says how it was made, for example "Center: midpoint of VCS2 and Ward". The
+focused pair always shows its substations, and the "Show the substations behind every
+center" checkbox shows them for every project. When the focused pair's projects share
+a substation, as 6810 A and 20793 share Thurmond, one ring covers the other. Which
+missing endpoints could still change an overlap is in
+[geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+
+The distance circles (on by default) are shaded around each center that has a pair,
+or only the focused pair's two. Their radius is half the threshold, 12.5 miles by
+default, so a blue and an orange circle overlap exactly when their centers are within
+the threshold. A full-threshold radius would make circles overlap up to twice the
+threshold apart. The circles don't respond to clicks, so they never hide a center or a
+line.
+
 ## PDF uploads
 
 `frontend/pdf_import.py` accepts the two exact organizer PDFs, recognized by SHA-256
@@ -40,6 +66,12 @@ For imports with coordinates but no endpoints, keep the supplied center and labe
 its method `provided_center`. After endpoint edits, recalculate the center; clearing
 previously used endpoints clears the old center. A latitude from one incomplete
 point is never combined with a longitude from another.
+
+On the Location Verification page, a center typed for a center-only project is kept,
+even when it had no center before, and its method becomes `provided_center`. A center
+typed for a project whose center comes from its endpoints (any endpoint with a name or
+a coordinate) would be recalculated away, so it is ignored with a warning, and the
+project keeps its confidence and evidence. Edit its endpoints instead.
 
 Invalid dates or reversed build windows are warnings, not silently repaired values.
 Source strings remain available. A missing DESC start date keeps its documented
@@ -64,6 +96,9 @@ does not establish an overlapping build window. Reversed dates are flagged.
 `tests/test_overlaps.py` reproduces all six organizer spreadsheet distances to the
 hundredth using the sheet's coordinates, then separately checks the real saved
 coordinates. The two GA 20277 distances use the additional LOW Purrysburg point,
-unlike the sheet. Other coordinate differences are under 0.21 miles. Negative
+unlike the sheet. The sheet has no Hooks point, so its 6810 A and 6809 E centers are
+Thurmond and Stevens Creek alone; ours are midpoints with Hooks, which makes
+6809 E - 20793 4.40 miles against the sheet's 8.01 (and 6810 A - 20793 3.91 against
+4.09). Other coordinate differences are under 0.21 miles. Negative
 projects, exclusions, missing dates, confidence filters, a distance just above
 25 miles, and the teammates' synthetic overlap fixture are also checked.

@@ -8,7 +8,7 @@ from zipfile import ZipFile
 import pandas as pd
 
 from frontend.analysis import calculate_overlaps
-from frontend.data_loader import ProjectLoadError, _normalize_projects, prepare_projects
+from frontend.data_loader import ProjectLoadError, _normalize_projects, center_from_endpoints, prepare_projects
 
 
 def analyze_state(state):
@@ -61,13 +61,25 @@ def restore_bundle(content):
 
 
 def apply_location_review(original, edited):
-    """Mark coordinate edits as user evidence and retain original point values."""
+    """Mark coordinate edits as user evidence and retain original point values.
+
+    Also returns "Utility · Project ID" for each project whose center edit was ignored
+    because its center comes from its endpoints.
+    """
     result = edited.copy().astype(object)
+    ignored = []
     for index in result.index:
         changed = False
+        derived_center = center_from_endpoints(result.loc[index])
         for column in ("Point 1 Latitude", "Point 1 Longitude", "Point 2 Latitude", "Point 2 Longitude", "Latitude", "Longitude"):
             old, new = original.at[index, column], result.at[index, column]
             if (pd.isna(old) and pd.isna(new)) or str(old) == str(new):
+                continue
+            if derived_center and column in ("Latitude", "Longitude"):
+                # prepare_projects recalculates this center, so the edit is not evidence.
+                label = f"{result.at[index, 'Utility']} · {result.at[index, 'Project ID']}"
+                if label not in ignored:
+                    ignored.append(label)
                 continue
             changed = True
             result.at[index, f"Original {column}"] = original.at[index, f"Original {column}"] if f"Original {column}" in original else old
@@ -76,4 +88,4 @@ def apply_location_review(original, edited):
             result.at[index, "Confidence"] = "Low"
             result.at[index, "Location Status"] = "Candidate"
             result.at[index, "Verification Notes"] = "Coordinates edited by user; confidence reset for review. " + str(result.at[index, "Verification Notes"])
-    return prepare_projects(result)
+    return prepare_projects(result), ignored

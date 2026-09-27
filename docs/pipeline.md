@@ -16,9 +16,10 @@ data/processed/ai/<prefix>_projects.csv                           committed
 data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
   |  frontend/project_data.py: parser rows + endpoints            built (section 4)
   |  frontend/analysis.py + ranking.py: overlap finder            built (section 4)
+  |  frontend/impact.py: shared-corridor land estimate           built (section 5)
   v
 ranked overlap table
-  |  Streamlit UI (frontend/)                                     committed pages don't call it yet (section 6)
+  |  Streamlit UI (frontend/)                                     built (section 6)
   v
 interactive map
 ```
@@ -70,9 +71,9 @@ and how to add a row: [geolocator.md](geolocator.md#overrides).
 
 ## 4. Overlaps
 
-Built on `codex/finish-gridlock`: `frontend/project_data.py` builds the project table,
-and `frontend/analysis.py` finds the pairs and ranks them. How centers, confidence,
-distances and ranking work is in [app.md](app.md); the current results are in
+Built: `frontend/project_data.py` builds the project table, and `frontend/analysis.py`
+finds the pairs and ranks them. How centers, confidence, distances and ranking work is
+in [app.md](app.md); the current results are in
 [status.md](status.md#overlap-candidates).
 
 - **Input:** the parser CSVs have the dates, and the Geolocator's
@@ -106,64 +107,98 @@ distances and ranking work is in [app.md](app.md); the current results are in
   the hundredth from the sheet's coordinates, then checks the same pairs with ours
   ([challenge.md](challenge.md#the-organizers-example-answers)).
 
-## 5. Cost estimate (bonus, planned)
+## 5. Cost and impact estimate (bonus)
 
-Every Georgia Power cost is redacted. Work out dollars per mile from the 19 DESC
-projects with a `line_miles` value (`cost_total / line_miles`) and apply it to Georgia's
-`line_miles`. Three DESC totals don't equal the sum of their years; see
-[sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table). The brief also suggests
-shared land (right-of-way) as a measure of impact.
+Built: `frontend/impact.py` estimates the land two nearby lines could save by sharing
+one corridor, the brief's suggested measure of impact
+([challenge.md](challenge.md#deliverables)). `frontend/analysis.py` adds its columns to
+every overlap row, and the Overlaps page shows it for the focused pair.
+
+- **Shared miles:** the shorter of the two lines' `line_miles`, the length a project's
+  plan gives when it gives exactly one ([data.md](data.md)). It's an upper bound: it
+  assumes the whole shorter line could run in the shared corridor. The distance between
+  the two projects is not a corridor length and isn't used.
+- **Easement width:** the narrower of the two lines' typical cross-country easements
+  from Georgia Transmission Corporation's [Transmission Line Heights and Easement Widths
+  (2017)](https://www.gatransmission.com/wp-content/uploads/2017/09/GTC_PoleHeightsFactSheet.pdf):
+  100 feet at 115 kV and 230 kV, and 150 at 500 kV (the low end of each range).
+  The same widths are used for DESC.
+- **Acres saved:** shared miles × 5,280 × width ÷ 43,560. One corridor still needs the
+  wider easement, so the narrower one is what's saved.
+- **Value:** the average of the two states' 2026 farm real estate values, $4,950 an acre
+  in Georgia and $4,900 in South Carolina ([USDA NASS, Land Values 2026 Summary, July
+  2026, page 9](https://www.nass.usda.gov/Publications/Todays_Reports/reports/land0726.pdf#page=9)).
+  Farm real estate includes buildings, so this is a proxy rather than an easement price.
+  A project's state is its `County / Region` when that is one of those states, otherwise
+  its utility's. Both reference PDFs were checked on 2026-09-27.
+
+A pair gets no estimate, and `impact_explanation` says why, when either project isn't
+line work (`LINE`, `MULTI_LINE` or `BOTH`), has no single `line_miles`, has a voltage
+without a width (46 kV), or has no state value. On 2026-09-27, 25 of the demo's 73 pairs
+had an estimate, from about $6,000 to $531,000. Missing-input reasons can overlap:
+35 pairs lacked a line length, 14 included non-line work and 5 included 46 kV work.
+
+Not built: construction cost. Every Georgia Power cost is redacted. Dollars per mile
+could come from the 19 DESC projects with a `line_miles` value
+(`cost_total / line_miles`), applied to Georgia's `line_miles`. Three DESC totals don't
+equal the sum of their years; see
+[sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table).
 
 ## 6. UI (`frontend/`)
 
-A Streamlit app in `frontend/`, by teammates. Nellie merged `origin/NA` (e9e14cc) into
-`main` on 2026-09-26. Its pages are `frontend/pages/1_Project_Setup.py` to
-`5_Export.py`, and `frontend/ui.py` holds the shared page layout. The entry file,
-`frontend/app.py`, is empty. Its packages are in `frontend/requirements.txt`
-(streamlit, pandas, openpyxl, pydeck), which `requirements-dev.txt` doesn't include, so
-the root `.venv` can't run it. Nobody has opened it in a browser in an agent session
-yet. AaxHamm3r's plan for connecting it to the parsers, the Geolocator and `ranking.py`
-is in [frontend-backend-integration-guide.md](frontend-backend-integration-guide.md).
-On `codex/finish-gridlock`, `frontend/data_loader.py` was reworked and
-`frontend/project_data.py`, `analysis.py` and `pdf_import.py` were added
-([app.md](app.md)), but the pages described here don't call those three.
+A five-step Streamlit app, started by AaxHamm3r and Nellie (`origin/NA`, merged into
+`main` at e9e14cc) and rewritten in 2fce793 to call the data and overlap modules in
+section 4. How centers, confidence, PDF imports and ranking work is in
+[app.md](app.md); this section covers the pages.
 
-- **Input:** on the setup page, the user names two utilities and uploads CSV or XLSX
-  files for each (`frontend/data_loader.py`). A row's own `utility` is kept; the
-  utility it was uploaded under only fills blanks ([app.md](app.md#project-data)). To
-  compare DESC with Georgia Power alone, upload only the GPC and SAV rows
-  (`python -m parsers.georgia_power --sponsors GPC SAV --out <file>`).
-- **Columns** are matched through `COLUMN_ALIASES`, ignoring case: our parser and
-  Geolocator column names (including `centroid_latitude`, `location_1_lat` and
-  `overall_confidence`), the Duke test file's `center_lat` and `center_lon`, and the
-  organizers' sheet columns `name_a`, `lat_a`, `lon_a`, `name_b`, `lat_b`, `lon_b`,
-  `lat_center` and `lon_center`
-  ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). `state` is shown
-  as "County / Region". A sheet without a `project_name` or `name` column is skipped.
-  `prepare_projects` recomputes each center from the two points
-  ([app.md](app.md#centers-and-confidence)).
-- **Our files as they are** (checked with `_normalize_projects`): the parser CSVs load
-  with dates but no centers. The Geolocator's summaries give 43 of 44 DESC and 194 of
-  208 Georgia rows a center, but they have no dates. The Duke test file gets all 100
-  centers, and the DESC test file none. `load_demo_projects()` in
-  `frontend/project_data.py` joins the parser CSVs to the points, which gives both
-  ([4. Overlaps](#4-overlaps)).
-- **IDs** are read as text. A duplicate (`Utility`, `Project ID`) stops the import, and
-  the same ID under two utilities is allowed ([app.md](app.md#project-data)).
-- **Overlaps page** (`4_Overlaps.py`): haversine between the `Latitude`/`Longitude` of
-  every pair, kept when within the setup page's threshold (default 25 miles), with the
-  absolute gap in days between in-service dates. The pairs, with their IDs, types,
-  start dates and `Voltage 1`, are ranked by `frontend/ranking.py`: a separate, shorter
-  copy of the root `ranking.py` with the same five scores but no project-CSV lookup.
-  A change to one doesn't reach the other. `frontend/analysis.py` does the same job
-  with the root `ranking.py`, but this page doesn't call it.
-- **Map and review gaps (code review, 2026-09-26):** the overlaps map draws a
-  threshold-radius circle around every mapped project, rather than highlighting
-  computed pairs. Two 25-mile circles can intersect with centers 50 miles apart,
-  so the caption's claim that intersecting circles identify matches is misleading.
-  Draw the actual qualifying pairs or highlight their projects. Rows marked
-  `Excluded` are still used by the pair loop. The displayed/exported overlap table
-  drops project IDs, confidence, total scores and ranking reasons; preserve these
-  for traceability. These findings were checked in code, not in a browser session.
+- **Running it:** `python -m streamlit run app.py` from the repository root. `app.py`
+  calls `main()` in `frontend/app.py`, which sets the defaults (25 miles, LOW
+  included, `distance_first`) and the page list. Its packages are in
+  `frontend/requirements.txt` (`streamlit>=1.55,<2`, pandas, openpyxl, pydeck), which
+  `requirements-dev.txt` doesn't include, so the root `.venv` can't run it or its
+  Streamlit tests. The theme is in `.streamlit/config.toml`, and `frontend/ui.py` draws
+  the shared header. The map's basemap (Carto) needs internet; nothing else does.
+- **Overview** (`0_Overview.py`): "Explore the real-data demo" loads
+  `load_demo_projects()` (DESC and Georgia Power's GPC and SAV rows) and opens the
+  Overlaps page.
+- **Project Setup** (`1_Project_Setup.py`) loads projects from one of four sources:
+  the saved plans (the same demo data), the two organizer PDFs (`pdf_import.py`,
+  recognized by hash; any other PDF is rejected), CSV/XLSX tables per utility
+  (`data_loader.py`), or a snapshot ZIP (`workspace.py`). It then picks the two
+  utilities and the distance threshold (1-100 miles).
+- **Project Review** (`2_Project_Review.py`): edit names, types, dates, voltages and
+  `Match Status`; the other columns are read-only. Rows with `Data Warnings` are listed.
+- **Location Verification** (`3_Location_Confirm.py`): edit endpoints, centers,
+  `Location Status` and `Confidence`. A coordinate edit keeps the original value in an
+  `Original ...` column and resets the row to LOW and `Candidate`
+  (`apply_location_review` in `workspace.py`). `Excluded` in either status column
+  leaves the project out of the overlaps.
+- **Overlap Results** (`4_Overlaps.py`): the utilities, threshold, LOW filter and
+  ranking mode, the counts, a map and the ranked pairs from `frontend/analysis.py`. The
+  map (`frontend/map_view.py`) draws each eligible center, and a line only between the
+  projects of a computed pair. "Show distance circles" (on by default) shades a circle
+  around each paired center, with a radius of half the threshold, so circles of the two
+  colors overlap exactly when their centers are within it. Choosing a pair, clicking its
+  line, or clicking a project (which picks its highest-ranked pair) focuses the map on
+  it and shows both projects' sources, location evidence and the shared-corridor estimate
+  (section 5). What the map shows about centers is in
+  [app.md](app.md#centers-and-confidence). The table keeps both project IDs, both
+  confidences, the total score and `ranking_reason`, and the CSV download has every
+  column in `RESULT_COLUMNS`.
+- **Export** (`5_Export.py`) recalculates from the current projects and settings and
+  offers three downloads: the project table, the ranked pairs, and a snapshot ZIP
+  (`projects.csv`, `ranked_overlaps.csv`, `settings.json` and a README) that Project
+  Setup restores. Nothing writes the organizers' `.xlsx` layout.
+- **Columns** from uploads are matched through `COLUMN_ALIASES` in
+  `frontend/data_loader.py`, ignoring case: our parser and Geolocator names, the Duke
+  test file's `center_lat` and `center_lon`, and the organizers' sheet columns
+  ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). A sheet without a
+  `project_name` or `name` column is skipped. The parser CSVs alone have dates but no
+  coordinates, and the Geolocator's files have coordinates but no dates, so load our
+  data through the demo or the PDFs, which join them.
+- **Tests:** `tests/test_app.py` runs the pages with Streamlit's `AppTest` (demo,
+  filters, reviews, exports, the same-utility guard) and pins the demo's pair counts;
+  `tests/test_map_view.py` checks the map's layers; `tests/test_workspace.py` checks
+  snapshots and location edits. The first two are skipped without Streamlit and pydeck.
 - `frontend/test_data/` holds synthetic projects and expected pairs for testing the
   UI. None of it comes from the PDFs.

@@ -128,4 +128,5 @@ The points the sheet gives in full:
 
 Missing or broken in the sheet: Hooks Sub (no coordinates in DESC_1, and a latitude of
 `27` with no longitude in DESC_2), Ft Johnson Sub and Purrysburg (no coordinates). In
-those rows the center cell holds the one point that is present.
+those rows the center cell holds the one point that is present. We found Hooks, so our
+OVL_1 and OVL_4 distances differ; see [app.md](app.md#overlaps-and-ranking).

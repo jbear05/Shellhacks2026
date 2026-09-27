@@ -34,8 +34,14 @@ Run everything from the repository root. On macOS/Linux use `.venv/bin/python`.
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements-dev.txt
 
-.venv/Scripts/python -m pytest -m "not slow"    # about 10 s
-.venv/Scripts/python -m pytest                  # about 80 s; parses the 668-page PDF
+.venv/Scripts/python -m pytest -m "not slow"    # about 15 s
+.venv/Scripts/python -m pytest                  # about 50 s; parses the 668-page PDF
+
+# The UI's packages (frontend/requirements.txt) aren't in the root .venv, which skips
+# tests/test_app.py and tests/test_map_view.py. Use a separate venv with them to run
+# the UI and those test files.
+python -m streamlit run app.py
+python -m pytest tests/test_app.py tests/test_map_view.py
 
 .venv/Scripts/python clean_test_csvs.py         # data/test/*_test_projects.csv, made-up test projects
 
@@ -64,12 +70,13 @@ python -m venv .venv
 | `docs/` | Project knowledge; see [Where knowledge lives](#where-knowledge-lives) |
 | `.claude/skills/` | Step-by-step workflows in plain Markdown, usable by any agent |
 | `Sperry-Tech-Challenge/` | The organizers' brief, guide, example sheet and source PDFs; read-only |
-| `ranking.py` | Scores and orders overlap pairs, in `score` or `distance_first` mode; the committed UI pages still use their own copy, `frontend/ranking.py` |
+| `ranking.py` | Scores and orders overlap pairs, in `score` or `distance_first` mode; `frontend/analysis.py` calls it |
 | `frontend/` | The teammates' Streamlit UI; see [docs/pipeline.md](docs/pipeline.md#6-ui-frontend) |
 | `frontend/project_data.py` | Joins the parser CSVs to the Geolocator's endpoints for DESC and Georgia Power (GPC and SAV); see [docs/app.md](docs/app.md) |
 | `frontend/analysis.py` | The overlap finder: cross-utility pairs within the threshold, ranked by `ranking.py` |
+| `frontend/impact.py` | The bonus estimate: land two paired lines could save in one corridor, from their line miles, GTC easement widths and USDA 2026 land values; see [docs/pipeline.md](docs/pipeline.md#5-cost-and-impact-estimate-bonus) |
 | `frontend/pdf_import.py` | Imports the two organizer PDFs, recognized by hash, with the parsers and the saved endpoints |
-| `app.py` | Empty. The UI's entry file is `frontend/app.py`, also empty |
+| `app.py` | The UI's entry file; `python -m streamlit run app.py` runs `frontend/app.py` |
 
 ## Pipeline
 

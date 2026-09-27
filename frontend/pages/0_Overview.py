@@ -5,7 +5,7 @@ from frontend.ui import render_shell
 render_shell("Gridlock")
 st.title("Find the opportunity between two plans.")
 st.write("Gridlock compares public transmission construction plans to find nearby projects and opportunities to coordinate their build windows.")
-a, b, c = st.columns(3)
+a, b, c = st.columns([1.7, 1.1, 1.1])
 a.metric("Geographic signal", "25 miles")
 b.metric("Compare build windows", "Timing")
 c.metric("DESC + Georgia Power", "2 utilities")

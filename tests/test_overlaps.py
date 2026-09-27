@@ -5,6 +5,7 @@ import pytest
 
 from frontend.analysis import calculate_overlaps, haversine_miles
 from frontend.data_loader import _normalize_projects
+from frontend.impact import estimate_overlap_impact
 from frontend.project_data import DESC, GEORGIA, ROOT, load_demo_projects
 from ranking import rank_overlaps
 
@@ -18,16 +19,65 @@ def test_organizers_six_pairs_and_negative_projects(demo):
     result = calculate_overlaps(demo, DESC, GEORGIA)
     lookup = {(r.project_id_a, r.project_id_b): r for r in result.itertuples()}
     for desc, ga, miles, days in [
-        ("6810 A", "20793", 4.09, 3074), ("06367 D-G", "20277", 8.38, 152),
-        ("06367 D-G", "20065", 7.40, 517), ("6809 E", "20793", 7.93, 3074),
+        ("6810 A", "20793", 3.91, 3074), ("06367 D-G", "20277", 8.38, 152),
+        ("06367 D-G", "20065", 7.40, 517), ("6809 E", "20793", 4.40, 3074),
         ("6808 S", "20277", 13.13, 365), ("6808 S", "20065", 14.60, 730),
     ]:
         row = lookup[desc, ga]
         # Regression values from the committed locations; sheet coordinates are tested separately.
+        # The sheet has no Hooks point, so its 6810 A and 6809 E centers are one substation;
+        # ours are midpoints with Hooks (docs/challenge.md).
         assert row.distance_miles == pytest.approx(miles, abs=0.01)
         assert row.days_apart == days
     assert "6807 B" not in set(result.project_id_a)
     assert not {"18492", "11821"}.intersection(result.project_id_b)
+
+
+def test_shared_corridor_estimate_uses_the_shorter_line_and_the_narrower_easement():
+    pair = dict(project_id_a="A", utility_a=DESC, project_type_a="LINE", line_miles_a="2", voltage_a="500000",
+                project_id_b="B", utility_b=GEORGIA, project_type_b="MULTI_LINE", line_miles_b="1", voltage_b="115000")
+    impact = estimate_overlap_impact(pair)
+    assert (impact["shared_miles"], impact["row_width_feet"]) == (1, 100)
+    assert impact["land_saved_acres"] == pytest.approx(5280 * 100 / 43560)  # 12.12 acres
+    assert impact["land_value_per_acre"] == (4900 + 4950) / 2
+    assert impact["land_saved_value_usd"] == pytest.approx(12.1212 * 4925, abs=1)
+    assert "1 miles" in impact["impact_explanation"]
+
+
+@pytest.mark.parametrize("change, reason", [
+    (dict(project_type_b="SUBSTATION"), "B is not line work"),
+    (dict(line_miles_b=""), "B has no single line length"),
+    (dict(line_miles_b="-1"), "B has no single line length"),
+    (dict(line_miles_b="0"), "B has no single line length"),
+    (dict(line_miles_b="nan"), "B has no single line length"),
+    (dict(line_miles_b="inf"), "B has no single line length"),
+    (dict(line_miles_b="1; 2"), "B has no single line length"),
+    (dict(voltage_b="46000"), "B's voltage has no typical easement width"),
+    (dict(voltage_b="inf"), "B's voltage has no typical easement width"),
+    (dict(utility_b="Duke Energy Carolinas"), "B is in no state with a land value"),
+])
+def test_shared_corridor_estimate_is_blank_and_says_why(change, reason):
+    pair = dict(project_id_a="A", utility_a=DESC, project_type_a="LINE", line_miles_a="2", voltage_a="115000",
+                project_id_b="B", utility_b=GEORGIA, project_type_b="LINE", line_miles_b="1", voltage_b="115000")
+    impact = estimate_overlap_impact({**pair, **change})
+    assert impact["land_saved_value_usd"] is None
+    assert reason in impact["impact_explanation"]
+    # A project's own state column wins over its utility's.
+    if "utility_b" in change:
+        assert estimate_overlap_impact({**pair, **change, "region_b": "South Carolina"})["land_saved_value_usd"] > 0
+
+
+def test_real_pairs_estimate_depends_on_line_lengths_not_distance(demo):
+    result = calculate_overlaps(demo, DESC, GEORGIA).set_index(["project_id_a", "project_id_b"])
+    assert result.land_saved_value_usd.notna().sum() == 25
+    # 6810 A (Hooks - Thurmond, 2.3 miles, 115 kV) is shorter than both Georgia lines it pairs with.
+    for georgia in ("20793", "20794"):
+        row = result.loc[("6810 A", georgia)]
+        assert (row.shared_miles, row.row_width_feet) == (2.3, 100)
+        assert row.land_saved_value_usd == pytest.approx(2.3 * 5280 * 100 / 43560 * 4925)
+    # The distance between the projects is not a corridor length.
+    pair = result.loc[("6810 A", "20793")].to_dict()
+    assert estimate_overlap_impact({**pair, "distance_miles": 1}) == estimate_overlap_impact({**pair, "distance_miles": 24})
 
 
 def test_haversine_reproduces_the_organizers_sheet_distances():
