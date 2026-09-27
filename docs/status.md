@@ -136,11 +136,11 @@ Last updated 2026-09-27.
   The 3.8 and 3.7 Flash runs before it failed on 503 "high demand" and then a 402 for
   the AI Studio project's empty prepaid credit, since topped up. See
   [ai-parser.md](ai-parser.md#with-gemini).
-- **Tests:** 257 pass and 2 files are skipped in the root `.venv` (full suite,
-  33.85 s on 2026-09-27, on PR #17's branch). The Gemini tests drive the real SDK
-  through a mock HTTP transport. The skipped files, `tests/test_app.py` and
+- **Tests:** 258 pass and 2 files are skipped in the root `.venv` (full suite,
+  50.48 s on 2026-09-27, on PR #17's branch rebased onto PR #18). The Gemini tests
+  drive the real SDK through a mock HTTP transport. The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
-  `.venv-ui` (23.54 s), including review, location, export and focused-estimate flows
+  `.venv-ui` (20.77 s), including review, location, export and focused-estimate flows
   through AppTest. No live browser check was made during the PR #13 review.
   `tests/test_app.py` pins the pair counts, so run it after changes to the overrides.
 
@@ -187,9 +187,9 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
+| `feat/gemini-ai-parser` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/17; kept (the sibling worktree `../Shellhacks2026-gemini` has it checked out) |
 | `feat/score-ranking-default` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/18 (the `score` ranking as the default); kept |
 | `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
-| `feat/gemini-ai-parser` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/17; kept (the sibling worktree `../Shellhacks2026-gemini` has it checked out) |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |
