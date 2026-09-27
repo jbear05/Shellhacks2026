@@ -88,7 +88,7 @@ the committed cache holds its replies and `parsers.ai_parser.api` replays with t
 default.
 
 ```bash
-.venv/Scripts/python -m parsers.ai_parser "Sperry-Tech-Challenge/Project Listings/Dominion Energy/2024-2028-2million-and-above-project-descriptions.pdf" --utility "Dominion Energy South Carolina" --state "South Carolina" --sponsor DESC --prefix desc_gemini --model gemini-3.8-flash --dry-run
+.venv/Scripts/python -m parsers.ai_parser "Sperry-Tech-Challenge/Project Listings/Dominion Energy/2024-2028-2million-and-above-project-descriptions.pdf" --utility "Dominion Energy South Carolina" --state "South Carolina" --sponsor DESC --prefix desc_gemini --model gemini-3.6-flash --dry-run
 .venv/Scripts/python -m parsers.ai_parser.evaluate data/processed/ai/desc_gemini_projects.csv data/processed/dominion_projects.csv
 ```
 
@@ -108,16 +108,37 @@ The prompts, schema, checks and outputs are the same for both. What differs:
   On 2026-09-27 two DESC runs failed this way: `gemini-3.8-flash` answered 503 "high
   demand" to all 7 tries then allowed, and `gemini-3.7-flash` to all 10 tries of both
   requests sent, over about 8 minutes. A metadata call with the same key worked, so the
-  key and model names are fine. The run keeps going for one more request after one
-  fails (`pool.map` has already started it), so a failed run takes about twice as long.
-- **Cost.** `PRICES` in `parsers/ai_parser/llm.py` has `gemini-3.8-flash` and
-  `gemini-3.7-flash` ($0.75 per million input tokens, $3.75 output, until 2027-01-01,
-  when both double) and `gemini-3.1-pro-preview` ($2 and $12), from Google's pricing
+  key and model names are fine. A third run, on `gemini-3.6-flash`, then got 402
+  "Your prepayment credits are depleted": the AI Studio project bills in advance and
+  had no credit. A 402 isn't retried. After credit was added, the same run worked. The
+  run keeps going for one more request after one fails (`pool.map` has already started
+  it), so a failed run takes about twice as long.
+- **Cost.** `PRICES` in `parsers/ai_parser/llm.py` has `gemini-3.8-flash`,
+  `gemini-3.7-flash` and `gemini-3.6-flash` ($0.75 per million input tokens, $3.75
+  output, until 2027-01-01, when both double) and `gemini-3.1-pro-preview` ($2 and $12), from Google's pricing
   page as updated on 2026-09-24. A model not in `PRICES` runs, but the log leaves out
   its cost. Thinking tokens count as output. `--dry-run`'s token counts are fitted to
   Claude's tokenizer, so they're only a guide for Gemini, and it says so.
-- **Not yet measured.** No Gemini request has succeeded, so there are no Gemini results
-  or costs below. Score a run with the eval before trusting it.
+
+DESC with `gemini-3.6-flash` at effort `high`, 2026-09-27, all 44 pages
+(`data/processed/ai/desc_gemini_*`):
+
+- **Projects:** 44 of 44 found, none extra, all `VERIFIED`, and nothing in the review
+  file.
+- **The eval:** every compared value matches `dominion_projects.csv`. That includes
+  `sponsor`, which is `DESC` on every row: Gemini left the page banner out, so
+  `--sponsor` filled it, where Claude's run copies the banner. `start_date` is blank,
+  as expected: the reference derives 15 of them and the PDF prints none.
+- **Locations:** the same as Claude's run for 42 of the 44. For 6808 L Gemini copied
+  `Frogmore` where Claude copied `Frogmore Distribution`, and for 1060A, I, L
+  `Williams St` where Claude copied `Williams Street`. Both forms are on the page.
+- **Cost:** 7 requests, 29,275 input and 44,469 output tokens, about $0.19, against
+  $0.53 for Claude's DESC run (see [Cost](#cost)). The dry run estimated about 42,100
+  input tokens, 44% more than Gemini counted. Gemini's output, thinking
+  included, was about 3.5 times Claude's. The three extraction requests account for
+  43,541 of it.
+
+Georgia Power hasn't been run on Gemini.
 
 ## How it works
 

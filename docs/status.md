@@ -132,9 +132,11 @@ Last updated 2026-09-27.
   Gemini API through `google-genai` 2.25.0, and the checks, merge and outputs are
   shared. Claude stays the
   default so the committed cache still replays. The new tests use a mock HTTP
-  transport, and the full suite has 257 passing on the branch. No Gemini request has
-  succeeded: two DESC runs on 2026-09-27, with `gemini-3.8-flash` and
-  `gemini-3.7-flash`, got 503 "high demand" on every try, though the key works. See
+  transport, and the full suite has 257 passing on the branch. On 2026-09-27 a DESC
+  run with `gemini-3.6-flash` found all 44 projects, all `VERIFIED`, with every
+  compared value matching `dominion_projects.csv` (sponsor included), for about $0.19.
+  The 3.8 and 3.7 Flash runs before it failed on 503 "high demand" and then a 402 for
+  the AI Studio project's empty prepaid credit, since topped up. See
   [ai-parser.md](ai-parser.md#with-gemini).
 - **Tests:** 250 pass and 2 files are skipped in the root `.venv` (full suite,
   28.24 s on 2026-09-27). The skipped files, `tests/test_app.py` and
@@ -165,10 +167,10 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
    $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
-   To try Gemini (`feat/gemini-ai-parser`), run DESC again once Google's models aren't
-   answering 503 (Jair's `GEMINI_API_KEY` is saved as a Windows user variable), and
-   score it with the eval. Its dry run counts 7 requests and about 42,000 input tokens
-   by Claude's tokenizer, a few cents at Flash prices; it still needs approval.
+   Gemini (`feat/gemini-ai-parser`) has read DESC; Georgia Power is next. Jair's
+   `GEMINI_API_KEY` is saved as a Windows user variable. Scaling DESC's Gemini
+   tokens by Claude's DESC-to-Georgia ratios suggests about $2 for pages 171-474 with
+   the ID pass, unmeasured; run `--dry-run` and get approval first.
 4. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
    center. The DESC test file has no coordinates: geocode it with `--projects-csv` and
    `--output-prefix desc_test` (never the default prefix; see

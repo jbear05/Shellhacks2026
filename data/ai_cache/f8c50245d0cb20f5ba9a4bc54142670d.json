@@ -1,0 +1,40 @@
+{
+ "task": "inventory",
+ "pages": [
+  40,
+  41,
+  42,
+  43,
+  44
+ ],
+ "model": "gemini-3.6-flash",
+ "model_version": "gemini-3.6-flash",
+ "usage": {
+  "input_tokens": 1430,
+  "output_tokens": 22
+ },
+ "output": {
+  "project_ids": [
+   {
+    "text": "6846 A",
+    "page": 40
+   },
+   {
+    "text": "6810 U",
+    "page": 41
+   },
+   {
+    "text": "6810 J",
+    "page": 42
+   },
+   {
+    "text": "6810 O",
+    "page": 43
+   },
+   {
+    "text": "6810 T",
+    "page": 44
+   }
+  ]
+ }
+}

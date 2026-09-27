@@ -1,0 +1,679 @@
+{
+ "task": "extract",
+ "pages": [
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32
+ ],
+ "model": "gemini-3.6-flash",
+ "model_version": "gemini-3.6-flash",
+ "usage": {
+  "input_tokens": 5616,
+  "output_tokens": 18583
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 16,
+    "kind": "project_detail"
+   },
+   {
+    "page": 17,
+    "kind": "project_detail"
+   },
+   {
+    "page": 18,
+    "kind": "project_detail"
+   },
+   {
+    "page": 19,
+    "kind": "project_detail"
+   },
+   {
+    "page": 20,
+    "kind": "project_detail"
+   },
+   {
+    "page": 21,
+    "kind": "project_detail"
+   },
+   {
+    "page": 22,
+    "kind": "project_detail"
+   },
+   {
+    "page": 23,
+    "kind": "project_detail"
+   },
+   {
+    "page": 24,
+    "kind": "project_detail"
+   },
+   {
+    "page": 25,
+    "kind": "project_detail"
+   },
+   {
+    "page": 26,
+    "kind": "project_detail"
+   },
+   {
+    "page": 27,
+    "kind": "project_detail"
+   },
+   {
+    "page": 28,
+    "kind": "project_detail"
+   },
+   {
+    "page": 29,
+    "kind": "project_detail"
+   },
+   {
+    "page": 30,
+    "kind": "project_detail"
+   },
+   {
+    "page": 31,
+    "kind": "project_detail"
+   },
+   {
+    "page": 32,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "6805 G",
+     "page": 16
+    },
+    "project_name": {
+     "text": "Edenwood Sub: #1 & #2 230-115kV Autobanks, Replace with 336MVA",
+     "page": 16
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/25/24",
+     "page": 16,
+     "iso": "2024-12-25"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace Autobank 1 and 2 at Edenwood Substation.",
+      "page": 16
+     }
+    ],
+    "locations": [
+     {
+      "text": "Edenwood",
+      "page": 16
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "1060A, I, L",
+     "page": 17
+    },
+    "project_name": {
+     "text": "Williams St Sub: Replace Sw House & Relays, AM Williams Sub: Replace Sw House, and McMeekin Sub: Add Sw House",
+     "page": 17
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/28",
+     "page": 17,
+     "iso": "2028-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace switch house, switch house equipment, and relay panels at Williams Street substation. Replace the switch house at AM Williams substation. Add Switching House at McMeekin Substation to move relays from plant relay room.",
+      "page": 17
+     }
+    ],
+    "locations": [
+     {
+      "text": "Williams St",
+      "page": 17
+     },
+     {
+      "text": "AM Williams",
+      "page": 17
+     },
+     {
+      "text": "McMeekin",
+      "page": 17
+     },
+     {
+      "text": "Williams Street",
+      "page": 17
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06005 B",
+     "page": 18
+    },
+    "project_name": {
+     "text": "Harleyville 115KV Transmission Tap – Construct (1.4 miles)",
+     "page": 18
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "3/31/2027",
+     "page": 18,
+     "iso": "2027-03-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Extend the 115 kV line from the Blue Circle tap to the Harleyville substation to provide 115 kV service.",
+      "page": 18
+     }
+    ],
+    "locations": [
+     {
+      "text": "Harleyville",
+      "page": 18
+     },
+     {
+      "text": "Blue Circle",
+      "page": 18
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "05004 P",
+     "page": 19
+    },
+    "project_name": {
+     "text": "Summerville: Replace and Spare 230-115kV 336MVA Auto Bank",
+     "page": 19
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2024",
+     "page": 19,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Purchase a spare 230/115kV, 336MVA Autobank for the Southern Region to be stored at Summerville 230kV Sub. Include a pad, AC for heaters, and possibly a pit for oil containment.",
+      "page": 19
+     }
+    ],
+    "locations": [
+     {
+      "text": "Summerville",
+      "page": 19
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06076A",
+     "page": 20
+    },
+    "project_name": {
+     "text": "Canadys-Ritter 115KV-Rebld SPDC 230/115KV 1272 (Approx 18 Miles)",
+     "page": 20
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 20,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuild Canadys-Ritter 115 kV line as SPDC with 230 kV on one side and 115 kV on the other side.",
+      "page": 20
+     }
+    ],
+    "locations": [
+     {
+      "text": "Canadys",
+      "page": 20
+     },
+     {
+      "text": "Ritter",
+      "page": 20
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6359",
+     "page": 21
+    },
+    "project_name": {
+     "text": "Yemassee– Ritter 230kV #1 & #2: Construct SPDC with B-1272",
+     "page": 21
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "6/1/2026",
+     "page": 21,
+     "iso": "2026-06-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct Ritter – Yemassee 230kV #1 and #2 SPDC with B1272 ACSR on both sides. Convert the existing Ritter – Yemassee 230 kV to 115 kV operation. Convert and add terminals at Ritter and Yemassee. Add 230 kV bus tie at Ritter and upgrade the Yemassee 230 kV bus tie.",
+      "page": 21
+     }
+    ],
+    "locations": [
+     {
+      "text": "Yemassee",
+      "page": 21
+     },
+     {
+      "text": "Ritter",
+      "page": 21
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06367 A - C, H",
+     "page": 22
+    },
+    "project_name": {
+     "text": "Riverport Tap: Construct Tap",
+     "page": 22
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/25",
+     "page": 22,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct Okatie – Riverport 230 kV to feed new Distribution substation.",
+      "page": 22
+     }
+    ],
+    "locations": [
+     {
+      "text": "Riverport",
+      "page": 22
+     },
+     {
+      "text": "Okatie",
+      "page": 22
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06367 D - G",
+     "page": 23
+    },
+    "project_name": {
+     "text": "Jasper – Okatie 230 kV #2: Construct",
+     "page": 23
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/25",
+     "page": 23,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct a 230 kV line with B1272 ACSR from Jasper to Okatie 230/115kV Substation. The line is estimated to be 6.5 miles long. This makes Jasper a Medium Impact substation and will require a new CIP Hut.",
+      "page": 23
+     }
+    ],
+    "locations": [
+     {
+      "text": "Jasper",
+      "page": 23
+     },
+     {
+      "text": "Okatie",
+      "page": 23
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06371 D",
+     "page": 24
+    },
+    "project_name": {
+     "text": "Wagener 115kV Tap: Construct Tap",
+     "page": 24
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/25",
+     "page": 24,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Constructing a 115 kV Tap off the Edmund Switching Station- Owens Corning 115 kV Line to feed new Wagener Distribution substation.",
+      "page": 24
+     }
+    ],
+    "locations": [
+     {
+      "text": "Wagener",
+      "page": 24
+     },
+     {
+      "text": "Edmund",
+      "page": 24
+     },
+     {
+      "text": "Owens Corning",
+      "page": 24
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06372 A",
+     "page": 25
+    },
+    "project_name": {
+     "text": "Church Creek - Ritter 230kV - Replace 38 Large Angles and Dead Ends",
+     "page": 25
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "6/1/2024",
+     "page": 25,
+     "iso": "2024-06-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replace 6.5 miles of aging conductor.",
+      "page": 25
+     }
+    ],
+    "locations": [
+     {
+      "text": "Church Creek",
+      "page": 25
+     },
+     {
+      "text": "Ritter",
+      "page": 25
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06810 F",
+     "page": 26
+    },
+    "project_name": {
+     "text": "VCS2-Ward 230kV: Rebuild Line",
+     "page": 26
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/29",
+     "page": 26,
+     "iso": "2029-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuild 40 miles of 230 kV line.",
+      "page": 26
+     }
+    ],
+    "locations": [
+     {
+      "text": "VCS2",
+      "page": 26
+     },
+     {
+      "text": "Ward",
+      "page": 26
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06810 G",
+     "page": 27
+    },
+    "project_name": {
+     "text": "Goose Creek Reservoir: Rebuild Transmission Line Crossings",
+     "page": 27
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/24",
+     "page": 27,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuilding the Williams Goose Creek 230 and 115 kV lines and the Williams - Faber Place 230 kV line across the Goose Creek Reservoir.",
+      "page": 27
+     }
+    ],
+    "locations": [
+     {
+      "text": "Goose Creek Reservoir",
+      "page": 27
+     },
+     {
+      "text": "Williams",
+      "page": 27
+     },
+     {
+      "text": "Goose Creek",
+      "page": 27
+     },
+     {
+      "text": "Faber Place",
+      "page": 27
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "06810 H",
+     "page": 28
+    },
+    "project_name": {
+     "text": "Summerville 115kV Loop: Rebuild",
+     "page": 28
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/24",
+     "page": 28,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Replacing several wood pole sections on the Summerville 115 kV Loop that have reached the end of life.",
+      "page": 28
+     }
+    ],
+    "locations": [
+     {
+      "text": "Summerville",
+      "page": 28
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6809 M",
+     "page": 29
+    },
+    "project_name": {
+     "text": "St George - Sumter 230kV Tie: Rebuild Line from Santee Substation - Duke/Progress Energy Tie",
+     "page": 29
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 29,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuild Line from Santee Substation - Duke/Progress Energy Tie.",
+      "page": 29
+     }
+    ],
+    "locations": [
+     {
+      "text": "St George",
+      "page": 29
+     },
+     {
+      "text": "Sumter",
+      "page": 29
+     },
+     {
+      "text": "Santee",
+      "page": 29
+     },
+     {
+      "text": "Duke/Progress Energy",
+      "page": 29
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "5392 A-C",
+     "page": 30
+    },
+    "project_name": {
+     "text": "Coit – Gills Creek 115kV: Construct",
+     "page": 30
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2024",
+     "page": 30,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Convert the existing Coit - Gills Creek 33 kV Line to 115 kV. Approximately 1.25 miles. Construct Gills Creek Terminal at Coit Bus #1.",
+      "page": 30
+     }
+    ],
+    "locations": [
+     {
+      "text": "Coit",
+      "page": 30
+     },
+     {
+      "text": "Gills Creek",
+      "page": 30
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6810 A",
+     "page": 31
+    },
+    "project_name": {
+     "text": "Hooks - Thurmond 115kV Tie: Rebuild",
+     "page": 31
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2024",
+     "page": 31,
+     "iso": "2024-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuilding section of line between Hooks and Thurmond. Approximately 2.3 miles. The line will be rebuilt on existing R/W using steel poles, 115 kV insulation, and 1272 ACSR conductor.",
+      "page": 31
+     }
+    ],
+    "locations": [
+     {
+      "text": "Hooks",
+      "page": 31
+     },
+     {
+      "text": "Thurmond",
+      "page": 31
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6809 N",
+     "page": 32
+    },
+    "project_name": {
+     "text": "Batesburg - Saluda County 115kV: Rebuild",
+     "page": 32
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 32,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuild 13.5 miles of conductor.",
+      "page": 32
+     }
+    ],
+    "locations": [
+     {
+      "text": "Batesburg",
+      "page": 32
+     },
+     {
+      "text": "Saluda County",
+      "page": 32
+     }
+    ]
+   }
+  ]
+ }
+}

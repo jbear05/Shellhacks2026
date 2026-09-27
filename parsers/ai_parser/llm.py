@@ -37,7 +37,7 @@ FALLBACK_BETA = "server-side-fallback-2026-07-01"
 PRICES = {
     "claude-opus-5": (5.0, 25.0), "claude-sonnet-5": (2.0, 10.0),
     "gemini-3.8-flash": (0.75, 3.75), "gemini-3.7-flash": (0.75, 3.75),
-    "gemini-3.1-pro-preview": (2.0, 12.0),
+    "gemini-3.6-flash": (0.75, 3.75), "gemini-3.1-pro-preview": (2.0, 12.0),
 }
 # Gemini 3 models take a thinking level instead of Claude's effort. They stop at "high".
 THINKING_LEVELS = {"low": "low", "medium": "medium", "high": "high", "xhigh": "high", "max": "high"}
