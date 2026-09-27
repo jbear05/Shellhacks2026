@@ -59,7 +59,9 @@ Last updated 2026-09-26, requirements review after PR #12.
 Implementation is underway on `codex/finish-gridlock`. The first code task adds the
 offline project/location adapter and fixes upload IDs, ownership and coordinate
 normalization. Its contract is in [app.md](app.md). The checklist below records the
-starting audit; the UI wiring and overlap work follow in separate commits.
+starting audit. The overlap service and shared distance-first ranking now have
+regressions for the organizers' six pairs and synthetic fixtures. The UI wiring
+follows in a separate commit.
 
 The required deliverables are the interactive map with highlighted overlaps and the
 ranked opportunity list; a cost/impact estimate is a bonus
@@ -188,7 +190,7 @@ Check with a teammate before committing to their branch.
 The organizers' example lists 6 pairs
 ([challenge.md](challenge.md#the-organizers-example-answers)). With `feat/geocode`'s
 coordinates and their rule (the midpoint of `location_1` and `location_2`, or the one
-located point), all 6 are under 25 miles. Four are within 0.15 miles of the sheet's
+located point), all 6 are under 25 miles. Rechecked during integration: four are within 0.21 miles of the sheet's
 distance. The two with GA 20277 differ (8.38 against 5.65, and 13.13 against 14.34)
 because our 20277 includes a LOW Purrysburg point (an unnamed 230 kV substation near
 Hardeeville), which the sheet doesn't have. From names and dates, also worth checking:

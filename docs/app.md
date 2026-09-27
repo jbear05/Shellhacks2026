@@ -34,3 +34,26 @@ point is never combined with a longitude from another.
 Invalid dates or reversed build windows are warnings, not silently repaired values.
 Source strings remain available. A missing DESC start date keeps its documented
 open-ended meaning; see [pipeline.md](pipeline.md#4-overlaps-planned).
+
+## Overlaps and ranking
+
+`frontend/analysis.py` calculates haversine distance with radius 3958.8 miles, using
+unrounded distances for the threshold. Only pairs from the two selected, distinct
+utilities qualify. Rows marked Excluded in either review-status field are omitted.
+The confidence filter can also omit LOW/unclassified locations. An empty result
+retains the export schema.
+
+The user selected distance-first ranking on 2026-09-26. The shared root `ranking.py`
+orders distance bands (up to 5, 15, then 25 miles) first, followed by overlapping
+build windows, smaller in-service date gaps, voltage compatibility, type
+compatibility, exact distance and stable project keys. Its original equal-weight
+score remains an optional mode; the 0-15 total is supplementary in distance-first
+mode. A missing start is open-ended only for DESC; another utility's unknown start
+does not establish an overlapping build window. Reversed dates are flagged.
+
+`tests/test_overlaps.py` reproduces all six organizer spreadsheet distances to the
+hundredth using the sheet's coordinates, then separately checks the real saved
+coordinates. The two GA 20277 distances use the additional LOW Purrysburg point,
+unlike the sheet. Other coordinate differences are under 0.21 miles. Negative
+projects, exclusions, missing dates, confidence filters, a distance just above
+25 miles, and the teammates' synthetic overlap fixture are also checked.
