@@ -116,7 +116,7 @@ Last updated 2026-09-27.
   land estimate. Not checked in the browser: uploading PDFs, tables or a snapshot (the
   browser pane can't upload files; `tests/test_pdf_import.py` and
   `tests/test_workspace.py` cover them), and clicking the download buttons.
-- **Fonts fixed** on `fix/demo-fonts-and-cleanup`: Nellie's Aeonik font never loaded,
+- **Fonts fixed** on `main` (https://github.com/jbear05/Shellhacks2026/pull/16): Nellie's Aeonik font never loaded,
   from either launch directory, because its URL lacked `app/`; the root launch now
   serves it too ([pipeline.md](pipeline.md#6-ui-frontend)). The 3 LibreOffice lock files
   in `frontend/test_data/overlap_case/` are removed and ignored.
@@ -167,7 +167,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
-| `fix/demo-fonts-and-cleanup` | Jair, with Claude | https://github.com/jbear05/Shellhacks2026/pull/16, open: the font fix, the lock-file cleanup and this status update; off `main` at e4b2ad2 |
+| `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |
