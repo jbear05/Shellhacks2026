@@ -116,6 +116,12 @@ shared land (right-of-way) as a measure of impact.
 
 ## 6. UI (`frontend/`)
 
+**Out of date on `codex/finish-gridlock` and the branches built on it.** Its commit
+2fce793 rewrote the pages, added `0_Overview.py`, `frontend/map_view.py` and
+`frontend/workspace.py`, filled in `app.py` and `frontend/app.py`, and deleted
+`frontend/ranking.py`. The pages now call `frontend/project_data.py`, `pdf_import.py`
+and `analysis.py` (through `workspace.py`). This section still describes `main`'s pages.
+
 A Streamlit app in `frontend/`, by teammates. Nellie merged `origin/NA` (e9e14cc) into
 `main` on 2026-09-26. Its pages are `frontend/pages/1_Project_Setup.py` to
 `5_Export.py`, and `frontend/ui.py` holds the shared page layout. The entry file,

@@ -5,7 +5,7 @@ it at the end of every work session (the
 [handoff workflow](../.claude/skills/handoff/SKILL.md)). Durable facts belong in the
 topic docs listed in [AGENTS.md](../AGENTS.md#where-knowledge-lives), not here.
 
-Last updated 2026-09-27, early morning.
+Last updated 2026-09-27.
 
 ## Done
 
@@ -46,65 +46,59 @@ Last updated 2026-09-27, early morning.
   Carolinas projects for testing the stages after the parsers. The originals are in
   `data/test/raw/`, and `clean_test_csvs.py` writes realigned copies to `data/test/`;
   see [data.md](data.md#datatest_test_projectscsv).
-- **Real-data overlaps** on `codex/finish-gridlock`, local and not pushed: 4 commits on
-  `main` made with Codex (e7ee917 to 639c67c). How they work is in [app.md](app.md).
+- **Real-data overlaps and the UI rework** on `codex/finish-gridlock`, pushed, not in
+  `main`: 5 commits made with Codex (e7ee917 to 2fce793). How the data side works is in
+  [app.md](app.md).
   - `frontend/project_data.py` joins the parser CSVs to the Geolocator's `location_1`
     and `location_2` points on (`utility`, `project_id`): 44 DESC and 138 Georgia Power
-    (GPC and SAV) projects, 44 and 129 of them with a center.
+    (GPC and SAV) projects.
   - `frontend/analysis.py` pairs them within 25 miles and ranks the pairs with the root
-    `ranking.py`, which gained a `distance_first` mode: 73 pairs, 35 of them with
-    overlapping build windows, or 53 pairs without LOW-confidence centers. See
+    `ranking.py`, which gained a `distance_first` mode. See
     [Overlap candidates](#overlap-candidates).
-- **Missing endpoints** on `fix/center-method-label` (off `codex/finish-gridlock`):
-  a project naming two substations with only one located is labeled
-  `one_of_two_endpoints` ([app.md](app.md#centers-and-confidence)), and overrides now
-  locate VCS1, VCS2, Hooks, Coleman and Ritter, found by tracing OSM lines
-  ([geolocator.md](geolocator.md#known-wrong-or-weak-lookups)). The overrides file has
-  29 rows.
   - `frontend/pdf_import.py` reads the two organizer PDFs, recognized by their SHA-256,
     with the parsers and the saved points. It makes no AI or geocoding calls.
   - `frontend/data_loader.py` reads IDs as text, keeps each row's own utility, reads the
     Geolocator's and the Duke test file's coordinate columns, and recomputes centers.
-  - The pages committed on the branch don't call these modules yet. The uncommitted
-    rework in [Next steps](#next-steps) 1 does.
-- **Tests:** 205 on `main`, all passing (198 fast). On `codex/finish-gridlock` with the
-  uncommitted rework, 225 pass in the root `.venv` (216 fast, about 10 s; the full suite
-  took 80 s). The 3 Streamlit tests in `tests/test_app.py`, which the root `.venv`
-  skips, pass with `.venv-ui`. The branch without the rework was run only from a copy
-  that lacked the source PDFs: its fast tests passed, apart from the 2 that need the
-  PDFs.
+  - 2fce793 rewrote the pages to use these modules, with an overview page, a map
+    (`frontend/map_view.py`) and snapshot export and restore (`frontend/workspace.py`).
+    Nobody has opened it in a browser yet.
+- **Missing endpoints** on `fix/center-method-label`, local, 3 commits on
+  `codex/finish-gridlock` (347c1fd to 69608eb): a project naming two substations with
+  only one located is labeled `one_of_two_endpoints`
+  ([app.md](app.md#centers-and-confidence)), and overrides now locate VCS1, VCS2, Hooks,
+  Coleman and Ritter, found by tracing OSM lines
+  ([geolocator.md](geolocator.md#known-wrong-or-weak-lookups)). With them, 44 DESC and
+  129 Georgia Power projects have a center, and there are 73 pairs (35 with overlapping
+  build windows), or 53 without LOW-confidence centers. The overrides file has 29 rows.
+- **Tests:** 205 on `main`, all passing (198 fast). On `fix/center-method-label`, 233
+  pass and 1 file is skipped in the root `.venv` (225 fast, about 15 s; the full suite
+  about 50 s). The skipped file, `tests/test_app.py`, needs Streamlit; its 3 tests pass
+  with `.venv-ui`, the Codex session's git-ignored venv. It pins the pair counts, so
+  run it after any change to the overrides.
 
 ## Next steps
 
 In priority order. The two required deliverables, the interactive map with the overlaps
 and the ranked list ([challenge.md](challenge.md#deliverables)), work on our data only
-with step 1's uncommitted pages.
+on `codex/finish-gridlock` and the branches built on it, not on `main`.
 
-1. **Commit or drop the UI rework** that the Codex session left uncommitted in the main
-   checkout, on `codex/finish-gridlock`. It rewrites the five pages: the overview page
-   (`frontend/pages/0_Overview.py`) loads the real-data demo, the setup page imports
-   the saved plans, the two PDFs, CSV/XLSX tables or a snapshot, and the overlaps and
-   export pages call `frontend/analysis.py`. It also adds a map of project centers with
-   a line between each pair (`frontend/map_view.py`), snapshot ZIP export and restore
-   (`frontend/workspace.py`), both entry files (`app.py`, `frontend/app.py`), a theme
-   (`.streamlit/config.toml`), run instructions in `README.md`, and tests
-   (`tests/test_app.py`, `tests/test_workspace.py`). It deletes `frontend/ranking.py`
-   and pins `streamlit>=1.55,<2`. Its tests pass, but nobody has opened it in a browser.
-   It replaces most of Nellie's and AaxHamm3r's UI code, so tell them before it reaches
-   `main`. Stage its files by name. Once it's committed, describe the new pages in
-   [pipeline.md](pipeline.md#6-ui-frontend) and [app.md](app.md), update the `ranking.py`
-   and `app.py` rows of AGENTS.md's repository map, and add the run command to its
-   Commands.
-2. **Run the demo in a browser:** `python -m streamlit run app.py` from the repository
+1. **Run the demo in a browser:** `python -m streamlit run app.py` from the repository
    root, with the UI's packages (`pip install -r frontend/requirements.txt`). The root
    `.venv` doesn't have them; the Codex session's git-ignored `.venv-ui` does. The map's
    basemap needs internet. Check the map, the ranked list and the export page's three
    downloads.
-3. **Push `codex/finish-gridlock` and open a pull request**, with the user's OK.
+2. **Get the work into `main`**, with the user's OK: push `fix/center-method-label` and
+   open pull requests. It sits on `codex/finish-gridlock`, and Nellie's `PrettyWeb`
+   (one styling commit) sits on the same commit; a trial merge of the two had no
+   conflicts. The UI rework replaces most of Nellie's and AaxHamm3r's UI code, so tell
+   them first. Merge with merge commits.
+3. **Describe the new UI** in [pipeline.md](pipeline.md#6-ui-frontend) and
+   [app.md](app.md) from the pages in 2fce793; section 6 still describes `main`'s pages.
 4. **Check the evidence behind the top pairs** in
    [Overlap candidates](#overlap-candidates) before presenting them. Fix a wrong point in
    `data/overrides/location_overrides.csv`, as in
-   [geolocator.md](geolocator.md#overrides), not in the UI.
+   [geolocator.md](geolocator.md#overrides), not in the UI. Ranks 2-5 use Hooks, whose
+   evidence is line lengths, not a name.
 5. **Cost estimate** (bonus), not started; see
    [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
 6. **Demo the AI parser** with `--offline`, using the commands in
@@ -128,7 +122,10 @@ with step 1's uncommitted pages.
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, UI, test data, docs, tests, committed CSVs |
-| `codex/finish-gridlock` | Jair, with Codex | Local only, not pushed: 4 commits on `main` (e7ee917 to 639c67c), plus the uncommitted UI rework and this status in the main checkout |
+| `codex/finish-gridlock` | Jair, with Codex | Pushed, no pull request: 5 commits on `main` (e7ee917 to 2fce793), the real-data overlaps and the UI rework |
+| `fix/center-method-label` | Jair, with Claude | Local, not pushed: 3 commits on `codex/finish-gridlock` (347c1fd to 69608eb), the center label and 5 located endpoints, plus this handoff |
+| `origin/PrettyWeb` | Nellie (teammate) | One commit, c697930 "style", on `codex/finish-gridlock`: `frontend/ui.py`, `frontend/app.py`, the overview page, `frontend/.streamlit/config.toml` and a font. Not merged; no files in common with `fix/center-method-label` |
+| `origin/Deebranch` | Unknown | At 42470cc, PR #7's merge commit, so nothing of its own beyond `main`; can be deleted once its owner agrees |
 | `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |
 | `origin/feat/geocode` | Jair | Merged in PR #12 at eaacacc; kept |
 | `origin/docs/status-update` | Jair | Merged in PR #11; kept (a sibling worktree, `../Shellhacks2026-sam`, has it checked out) |
@@ -167,9 +164,10 @@ Check with a teammate before committing to their branch.
 - **Weak test rows:** 17 Duke test lines have endpoints more than twice their length
   apart, and some Duke coordinates are wrong; see
   [data.md](data.md#datatest_test_projectscsv).
-- **Branches to delete** once nobody needs them: every local branch except `main` and
-  `codex/finish-gridlock` is merged into `main` (checked with `git branch --merged
-  main`). On GitHub, the merged branches' copies can go, and so can
+- **Branches to delete** once nobody needs them: every local branch except `main`,
+  `codex/finish-gridlock` and `fix/center-method-label` is merged into `main` (checked
+  with `git branch --no-merged main`). On GitHub, the merged branches' copies can go,
+  and so can `origin/Deebranch` (ask its owner),
   `origin/copilot/accept-two-pdfs-ai-parser` (PR #10, closed),
   `origin/copilot/ranking-script-gridlock` (PR #6, closed) and
   `origin/copilot/research-ranking-categories` (no commits beyond `main`). Ask the
@@ -179,7 +177,8 @@ Check with a teammate before committing to their branch.
 
 ## Overlap candidates
 
-From `frontend/analysis.py` on the branch, with LOW-confidence centers included. All 6
+From `frontend/analysis.py` on `fix/center-method-label`, with LOW-confidence centers
+included. All 6
 of the organizers' example pairs
 ([challenge.md](challenge.md#the-organizers-example-answers)) are found, and their
 negative projects (DESC 6807 B, GA 18492 and 11821) pair with nothing. Three
