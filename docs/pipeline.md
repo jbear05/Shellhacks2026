@@ -106,13 +106,15 @@ in [app.md](app.md); the current results are in
   the hundredth from the sheet's coordinates, then checks the same pairs with ours
   ([challenge.md](challenge.md#the-organizers-example-answers)).
 
-## 5. Cost estimate (bonus, planned)
+## 5. Cost estimate (bonus)
 
-Every Georgia Power cost is redacted. Work out dollars per mile from the 19 DESC
-projects with a `line_miles` value (`cost_total / line_miles`) and apply it to Georgia's
-`line_miles`. Three DESC totals don't equal the sum of their years; see
-[sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table). The brief also suggests
-shared land (right-of-way) as a measure of impact.
+The Overlaps page adds a rule-based shared-corridor estimate to every flagged pair.
+It uses the pair's center distance as a rough corridor-length proxy and a 200-foot
+default right-of-way because the current project data has no route overlap length or
+ROW-width field. The static benchmarks, formula and uncertainty note are in
+[frontend/impact.py](../frontend/impact.py); the result includes estimated acres saved,
+dollar savings and a plain-language explanation. These values are planning estimates,
+not project budgets or verified route measurements.
 
 ## 6. UI (`frontend/`)
 

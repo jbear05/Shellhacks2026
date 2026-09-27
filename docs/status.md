@@ -82,6 +82,9 @@ Last updated 2026-09-27.
   `tests/test_map_view.py`, need Streamlit and pydeck; their 6 tests pass with
   `.venv-ui`, the Codex session's git-ignored venv. `tests/test_app.py` pins the pair
   counts, so run it after any change to the overrides.
+- **Cost and impact estimate:** `frontend/impact.py` calculates a static shared-corridor
+  estimate, and the Overlaps page displays potential acres saved, estimated dollar
+  savings and the assumptions for each flagged pair. See [pipeline.md](pipeline.md#5-cost-estimate-bonus).
 
 ## Next steps
 
@@ -108,19 +111,17 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    `data/overrides/location_overrides.csv`, as in
    [geolocator.md](geolocator.md#overrides), not in the UI. Ranks 2-5 use Hooks, whose
    evidence is line lengths, not a name.
-4. **Cost estimate** (bonus), not started; see
-   [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
-5. **Demo the AI parser** with `--offline`, using the commands in
+4. **Demo the AI parser** with `--offline`, using the commands in
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
    $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
-6. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
+5. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
    center. The DESC test file has no coordinates: geocode it with `--projects-csv` and
    `--output-prefix desc_test` (never the default prefix; see
    [data.md](data.md#datatest_test_projectscsv)). No page joins a geocoded file to its
    dates yet; `attach_locations()` in `frontend/project_data.py` does it for the real
    files.
-7. Small: warn in `parsers/georgia_power.py` when `start_date` is after
+6. Small: warn in `parsers/georgia_power.py` when `start_date` is after
    `in_service_date` (TEAMS 20248; the UI already flags it); stop extracting the Georgia
    PDF after its last detail page (saves about 1.5 s); remove the 3 LibreOffice lock
    files committed in `frontend/test_data/overlap_case/` (`.~lock.*#`) and ignore them
