@@ -33,7 +33,8 @@ What's left is in [ai-parser.md](ai-parser.md#current-state).
   `tests/test_docs.py`. The Geolocator's draft scripts and partial output were removed.
   The Geolocator now retries failed Nominatim lookups, saves its cache safely, and
   writes its outputs to `data/processed/`; see [geolocator.md](geolocator.md#cache).
-- **Geocoding** on `feat/geocode` (not merged): both utilities are geocoded, with the
+- **Geocoding** on `feat/geocode`
+  (https://github.com/jbear05/Shellhacks2026/pull/12, not merged): both utilities are geocoded, with the
   outputs in `data/processed/desc_*` and `georgia_power_*` (all 208 Georgia projects,
   every sponsor) and no failed requests left. The Geolocator now downloads substations
   in cached 1° tiles, and `data/overrides/location_overrides.csv` holds 27 hand-checked
@@ -59,7 +60,8 @@ In rough priority order:
    Georgia's ID pass (about $3, and it needs approval) with the
    [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md). The extraction already
    finds all 208 projects with the right owners, so the pass is only a cross-check.
-2. **Review and merge `feat/geocode`.** It changes the teammates' Geolocator
+2. **Review and merge `feat/geocode`**
+   (https://github.com/jbear05/Shellhacks2026/pull/12). It changes the teammates' Geolocator
    (`gridlock_desc_locator.py`), so DavidCode may want to look.
 3. **Overlap finder**, tested against the organizers' 6 example overlaps; see
    [pipeline.md](pipeline.md#4-overlaps-planned). Read the centers from
@@ -86,7 +88,7 @@ In rough priority order:
 |---|---|---|
 | `main` | | Parsers, Geolocator, agent docs, tests, committed CSVs |
 | `origin/NA` | AaxHamm3r and Nellie (teammates) | Streamlit UI in `frontend/`; not merged, and shares no history with `main` (see Open issues) |
-| `feat/geocode` | Jair | Tile search, overrides, both utilities geocoded, tests; `origin/main` merged in (d7a55ce). Local, not pushed yet |
+| `feat/geocode` | Jair | Tile search, overrides, both utilities geocoded, tests; `origin/main` merged in (d7a55ce). PR #12, open; conflicts with PR #11 in `status.md` |
 | `origin/Geolocator` | DavidCode (teammate); fixed by Jair | Merged in PR #3; kept |
 | `origin/dominionScript` | thatsnotrlght (teammate); reworked by Jair | Merged in PR #2; kept |
 | `sam_datasets` | thatsnotrlght (teammate); cleanup by Jair | Test CSVs merged in PR #8. The cleanup commit on top (`clean_test_csvs.py`, `data/test/`) isn't merged |
