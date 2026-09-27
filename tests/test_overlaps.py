@@ -89,6 +89,23 @@ def test_synthetic_overlap_fixture():
         assert row.days_apart == target["Date Gap Days"]
 
 
+def test_overlap_impact_estimate_uses_usda_reference_and_project_type_heuristic():
+    projects = pd.DataFrame([
+        dict(project_id="1", project_name="Solar line", utility=DESC, project_type="LINE", lat=0, lon=0),
+        dict(project_id="2", project_name="Substation", utility=GEORGIA, project_type="SUBSTATION", lat=0, lon=0),
+    ])
+    normalized = _normalize_projects(projects, "", "test.csv")
+    result = calculate_overlaps(normalized, DESC, GEORGIA)
+    assert len(result) == 1
+    row = result.iloc[0]
+    assert row.estimated_acres_a == pytest.approx(0.5)
+    assert row.estimated_acres_b == pytest.approx(1.0)
+    assert row.estimated_shared_acres == pytest.approx(0.5)
+    assert row.land_value_per_acre_a == pytest.approx(4900)
+    assert row.land_value_per_acre_b == pytest.approx(4950)
+    assert row.estimated_land_savings_usd == pytest.approx(2462.5, abs=0.5)
+
+
 def test_ranking_can_prioritize_distance_over_other_scores():
     close = dict(project_id_a="close", distance_miles="4", utility_a="Other", utility_b="Other B")
     farther = dict(project_id_a="far", distance_miles="20", utility_a="Other", utility_b="Other B", start_date_a="2025-01-01", start_date_b="2025-01-01", in_service_date_a="2026-01-01", in_service_date_b="2026-01-01", voltage_a="115000", voltage_b="115000", project_type_a="LINE", project_type_b="LINE")

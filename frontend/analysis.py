@@ -6,6 +6,7 @@ import math
 import pandas as pd
 
 from frontend.data_loader import prepare_projects, valid_point
+from frontend.land_value_reference import estimate_overlap_impact
 from ranking import rank_overlaps
 
 PAIR_FIELDS = {
@@ -19,7 +20,10 @@ PAIR_FIELDS = {
 PAIR_COLUMNS = [f"{name}_{suffix}" for suffix in ("a", "b") for name in PAIR_FIELDS]
 RESULT_COLUMNS = ["rank", "overlap_id", "distance_miles", "days_apart", "timeline_overlap", *PAIR_COLUMNS,
                   "distance_score", "timeline_overlap_score", "days_apart_score", "power_voltage_score",
-                  "project_type_score", "total_score", "ranking_reason", "ranking_mode"]
+                  "project_type_score", "total_score", "ranking_reason", "ranking_mode",
+                  "estimated_acres_a", "estimated_acres_b", "estimated_shared_acres",
+                  "estimated_land_value_per_acre", "estimated_land_savings_usd",
+                  "utility_state_a", "utility_state_b", "land_value_per_acre_a", "land_value_per_acre_b"]
 
 
 def haversine_miles(lat1, lon1, lat2, lon2):
@@ -72,4 +76,6 @@ def calculate_overlaps(projects: pd.DataFrame, utility_a: str, utility_b: str,
         row["timeline_overlap"] = "Yes" if "build windows overlap" in reason else "No" if "build windows do not overlap" in reason else "Unknown"
         row["overlap_id"] = f"{row['utility_a']}:{row['project_id_a']} | {row['utility_b']}:{row['project_id_b']}"
         row["rank"] = int(row["rank"])
-    return pd.DataFrame(ranked, columns=RESULT_COLUMNS)
+        row.update(estimate_overlap_impact(row, row))
+    columns = RESULT_COLUMNS + [name for name in ranked[0].keys() if name not in RESULT_COLUMNS] if ranked else RESULT_COLUMNS
+    return pd.DataFrame(ranked, columns=columns)
