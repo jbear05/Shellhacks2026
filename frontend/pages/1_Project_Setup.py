@@ -1,5 +1,5 @@
 import streamlit as st
-from data_loader import ProjectLoadError, load_uploaded_projects
+from ai_parser_jobs import ParseInput, clear_job, get_job, projects_from_job, start_job
 from ui import render_shell
 
 st.set_page_config(
@@ -25,11 +25,14 @@ if "utility_b" not in st.session_state:
 if "threshold_miles" not in st.session_state:
     st.session_state.threshold_miles = 25.0
 
-if "files_a" not in st.session_state:
-    st.session_state.files_a = []
+if "state_a" not in st.session_state:
+    st.session_state.state_a = ""
 
-if "files_b" not in st.session_state:
-    st.session_state.files_b = []
+if "state_b" not in st.session_state:
+    st.session_state.state_b = ""
+
+if "parser_job_id" not in st.session_state:
+    st.session_state.parser_job_id = ""
 
 # Utility inputs
 utility_panel = st.container(border=True)
@@ -43,12 +46,22 @@ with col1:
         value=st.session_state.utility_a,
         placeholder="Example: Georgia Power"
     )
+    state_a = st.text_input(
+        "Utility A state",
+        value=st.session_state.state_a,
+        placeholder="Example: Georgia"
+    )
 
 with col2:
     utility_b = st.text_input(
         "Utility B",
         value=st.session_state.utility_b,
         placeholder="Example: Dominion Energy South Carolina"
+    )
+    state_b = st.text_input(
+        "Utility B state",
+        value=st.session_state.state_b,
+        placeholder="Example: South Carolina"
     )
 
 # Upload files
@@ -58,17 +71,17 @@ upload_panel.subheader("2. Upload Project Documents")
 col1, col2 = upload_panel.columns(2)
 
 with col1:
-    files_a = st.file_uploader(
-        "Upload Utility A files",
-        type=["pdf", "csv", "xlsx"],
-        accept_multiple_files=True
+    file_a = st.file_uploader(
+        "Upload Utility A PDF",
+        type=["pdf"],
+        accept_multiple_files=False,
     )
 
 with col2:
-    files_b = st.file_uploader(
-        "Upload Utility B files",
-        type=["pdf", "csv", "xlsx"],
-        accept_multiple_files=True
+    file_b = st.file_uploader(
+        "Upload Utility B PDF",
+        type=["pdf"],
+        accept_multiple_files=False,
     )
 
 # Analysis settings
@@ -87,42 +100,69 @@ settings_panel.caption(
     "Projects within this distance of each other will be included in the overlap table."
 )
 
-# Save setup
-if st.button("Save Project Setup", type="primary"):
+run_button = st.button("Run AI parser", type="primary")
+if run_button:
     if not utility_a or not utility_b:
         st.error("Please enter both utility names.")
-
     elif utility_a.strip().lower() == utility_b.strip().lower():
         st.error("Utility A and Utility B must be different.")
-
+    elif not state_a or not state_b:
+        st.error("Please enter both utility states.")
+    elif file_a is None or file_b is None:
+        st.error("Please upload one PDF for each utility.")
     else:
-        selected_files_a = (
-            files_a or st.session_state.files_a
-        )
-        selected_files_b = (
-            files_b or st.session_state.files_b
+        st.session_state.utility_a = utility_a.strip()
+        st.session_state.utility_b = utility_b.strip()
+        st.session_state.state_a = state_a.strip()
+        st.session_state.state_b = state_b.strip()
+        st.session_state.threshold_miles = threshold
+        st.session_state.parser_job_id = start_job(
+            [
+                ParseInput(
+                    utility=utility_a.strip(),
+                    state=state_a.strip(),
+                    filename=file_a.name,
+                    content=file_a.getvalue(),
+                ),
+                ParseInput(
+                    utility=utility_b.strip(),
+                    state=state_b.strip(),
+                    filename=file_b.name,
+                    content=file_b.getvalue(),
+                ),
+            ]
         )
 
-        try:
-            parsed_projects = load_uploaded_projects(
-                selected_files_a or [],
-                selected_files_b or [],
-                utility_a.strip(),
-                utility_b.strip(),
-            )
-        except ProjectLoadError as error:
-            st.error(f"Project files could not be loaded:\n\n{error}")
-        else:
-            st.session_state.utility_a = utility_a.strip()
-            st.session_state.utility_b = utility_b.strip()
-            st.session_state.threshold_miles = threshold
-            st.session_state.files_a = selected_files_a or []
-            st.session_state.files_b = selected_files_b or []
-            st.session_state.projects = parsed_projects
-
-            st.success(
-                f"Project setup saved. Loaded {len(parsed_projects)} project rows."
-            )
+job_id = st.session_state.get("parser_job_id", "")
+if job_id:
+    job = get_job(job_id)
+    if job is None:
+        st.warning("Parser job state was cleared. Start a new parse run.")
+        st.session_state.parser_job_id = ""
+    elif job["status"] == "running":
+        st.info(job.get("message", "Parsing in progress."))
+        st.progress(min(100, int(job.get("progress", 0.0))) / 100)
+        st.caption("Parsing runs asynchronously. Click refresh to update status.")
+        st.button("Refresh parser status")
+    elif job["status"] == "failed":
+        st.error(f"AI parser failed: {job.get('error', 'Unknown error')}")
+        if st.button("Clear failed run"):
+            clear_job(job_id)
+            st.session_state.parser_job_id = ""
+            st.rerun()
+    elif job["status"] == "completed":
+        st.session_state.projects = projects_from_job(job)
+        st.success(
+            f"AI parser finished. Loaded {job.get('row_count', len(st.session_state.projects))} project rows."
+        )
+        st.download_button(
+            label="Download generated CSV",
+            data=job.get("projects_csv", b""),
+            file_name=f"{st.session_state.utility_a}_{st.session_state.utility_b}_projects.csv".replace(" ", "_"),
+            mime="text/csv",
+        )
+        if st.button("Continue to Project Review"):
+            st.switch_page("pages/2_Project_Review.py")
 
 # Display current setup
 if st.session_state.utility_a and st.session_state.utility_b:
@@ -142,13 +182,3 @@ if st.session_state.utility_a and st.session_state.utility_b:
             "Overlap Threshold",
             f"{st.session_state.threshold_miles:.0f} miles"
         )
-
-    st.write(
-        f"Utility A files uploaded: **{len(st.session_state.files_a)}**"
-    )
-    st.write(
-        f"Utility B files uploaded: **{len(st.session_state.files_b)}**"
-    )
-
-    if st.button("Continue to Project Review"):
-        st.switch_page("pages/2_Project_Review.py")
