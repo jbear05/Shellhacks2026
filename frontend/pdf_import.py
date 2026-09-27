@@ -1,11 +1,7 @@
 """Deterministic imports of the two organizer PDFs; no AI or geocoding calls."""
 from __future__ import annotations
-
-from dataclasses import asdict
-from datetime import date
 from functools import lru_cache
 from hashlib import sha256
-from io import BytesIO
 
 import pandas as pd
 
@@ -28,20 +24,17 @@ def parse_known_pdf(content: bytes) -> pd.DataFrame:
             "2024–2028 project descriptions or Georgia Power 2025 IRP Volume 3 public PDF, "
             "or import a CSV/XLSX project table. Revised PDFs need their locations reviewed first."
         )
-    if utility == DESC:
-        from dominionScript import extract_utility_projects
-        records = extract_utility_projects(BytesIO(content))
-        prefix = "desc"
-    else:
-        from parsers.georgia_power import parse_georgia_power
-        records = [asdict(record) for record in parse_georgia_power(BytesIO(content))]
-        records = [row for row in records if row["utility"] == GEORGIA]
-        prefix = "georgia_power"
-    normalized = [
-        {key: value.isoformat() if isinstance(value, date) else "" if value is None else str(value)
-         for key, value in row.items()}
-        for row in records
-    ]
-    result = attach_locations(pd.DataFrame(normalized), prefix, SOURCE_FILES[utility])
+    # The exact PDF hash identifies the committed parser output that was checked
+    # against this version of the plan. Keep ownership and IDs from those rows.
+    prefix, project_file = (
+        ("desc", "dominion_projects.csv") if utility == DESC
+        else ("georgia_power", "georgia_power_projects.csv")
+    )
+    projects = pd.read_csv(ROOT / "data" / "processed" / project_file,
+                           dtype=str, keep_default_na=False)
+    if utility == GEORGIA:
+        projects = projects[projects.utility == GEORGIA]
+    result = attach_locations(projects, prefix, SOURCE_FILES[utility])
+
     result["Source SHA256"] = digest
     return result

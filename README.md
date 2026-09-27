@@ -17,7 +17,7 @@ python -m streamlit run app.py
 ```
 
 Choose **Explore the real-data demo** to load DESC and Georgia Power with saved
-geocoding. Project Setup also accepts the two organizer PDFs directly, CSV/XLSX
+geocoding. Project Setup also accepts the two exact organizer PDFs, CSV/XLSX
 project tables, or an exported snapshot ZIP. No paid AI or geocoding calls run in
 the app. See [the app guide](docs/app.md) for centers, confidence, ranking and export
 behavior. The map's basemap needs internet access; computation uses local data.

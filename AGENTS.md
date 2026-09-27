@@ -79,7 +79,7 @@ python -m pytest tests/test_app.py tests/test_map_view.py
 | `frontend/project_data.py` | Joins the parser CSVs to the Geolocator's endpoints for DESC and Georgia Power (GPC and SAV); see [docs/app.md](docs/app.md) |
 | `frontend/analysis.py` | The overlap finder: cross-utility pairs within the threshold, ranked by `ranking.py` |
 | `frontend/impact.py` | The bonus estimate: land two paired lines could save in one corridor, from their line miles, GTC easement widths and USDA 2026 land values; see [docs/pipeline.md](docs/pipeline.md#5-cost-and-impact-estimate-bonus) |
-| `frontend/pdf_import.py` | Imports the two organizer PDFs, recognized by hash, with the parsers and the saved endpoints |
+| `frontend/pdf_import.py` | Imports the two exact organizer PDFs, recognized by hash, from committed parser tables and saved endpoints |
 | `app.py` | The UI's entry file; `python -m streamlit run app.py` runs `frontend/app.py` |
 
 ## Pipeline

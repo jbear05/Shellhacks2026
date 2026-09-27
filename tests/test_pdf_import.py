@@ -1,4 +1,6 @@
 import pytest
+import pandas as pd
+from unittest.mock import patch
 
 from frontend.data_loader import ProjectLoadError
 from frontend.pdf_import import parse_known_pdf
@@ -13,11 +15,11 @@ def test_unknown_pdf_is_rejected_before_any_parser_or_network_call():
 @pytest.mark.slow
 @pytest.mark.parametrize("utility", [DESC, GEORGIA])
 def test_real_uploaded_pdf_matches_saved_demo(utility):
-    parsed = parse_known_pdf((ROOT / SOURCE_FILES[utility]).read_bytes())
+    with patch("parsers.ai_parser.llm.Model.ask", side_effect=AssertionError("AI called during upload")):
+        parsed = parse_known_pdf((ROOT / SOURCE_FILES[utility]).read_bytes())
     demo = load_demo_projects()
-    expected = demo[demo.Utility == utility].set_index("Project ID")
-    parsed = parsed.set_index("Project ID")
-    assert set(parsed.index) == set(expected.index)
-    for field in ("In-Service Date", "Start Date", "Latitude", "Longitude", "Center Method"):
-        assert parsed[field].fillna("").to_dict() == expected[field].fillna("").to_dict()
+    expected = demo[demo.Utility == utility].reset_index(drop=True)
+    actual = parsed.drop(columns="Source SHA256").reset_index(drop=True)
+    pd.testing.assert_frame_equal(actual, expected[actual.columns], check_dtype=False)
+    assert set(parsed.Utility) == {utility}
     assert parsed["Source SHA256"].str.len().eq(64).all()
