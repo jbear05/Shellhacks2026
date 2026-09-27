@@ -32,10 +32,14 @@ What's left is in [ai-parser.md](ai-parser.md#current-state).
   `AGENTS.md`, `CLAUDE.md`, `docs/`, the `.claude/` skills and settings, and
   `tests/test_docs.py`. The Geolocator's draft scripts and partial output were removed.
   The Geolocator now retries failed Nominatim lookups, saves its cache safely, and
-  writes its outputs to `data/processed/`; see [geolocator.md](geolocator.md#cache). It
-  has no automated tests, and these fixes haven't had a live run yet.
-- **Tests:** 169 with the `sam_datasets` cleanup, 162 of them fast. The full suite takes
-  20-50 s.
+  writes its outputs to `data/processed/`; see [geolocator.md](geolocator.md#cache).
+- **Geocoding** on `feat/geocode` (not merged): both utilities are geocoded, with the
+  outputs in `data/processed/desc_*` and `georgia_power_*` (all 208 Georgia projects,
+  every sponsor) and no failed requests left. The Geolocator now downloads substations
+  in cached 1° tiles, and `data/overrides/location_overrides.csv` holds 27 hand-checked
+  fixes. What was checked, and what wasn't:
+  [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+- **Tests:** 205 on `feat/geocode`, 198 of them fast. The full suite takes 20-50 s.
 - **Ranking script:** `ranking.py` now ranks overlap CSV rows with distance, timeline
   overlap, days apart, power voltage and project type scores. It accepts project CSVs
   for enrichment by (`utility`, `project_id`); `tests/test_ranking.py` checks realistic
@@ -55,26 +59,25 @@ In rough priority order:
    Georgia's ID pass (about $3, and it needs approval) with the
    [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md). The extraction already
    finds all 208 projects with the right owners, so the pass is only a cross-check.
-2. **Geocode DESC.** No full run is committed yet. Consider deleting the 7 `null`
-   Nominatim entries from the cache first; see [geolocator.md](geolocator.md#cache).
-   Start with the [geocode workflow](../.claude/skills/geocode/SKILL.md).
-3. **Geocode Georgia Power** (353 location slots) and review
-   `data/processed/georgia_power_manual_review.csv`. Projects around Savannah and
-   Augusta matter most.
-4. **Overrides file** for the heuristics' and Geolocator's known mistakes; see
-   [pipeline.md](pipeline.md#3-manual-overrides).
-5. **Overlap finder**, tested against the organizers' 6 example overlaps; see
-   [pipeline.md](pipeline.md#4-overlaps-planned).
-6. **Wire ranking into the UI/export.** The current UI overlap export has names,
+2. **Review and merge `feat/geocode`.** It changes the teammates' Geolocator
+   (`gridlock_desc_locator.py`), so DavidCode may want to look.
+3. **Overlap finder**, tested against the organizers' 6 example overlaps; see
+   [pipeline.md](pipeline.md#4-overlaps-planned). Read the centers from
+   `<prefix>_project_locations.csv`, not the summary's centroid; see
+   [Overlap candidates](#overlap-candidates) for why it matters.
+4. **More overrides**, only if the overlaps need them: the rest of both lists is
+   unchecked. Add a row with its evidence, as in
+   [geolocator.md](geolocator.md#overrides).
+5. **Wire ranking into the UI/export.** The current UI overlap export has names,
    distance and in-service dates but not IDs, voltage or project type, so pass a richer
    overlap table or project lookup into `ranking.py` first.
-7. **UI.** Once the UI owners agree, bring `frontend/` onto a branch off `main` with
+6. **UI.** Once the UI owners agree, bring `frontend/` onto a branch off `main` with
    `git cherry-pick fb1c0c3`. That keeps Nellie as the author, and only `.gitignore`
    should conflict. Then write a per-project table with coordinates that the upload
    page can map, and read IDs as text. See
    [pipeline.md](pipeline.md#6-ui-originna-not-merged).
-8. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
-9. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
+7. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
+8. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
    extracting the Georgia PDF after its last detail page (saves about 1.5 s).
 
 ## Branches
@@ -83,6 +86,7 @@ In rough priority order:
 |---|---|---|
 | `main` | | Parsers, Geolocator, agent docs, tests, committed CSVs |
 | `origin/NA` | AaxHamm3r and Nellie (teammates) | Streamlit UI in `frontend/`; not merged, and shares no history with `main` (see Open issues) |
+| `feat/geocode` | Jair | Tile search, overrides, both utilities geocoded, tests; `origin/main` merged in (d7a55ce). Local, not pushed yet |
 | `origin/Geolocator` | DavidCode (teammate); fixed by Jair | Merged in PR #3; kept |
 | `origin/dominionScript` | thatsnotrlght (teammate); reworked by Jair | Merged in PR #2; kept |
 | `sam_datasets` | thatsnotrlght (teammate); cleanup by Jair | Test CSVs merged in PR #8. The cleanup commit on top (`clean_test_csvs.py`, `data/test/`) isn't merged |
@@ -117,7 +121,10 @@ Check with a teammate before committing to their branch.
   `9662`. See [pipeline.md](pipeline.md#6-ui-originna-not-merged).
 - **Project centers** average every located point, LOW fallbacks included, which
   isn't the organizers' two-point midpoint. Decide before building the overlaps.
-- **Wrong lookups:** `EVANS PRIMARY` and `MCINTOSH` find counties; see
+- **Weak lookups left on purpose:** 12 location names have no point because the search
+  was wrong and OSM has no substation with that name (for example DESC Hooks and
+  Riverport, and GA Coleman, which could be either of two Savannah substations). GA 16007 and 20407 have
+  MEDIUM matches with other substations' names. See
   [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 - **Weak Georgia rows:** 2 `UNKNOWN` rows and 4 customer-project names; see
   [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
@@ -129,16 +136,21 @@ Check with a teammate before committing to their branch.
 
 ## Overlap candidates
 
-Not geocoded yet. The organizers' example already lists 6 pairs
-([challenge.md](challenge.md#the-organizers-example-answers)). From names and dates,
-also worth checking:
+The organizers' example lists 6 pairs
+([challenge.md](challenge.md#the-organizers-example-answers)). With `feat/geocode`'s
+coordinates and their rule (the midpoint of `location_1` and `location_2`, or the one
+located point), all 6 are under 25 miles. Four are within 0.15 miles of the sheet's
+distance. The two with GA 20277 differ (8.38 against 5.65, and 13.13 against 14.34)
+because our 20277 includes a LOW Purrysburg point (an unnamed 230 kV substation near
+Hardeeville), which the sheet doesn't have. From names and dates, also worth checking:
 
 - GA 20794 Evans Primary - Thurmond Dam #6 (starts 2030-06-01), the twin of 20793.
   Both are due 2033-06-01, so their build windows don't overlap with DESC 6810 A
   (due 2024-12-31).
-- DESC 06367 A-C, H Riverport Tap, next to 06367 D-G, against GA 20277, 20065, 20785
-  (Goshen - Kraft) and 21116 (Goshen area). 20277 runs 2024-01-01 to 2026-06-01,
-  overlapping 06367's build (due 2025-12-31).
+- DESC 06367 A-C, H Riverport Tap, next to 06367 D-G, against GA 20277, 20065 and
+  20785 (Goshen - Kraft). 20277 runs 2024-01-01 to 2026-06-01, overlapping 06367's
+  build (due 2025-12-31). Riverport has no point, so 06367 A-C, H's center is Okatie.
 - Augusta-area DESC projects (6809 G Stevens Creek - Hooks, 6852 Urquhart - Toolebeck,
   6810 O Urquhart - Aiken PSA) against Georgia's Evans and Thomson projects (14222,
-  17993).
+  17993), 16007 Fenwick Street - Sand Bar Ferry, and 21116. 21116 "Goshen area" is the
+  Goshen in south Augusta, not Savannah's (GA PDF p. 382).

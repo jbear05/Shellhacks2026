@@ -54,6 +54,23 @@ decision is reversed, say so under the old entry instead of deleting it.
   it.
 - **Failed Nominatim and Overpass requests are retried, not cached** (2026-09-26), so
   a failure doesn't look like "not found" or "no substation nearby".
+- **Substations are downloaded in 1° tiles, not one `around:` query per location**
+  (2026-09-26). The per-location queries took about 36 s each and 4 of the first 10
+  timed out, which put a full run at hours. Tiles are cached and shared by nearby
+  locations, and they send far fewer requests. Distance is measured to a substation's
+  center rather than its nearest edge; on 5 seeds the candidates were the same apart
+  from one unnamed substation just past 25 km. A tile that fails is split into quarters
+  because the dense Atlanta tiles timed out on both servers.
+- **Every Georgia sponsor is geocoded, not just GPC and SAV** (2026-09-26). It cost a
+  few minutes more, and it keeps the summary one row per project of
+  `georgia_power_projects.csv`. Which owners count as Georgia Power is left to the
+  overlap step.
+- **Overrides replace the search; wrong points with no known answer are removed**
+  (2026-09-26). A point in the wrong region (Hooks Pond, 180 mi from Hooks) would pull
+  its project's center there, and inventing a location isn't allowed, so a blank
+  override leaves the location with no point. Overrides with a point are rated HIGH, not
+  a new label, because the summary ranks unknown labels below LOW. Wrong-named MEDIUM
+  matches near the right place (16007, 20407) are left as they are.
 
 ## Process
 
