@@ -1,11 +1,8 @@
 """Deterministic imports of the two organizer PDFs; no AI or geocoding calls."""
 from __future__ import annotations
-
-from dataclasses import asdict
-from datetime import date
 from functools import lru_cache
 from hashlib import sha256
-from io import BytesIO
+from parsers.ai_parser.api import parse_pdf
 
 import pandas as pd
 
@@ -29,19 +26,30 @@ def parse_known_pdf(content: bytes) -> pd.DataFrame:
             "or import a CSV/XLSX project table. Revised PDFs need their locations reviewed first."
         )
     if utility == DESC:
-        from dominionScript import extract_utility_projects
-        records = extract_utility_projects(BytesIO(content))
+        records = parse_pdf(
+            content,
+            utility=DESC,
+            state="South Carolina",
+            sponsor="DESC",
+        )
         prefix = "desc"
     else:
-        from parsers.georgia_power import parse_georgia_power
-        records = [asdict(record) for record in parse_georgia_power(BytesIO(content))]
-        records = [row for row in records if row["utility"] == GEORGIA]
+        records = parse_pdf(
+            content,
+            utility=GEORGIA,
+            state="Georgia",
+            pages="171-474",
+            workers=4,
+        )
         prefix = "georgia_power"
-    normalized = [
-        {key: value.isoformat() if isinstance(value, date) else "" if value is None else str(value)
-         for key, value in row.items()}
-        for row in records
-    ]
+
+    normalized = []
+    for record in records:
+        row = dict(record)
+        row["Utility"] = utility
+        row["Source PDF"] = SOURCE_FILES[utility]
+        normalized.append(row)
+
     result = attach_locations(pd.DataFrame(normalized), prefix, SOURCE_FILES[utility])
     result["Source SHA256"] = digest
     return result
