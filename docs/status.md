@@ -5,7 +5,7 @@ it at the end of every work session (the
 [handoff workflow](../.claude/skills/handoff/SKILL.md)). Durable facts belong in the
 topic docs listed in [AGENTS.md](../AGENTS.md#where-knowledge-lives), not here.
 
-Last updated 2026-09-26, evening.
+Last updated 2026-09-26, requirements review after PR #12.
 
 ## Done
 
@@ -24,7 +24,8 @@ Last updated 2026-09-26, evening.
   `tests/test_docs.py`. The Geolocator now retries failed Nominatim lookups, saves its
   cache safely, and writes its outputs to `data/processed/`; see
   [geolocator.md](geolocator.md#cache).
-- **Geocoding** (https://github.com/jbear05/Shellhacks2026/pull/12): both utilities
+- **Geocoding** on `main` (https://github.com/jbear05/Shellhacks2026/pull/12, merge
+  eaacacc): both utilities
   are geocoded, with the outputs in `data/processed/desc_*` and `georgia_power_*` (all
   208 Georgia projects, every sponsor) and no failed requests left. The Geolocator now
   downloads substations in cached 1° tiles, and `data/overrides/location_overrides.csv`
@@ -47,13 +48,43 @@ Last updated 2026-09-26, evening.
   Carolinas projects for testing the stages after the parsers. The originals are in
   `data/test/raw/`, and `clean_test_csvs.py` writes realigned copies to `data/test/`;
   see [data.md](data.md#datatest_test_projectscsv).
-- **Tests:** 170 on `main`, 163 of them fast; 205 with PR #12, 198 of them fast. The
-  full suite takes 20-50 s.
+- **Tests:** this review ran 198 fast tests successfully, with 7 slow tests deselected.
+  The prescribed `.venv/Scripts/python` could not access its Microsoft Store Python
+  interpreter in this session. The checks used Codex's bundled Python 3.12 with the
+  existing venv packages and a fresh writable pytest temp directory. The full suite
+  and browser UI were not run in this review.
+
+## Requirements review
+
+The required deliverables are the interactive map with highlighted overlaps and the
+ranked opportunity list; a cost/impact estimate is a bonus
+([challenge.md](challenge.md#deliverables)). The remaining critical path is:
+
+1. Connect parser fields and saved geocoded endpoints to the UI, joining on
+   (`utility`, `project_id`), preserving text IDs and actual utility ownership.
+   Rechecked `_normalize_projects`: both committed geocoded summaries produce zero
+   mapped UI rows. Use Georgia Power's own projects for the two-utility demo.
+2. Use the documented endpoint midpoint policy, retain confidence/source evidence,
+   and respect exclusions. Verify the resulting distances and dates against the
+   organizers' example pairs. See [pipeline.md](pipeline.md#4-overlaps-planned).
+3. Make the map highlight the computed pairs and expose project details. Its current
+   radius circles are not a correct visual test of the 25-mile pairing rule; see
+   [pipeline.md](pipeline.md#6-ui-frontend).
+4. Use one ranking implementation and show its rationale with dates and confidence.
+   Keep distance primary and timing secondary when deciding the ranking policy.
+5. Provide a useful app entry page and documented launch command, then verify the
+   complete real-data demo and CSV exports. Both `app.py` files remain empty.
+
+The integration guide's PDF-upload/background-job flow is a broader product goal,
+not an additional explicit challenge deliverable. The existing parsers and saved
+geocoding can support the required demo without another paid AI run or full public
+API run. Synthetic tests supplement the real DESC/Georgia Power demonstration.
 
 ## Next steps
 
-In rough priority order. The plan is to demo the AI parser on the organizers' PDFs,
-then test the later stages with the made-up CSVs in `data/test/`.
+Existing work queue. Prioritize the required real-data demo path in
+[Requirements review](#requirements-review); the AI parser demo and synthetic data
+can supplement it.
 
 1. **Demo the AI parser** with `--offline`, using the commands in
    [ai-parser.md](ai-parser.md#current-state). Optionally finish Georgia's ID pass
@@ -62,11 +93,7 @@ then test the later stages with the made-up CSVs in `data/test/`.
    (PR #10) doesn't use the offline mode. Georgia's cache covers only pages 171-440
    without the ID pass, so a full Georgia upload there would send paid requests (not
    tried).
-2. **Review and merge the geocoding**
-   (https://github.com/jbear05/Shellhacks2026/pull/12). It changes the teammates'
-   Geolocator (`gridlock_desc_locator.py`), so DavidCode may want to look. Don't run
-   the geocode again: the committed cache has every result.
-3. **Connect the UI to our data.** AaxHamm3r's plan is
+2. **Connect the UI to our data.** AaxHamm3r's plan is
    [frontend-backend-integration-guide.md](frontend-backend-integration-guide.md): one
    project schema, centers from the two endpoints, the root `ranking.py`, in five
    phases, starting with its section 17. None of it is on `main` yet. The quickest fix for a
@@ -74,19 +101,19 @@ then test the later stages with the made-up CSVs in `data/test/`.
    `center_lat`/`center_lon` to `COLUMN_ALIASES` in `frontend/data_loader.py`, and to
    read IDs as text. It's the UI owners' code, so agree the approach with Nellie and
    AaxHamm3r. See [pipeline.md](pipeline.md#6-ui-frontend).
-4. **Test with the made-up data:** geocode `data/test/desc_test_projects.csv` with
+3. **Test with the made-up data:** geocode `data/test/desc_test_projects.csv` with
    `--projects-csv` and `--output-prefix desc_test` (never the default prefix; see
    [data.md](data.md#datatest_test_projectscsv)), then upload it and
-   `duke_test_projects.csv` to the UI as DESC and Duke. Needs step 3.
-5. **Check the overlaps against the organizers' 6 example pairs.** A quick check with
+   `duke_test_projects.csv` to the UI as DESC and Duke. Needs step 2.
+4. **Check the overlaps against the organizers' 6 example pairs.** A quick check with
    their midpoint rule is done (see [Overlap candidates](#overlap-candidates)). The UI's
    overlaps page is the only pairing code so far; the planned standalone finder is in
    [pipeline.md](pipeline.md#4-overlaps-planned). Take centers from
    `<prefix>_project_locations.csv`, not the summary's centroid.
-6. **More overrides**, only if the overlaps need them: most of both lists is unchecked.
+5. **More overrides**, only if the overlaps need them: most of both lists is unchecked.
    Add a row with its evidence, as in [geolocator.md](geolocator.md#overrides).
-7. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
-8. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248); stop
+6. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
+7. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248); stop
    extracting the Georgia PDF after its last detail page (saves about 1.5 s); remove the
    3 LibreOffice lock files committed in `frontend/test_data/overlap_case/`
    (`.~lock.*#`) and ignore them in `.gitignore`.
@@ -96,7 +123,8 @@ then test the later stages with the made-up CSVs in `data/test/`.
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator, ranking, UI, test data, docs, tests, committed CSVs |
-| `origin/feat/geocode` | Jair | PR #12, open: tile search, overrides, both utilities geocoded, tests. `main` is merged in, including PR #11 |
+| `origin/feat/geocode` | Jair | Merged in PR #12 at eaacacc; kept |
+| `docs/status-after-geocode` | Jair | Local branch at main's PR #12 merge, with this requirements review uncommitted |
 | `origin/docs/status-update` | Jair | Merged in PR #11; kept (a sibling worktree, `../Shellhacks2026-sam`, has it checked out) |
 | `origin/copilot/accept-two-pdfs-ai-parser` | A Copilot agent | PR #10, open and not reviewed: the setup page takes one PDF per utility and runs the AI parser on it in a background thread. It builds the model with `offline=False`, so pages missing from the cache go to the paid API. Review it against the rules on runtime LLM calls and API cost in AGENTS.md |
 | `origin/NA` | AaxHamm3r and Nellie (teammates) | Merged into `main` at e9e14cc; kept |

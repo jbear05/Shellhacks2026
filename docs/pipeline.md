@@ -148,5 +148,13 @@ it is on `main` yet.
   start dates and `Voltage 1`, are ranked by `frontend/ranking.py`: a separate, shorter
   copy of the root `ranking.py` with the same five scores but no project-CSV lookup.
   A change to one doesn't reach the other.
+- **Map and review gaps (code review, 2026-09-26):** the overlaps map draws a
+  threshold-radius circle around every mapped project, rather than highlighting
+  computed pairs. Two 25-mile circles can intersect with centers 50 miles apart,
+  so the caption's claim that intersecting circles identify matches is misleading.
+  Draw the actual qualifying pairs or highlight their projects. Rows marked
+  `Excluded` are still used by the pair loop. The displayed/exported overlap table
+  drops project IDs, confidence, total scores and ranking reasons; preserve these
+  for traceability. These findings were checked in code, not in a browser session.
 - `frontend/test_data/` holds synthetic projects and expected pairs for testing the
   UI. None of it comes from the PDFs.
