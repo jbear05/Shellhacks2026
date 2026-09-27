@@ -42,9 +42,15 @@ tooltip says how it was made, for example "Center: midpoint of VCS2 and Ward". T
 focused pair always shows its substations, and the "Show the substations behind every
 center" checkbox shows them for every project. When the focused pair's projects share
 a substation, as 6810 A and 20793 share Thurmond, one ring covers the other. Which
-missing
-endpoints could still change an overlap is in
+missing endpoints could still change an overlap is in
 [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+
+The distance circles (on by default) are shaded around each center that has a pair,
+or only the focused pair's two. Their radius is half the threshold, 12.5 miles by
+default, so a blue and an orange circle overlap exactly when their centers are within
+the threshold. A full-threshold radius would make circles overlap up to twice the
+threshold apart. The circles don't respond to clicks, so they never hide a center or a
+line.
 
 ## PDF uploads
 

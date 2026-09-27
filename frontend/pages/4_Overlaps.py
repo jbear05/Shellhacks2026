@@ -1,9 +1,36 @@
+import pandas as pd
 import streamlit as st
 from frontend.analysis import eligible_projects
+from frontend.impact import LAND_VALUE_SOURCE, LAND_VALUE_URL, ROW_WIDTH_SOURCE, ROW_WIDTH_URL
 from frontend.map_view import make_map
 from frontend.project_data import ROOT
 from frontend.workspace import analyze_state
 from frontend.ui import render_shell
+
+
+def best_pair(results, project):
+    """The highest-ranked pair that includes a clicked project."""
+    if project is None or project.empty or results.empty:
+        return None
+    row = project.iloc[0]
+    matches = results[((results.utility_a == row.Utility) & (results.project_id_a == row["Project ID"]))
+                      | ((results.utility_b == row.Utility) & (results.project_id_b == row["Project ID"]))]
+    return None if matches.empty else matches.iloc[0]
+
+
+def render_impact_estimate(pair):
+    panel = st.container(border=True)
+    panel.markdown("**Rough impact estimate**")
+    if not pd.isna(pair["land_saved_value_usd"]):
+        acres, value = panel.columns(2)
+        acres.metric("Land a shared corridor could save", f"{pair['land_saved_acres']:,.1f} acres")
+        value.metric("Land value", f"${pair['land_saved_value_usd']:,.0f}")
+    # Escaped, because Markdown reads text between two dollar signs as math.
+    panel.write(pair["impact_explanation"].replace("$", "\\$"))
+    panel.caption(f"An upper bound for planning, not an appraisal or a route study. Easement widths: [{ROW_WIDTH_SOURCE}]({ROW_WIDTH_URL}). "
+                  f"Land values: [{LAND_VALUE_SOURCE}]({LAND_VALUE_URL}). Farm real estate includes buildings and is only a land-value proxy. "
+                  "Construction costs are not included; Georgia Power's are redacted.")
+
 
 render_shell("Overlap Results")
 st.title("Coordination opportunities")
@@ -41,16 +68,20 @@ if not results.empty:
         selected = results.loc[choice]
 st.subheader("Project map")
 st.checkbox("Show the substations behind every center", key="show_substations", help="A focused pair always shows its substations.")
-st.caption(f"Blue: {st.session_state.utility_a}. Orange: {st.session_state.utility_b}. Larger points have qualifying pairs. Rings are substations; a center on the thin line between two rings is their midpoint, and a faint center is the only located one of two substations. All lines are straight, not transmission routes. Click a point or connection for details; pan and zoom to explore.")
-event = st.pydeck_chart(make_map(projects, results, st.session_state.utility_a, st.session_state.utility_b, st.session_state.include_low, selected, st.session_state.get("show_substations", False)), height=520, on_select="rerun", selection_mode="single-object", key="opportunity_map")
+st.checkbox("Show distance circles", value=True, key="show_circles", help="Circles around the centers that have a qualifying pair, with a radius of half the threshold.")
+st.caption(f"Blue: {st.session_state.utility_a}. Orange: {st.session_state.utility_b}. Larger points have qualifying pairs. Each shaded circle's radius is half the threshold, so a blue and an orange circle overlap exactly when their centers are within it. Rings are substations; a center on the thin line between two rings is their midpoint, and a faint center is the only located one of two substations. All lines are straight, not transmission routes. Click a point or connection for details; pan and zoom to explore.")
+event = st.pydeck_chart(make_map(projects, results, st.session_state.utility_a, st.session_state.utility_b, st.session_state.include_low, selected, st.session_state.get("show_substations", False), st.session_state.threshold_miles if st.session_state.get("show_circles", True) else None), height=520, on_select="rerun", selection_mode="single-object", key="opportunity_map")
+clicked = None
 for obj in event.selection.objects.get("projects", []):
-    project = projects[(projects.Utility == obj.get("utility")) & (projects["Project ID"] == obj.get("project_id"))]
+    clicked = projects[(projects.Utility == obj.get("utility")) & (projects["Project ID"] == obj.get("project_id"))]
     st.subheader("Selected project")
-    st.dataframe(project, hide_index=True, width="stretch")
+    st.dataframe(clicked, hide_index=True, width="stretch")
 for obj in event.selection.objects.get("opportunities", []):
     matching = results[results.overlap_id == obj.get("overlap_id")]
     if not matching.empty:
         selected = matching.iloc[0]
+if selected is None:
+    selected = best_pair(results, clicked)
 if results.empty:
     if usable.Utility.nunique() < 2:
         st.info("Both utilities need an eligible center. Review missing coordinates, exclusions and the confidence filter.")
@@ -59,6 +90,7 @@ if results.empty:
 else:
     if selected is not None:
         st.subheader(f"Opportunity #{selected['rank']}")
+        render_impact_estimate(selected)
         a, b = st.columns(2)
         for panel, suffix in ((a, "a"), (b, "b")):
             panel.markdown(f"**{selected[f'utility_{suffix}']} · {selected[f'project_id_{suffix}']}**")
@@ -68,16 +100,11 @@ else:
             with panel.expander("Location evidence"):
                 st.write(selected[f"verification_notes_{suffix}"] or "No supporting location notes supplied.")
         st.write(selected["ranking_reason"])
-        impact_a, impact_b = st.columns(2)
-        impact_a.metric("Potential land saved", f"{selected['land_saved_acres']:.2f} acres")
-        impact_b.metric("Estimated savings", f"${selected['estimated_financial_savings_usd']:,.2f}")
-        st.caption("Rough planning estimate using the pair distance as a corridor-length proxy and a 200-foot ROW. It is not a project budget or verified route overlap.")
-        st.write(selected["impact_explanation"])
         if selected["confidence_a"] == "Low" or selected["confidence_b"] == "Low":
             st.warning("This pair includes a LOW-confidence location. Confirm its endpoint evidence before treating it as an opportunity.")
     st.subheader("Ranked pairs")
-    columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "land_saved_acres", "estimated_financial_savings_usd", "total_score", "ranking_reason"]
-    st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "total_score": "Supporting score / 15"})
+    columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "land_saved_acres", "land_saved_value_usd", "total_score", "ranking_reason"]
+    st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "land_saved_acres": st.column_config.NumberColumn("Shared-corridor acres", format="%.1f"), "land_saved_value_usd": st.column_config.NumberColumn("Land value ($)", format="%.0f"), "total_score": "Supporting score / 15"})
     st.download_button("Download ranked overlap CSV", results.to_csv(index=False), "ranked_overlap_results.csv", "text/csv")
 if st.button("Continue to Export"):
     st.switch_page(str(ROOT / "frontend/pages/5_Export.py"))

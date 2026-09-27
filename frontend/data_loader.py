@@ -87,6 +87,7 @@ COLUMN_ALIASES = {
     "source_pages": "Source Pages",
     "description": "Description",
     "data_warnings": "Data Warnings",
+    "line_miles": "Line Miles",
 }
 for _point in (1, 2):
     COLUMN_ALIASES.update({

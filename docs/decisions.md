@@ -159,3 +159,16 @@ decision is reversed, say so under the old entry instead of deleting it.
   chosen by Jair). The sheet has no Hooks point, so its 6810 A and 6809 E centers are
   one substation each; ours make OVL_4 4.40 miles, not 8.01. The sheet is a check, not
   ground truth ([challenge.md](challenge.md#the-organizers-example-answers)).
+- **Distance circles have half the threshold as their radius** (2026-09-27). With the
+  full threshold, as first proposed in PR #15, circles overlap for centers up to twice
+  the threshold apart, which reads as a pair that isn't one. At half, overlapping
+  circles of the two colors are exactly the pairs. See
+  [app.md](app.md#centers-and-confidence).
+- **One bonus estimate: land saved by a shared corridor** (2026-09-27, chosen by
+  Jair). PR #15 (thatsnotrlght) and 19ba174 (Nellie) each added one. PR #15's gave
+  every line half an acre, so 71 of 73 pairs came to the same $2,462; 19ba174's used
+  the distance between the projects as the shared length, so pairs farther apart saved
+  more (about $1.41M a mile), with unsourced cost benchmarks. The combined estimate
+  takes the length from the plans' `line_miles`, the width from GTC's published
+  easements and the price from USDA, and leaves a pair blank rather than guessing. See
+  [pipeline.md](pipeline.md#5-cost-and-impact-estimate-bonus).
