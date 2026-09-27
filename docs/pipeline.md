@@ -18,7 +18,7 @@ data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_re
   |  frontend/analysis.py + ranking.py: overlap finder            built (section 4)
   v
 ranked overlap table
-  |  Streamlit UI (frontend/)                                     committed pages don't call it yet (section 6)
+  |  Streamlit UI (frontend/)                                     built (section 6)
   v
 interactive map
 ```
@@ -70,9 +70,9 @@ and how to add a row: [geolocator.md](geolocator.md#overrides).
 
 ## 4. Overlaps
 
-Built on `codex/finish-gridlock`: `frontend/project_data.py` builds the project table,
-and `frontend/analysis.py` finds the pairs and ranks them. How centers, confidence,
-distances and ranking work is in [app.md](app.md); the current results are in
+Built: `frontend/project_data.py` builds the project table, and `frontend/analysis.py`
+finds the pairs and ranks them. How centers, confidence, distances and ranking work is
+in [app.md](app.md); the current results are in
 [status.md](status.md#overlap-candidates).
 
 - **Input:** the parser CSVs have the dates, and the Geolocator's
@@ -116,60 +116,55 @@ shared land (right-of-way) as a measure of impact.
 
 ## 6. UI (`frontend/`)
 
-**Out of date on `codex/finish-gridlock` and the branches built on it.** Its commit
-2fce793 rewrote the pages, added `0_Overview.py`, `frontend/map_view.py` and
-`frontend/workspace.py`, filled in `app.py` and `frontend/app.py`, and deleted
-`frontend/ranking.py`. The pages now call `frontend/project_data.py`, `pdf_import.py`
-and `analysis.py` (through `workspace.py`). This section still describes `main`'s pages.
+A five-step Streamlit app, started by AaxHamm3r and Nellie (`origin/NA`, merged into
+`main` at e9e14cc) and rewritten in 2fce793 to call the data and overlap modules in
+section 4. How centers, confidence, PDF imports and ranking work is in
+[app.md](app.md); this section covers the pages.
 
-A Streamlit app in `frontend/`, by teammates. Nellie merged `origin/NA` (e9e14cc) into
-`main` on 2026-09-26. Its pages are `frontend/pages/1_Project_Setup.py` to
-`5_Export.py`, and `frontend/ui.py` holds the shared page layout. The entry file,
-`frontend/app.py`, is empty. Its packages are in `frontend/requirements.txt`
-(streamlit, pandas, openpyxl, pydeck), which `requirements-dev.txt` doesn't include, so
-the root `.venv` can't run it. Nobody has opened it in a browser in an agent session
-yet. AaxHamm3r's plan for connecting it to the parsers, the Geolocator and `ranking.py`
-is in [frontend-backend-integration-guide.md](frontend-backend-integration-guide.md).
-On `codex/finish-gridlock`, `frontend/data_loader.py` was reworked and
-`frontend/project_data.py`, `analysis.py` and `pdf_import.py` were added
-([app.md](app.md)), but the pages described here don't call those three.
-
-- **Input:** on the setup page, the user names two utilities and uploads CSV or XLSX
-  files for each (`frontend/data_loader.py`). A row's own `utility` is kept; the
-  utility it was uploaded under only fills blanks ([app.md](app.md#project-data)). To
-  compare DESC with Georgia Power alone, upload only the GPC and SAV rows
-  (`python -m parsers.georgia_power --sponsors GPC SAV --out <file>`).
-- **Columns** are matched through `COLUMN_ALIASES`, ignoring case: our parser and
-  Geolocator column names (including `centroid_latitude`, `location_1_lat` and
-  `overall_confidence`), the Duke test file's `center_lat` and `center_lon`, and the
-  organizers' sheet columns `name_a`, `lat_a`, `lon_a`, `name_b`, `lat_b`, `lon_b`,
-  `lat_center` and `lon_center`
-  ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). `state` is shown
-  as "County / Region". A sheet without a `project_name` or `name` column is skipped.
-  `prepare_projects` recomputes each center from the two points
-  ([app.md](app.md#centers-and-confidence)).
-- **Our files as they are** (checked with `_normalize_projects`): the parser CSVs load
-  with dates but no centers. The Geolocator's summaries give 43 of 44 DESC and 194 of
-  208 Georgia rows a center, but they have no dates. The Duke test file gets all 100
-  centers, and the DESC test file none. `load_demo_projects()` in
-  `frontend/project_data.py` joins the parser CSVs to the points, which gives both
-  ([4. Overlaps](#4-overlaps)).
-- **IDs** are read as text. A duplicate (`Utility`, `Project ID`) stops the import, and
-  the same ID under two utilities is allowed ([app.md](app.md#project-data)).
-- **Overlaps page** (`4_Overlaps.py`): haversine between the `Latitude`/`Longitude` of
-  every pair, kept when within the setup page's threshold (default 25 miles), with the
-  absolute gap in days between in-service dates. The pairs, with their IDs, types,
-  start dates and `Voltage 1`, are ranked by `frontend/ranking.py`: a separate, shorter
-  copy of the root `ranking.py` with the same five scores but no project-CSV lookup.
-  A change to one doesn't reach the other. `frontend/analysis.py` does the same job
-  with the root `ranking.py`, but this page doesn't call it.
-- **Map and review gaps (code review, 2026-09-26):** the overlaps map draws a
-  threshold-radius circle around every mapped project, rather than highlighting
-  computed pairs. Two 25-mile circles can intersect with centers 50 miles apart,
-  so the caption's claim that intersecting circles identify matches is misleading.
-  Draw the actual qualifying pairs or highlight their projects. Rows marked
-  `Excluded` are still used by the pair loop. The displayed/exported overlap table
-  drops project IDs, confidence, total scores and ranking reasons; preserve these
-  for traceability. These findings were checked in code, not in a browser session.
+- **Running it:** `python -m streamlit run app.py` from the repository root. `app.py`
+  calls `main()` in `frontend/app.py`, which sets the defaults (25 miles, LOW
+  included, `distance_first`) and the page list. Its packages are in
+  `frontend/requirements.txt` (`streamlit>=1.55,<2`, pandas, openpyxl, pydeck), which
+  `requirements-dev.txt` doesn't include, so the root `.venv` can't run it or its
+  Streamlit tests. The theme is in `.streamlit/config.toml`, and `frontend/ui.py` draws
+  the shared header. The map's basemap (Carto) needs internet; nothing else does.
+- **Overview** (`0_Overview.py`): "Explore the real-data demo" loads
+  `load_demo_projects()` (DESC and Georgia Power's GPC and SAV rows) and opens the
+  Overlaps page.
+- **Project Setup** (`1_Project_Setup.py`) loads projects from one of four sources:
+  the saved plans (the same demo data), the two organizer PDFs (`pdf_import.py`,
+  recognized by hash; any other PDF is rejected), CSV/XLSX tables per utility
+  (`data_loader.py`), or a snapshot ZIP (`workspace.py`). It then picks the two
+  utilities and the distance threshold (1-100 miles).
+- **Project Review** (`2_Project_Review.py`): edit names, types, dates, voltages and
+  `Match Status`; the other columns are read-only. Rows with `Data Warnings` are listed.
+- **Location Verification** (`3_Location_Confirm.py`): edit endpoints, centers,
+  `Location Status` and `Confidence`. A coordinate edit keeps the original value in an
+  `Original ...` column and resets the row to LOW and `Candidate`
+  (`apply_location_review` in `workspace.py`). `Excluded` in either status column
+  leaves the project out of the overlaps.
+- **Overlap Results** (`4_Overlaps.py`): the utilities, threshold, LOW filter and
+  ranking mode, the counts, a map and the ranked pairs from `frontend/analysis.py`. The
+  map (`frontend/map_view.py`) draws each eligible center, and a line only between the
+  projects of a computed pair; choosing a pair focuses the map on it and shows both projects' sources and
+  location evidence. What the map shows about centers is in
+  [app.md](app.md#centers-and-confidence). The table keeps both project IDs, both
+  confidences, the total score and `ranking_reason`, and the CSV download has every
+  column in `RESULT_COLUMNS`.
+- **Export** (`5_Export.py`) recalculates from the current projects and settings and
+  offers three downloads: the project table, the ranked pairs, and a snapshot ZIP
+  (`projects.csv`, `ranked_overlaps.csv`, `settings.json` and a README) that Project
+  Setup restores. Nothing writes the organizers' `.xlsx` layout.
+- **Columns** from uploads are matched through `COLUMN_ALIASES` in
+  `frontend/data_loader.py`, ignoring case: our parser and Geolocator names, the Duke
+  test file's `center_lat` and `center_lon`, and the organizers' sheet columns
+  ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). A sheet without a
+  `project_name` or `name` column is skipped. The parser CSVs alone have dates but no
+  coordinates, and the Geolocator's files have coordinates but no dates, so load our
+  data through the demo or the PDFs, which join them.
+- **Tests:** `tests/test_app.py` runs the pages with Streamlit's `AppTest` (demo,
+  filters, reviews, exports, the same-utility guard) and pins the demo's pair counts;
+  `tests/test_map_view.py` checks the map's layers; `tests/test_workspace.py` checks
+  snapshots and location edits. The first two are skipped without Streamlit and pydeck.
 - `frontend/test_data/` holds synthetic projects and expected pairs for testing the
   UI. None of it comes from the PDFs.

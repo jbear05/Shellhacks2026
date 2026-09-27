@@ -92,13 +92,15 @@ on `codex/finish-gridlock` and the branches built on it, not on `main`.
    button, the Overlaps page's counts (182 projects, 173 centers, 73 pairs), and the map
    with a focused pair. Not checked: the setup, review, location and export pages, and
    the export page's three downloads.
-2. **Get the work into `main`**, with the user's OK: push `fix/center-method-label` and
-   open pull requests. It sits on `codex/finish-gridlock`, and Nellie's `PrettyWeb`
-   (one styling commit) sits on the same commit; a trial merge of the two had no
-   conflicts. The UI rework replaces most of Nellie's and AaxHamm3r's UI code, so tell
-   them first. Merge with merge commits.
-3. **Describe the new UI** in [pipeline.md](pipeline.md#6-ui-frontend) and
-   [app.md](app.md) from the pages in 2fce793; section 6 still describes `main`'s pages.
+2. **Merge the pull request for `fix/center-method-label`**, which also brings in
+   `codex/finish-gridlock`'s 5 commits. The UI rework replaces most of Nellie's and
+   AaxHamm3r's UI code, so tell them first. Merge with a merge commit.
+3. **Then the two teammate branches on 2fce793:** Nellie's `PrettyWeb` (one styling
+   commit; a trial merge with `fix/center-method-label` had no conflicts) and
+   DavidCode's `Deebranch`. Review `Deebranch` first: it deletes 50 files from
+   `data/ai_cache/`, which `--offline` replays, and changes `frontend/pdf_import.py` and
+   `parsers/ai_parser/api.py` to add AI PDF import. Check that the app still makes no
+   LLM calls while it runs. Not read yet.
 4. **Check the evidence behind the top pairs** in
    [Overlap candidates](#overlap-candidates) before presenting them. Fix a wrong point in
    `data/overrides/location_overrides.csv`, as in
@@ -128,9 +130,9 @@ on `codex/finish-gridlock` and the branches built on it, not on `main`.
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, UI, test data, docs, tests, committed CSVs |
 | `codex/finish-gridlock` | Jair, with Codex | Pushed, no pull request: 5 commits on `main` (e7ee917 to 2fce793), the real-data overlaps and the UI rework |
-| `fix/center-method-label` | Jair, with Claude | Local, not pushed, no pull request: 5 commits on `codex/finish-gridlock` from 347c1fd, the center label, 5 located endpoints, the handoff and the map's substation rings |
+| `fix/center-method-label` | Jair, with Claude | Pushed, pull request open: commits on `codex/finish-gridlock` from 347c1fd, the center label, 5 located endpoints, the handoff, the map's substation rings and the UI section of pipeline.md |
 | `origin/PrettyWeb` | Nellie (teammate) | One commit, c697930 "style", on `codex/finish-gridlock`: `frontend/ui.py`, `frontend/app.py`, the overview page, `frontend/.streamlit/config.toml` and a font. Not merged; no files in common with `fix/center-method-label` |
-| `origin/Deebranch` | Unknown | At 42470cc, PR #7's merge commit, so nothing of its own beyond `main`; can be deleted once its owner agrees |
+| `origin/Deebranch` | DavidCode (teammate) | One commit, e467841 "Add AI PDF import support", on `codex/finish-gridlock`; see [Next steps](#next-steps) 3. Not merged |
 | `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |
 | `origin/feat/geocode` | Jair | Merged in PR #12 at eaacacc; kept |
 | `origin/docs/status-update` | Jair | Merged in PR #11; kept (a sibling worktree, `../Shellhacks2026-sam`, has it checked out) |
@@ -172,8 +174,7 @@ Check with a teammate before committing to their branch.
 - **Branches to delete** once nobody needs them: every local branch except `main`,
   `codex/finish-gridlock` and `fix/center-method-label` is merged into `main` (checked
   with `git branch --no-merged main`). On GitHub, the merged branches' copies can go,
-  and so can `origin/Deebranch` (ask its owner),
-  `origin/copilot/accept-two-pdfs-ai-parser` (PR #10, closed),
+  and so can `origin/copilot/accept-two-pdfs-ai-parser` (PR #10, closed),
   `origin/copilot/ranking-script-gridlock` (PR #6, closed) and
   `origin/copilot/research-ranking-categories` (no commits beyond `main`). Ask the
   owners before deleting `origin/NA`, `origin/Geolocator`, `origin/dominionScript` and
