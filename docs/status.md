@@ -94,6 +94,9 @@ Last updated 2026-09-27.
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
   `.venv-ui`, the Codex session's git-ignored venv. `tests/test_app.py` pins the pair
   counts, so run it after any change to the overrides.
+- **Cost and impact estimate:** `frontend/impact.py` calculates a static shared-corridor
+  estimate, and the Overlaps page displays potential acres saved, estimated dollar
+  savings and the assumptions for each flagged pair. See [pipeline.md](pipeline.md#5-cost-estimate-bonus).
 
 ## Next steps
 

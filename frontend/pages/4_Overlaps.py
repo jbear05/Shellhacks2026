@@ -100,10 +100,15 @@ else:
             with panel.expander("Location evidence"):
                 st.write(selected[f"verification_notes_{suffix}"] or "No supporting location notes supplied.")
         st.write(selected["ranking_reason"])
+        impact_a, impact_b = st.columns(2)
+        impact_a.metric("Potential land saved", f"{selected['land_saved_acres']:.2f} acres")
+        impact_b.metric("Estimated savings", f"${selected['estimated_financial_savings_usd']:,.2f}")
+        st.caption("Rough planning estimate using the pair distance as a corridor-length proxy and a 200-foot ROW. It is not a project budget or verified route overlap.")
+        st.write(selected["impact_explanation"])
         if selected["confidence_a"] == "Low" or selected["confidence_b"] == "Low":
             st.warning("This pair includes a LOW-confidence location. Confirm its endpoint evidence before treating it as an opportunity.")
     st.subheader("Ranked pairs")
-    columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "total_score", "ranking_reason"]
+    columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "land_saved_acres", "estimated_financial_savings_usd", "total_score", "ranking_reason"]
     st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "total_score": "Supporting score / 15"})
     st.download_button("Download ranked overlap CSV", results.to_csv(index=False), "ranked_overlap_results.csv", "text/csv")
 if st.button("Continue to Export"):

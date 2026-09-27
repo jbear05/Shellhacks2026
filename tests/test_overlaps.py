@@ -6,6 +6,7 @@ import pytest
 from frontend.analysis import calculate_overlaps, haversine_miles
 from frontend.data_loader import _normalize_projects
 from frontend.land_value_reference import estimate_overlap_impact
+from frontend.impact import calculate_overlap_impact
 from frontend.project_data import DESC, GEORGIA, ROOT, load_demo_projects
 from ranking import rank_overlaps
 
@@ -31,6 +32,23 @@ def test_organizers_six_pairs_and_negative_projects(demo):
         assert row.days_apart == days
     assert "6807 B" not in set(result.project_id_a)
     assert not {"18492", "11821"}.intersection(result.project_id_b)
+
+
+def test_overlap_impact_uses_static_shared_corridor_benchmarks():
+    impact = calculate_overlap_impact(1.0, 200.0)
+
+    assert impact["land_saved_acres"] == pytest.approx(24.24, abs=0.01)
+    assert impact["estimated_financial_savings_usd"] == pytest.approx(1409696.97, abs=0.01)
+    assert "1.00 miles" in impact["explanation"]
+
+
+def test_overlap_results_include_additive_impact_estimate(demo):
+    result = calculate_overlaps(demo, DESC, GEORGIA)
+    first = result.iloc[0]
+
+    assert first.land_saved_acres > 0
+    assert first.estimated_financial_savings_usd > 0
+    assert "corridor" in first.impact_explanation
 
 
 def test_haversine_reproduces_the_organizers_sheet_distances():
