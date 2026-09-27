@@ -39,7 +39,7 @@ def eligible_projects(projects: pd.DataFrame, include_low: bool = True) -> pd.Da
 
 def calculate_overlaps(projects: pd.DataFrame, utility_a: str, utility_b: str,
                        threshold: float = 25, include_low: bool = True,
-                       ranking_mode: str = "distance_first") -> pd.DataFrame:
+                       ranking_mode: str = "score") -> pd.DataFrame:
     if not utility_a or not utility_b or utility_a == utility_b:
         raise ValueError("Choose two distinct utilities.")
     if not math.isfinite(threshold) or threshold <= 0:

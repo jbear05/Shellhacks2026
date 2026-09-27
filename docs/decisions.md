@@ -131,11 +131,14 @@ decision is reversed, say so under the old entry instead of deleting it.
   rule, and their sheet's distances reproduce to the hundredth with it. The centroid
   averages up to 4 points, LOW fallbacks included. See
   [app.md](app.md#centers-and-confidence).
-- **Distance first, then timing, by default** (2026-09-26, chosen by Jair). The brief
-  calls distance the primary signal and timing a strong secondary one
-  ([challenge.md](challenge.md#goal)), so pairs are ordered by distance band (5, 15 and
-  25 miles) before build windows and date gaps. The equal-weight score is kept as an
-  option. See [app.md](app.md#overlaps-and-ranking).
+- **The total score ranks pairs by default** (2026-09-27, chosen by Jair after
+  comparing both orders' top 5 in [status.md](status.md#overlap-candidates)). It
+  replaces distance first, chosen on 2026-09-26 because the brief calls distance the
+  primary signal and timing a strong secondary one ([challenge.md](challenge.md#goal)).
+  Distance first put the pairs within 5 miles on top even though none of their build
+  windows overlap (their in-service dates are 578 to 3074 days apart); with the score,
+  the top 5 all have overlapping build windows. Distance first is kept as an option. See
+  [app.md](app.md#overlaps-and-ranking).
 - **A blank start date is open-ended only for DESC** (2026-09-26). DESC's blank means
   work began before 2024 (see [Parsing](#parsing)); another utility's blank is unknown,
   so its build-window overlap stays unknown rather than assumed.

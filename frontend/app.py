@@ -11,7 +11,7 @@ import streamlit as st
 
 def main():
     st.set_page_config(page_title="Gridlock", page_icon="⚡", layout="wide")
-    for key, value in {"threshold_miles": 25.0, "include_low": True, "ranking_mode": "distance_first"}.items():
+    for key, value in {"threshold_miles": 25.0, "include_low": True, "ranking_mode": "score"}.items():
         st.session_state.setdefault(key, value)
     # Keep analysis settings when navigating to pages without their widgets.
     for key in ("utility_a", "utility_b", "threshold_miles", "include_low", "ranking_mode"):

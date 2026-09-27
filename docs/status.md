@@ -120,8 +120,14 @@ Last updated 2026-09-27.
   from either launch directory, because its URL lacked `app/`; the root launch now
   serves it too ([pipeline.md](pipeline.md#6-ui-frontend)). The 3 LibreOffice lock files
   in `frontend/test_data/overlap_case/` are removed and ignored.
-- **Tests:** 249 pass and 2 files are skipped in the root `.venv` (full suite,
-  32.20 s on 2026-09-27). The skipped files, `tests/test_app.py` and
+- **The `score` ranking is the default** on `main`
+  (https://github.com/jbear05/Shellhacks2026/pull/18, 2026-09-27, chosen by Jair;
+  [decisions.md](decisions.md#overlaps-and-the-app)). The app starts
+  with it and the demo button selects it, and the Overlaps page's caption now
+  describes whichever ranking is selected. `distance_first` is still on
+  the "Ranking policy" menu, and a snapshot keeps the mode it was saved with.
+- **Tests:** 250 pass and 2 files are skipped in the root `.venv` (full suite,
+  28.24 s on 2026-09-27). The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
   `.venv-ui` (23.54 s), including review, location, export and focused-estimate flows
   through AppTest. No live browser check was made during the PR #13 review.
@@ -139,11 +145,10 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    basemap needs internet. Every page was checked on 2026-09-27 (see [Done](#done)).
    The rework replaced most of Nellie's and AaxHamm3r's UI code, which they hadn't
    reviewed when PR #14 merged; tell them, and tell Nellie that her fonts now load.
-2. **Pick the ranking to present.** Both are on the Overlaps page's "Ranking policy"
-   menu; see [Overlap candidates](#overlap-candidates). The default puts pairs within
-   5 miles first even when their build dates are years apart; `score` puts pairs with
-   overlapping build windows first. Rank 1's evidence holds (checked below). Ranks 2-7
-   use Hooks, whose evidence is line lengths, not a name. Fix a wrong point in
+2. **Know the caveats behind the top pairs** of the `score` ranking, the default since
+   2026-09-27, before presenting them; see [Overlap candidates](#overlap-candidates).
+   Ranks 1 and 2 share GA 20277, whose center includes a LOW point, and rank 2's DESC
+   center is one substation. Fix a wrong point in
    `data/overrides/location_overrides.csv`, as in
    [geolocator.md](geolocator.md#overrides), not in the UI.
 3. **Demo the AI parser** with `--offline`, using the commands in
@@ -167,6 +172,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
+| `feat/score-ranking-default` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/18 (the `score` ranking as the default); kept |
 | `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
@@ -234,7 +240,28 @@ the sheet has no Hooks point and ours does. The two with GA 20277 differ (8.38
 against 5.65, and 13.13 against 14.34) because our 20277 includes a LOW Purrysburg
 point (an unnamed 230 kV substation near Hardeeville), which the sheet doesn't have.
 
-The top 5 of the default ranking:
+The top 5 of the default `score` ranking (all have overlapping build windows):
+
+| Rank | DESC | Georgia Power | Miles | Days apart | Confidence | Score |
+|---|---|---|---|---|---|---|
+| 1 | 06367 D-G Jasper - Okatie 230 kV #2 | 20277 McIntosh - Purrysburg 230kV reactors | 8.38 | 152 | High, Low | 13 |
+| 2 | 06367 A-C, H Riverport Tap | 20277 McIntosh - Purrysburg 230kV reactors | 9.61 | 152 | Low, Low | 13 |
+| 3 | 6852 Urquhart - Toolebeck 115kV | 16007 Fenwick Street - Sand Bar Ferry | 9.72 | 72 | High, Medium | 13 |
+| 4 | 6809 G Stevens Creek - Hooks | 16007 Fenwick Street - Sand Bar Ferry | 14.88 | 152 | Medium, Medium | 13 |
+| 5 | 6808 S Okatie-Bluffton 115kV | 20067 Deptford - Magnolia 115kV | 18.08 | 0 | High, High | 13 |
+
+- Rank 1 is the organizers' OVL_2. Its distance, 8.38 miles against the sheet's 5.65,
+  comes from 20277's LOW Purrysburg point (above); both are in the 5-15 mile band, so
+  the score doesn't depend on that point.
+- Rank 2's DESC center is Okatie alone, because Riverport (a planned substation) has
+  no point. Rank 4 uses Hooks, whose evidence is line lengths, not a name.
+- Rank 3's 16007 points are customer substations about a mile from the named streets
+  (see below); 9.72 miles stays in the 5-15 mile band unless the center is off by
+  more than 4.7 miles.
+- Ties at the same score go to the closer pair.
+
+The top 5 of the `distance_first` ranking (the default until 2026-09-27; none of
+their build windows overlap):
 
 | Rank | DESC | Georgia Power | Miles | Days apart | Build windows overlap | Confidence |
 |---|---|---|---|---|---|---|
@@ -250,21 +277,8 @@ The top 5 of the default ranking:
   the Aiken PSA tap, so its true center is within 2.25 miles of Urquhart, and the pair
   stays in the 5-mile band unless 16007's points are also off by more than about half
   a mile the wrong way. Its 578-day gap is the band's smallest, so it would stay first
-  in that band.
+  in that band. In the `score` ranking it's rank 40 (score 7).
 - Within a distance band, overlapping build windows and then the smaller date gap come
   first, which puts 6809 G (4.40 miles, 2709 days) above 6810 A (3.91 miles, 3074
   days).
-- DESC 06367 A-C, H (Riverport Tap) has no Riverport point, so its center is Okatie
-  alone.
-
-The top 5 of the `score` ranking (same 73 pairs; all have overlapping build windows):
-
-| Rank | DESC | Georgia Power | Miles | Days apart | Confidence | Score |
-|---|---|---|---|---|---|---|
-| 1 | 06367 D-G Jasper - Okatie 230 kV #2 | 20277 McIntosh - Purrysburg 230kV reactors | 8.38 | 152 | High, Low | 13 |
-| 2 | 06367 A-C, H Riverport Tap | 20277 McIntosh - Purrysburg 230kV reactors | 9.61 | 152 | Low, Low | 13 |
-| 3 | 6852 Urquhart - Toolebeck 115kV | 16007 Fenwick Street - Sand Bar Ferry | 9.72 | 72 | High, Medium | 13 |
-| 4 | 6809 G Stevens Creek - Hooks | 16007 Fenwick Street - Sand Bar Ferry | 14.88 | 152 | Medium, Medium | 13 |
-| 5 | 6808 S Okatie-Bluffton 115kV | 20067 Deptford - Magnolia 115kV | 18.08 | 0 | High, High | 13 |
-
-In the default ranking, 6852 - 16007 is rank 8 and 06367 D-G - 20277 is rank 9.
+- In this ranking, 6852 - 16007 is rank 8 and 06367 D-G - 20277 is rank 9.

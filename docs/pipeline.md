@@ -95,8 +95,8 @@ in [app.md](app.md); the current results are in
   and timeline the secondary one. `ranking.py` scores five categories 0-3 points each:
   geographic distance, timeline overlap, days apart, power voltage and project type.
   Missing voltage or type data scores zero and is named in `ranking_reason`. In `score`
-  mode higher totals rank first, with distance as the first tie-break. In
-  `distance_first` mode, the UI's default, distance bands come first
+  mode, the UI's default, higher totals rank first, with distance as the first
+  tie-break. In `distance_first` mode distance bands come first
   ([app.md](app.md#overlaps-and-ranking)). The CLI can enrich overlap rows from project
   CSVs keyed on (`utility`, `project_id`).
 - **Output:** one row per pair (`RESULT_COLUMNS` in `frontend/analysis.py`). It holds
@@ -153,7 +153,7 @@ section 4. How centers, confidence, PDF imports and ranking work is in
 
 - **Running it:** `python -m streamlit run app.py` from the repository root. `app.py`
   calls `main()` in `frontend/app.py`, which sets the defaults (25 miles, LOW
-  included, `distance_first`) and the page list. Its packages are in
+  included, `score`) and the page list. Its packages are in
   `frontend/requirements.txt` (`streamlit>=1.55,<2`, pandas, openpyxl, pydeck), which
   `requirements-dev.txt` doesn't include, so the root `.venv` can't run it or its
   Streamlit tests. `frontend/ui.py` draws the shared header. The map's basemap (Carto)

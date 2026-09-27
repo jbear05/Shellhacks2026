@@ -87,13 +87,19 @@ utilities qualify. Rows marked Excluded in either review-status field are omitte
 The confidence filter can also omit LOW/unclassified locations. An empty result
 retains the export schema.
 
-The user selected distance-first ranking on 2026-09-26. The shared root `ranking.py`
-orders distance bands (up to 5, 15, then 25 miles) first, followed by overlapping
-build windows, smaller in-service date gaps, voltage compatibility, type
-compatibility, exact distance and stable project keys. Its original equal-weight
-score remains an optional mode; the 0-15 total is supplementary in distance-first
-mode. A missing start is open-ended only for DESC; another utility's unknown start
-does not establish an overlapping build window. Reversed dates are flagged.
+The shared root `ranking.py` ranks pairs in one of two modes, chosen on the Overlaps
+page ([decisions.md](decisions.md#overlaps-and-the-app)):
+
+- `score`, the default since 2026-09-27: the 0-15 total of five 0-3 scores (distance,
+  overlapping build windows, in-service date gap, voltage and type), highest first,
+  then exact distance and stable project keys.
+- `distance_first`, the default before that: distance bands (up to 5, 15, then 25
+  miles) first, followed by overlapping build windows, smaller in-service date gaps,
+  voltage compatibility, type compatibility, exact distance and stable project keys.
+  The 0-15 total is supplementary in this mode.
+
+A missing start is open-ended only for DESC; another utility's unknown start does not
+establish an overlapping build window. Reversed dates are flagged.
 
 `tests/test_overlaps.py` reproduces all six organizer spreadsheet distances to the
 hundredth using the sheet's coordinates, then separately checks the real saved
