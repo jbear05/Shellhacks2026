@@ -16,6 +16,7 @@ data/processed/ai/<prefix>_projects.csv                           committed
 data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
   |  frontend/project_data.py: parser rows + endpoints            built (section 4)
   |  frontend/analysis.py + ranking.py: overlap finder            built (section 4)
+  |  frontend/land_value_reference.py: land-value estimate        built (section 5)
   v
 ranked overlap table
   |  Streamlit UI (frontend/)                                     built (section 6)
@@ -106,13 +107,28 @@ in [app.md](app.md); the current results are in
   the hundredth from the sheet's coordinates, then checks the same pairs with ours
   ([challenge.md](challenge.md#the-organizers-example-answers)).
 
-## 5. Cost estimate (bonus, planned)
+## 5. Cost and impact estimate (bonus)
 
-Every Georgia Power cost is redacted. Work out dollars per mile from the 19 DESC
-projects with a `line_miles` value (`cost_total / line_miles`) and apply it to Georgia's
-`line_miles`. Three DESC totals don't equal the sum of their years; see
-[sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table). The brief also suggests
-shared land (right-of-way) as a measure of impact.
+Built: a land-value estimate for every pair, in `frontend/land_value_reference.py`.
+`frontend/analysis.py` adds its columns to each overlap row, and the Overlaps page shows
+it for the focused pair. The brief suggests shared land (right-of-way) as a measure of
+impact ([challenge.md](challenge.md#deliverables)). If the two projects shared land,
+the smaller footprint is the shared acres, valued at the average of the two states'
+2026 farm real estate values: $4,950 an acre in Georgia and $4,900 in South Carolina,
+from USDA NASS's Land Values 2026 Summary (July 2026), page 9. A project's state is its
+`County / Region` when that is one of those states, otherwise its utility's.
+
+The footprints are an assumed rule, not from the plans: 0.5 acres for a line, 1.0 for
+a substation and 1.5 for both, by `ranking.py`'s project types (`MULTI_LINE` is a line,
+`MULTI_SITE` both). A pair with an unknown type or state gets no estimate. With this
+rule, 71 of the demo's 73 pairs come to $2,462.50 (half an acre) and the other 2 to
+$4,925, so the estimate shows the method rather than ranking the pairs. A line's
+right-of-way from its `line_miles` would tell them apart.
+
+Not built: a construction cost. Every Georgia Power cost is redacted. Work out dollars
+per mile from the 19 DESC projects with a `line_miles` value (`cost_total / line_miles`)
+and apply it to Georgia's `line_miles`. Three DESC totals don't equal the sum of their
+years; see [sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table).
 
 ## 6. UI (`frontend/`)
 
@@ -146,8 +162,12 @@ section 4. How centers, confidence, PDF imports and ranking work is in
 - **Overlap Results** (`4_Overlaps.py`): the utilities, threshold, LOW filter and
   ranking mode, the counts, a map and the ranked pairs from `frontend/analysis.py`. The
   map (`frontend/map_view.py`) draws each eligible center, and a line only between the
-  projects of a computed pair; choosing a pair focuses the map on it and shows both projects' sources and
-  location evidence. What the map shows about centers is in
+  projects of a computed pair. "Show distance circles" (on by default) shades a circle
+  around each paired center, with a radius of half the threshold, so circles of the two
+  colors overlap exactly when their centers are within it. Choosing a pair, clicking its
+  line, or clicking a project (which picks its highest-ranked pair) focuses the map on
+  it and shows both projects' sources, location evidence and the land-value estimate
+  (section 5). What the map shows about centers is in
   [app.md](app.md#centers-and-confidence). The table keeps both project IDs, both
   confidences, the total score and `ranking_reason`, and the CSV download has every
   column in `RESULT_COLUMNS`.

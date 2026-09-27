@@ -44,3 +44,14 @@ def test_center_labels_say_how_the_center_was_made(demo):
     assert "Center: midpoint of VCS2 and Ward" in labels["06810 F"]
     assert "Center: VCS1 only; Scout has no coordinates" in labels["6853 B-F"]
     assert "Center: Summerville (the project's one substation)" in labels["05004 P"]
+
+
+def test_distance_circles_have_half_the_threshold_as_radius_and_follow_the_focus(demo):
+    projects, results = demo
+    assert layer(make_map(projects, results, DESC, GEORGIA), "distance_circles") == []
+    circles = layer(make_map(projects, results, DESC, GEORGIA, threshold_miles=25), "distance_circles")
+    paired = {(row[f"utility_{s}"], row[f"project_id_{s}"]) for row in results.to_dict("records") for s in "ab"}
+    assert len(circles) == len(paired)
+    assert all(circle["radius"] == pytest.approx(12.5 * 1609.344) for circle in circles)
+    focused = layer(make_map(projects, results, DESC, GEORGIA, selected=results.iloc[0], threshold_miles=25), "distance_circles")
+    assert len(focused) == 2

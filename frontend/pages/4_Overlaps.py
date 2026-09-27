@@ -1,9 +1,36 @@
+import pandas as pd
 import streamlit as st
 from frontend.analysis import eligible_projects
+from frontend.land_value_reference import FOOTPRINT_ACRES, LAND_VALUE_SOURCE
 from frontend.map_view import make_map
 from frontend.project_data import ROOT
 from frontend.workspace import analyze_state
 from frontend.ui import render_shell
+
+
+def best_pair(results, project):
+    """The highest-ranked pair that includes a clicked project."""
+    if project is None or project.empty or results.empty:
+        return None
+    row = project.iloc[0]
+    matches = results[((results.utility_a == row.Utility) & (results.project_id_a == row["Project ID"]))
+                      | ((results.utility_b == row.Utility) & (results.project_id_b == row["Project ID"]))]
+    return None if matches.empty else matches.iloc[0]
+
+
+def render_impact_estimate(pair):
+    panel = st.container(border=True)
+    panel.markdown("**Rough impact estimate**")
+    if pd.isna(pair["estimated_land_savings_usd"]):
+        panel.write("No estimate: it needs a known project type and state for both projects.")
+    else:
+        # Escaped, because Markdown reads text between two dollar signs as math.
+        panel.write(f"If the two projects shared land, the smaller footprint, about {pair['estimated_shared_acres']:.1f} acres, "
+                    f"is worth roughly \\${pair['estimated_land_savings_usd']:,.0f} at average farm real estate values "
+                    f"(\\${pair['land_value_per_acre_a']:,.0f} an acre in {pair['utility_state_a']}, \\${pair['land_value_per_acre_b']:,.0f} in {pair['utility_state_b']}).")
+    footprints = ", ".join(f"{kind.lower()} {acres:g}" for kind, acres in FOOTPRINT_ACRES.items())
+    panel.caption(f"A planning estimate, not an appraisal. Footprints are an assumed rule in acres ({footprints}), not from the plans. Land values: {LAND_VALUE_SOURCE}.")
+
 
 render_shell("Overlap Results")
 st.title("Coordination opportunities")
@@ -41,16 +68,20 @@ if not results.empty:
         selected = results.loc[choice]
 st.subheader("Project map")
 st.checkbox("Show the substations behind every center", key="show_substations", help="A focused pair always shows its substations.")
-st.caption(f"Blue: {st.session_state.utility_a}. Orange: {st.session_state.utility_b}. Larger points have qualifying pairs. Rings are substations; a center on the thin line between two rings is their midpoint, and a faint center is the only located one of two substations. All lines are straight, not transmission routes. Click a point or connection for details; pan and zoom to explore.")
-event = st.pydeck_chart(make_map(projects, results, st.session_state.utility_a, st.session_state.utility_b, st.session_state.include_low, selected, st.session_state.get("show_substations", False)), height=520, on_select="rerun", selection_mode="single-object", key="opportunity_map")
+st.checkbox("Show distance circles", value=True, key="show_circles", help="Circles around the centers that have a qualifying pair, with a radius of half the threshold.")
+st.caption(f"Blue: {st.session_state.utility_a}. Orange: {st.session_state.utility_b}. Larger points have qualifying pairs. Each shaded circle's radius is half the threshold, so a blue and an orange circle overlap exactly when their centers are within it. Rings are substations; a center on the thin line between two rings is their midpoint, and a faint center is the only located one of two substations. All lines are straight, not transmission routes. Click a point or connection for details; pan and zoom to explore.")
+event = st.pydeck_chart(make_map(projects, results, st.session_state.utility_a, st.session_state.utility_b, st.session_state.include_low, selected, st.session_state.get("show_substations", False), st.session_state.threshold_miles if st.session_state.get("show_circles", True) else None), height=520, on_select="rerun", selection_mode="single-object", key="opportunity_map")
+clicked = None
 for obj in event.selection.objects.get("projects", []):
-    project = projects[(projects.Utility == obj.get("utility")) & (projects["Project ID"] == obj.get("project_id"))]
+    clicked = projects[(projects.Utility == obj.get("utility")) & (projects["Project ID"] == obj.get("project_id"))]
     st.subheader("Selected project")
-    st.dataframe(project, hide_index=True, width="stretch")
+    st.dataframe(clicked, hide_index=True, width="stretch")
 for obj in event.selection.objects.get("opportunities", []):
     matching = results[results.overlap_id == obj.get("overlap_id")]
     if not matching.empty:
         selected = matching.iloc[0]
+if selected is None:
+    selected = best_pair(results, clicked)
 if results.empty:
     if usable.Utility.nunique() < 2:
         st.info("Both utilities need an eligible center. Review missing coordinates, exclusions and the confidence filter.")
@@ -59,6 +90,7 @@ if results.empty:
 else:
     if selected is not None:
         st.subheader(f"Opportunity #{selected['rank']}")
+        render_impact_estimate(selected)
         a, b = st.columns(2)
         for panel, suffix in ((a, "a"), (b, "b")):
             panel.markdown(f"**{selected[f'utility_{suffix}']} · {selected[f'project_id_{suffix}']}**")

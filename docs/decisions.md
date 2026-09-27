@@ -159,3 +159,13 @@ decision is reversed, say so under the old entry instead of deleting it.
   chosen by Jair). The sheet has no Hooks point, so its 6810 A and 6809 E centers are
   one substation each; ours make OVL_4 4.40 miles, not 8.01. The sheet is a check, not
   ground truth ([challenge.md](challenge.md#the-organizers-example-answers)).
+- **Distance circles have half the threshold as their radius** (2026-09-27). With the
+  full threshold, as first proposed in PR #15, circles overlap for centers up to twice
+  the threshold apart, which reads as a pair that isn't one. At half, overlapping
+  circles of the two colors are exactly the pairs. See
+  [app.md](app.md#centers-and-confidence).
+- **The bonus estimate is shared land value** (2026-09-27, from thatsnotrlght's PR
+  #15). The brief suggests shared land as the measure of impact. The dollars per acre
+  are USDA's 2026 state averages, cited in the code; the acres per project are an
+  assumed rule, labeled as one in the app. See
+  [pipeline.md](pipeline.md#5-cost-and-impact-estimate-bonus).

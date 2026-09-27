@@ -5,6 +5,7 @@ import pytest
 
 from frontend.analysis import calculate_overlaps, haversine_miles
 from frontend.data_loader import _normalize_projects
+from frontend.land_value_reference import estimate_overlap_impact
 from frontend.project_data import DESC, GEORGIA, ROOT, load_demo_projects
 from ranking import rank_overlaps
 
@@ -106,6 +107,18 @@ def test_overlap_impact_estimate_uses_usda_reference_and_project_type_heuristic(
     assert row.land_value_per_acre_a == pytest.approx(4900)
     assert row.land_value_per_acre_b == pytest.approx(4950)
     assert row.estimated_land_savings_usd == pytest.approx(2462.5, abs=0.5)
+
+
+def test_overlap_impact_estimate_is_blank_without_a_known_type_or_state():
+    # MULTI_LINE counts as a line; a utility with no known state has no land value.
+    impact = estimate_overlap_impact(dict(utility_a=DESC, project_type_a="MULTI_LINE", utility_b="Duke Energy Carolinas", project_type_b="LINE"))
+    assert impact["estimated_acres_a"] == 0.5
+    assert (impact["utility_state_b"], impact["estimated_land_savings_usd"]) == ("", None)
+    # A project's own state column wins over its utility's.
+    impact = estimate_overlap_impact(dict(utility_a=DESC, project_type_a="LINE", utility_b="Duke Energy Carolinas", region_b="South Carolina", project_type_b="LINE"))
+    assert impact["estimated_land_savings_usd"] == pytest.approx(0.5 * 4900)
+    impact = estimate_overlap_impact(dict(utility_a=DESC, project_type_a="UNKNOWN", utility_b=GEORGIA, project_type_b="LINE"))
+    assert (impact["estimated_shared_acres"], impact["estimated_land_savings_usd"]) == (None, None)
 
 
 def test_ranking_can_prioritize_distance_over_other_scores():

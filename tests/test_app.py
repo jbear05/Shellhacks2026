@@ -30,6 +30,7 @@ def test_demo_filters_reviews_and_exports_share_current_settings():
     app.selectbox[-1].select(0).run()
     assert not app.exception
     assert any("Opportunity #" in value.value for value in app.subheader)
+    assert any("Rough impact estimate" in value.value for value in app.markdown)
     app.checkbox(key="show_substations").check().run()
     assert not app.exception
     app.switch_page("frontend/pages/2_Project_Review.py").run()

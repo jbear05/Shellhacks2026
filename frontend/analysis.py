@@ -11,7 +11,7 @@ from ranking import rank_overlaps
 
 PAIR_FIELDS = {
     "utility": "Utility", "project_id": "Project ID", "project_name": "Project Name",
-    "project_type": "Project Type", "start_date": "Start Date", "in_service_date": "In-Service Date",
+    "project_type": "Project Type", "region": "County / Region", "start_date": "Start Date", "in_service_date": "In-Service Date",
     "voltage": "Voltage 1", "confidence": "Confidence", "center_method": "Center Method",
     "latitude": "Latitude", "longitude": "Longitude", "source_file": "Source File",
     "source_pages": "Source Pages", "verification_notes": "Verification Notes",
@@ -76,6 +76,5 @@ def calculate_overlaps(projects: pd.DataFrame, utility_a: str, utility_b: str,
         row["timeline_overlap"] = "Yes" if "build windows overlap" in reason else "No" if "build windows do not overlap" in reason else "Unknown"
         row["overlap_id"] = f"{row['utility_a']}:{row['project_id_a']} | {row['utility_b']}:{row['project_id_b']}"
         row["rank"] = int(row["rank"])
-        row.update(estimate_overlap_impact(row, row))
-    columns = RESULT_COLUMNS + [name for name in ranked[0].keys() if name not in RESULT_COLUMNS] if ranked else RESULT_COLUMNS
-    return pd.DataFrame(ranked, columns=columns)
+        row.update(estimate_overlap_impact(row))
+    return pd.DataFrame(ranked, columns=RESULT_COLUMNS)
