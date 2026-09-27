@@ -3,7 +3,6 @@ from __future__ import annotations
 from functools import lru_cache
 from hashlib import sha256
 
-
 import pandas as pd
 
 from frontend.data_loader import ProjectLoadError
@@ -25,60 +24,17 @@ def parse_known_pdf(content: bytes) -> pd.DataFrame:
             "2024–2028 project descriptions or Georgia Power 2025 IRP Volume 3 public PDF, "
             "or import a CSV/XLSX project table. Revised PDFs need their locations reviewed first."
         )
-    if utility == DESC:
-        ai_data = pd.read_csv(
-            ROOT / "data" / "processed" / "ai" / "desc_ai_projects.csv",
-            dtype=str,
-            keep_default_na=False,
-        )
-
-        old_data = pd.read_csv(
-            ROOT / "data" / "processed" / "dominion_projects.csv",
-            dtype=str,
-            keep_default_na=False,
-        )
-
-        old_data = old_data.set_index("project_id")
-
-        for field in ("start_date", "project_type", "voltage_2"):
-            if field in ai_data.columns and field in old_data.columns:
-                ai_data[field] = ai_data.apply(
-                    lambda row: (
-                        row[field]
-                        if row[field]
-                        else old_data[field].get(row["project_id"], "")
-                    ),
-                    axis=1,
-                )
-
-        records = ai_data.to_dict("records")
-
-        prefix = "desc"
-    else:
-        records = pd.read_csv(
-            ROOT / "data" / "processed" / "georgia_power_projects.csv",
-            dtype=str,
-            keep_default_na=False,
-        ).to_dict("records")
-        records = [
-            row for row in records
-            if row.get("utility") == GEORGIA
-        ]
-        prefix = "georgia_power"
-
-    normalized = []
-
-    for record in records:
-        row = dict(record)
-        row["Utility"] = utility
-        row["Source PDF"] = SOURCE_FILES[utility]
-        normalized.append(row)
-
-    result = attach_locations(
-        pd.DataFrame(normalized),
-        prefix,
-        SOURCE_FILES[utility]
+    # The exact PDF hash identifies the committed parser output that was checked
+    # against this version of the plan. Keep ownership and IDs from those rows.
+    prefix, project_file = (
+        ("desc", "dominion_projects.csv") if utility == DESC
+        else ("georgia_power", "georgia_power_projects.csv")
     )
+    projects = pd.read_csv(ROOT / "data" / "processed" / project_file,
+                           dtype=str, keep_default_na=False)
+    if utility == GEORGIA:
+        projects = projects[projects.utility == GEORGIA]
+    result = attach_locations(projects, prefix, SOURCE_FILES[utility])
 
     result["Source SHA256"] = digest
     return result

@@ -163,7 +163,8 @@ section 4. How centers, confidence, PDF imports and ranking work is in
   Overlaps page.
 - **Project Setup** (`1_Project_Setup.py`) loads projects from one of four sources:
   the saved plans (the same demo data), the two organizer PDFs (`pdf_import.py`,
-  recognized by hash; any other PDF is rejected), CSV/XLSX tables per utility
+  recognized by hash and loaded from the committed parser tables; any other PDF is
+  rejected), CSV/XLSX tables per utility
   (`data_loader.py`), or a snapshot ZIP (`workspace.py`). It then picks the two
   utilities and the distance threshold (1-100 miles).
 - **Project Review** (`2_Project_Review.py`): edit names, types, dates, voltages and

@@ -1,10 +1,12 @@
 """Tests for clean_test_csvs.py, on rows copied from the raw files in data/test/raw/."""
 
 import csv
+import dataclasses
 
 import pytest
 
 import clean_test_csvs as clean
+from parsers import georgia_power as gp
 
 BASE_HEADER = ",".join(clean.BASE_COLUMNS)
 DUKE_HEADER = ",".join(clean.BASE_COLUMNS + clean.COORDINATE_COLUMNS)
@@ -37,11 +39,9 @@ def _raw(tmp_path, header, *lines, name="raw.csv"):
     return path
 
 
-def test_base_columns_match_the_committed_georgia_projects_csv():
+def test_base_columns_are_the_georgia_parser_columns():
     # So the cleaned files can go to gridlock_desc_locator.py --projects-csv.
-    path = clean.REPO_ROOT / "data" / "processed" / "georgia_power_projects.csv"
-    with path.open(newline="", encoding="utf-8") as handle:
-        assert clean.BASE_COLUMNS == next(csv.reader(handle))
+    assert clean.BASE_COLUMNS == [field.name for field in dataclasses.fields(gp.ProjectRecord)]
 
 
 def test_drops_the_two_stray_blanks_from_a_desc_row(tmp_path):

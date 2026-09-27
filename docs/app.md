@@ -55,8 +55,10 @@ line.
 ## PDF uploads
 
 `frontend/pdf_import.py` accepts the two exact organizer PDFs, recognized by SHA-256
-content rather than filename. It runs the existing deterministic parser in memory
-and joins its rows to saved location evidence. The Georgia upload selects GPC/SAV.
+content rather than filename. It loads the corresponding committed deterministic
+parser table and joins its rows to saved location evidence. The Georgia upload selects
+GPC/SAV. Parser fixes require regenerating the committed table; uploading the same PDF
+does not silently replace it with a different extraction.
 Unknown/revised PDFs are rejected with instructions to import a project table;
 reusing coordinates from an older plan without review would be misleading. No
 generated CSV, source PDF, cache or API account is changed by an upload. The source

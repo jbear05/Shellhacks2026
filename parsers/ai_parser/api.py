@@ -1,3 +1,11 @@
+"""Programmatic, cache-only replay of a project-list PDF.
+
+The Streamlit app does not call this helper. A missing reply raises ModelError rather
+than sending an API request; use the CLI to produce evidence and review files.
+"""
+
+from __future__ import annotations
+
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -17,45 +25,13 @@ def parse_pdf(
     sponsor: str = "",
     pages: str | None = None,
     workers: int = 1,
-):
-
-    # Temporarily turn the uploaded PDF into a file
+) -> list[dict[str, str]]:
+    """Return checked project rows from cached replies, without writing output files."""
     with TemporaryDirectory() as folder:
-
         pdf_path = Path(folder) / "upload.pdf"
         pdf_path.write_bytes(content)
+        pdf_pages = read_pages(pdf_path, parse_page_ranges(pages) if pages else None)
 
-        page_numbers = (
-            parse_page_ranges(pages)
-            if pages
-            else None
-        )
-
-        pdf_pages = read_pages(
-            pdf_path,
-            page_numbers
-        )
-
-    # Tell the parser what utility we're reading
-    settings = Settings(
-        utility=utility,
-        state=state,
-        sponsor=sponsor,
-        workers=workers,
-    )
-
-    # Connect to Claude
-    model = Model(
-        ResponseCache(CACHE_DIR),
-        DEFAULT_MODEL,
-        offline=True,
-    )
-    # Run your existing AI parser
-    result = run(
-        pdf_pages,
-        model.ask,
-        settings,
-    )
-
-    # Give the frontend normal rows
-    return result.rows()
+    settings = Settings(utility=utility, state=state, sponsor=sponsor, workers=workers)
+    model = Model(ResponseCache(CACHE_DIR), DEFAULT_MODEL, offline=True)
+    return run(pdf_pages, model.ask, settings).rows()

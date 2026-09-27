@@ -81,7 +81,7 @@ def merge(fragments: Iterable[Fragment], pages: PageText) -> tuple[dict[str, Pro
     """Check every fragment's values and merge the fragments that share a project ID.
 
     Fragments are taken in page order, so when two places disagree the earlier page wins
-    (for Georgia Power, that's Table 2). Returns the
+    (for Georgia Power that's Table 2, as in parsers/georgia_power.py). Returns the
     projects and the problems that belong to no project.
     """
     projects: dict[str, Project] = {}

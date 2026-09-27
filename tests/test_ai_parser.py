@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 
 from parsers.ai_parser import __main__ as cli
+from parsers.ai_parser.api import parse_pdf
 from parsers.ai_parser import evaluate
 from parsers.ai_parser.checks import PageText, check_date, dates_in, locate, normalize_id
 from parsers.ai_parser.llm import (
@@ -22,6 +23,14 @@ from parsers.ai_parser.schema import DateQuote, Extraction, Fragment, Inventory,
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DESC_PDF = REPO_ROOT / "Sperry-Tech-Challenge" / "Project Listings" / "Dominion Energy" / (
     "2024-2028-2million-and-above-project-descriptions.pdf")
+
+
+@pytest.mark.slow
+def test_programmatic_api_replays_desc_cache_without_a_paid_request(monkeypatch):
+    monkeypatch.setattr(Model, "_call", lambda *_args: pytest.fail("offline API attempted a paid request"))
+    rows = parse_pdf(DESC_PDF.read_bytes(), "Dominion Energy South Carolina", "South Carolina", sponsor="DESC")
+    assert len(rows) == 44
+    assert {row["utility"] for row in rows} == {"Dominion Energy South Carolina"}
 
 # pypdf's text of DESC pages 14 and 34, and of Georgia Power pages 177 (the start of
 # Table 2) and 231 (TEAMS 19523's detail page, whose need date differs from Table 2's)

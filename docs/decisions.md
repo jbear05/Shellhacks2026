@@ -145,6 +145,12 @@ decision is reversed, say so under the old entry instead of deleting it.
   The saved points were checked for those exact plans, and a revised PDF's projects
   would need their locations reviewed again. The app makes no AI or geocoding calls,
   per AGENTS.md. See [app.md](app.md#pdf-uploads).
+- **An exact organizer PDF loads its committed parser table** (2026-09-27, PR #13).
+  The hash proves which source version was uploaded. The checked CSV for that version
+  keeps the deterministic parser's IDs, dates, type and sponsor, while avoiding a
+  repeated 668-page parse in the app. Parser changes still go through regeneration and
+  review of the committed CSV, and unknown PDFs still need a separately reviewed
+  project table. The offline AI helper stays outside the app.
 - **A two-substation project with one point is labeled, not hidden** (2026-09-27). Its
   center is that substation, which can be up to half the line's length from the real
   midpoint. `one_of_two_endpoints` keeps it apart from one-substation projects

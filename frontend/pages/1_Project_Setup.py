@@ -25,12 +25,12 @@ try:
         a, b = st.columns(2)
         pdf_a = a.file_uploader("DESC source PDF", type=["pdf"])
         pdf_b = b.file_uploader("Georgia Power source PDF", type=["pdf"])
-        st.caption("Uses the existing parsers and saved geocoding. Georgia's large PDF can take tens of seconds the first time; results are cached for reruns.")
-        if st.button("Parse both PDFs", type="primary", disabled=not (pdf_a and pdf_b)):
-            with st.status("Parsing source plans…", expanded=True) as progress:
-                st.write("Reading DESC and joining endpoint evidence…")
+        st.caption("Matches each PDF by content to the checked project tables and saved location evidence. No AI or geocoding requests are made.")
+        if st.button("Load both PDFs", type="primary", disabled=not (pdf_a and pdf_b)):
+            with st.status("Loading source plans…", expanded=True) as progress:
+                st.write("Loading DESC and joining endpoint evidence…")
                 first = import_pdf(pdf_a.getvalue())
-                st.write("Reading Georgia Power's transmission plan…")
+                st.write("Loading Georgia Power's transmission plan…")
                 second = import_pdf(pdf_b.getvalue())
                 loaded = prepare_projects(pd.concat([first, second], ignore_index=True))
                 if set(loaded.Utility) != {DESC, GEORGIA}:

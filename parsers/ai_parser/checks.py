@@ -32,7 +32,7 @@ def same_text(first: str, second: str) -> bool:
 
 
 def normalize_id(text: str) -> str:
-    """A project ID as a join key. The spaces around ``-`` go, as in DESC IDs:
+    """A project ID as a join key. The spaces around ``-`` go, as in dominionScript.py:
     ``06367 A - C, H`` becomes ``06367 A-C, H``, which is how the Geolocator spells it."""
     return re.sub(r"\s*-\s*", "-", normalize_text(text))
 

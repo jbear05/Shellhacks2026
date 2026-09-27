@@ -43,6 +43,8 @@ python -m venv .venv
 python -m streamlit run app.py
 python -m pytest tests/test_app.py tests/test_map_view.py
 
+.venv/Scripts/python -m parsers.georgia_power   # data/processed/georgia_power_projects.csv, 208 rows
+.venv/Scripts/python dominionScript.py          # data/processed/dominion_projects.csv, 44 rows
 .venv/Scripts/python clean_test_csvs.py         # data/test/*_test_projects.csv, made-up test projects
 
 # Calls public Nominatim/Overpass servers and takes minutes. Read docs/geolocator.md first.
@@ -59,7 +61,9 @@ python -m pytest tests/test_app.py tests/test_map_view.py
 | Path | What it is |
 |---|---|
 | `parsers/common.py` | Text helpers shared by both parsers: dashes, dates, kV, miles |
+| `parsers/georgia_power.py` | The Georgia Power parser and its CLI |
 | `parsers/ai_parser/` | The AI parser for any project-list PDF, its eval, and its reply cache logic (the cache is `data/ai_cache/`) |
+| `dominionScript.py` | The DESC parser and its CLI (a teammate's file, kept at the root) |
 | `gridlock_desc_locator.py` | The Geolocator: coordinates from Nominatim and Overpass |
 | `gridlock_geocode_cache.json` | The Geolocator's request cache |
 | `data/processed/` | Parser output, committed so teammates don't need Python, and the Geolocator's output |
@@ -75,7 +79,7 @@ python -m pytest tests/test_app.py tests/test_map_view.py
 | `frontend/project_data.py` | Joins the parser CSVs to the Geolocator's endpoints for DESC and Georgia Power (GPC and SAV); see [docs/app.md](docs/app.md) |
 | `frontend/analysis.py` | The overlap finder: cross-utility pairs within the threshold, ranked by `ranking.py` |
 | `frontend/impact.py` | The bonus estimate: land two paired lines could save in one corridor, from their line miles, GTC easement widths and USDA 2026 land values; see [docs/pipeline.md](docs/pipeline.md#5-cost-and-impact-estimate-bonus) |
-| `frontend/pdf_import.py` | Imports the two organizer PDFs, recognized by hash, with the parsers and the saved endpoints |
+| `frontend/pdf_import.py` | Imports the two exact organizer PDFs, recognized by hash, from committed parser tables and saved endpoints |
 | `app.py` | The UI's entry file; `python -m streamlit run app.py` runs `frontend/app.py` |
 
 ## Pipeline
@@ -130,6 +134,7 @@ reads and writes, and the planned method for the unbuilt ones:
 
 ## Known pitfalls
 
+- `python parsers/georgia_power.py` fails to import. Use `python -m parsers.georgia_power`.
 - The DESC PDF writes `06367 A - C, H`. The parser removes the spaces around `-` (but
   not around `,`), so IDs match the Geolocator's list exactly.
 - Windows' 260-character path limit: a temp directory plus the long PDF names is too

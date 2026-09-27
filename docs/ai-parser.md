@@ -25,6 +25,12 @@ Still to do:
   under [the eval](#scoring-it-the-eval).
 - Nothing downstream reads the AI CSVs yet.
 
+`parsers.ai_parser.api.parse_pdf` can also replay a PDF from the committed reply
+cache into in-memory rows. It always sets `offline=True`, so a cache miss raises an
+error rather than making a paid request. The Streamlit app does not call this helper;
+its exact organizer-PDF uploads use the committed deterministic parser tables (see
+[app.md](app.md#pdf-uploads)). Use the CLI when the evidence and review files are needed.
+
 `data/ai_cache/` is committed, so anyone can rebuild the outputs without a key or any
 cost. These commands check the code against the cache and write to a separate folder:
 
