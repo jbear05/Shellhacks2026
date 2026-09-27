@@ -126,20 +126,19 @@ Last updated 2026-09-27.
   with it and the demo button selects it, and the Overlaps page's caption now
   describes whichever ranking is selected. `distance_first` is still on
   the "Ranking policy" menu, and a snapshot keeps the mode it was saved with.
-- **Gemini for the AI parser** on `feat/gemini-ai-parser` (in review, not merged; the
-  sibling worktree `../Shellhacks2026-gemini` has it checked out): `--model
-  gemini-3.8-flash` (any `gemini-` name) sends the same prompts and schema to Google's
-  Gemini API through `google-genai` 2.25.0, and the checks, merge and outputs are
-  shared. Claude stays the
-  default so the committed cache still replays. The new tests use a mock HTTP
-  transport, and the full suite has 257 passing on the branch. On 2026-09-27 a DESC
+- **Gemini for the AI parser** on `main`
+  (https://github.com/jbear05/Shellhacks2026/pull/17): `--model gemini-3.6-flash` (any
+  `gemini-` name) sends the same prompts and schema to Google's Gemini API through
+  `google-genai` 2.25.0, and the checks, merge and outputs are shared. Claude stays the
+  default so the committed cache still replays. On 2026-09-27 a DESC
   run with `gemini-3.6-flash` found all 44 projects, all `VERIFIED`, with every
   compared value matching `dominion_projects.csv` (sponsor included), for about $0.19.
   The 3.8 and 3.7 Flash runs before it failed on 503 "high demand" and then a 402 for
   the AI Studio project's empty prepaid credit, since topped up. See
   [ai-parser.md](ai-parser.md#with-gemini).
-- **Tests:** 250 pass and 2 files are skipped in the root `.venv` (full suite,
-  28.24 s on 2026-09-27). The skipped files, `tests/test_app.py` and
+- **Tests:** 257 pass and 2 files are skipped in the root `.venv` (full suite,
+  33.85 s on 2026-09-27, on PR #17's branch). The Gemini tests drive the real SDK
+  through a mock HTTP transport. The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
   `.venv-ui` (23.54 s), including review, location, export and focused-estimate flows
   through AppTest. No live browser check was made during the PR #13 review.
@@ -167,7 +166,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
    $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
-   Gemini (`feat/gemini-ai-parser`) has read DESC; Georgia Power is next. Jair's
+   Gemini has read DESC; Georgia Power is next. Jair's
    `GEMINI_API_KEY` is saved as a Windows user variable. Scaling DESC's Gemini
    tokens by Claude's DESC-to-Georgia ratios suggests about $2 for pages 171-474 with
    the ID pass, unmeasured; run `--dry-run` and get approval first.
@@ -190,7 +189,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
 | `feat/score-ranking-default` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/18 (the `score` ranking as the default); kept |
 | `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
-| `feat/gemini-ai-parser` | Jair, with Claude | Gemini support for the AI parser; pushed for review, not merged |
+| `feat/gemini-ai-parser` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/17; kept (the sibling worktree `../Shellhacks2026-gemini` has it checked out) |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |

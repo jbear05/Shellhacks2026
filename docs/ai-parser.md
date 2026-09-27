@@ -65,7 +65,7 @@ Georgia --prefix georgia_power_ai`, and `--pages 171-474` to read only the Ten-Y
 | `--workers 4` | Send 4 requests at a time. The SDK retries rate limits |
 | `--effort medium` | Less thinking during extraction: cheaper, maybe less accurate. The eval tells |
 | `--model claude-sonnet-5` | A cheaper model. Only worth it if it scores as well on the eval |
-| `--model gemini-3.8-flash` | A Gemini model; see [With Gemini](#with-gemini) |
+| `--model gemini-3.6-flash` | A Gemini model; see [With Gemini](#with-gemini) |
 | `--no-inventory` | Skip the ID pass (about half the input tokens, little output) |
 | `--no-fallback` | Don't let the API retry a declined request on another model. Claude only |
 | `--chunk-chars` | Characters of page text per request (default 12,000) |
@@ -98,7 +98,8 @@ The prompts, schema, checks and outputs are the same for both. What differs:
   new and paid, and `--offline` works only after a Gemini run has cached its replies.
 - **Thinking level instead of effort.** Gemini 3 models take `low`, `medium` or `high`;
   `--effort xhigh` and `max` send `high`. The ID pass sends `low`. Google's docs list
-  those three levels for `gemini-3.8-flash`. The levels `gemini-3.1-pro-preview`
+  those three levels for the 3.6, 3.7 and 3.8 Flash models, and the DESC run below
+  used `high` and `low` on `gemini-3.6-flash`. The levels `gemini-3.1-pro-preview`
   accepts weren't checked, and 2.5 models take a token budget instead, so they fail
   with an API error.
 - **No fallback.** A reply stopped for safety, recitation or similar is an error, as a

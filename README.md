@@ -77,7 +77,7 @@ Reads the projects out of any utility project-list PDF with Claude or Gemini, fo
 that have no parser of their own. The model copies each value along with the text and
 page it came from, and a value whose text isn't on that page is left blank and listed in
 `data/processed/ai/<prefix>_review.csv`. It needs an `ANTHROPIC_API_KEY` (or a
-`GEMINI_API_KEY` with `--model gemini-3.8-flash`) and costs money, so start with
+`GEMINI_API_KEY` with `--model gemini-3.6-flash`) and costs money, so start with
 `--dry-run`; replies are cached in `data/ai_cache/`, and
 `--offline` rebuilds the saved outputs from the cache for free. The eval scores it
 against the hand-written parsers: on DESC and Georgia Power it finds every project,

@@ -39,7 +39,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--prefix", required=True, help="output file names start with this, e.g. desc_ai")
     parser.add_argument("--pages", help="only these pages, e.g. 171-474 or 1-5,9 (default: all)")
     parser.add_argument("--model", default=DEFAULT_MODEL,
-                        help="a Claude model, or a gemini-* one such as gemini-3.8-flash (default: %(default)s)")
+                        help="a Claude model, or a gemini-* one such as gemini-3.6-flash (default: %(default)s)")
     parser.add_argument("--effort", default="high", choices=["low", "medium", "high", "xhigh", "max"],
                         help="how much the model thinks during extraction; Gemini treats xhigh and max "
                              "as high (default: %(default)s)")
