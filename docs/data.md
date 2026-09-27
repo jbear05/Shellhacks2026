@@ -229,3 +229,56 @@ location. How to add one is in [geolocator.md](geolocator.md#overrides).
 | `osm_id` | The OpenStreetMap element, or blank |
 | `source` | Where the point came from, so it can be checked, e.g. `OSM way 123456` or a PDF page. Required |
 | `note` | Why the search got it wrong |
+
+## `data/test/*_test_projects.csv`
+
+Made-up projects for testing the stages after the parsers without the PDFs. Nothing in
+them comes from a source PDF, so they stay out of `data/processed/`. A teammate added
+them in https://github.com/jbear05/Shellhacks2026/pull/8. The originals are in
+`data/test/raw/`, and `python clean_test_csvs.py` writes the cleaned copies:
+
+- `desc_test_projects.csv`, from `raw/code.csv`: 65 projects, IDs 30006-30070, with the
+  real DESC `utility` (`Dominion Energy South Carolina`), so never load it together with
+  `dominion_projects.csv`. No coordinates: it has to go through the Geolocator's
+  `--projects-csv`.
+- `duke_test_projects.csv`, from `raw/dukeEnergyCarolinas.csv`: 100 `Duke Energy
+  Carolinas` projects, IDs 40001-40100, 49 in North Carolina and 51 in South Carolina,
+  with coordinates.
+
+The raw rows have more values than their headers have columns: a stray blank after
+`other_locations`, another after `owner_tags`, and in the Duke file's 21
+single-location rows a third after `location_2_lon`. pandas reads `raw/code.csv` with
+every column shifted and fails on the Duke file. The script drops those blanks, stops
+with an error if a value lands in a column of the wrong type, and writes voltages as
+whole volts (`230000`, not `230000.0`). Every other value is copied unchanged.
+
+Both files start with the 25 columns of `georgia_power_projects.csv`, in the same
+order. The differences: `project_name` starts with `DESC: ` or `DEC: `, `zone` is a
+region name such as `Lowcountry` rather than a 3-digit code, `start_date` is always
+set, the page columns point to no real PDF, and `location_3`, `other_locations` and
+`owner_tags` are empty. `project_type` is only `LINE` or `SUBSTATION`. The Duke file
+adds:
+
+| Column | Meaning |
+|---|---|
+| `location_1_lat` | Latitude of `location_1`, as given. Not checked against a geocoder |
+| `location_1_lon` | As above |
+| `location_2_lat` | Latitude of `location_2`; blank for the 21 single-location projects |
+| `location_2_lon` | As above |
+| `center_lat` | Midpoint of the two locations, or `location_1` for a single-location project |
+| `center_lon` | As above |
+| `confidence_score` | `High` 78, `Medium` 22, as given. The Geolocator writes upper case |
+
+Weak rows. The script logs the first three on every run; the rest were found by hand
+on 2026-09-26:
+
+- 17 Duke lines have endpoints more than twice their `line_miles` apart, for example
+  40053 Camden - Wilmington: 155.6 miles apart for a 17.4-mile line. Their centers
+  aren't near where a real line would be.
+- 6 projects are typed `LINE` though the name is station work (30038, 30044, 30060,
+  30070, 40058, 40066), and 5 Duke `SUBSTATION` projects have a second location or line
+  miles (40048, 40072, 40084, 40085, 40100).
+- Duke `WILLIAMSTON` (40017) is at 32.74, -80.82, in the Lowcountry. The town of that
+  name is in Anderson County, in the Upstate.
+- Some Duke projects in North Carolina are labeled South Carolina, for example 40077
+  Shelby - Cherryville.

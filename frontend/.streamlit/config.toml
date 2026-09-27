@@ -1,0 +1,25 @@
+[server]
+enableStaticServing = true
+
+[[theme.fontFaces]]
+family = "Aeonik"
+url = "static/Aeonik-Regular.ttf"
+weight = 400
+style = "normal"
+
+[theme]
+base = "dark"
+primaryColor = "#1C2541"
+backgroundColor = "#0B132B"
+secondaryBackgroundColor = "#0C0A3E"
+textColor = "#fff3d0"
+font = "Aeonik, sans-serif"
+headingFont = "Aeonik, sans-serif"
+
+[theme.sidebar]
+primaryColor = "#5BC0BE"
+backgroundColor = "#1C2541"
+secondaryBackgroundColor = "#3A506B"
+textColor = "#fff3d0"
+font = "Aeonik, sans-serif"
+headingFont = "Aeonik, sans-serif"

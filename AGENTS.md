@@ -39,6 +39,7 @@ python -m venv .venv
 
 .venv/Scripts/python -m parsers.georgia_power   # data/processed/georgia_power_projects.csv, 208 rows
 .venv/Scripts/python dominionScript.py          # data/processed/dominion_projects.csv, 44 rows
+.venv/Scripts/python clean_test_csvs.py         # data/test/*_test_projects.csv, made-up test projects
 
 # Calls public Nominatim/Overpass servers and takes minutes. Read docs/geolocator.md first.
 .venv/Scripts/python gridlock_desc_locator.py
@@ -61,6 +62,8 @@ python -m venv .venv
 | `gridlock_geocode_cache.json` | The Geolocator's request cache |
 | `data/processed/` | Parser output, committed so teammates don't need Python, and the Geolocator's output |
 | `data/overrides/` | Hand-checked fixes; `location_overrides.csv` corrects the Geolocator's wrong lookups |
+| `data/test/` | Made-up test projects, not from the PDFs: a teammate's files in `raw/` and their cleaned copies |
+| `clean_test_csvs.py` | Realigns the test CSVs in `data/test/raw/` and writes them to `data/test/` |
 | `tests/` | pytest; the `slow` marker covers the tests that parse the 668-page PDF or load the Anthropic SDK |
 | `docs/` | Project knowledge; see [Where knowledge lives](#where-knowledge-lives) |
 | `.claude/skills/` | Step-by-step workflows in plain Markdown, usable by any agent |
