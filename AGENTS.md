@@ -51,7 +51,8 @@ python -m pytest tests/test_app.py tests/test_map_view.py
 .venv/Scripts/python gridlock_desc_locator.py
 .venv/Scripts/python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_projects.csv --output-prefix georgia_power
 
-# The AI parser calls the paid Claude API unless --dry-run or --offline. Read docs/ai-parser.md first.
+# The AI parser calls the paid Claude API (Gemini with --model gemini-...) unless --dry-run or --offline.
+# Read docs/ai-parser.md first.
 .venv/Scripts/python -m parsers.ai_parser PDF --utility "..." --state "..." --prefix NAME --dry-run
 .venv/Scripts/python -m parsers.ai_parser.evaluate data/processed/ai/NAME_projects.csv data/processed/dominion_projects.csv
 ```
@@ -111,8 +112,8 @@ reads and writes, and the planned method for the unbuilt ones:
   both: it caches every reply and checks every value against the page it came from.
 - **Public APIs:** keep the Geolocator at 1 request per second to Nominatim, and keep
   using its cache. Tests must never call the network. Ask before starting a full run.
-- **The Claude API costs money.** Ask before running the AI parser without `--dry-run`
-  or `--offline`, and say what `--dry-run` estimates. Never commit an API key.
+- **The Claude and Gemini APIs cost money.** Ask before running the AI parser without
+  `--dry-run` or `--offline`, and say what `--dry-run` estimates. Never commit an API key.
 - **Teammate branches:** don't commit to or push `origin/NA`, `origin/Geolocator` or
   `origin/dominionScript` unless the user has checked with the owner (listed in
   docs/status.md).

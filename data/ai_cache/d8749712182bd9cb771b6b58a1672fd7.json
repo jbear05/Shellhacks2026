@@ -1,0 +1,535 @@
+{
+ "task": "extract",
+ "pages": [
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  42,
+  43,
+  44
+ ],
+ "model": "gemini-3.6-flash",
+ "model_version": "gemini-3.6-flash",
+ "usage": {
+  "input_tokens": 4480,
+  "output_tokens": 12099
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 32,
+    "kind": "project_detail"
+   },
+   {
+    "page": 33,
+    "kind": "project_detail"
+   },
+   {
+    "page": 34,
+    "kind": "project_detail"
+   },
+   {
+    "page": 35,
+    "kind": "project_detail"
+   },
+   {
+    "page": 36,
+    "kind": "project_detail"
+   },
+   {
+    "page": 37,
+    "kind": "project_detail"
+   },
+   {
+    "page": 38,
+    "kind": "project_detail"
+   },
+   {
+    "page": 39,
+    "kind": "project_detail"
+   },
+   {
+    "page": 40,
+    "kind": "project_detail"
+   },
+   {
+    "page": 41,
+    "kind": "project_detail"
+   },
+   {
+    "page": 42,
+    "kind": "project_detail"
+   },
+   {
+    "page": 43,
+    "kind": "project_detail"
+   },
+   {
+    "page": 44,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "6809 N",
+     "page": 32
+    },
+    "project_name": {
+     "text": "Batesburg - Saluda County 115kV: Rebuild",
+     "page": 32
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2025",
+     "page": 32,
+     "iso": "2025-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuild 13.5 miles of conductor.",
+      "page": 32
+     }
+    ],
+    "locations": [
+     {
+      "text": "Batesburg",
+      "page": 32
+     },
+     {
+      "text": "Saluda County",
+      "page": 32
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6853 B-F",
+     "page": 33
+    },
+    "project_name": {
+     "text": "Scout 230 kV Sub and Fold-in: Construct",
+     "page": 33
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "3/31/2026",
+     "page": 33,
+     "iso": "2026-03-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct 230kV Transmission Line for Scout Customer Substation and modify VCS1 and Killian terminals.",
+      "page": 33
+     }
+    ],
+    "locations": [
+     {
+      "text": "Scout",
+      "page": 33
+     },
+     {
+      "text": "VCS1",
+      "page": 33
+     },
+     {
+      "text": "Killian",
+      "page": 33
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6859",
+     "page": 34
+    },
+    "project_name": {
+     "text": "Dawson 230kV Sub and Fold-in: Construct and Rebuild",
+     "page": 34
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "10/1/2025 (phase 1) and 10/1/2026 (phase 2)",
+     "page": 34,
+     "iso": "2026-10-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct Dawson 230kV substation. Fold in the existing Canadys – Church Creek and Canadys – Faber Place 230kV lines at the Dawson 230kV substation (phase 1). Rebuild Canadys – Dawson 230kV #1 and #2 with B1272 ACSR (phase 2).",
+      "page": 34
+     }
+    ],
+    "locations": [
+     {
+      "text": "Dawson",
+      "page": 34
+     },
+     {
+      "text": "Canadys",
+      "page": 34
+     },
+     {
+      "text": "Church Creek",
+      "page": 34
+     },
+     {
+      "text": "Faber Place",
+      "page": 34
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6852",
+     "page": 35
+    },
+    "project_name": {
+     "text": "Urquhart – Toolebeck 115kV line: Rebuild",
+     "page": 35
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "8/12/2026",
+     "page": 35,
+     "iso": "2026-08-12"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Upgrade the 477 ACSR portions of the Urquhart – Toolebeck 115 kV line to 1272 ACSR. Replace existing structures with Single Pole Double Circuit Structures. Approximately 12.5 miles.",
+      "page": 35
+     }
+    ],
+    "locations": [
+     {
+      "text": "Urquhart",
+      "page": 35
+     },
+     {
+      "text": "Toolebeck",
+      "page": 35
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6388 A",
+     "page": 36
+    },
+    "project_name": {
+     "text": "Williams-Summerville 230kV: Upgrade to SPDC B1272 ACSR",
+     "page": 36
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "5/1/2027",
+     "page": 36,
+     "iso": "2027-05-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuild the section of the Williams - Summerville 230 kV line from Ladson Jct to Williams. Line to upgraded to B-1272 and designed for a future second circuit. Approximately 10 miles.",
+      "page": 36
+     }
+    ],
+    "locations": [
+     {
+      "text": "Williams",
+      "page": 36
+     },
+     {
+      "text": "Summerville",
+      "page": 36
+     },
+     {
+      "text": "Ladson Jct",
+      "page": 36
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "0147 C, K",
+     "page": 37
+    },
+    "project_name": {
+     "text": "Cainhoy 115 kV Tap: Construct",
+     "page": 37
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2027",
+     "page": 37,
+     "iso": "2027-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct a 115 kV tap from Cainhoy to Clements Ferry. Approximately 2.8 miles. Construct terminal at Cainhoy.",
+      "page": 37
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cainhoy",
+      "page": 37
+     },
+     {
+      "text": "Clements Ferry",
+      "page": 37
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "0147 B, J",
+     "page": 38
+    },
+    "project_name": {
+     "text": "Jack Primus 115 kV Tap: Construct",
+     "page": 38
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2027",
+     "page": 38,
+     "iso": "2027-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct a 115 kV tap from Jack Primus to Clements Ferry. Approximately 2.2 miles. Construct terminals at Jack Primus.",
+      "page": 38
+     }
+    ],
+    "locations": [
+     {
+      "text": "Jack Primus",
+      "page": 38
+     },
+     {
+      "text": "Clements Ferry",
+      "page": 38
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6847 A-B, D-H",
+     "page": 39
+    },
+    "project_name": {
+     "text": "Church Creek – Faber Place – Charleston Transmission: Add 230kV Line",
+     "page": 39
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "05/01/2027",
+     "page": 39,
+     "iso": "2027-05-01"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Construct a 230 kV transmission line from Church Creek to Charleston Transmission. The Church Creek – Faber Place 230kV and 115kV lines will be rebuilt, and a 230kV line will be added between Faber Place and Charleston Transmission. Add 230/115kV transformer at Charleston Transmission. Add/upgrade terminals and bus work at impacted substations.",
+      "page": 39
+     }
+    ],
+    "locations": [
+     {
+      "text": "Church Creek",
+      "page": 39
+     },
+     {
+      "text": "Faber Place",
+      "page": 39
+     },
+     {
+      "text": "Charleston Transmission",
+      "page": 39
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6846 A",
+     "page": 40
+    },
+    "project_name": {
+     "text": "Eastover – Sumter 115kV DEP Tie: Rebuild with 1272 ACSR",
+     "page": 40
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "05/31/2026",
+     "page": 40,
+     "iso": "2026-05-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Upgrade the DESC section (approx. 1 mile) of the tie line from 397.5 ACSR Ibis to 1272 ACSR.",
+      "page": 40
+     }
+    ],
+    "locations": [
+     {
+      "text": "Eastover",
+      "page": 40
+     },
+     {
+      "text": "Sumter",
+      "page": 40
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6810 U",
+     "page": 41
+    },
+    "project_name": {
+     "text": "Cameron Jct – Elloree 46 kV Rebuild",
+     "page": 41
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2026",
+     "page": 41,
+     "iso": "2026-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuilding the Cameron Jct – Elloree 46 kV Line. 7.3 miles.",
+      "page": 41
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cameron Jct",
+      "page": 41
+     },
+     {
+      "text": "Elloree",
+      "page": 41
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6810 J",
+     "page": 42
+    },
+    "project_name": {
+     "text": "Elloree – Santee City 46 kV: Rebuild",
+     "page": 42
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2027",
+     "page": 42,
+     "iso": "2027-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuilding the 46 kV line between Elloree and Santee City. 7 miles.",
+      "page": 42
+     }
+    ],
+    "locations": [
+     {
+      "text": "Elloree",
+      "page": 42
+     },
+     {
+      "text": "Santee City",
+      "page": 42
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6810 O",
+     "page": 43
+    },
+    "project_name": {
+     "text": "Urquhart – Aiken PSA 46 kV: Rebuild",
+     "page": 43
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2027",
+     "page": 43,
+     "iso": "2027-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuilding the section of 46 kV line from Urquhart to the Aiken PSA tap point. TBD if the scope of this project includes rebuilding the actual tap Aiken PSA. 4.5 miles.",
+      "page": 43
+     }
+    ],
+    "locations": [
+     {
+      "text": "Urquhart",
+      "page": 43
+     },
+     {
+      "text": "Aiken PSA",
+      "page": 43
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "6810 T",
+     "page": 44
+    },
+    "project_name": {
+     "text": "Cameron Jct – Cameron – St Matthews 46 kV Rebuild",
+     "page": 44
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "12/31/2028",
+     "page": 44,
+     "iso": "2028-12-31"
+    },
+    "start_date": null,
+    "description": [
+     {
+      "text": "Rebuilding the 46 kV line between Cameron Jct and St Matthews. 9.8 miles.",
+      "page": 44
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cameron Jct",
+      "page": 44
+     },
+     {
+      "text": "Cameron",
+      "page": 44
+     },
+     {
+      "text": "St Matthews",
+      "page": 44
+     }
+    ]
+   }
+  ]
+ }
+}

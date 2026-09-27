@@ -1,20 +1,22 @@
 ---
 name: ai-parse
-description: Run the AI parser (parsers/ai_parser) on a project-list PDF, score it against a hand-written parser with the eval, and summarize what needs review. Use when asked to parse a PDF with AI or Claude, run or re-run the AI parser, evaluate or score it, or tune its prompt.
+description: Run the AI parser (parsers/ai_parser) on a project-list PDF, score it against a hand-written parser with the eval, and summarize what needs review. Use when asked to parse a PDF with AI, Claude or Gemini, run or re-run the AI parser, evaluate or score it, or tune its prompt.
 ---
 
 # Run the AI parser
 
-The AI parser calls the paid Claude API. Read docs/ai-parser.md first, especially
-its current state. After changing the parser's Python, rebuild the saved outputs from
+The AI parser calls the paid Claude API, or Gemini's with `--model gemini-...`. Read
+docs/ai-parser.md first, especially its current state (and "With Gemini" for Gemini). After changing the parser's Python, rebuild the saved outputs from
 the cache with `--offline` and score them before paying for anything new.
 
 ## 1. Check the key and agree on the cost
 
-Check that `ANTHROPIC_API_KEY` is set without printing it:
+Check that `ANTHROPIC_API_KEY` is set without printing it (for a `gemini-` model,
+`GEMINI_API_KEY` or `GOOGLE_API_KEY` instead):
 
 ```bash
 if [ -n "$ANTHROPIC_API_KEY" ]; then echo set; else echo "not set"; fi
+if [ -n "$GEMINI_API_KEY$GOOGLE_API_KEY" ]; then echo set; else echo "not set"; fi
 ```
 
 If it isn't set, `ant auth status` (if the `ant` CLI is installed) may show a login,
@@ -26,8 +28,9 @@ write it to a file.
 
 Then run the same command with `--dry-run`, and give the user the request counts and
 the input-token estimate it prints, plus the output cost from docs/ai-parser.md#cost
-(about $1 for DESC; about $3 to finish Georgia Power pages 171-474). Wait for their
-go-ahead. Cached replies cost nothing, and `--offline` never
+(about $1 for DESC; about $3 to finish Georgia Power pages 171-474). Those are
+Claude's costs; for Gemini, work from the prices in the dry run's model and say it's
+unmeasured. Wait for their go-ahead. Cached replies cost nothing, and `--offline` never
 calls the API.
 
 ## 2. Run it from the repo root, in the background

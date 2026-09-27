@@ -114,6 +114,12 @@ decision is reversed, say so under the old entry instead of deleting it.
   A cheaper model or lower effort should be adopted only if it scores as well on the
   eval. The API's server-side fallback is on, so a declined request is retried on
   another model instead of stopping the run.
+- **Gemini beside Claude, not instead of it** (2026-09-27). A `gemini-` model name sends
+  the same prompts and schema to Gemini; everything after the reply is shared. Keeping
+  Claude as the default keeps the committed cache replayable with `--offline`, and the
+  cache key includes the model, so the two never mix. Claude's effort maps onto Gemini
+  3's thinking levels, capped at `high`. The reply is streamed, as Claude's is, so a
+  long one doesn't time out.
 - **Each row's `utility` comes from its sponsor** (2026-09-26). Georgia Power's plan
   also lists GTC, MEAG and DU projects, so writing `--utility` on every row gave 70
   wrong (`utility`, `project_id`) keys. The AI parser uses the Georgia parser's own code
