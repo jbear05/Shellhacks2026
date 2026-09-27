@@ -31,40 +31,12 @@ behavior. The map's basemap needs internet access; computation uses local data.
 - [AGENTS.md](AGENTS.md): instructions for AI coding agents (Claude Code reads it
   through [CLAUDE.md](CLAUDE.md)). It's also a quick tour of the repo for people.
 
-## Georgia Power parser
+## Processed project data
 
-```bash
-python -m parsers.georgia_power                      # all sponsors
-python -m parsers.georgia_power --sponsors GPC SAV   # Georgia Power's own projects only
-```
-
-Writes `data/processed/georgia_power_projects.csv`, one row per project in the
-Ten-Year Plan inside `2025 IRP Volume 3 PUBLIC DISCLOSURE.pdf`. It joins two parts of
-the plan on TEAMS number:
-
-- Table 2 (project list): name, zone, plan year, need date, sponsor.
-- Section IV detail pages: start date, scope description, change since the last plan.
-
-The run stops with an error if the PDF's structure no longer matches what the parser
-expects (for example, row counts that don't reconcile). Problems in the source data
-itself, such as 3 projects whose need date differs between Table 2 and their detail
-page, are logged as warnings.
-
-Locations, project type and voltages are guessed from the title, so check them before
-geocoding. The columns are described in
-[docs/data.md](docs/data.md#dataprocessedgeorgia_power_projectscsv).
-
-## Dominion parser
-
-```bash
-python dominionScript.py
-```
-
-Writes `data/processed/dominion_projects.csv`, one row per page of
-`2024-2028-2million-and-above-project-descriptions.pdf`, with the Georgia Power CSV's
-column names and formats. Project IDs are spelled as in the Geolocator's project list,
-which supplies the locations, project type and voltages. The columns are described in
-[docs/data.md](docs/data.md#dataprocesseddominion_projectscsv).
+The frontend's known-PDF importer reads the committed project tables in
+`data/processed/` rather than running a utility-specific parser at upload time. The
+tables preserve the project fields used by the Geolocator and the frontend; their
+columns and provenance are documented in [docs/data.md](docs/data.md).
 
 ## AI parser
 
@@ -73,20 +45,19 @@ python -m parsers.ai_parser PDF --utility "Georgia Power" --state Georgia --pref
 python -m parsers.ai_parser.evaluate data/processed/ai/georgia_power_ai_projects.csv data/processed/georgia_power_projects.csv
 ```
 
-Reads the projects out of any utility project-list PDF with Claude, for PDFs that have
-no parser of their own. The model copies each value along with the text and page it
+Reads project data from utility project-list PDFs with Claude. The model copies each
+value along with the text and page it
 came from, and a value whose text isn't on that page is left blank and listed in
 `data/processed/ai/<prefix>_review.csv`. It needs an `ANTHROPIC_API_KEY` and costs
 money, so start with `--dry-run`; replies are cached in `data/ai_cache/`, and
-`--offline` rebuilds the saved outputs from the cache for free. The eval scores it
-against the hand-written parsers: on DESC and Georgia Power it finds every project,
-with the right owner. See [docs/ai-parser.md](docs/ai-parser.md).
+`--offline` rebuilds saved outputs from the cache for free. See
+[docs/ai-parser.md](docs/ai-parser.md).
 
 ## Tests
 
 ```bash
-pytest                 # everything; parses both real PDFs once (about 15 s)
-pytest -m "not slow"   # skips the 668-page Georgia Power PDF (about 1 s)
+pytest                 # all tests
+pytest -m "not slow"   # skips tests marked slow
 ```
 
 ## Geolocator

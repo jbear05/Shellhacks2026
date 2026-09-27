@@ -22,7 +22,7 @@
  "model": "claude-opus-5",
  "usage": {
   "input_tokens": 8430,
-  "output_tokens": 4362
+  "output_tokens": 4342
  },
  "output": {
   "pages": [
@@ -604,10 +604,6 @@
      },
      {
       "text": "Santee",
-      "page": 29
-     },
-     {
-      "text": "Duke/Progress Energy",
       "page": 29
      }
     ]

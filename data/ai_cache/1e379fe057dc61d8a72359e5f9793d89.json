@@ -1,0 +1,394 @@
+{
+ "task": "extract",
+ "pages": [
+  346,
+  347,
+  348,
+  349,
+  350,
+  351,
+  352,
+  353,
+  354
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7485,
+  "output_tokens": 2456
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 346,
+    "kind": "project_detail"
+   },
+   {
+    "page": 347,
+    "kind": "project_detail"
+   },
+   {
+    "page": 348,
+    "kind": "project_detail"
+   },
+   {
+    "page": 349,
+    "kind": "project_detail"
+   },
+   {
+    "page": 350,
+    "kind": "project_detail"
+   },
+   {
+    "page": 351,
+    "kind": "project_detail"
+   },
+   {
+    "page": 352,
+    "kind": "project_detail"
+   },
+   {
+    "page": 353,
+    "kind": "project_detail"
+   },
+   {
+    "page": 354,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "21142",
+     "page": 346
+    },
+    "project_name": {
+     "text": "CONYERS - KLONDIKE 230 KV SECOND LINE",
+     "page": 346
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 346,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 346,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "Build a new 6.56 mile line from Conyers to Klondike with 200C (2) 1351 ACSS Martin conductor. Build one new 230kV breaker terminal at Conyers and one new 230kV terminal at Klondike.",
+      "page": 346
+     }
+    ],
+    "locations": [
+     {
+      "text": "Conyers",
+      "page": 346
+     },
+     {
+      "text": "Klondike",
+      "page": 346
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21138",
+     "page": 347
+    },
+    "project_name": {
+     "text": "GLENWOOD SPRINGS - PORTERDALE PRIMARY 230KV LINE SWITCH REPL",
+     "page": 347
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 347,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2029",
+     "page": 347,
+     "iso": "2029-06-01"
+    },
+    "description": [
+     {
+      "text": "Replace the 600A line switch at Porterdale Primary on the Glenwood Springs - Porterdale Primary 230kV Line with 1200A switch.",
+      "page": 347
+     }
+    ],
+    "locations": [
+     {
+      "text": "Glenwood Springs",
+      "page": 347
+     },
+     {
+      "text": "Porterdale Primary",
+      "page": 347
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21112",
+     "page": 348
+    },
+    "project_name": {
+     "text": "GTC: BARNESVILLE PRIMARY - THOMASTON 230KV",
+     "page": 348
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 348,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2027",
+     "page": 348,
+     "iso": "2027-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild Barnesville Primary - Thomaston 230kV line (13.24 miles) with 100C 1351 ACSS; Replace 1200A switches at Barnesville Primary & Thomaston with 3000A switch; replace associated jumper at both stations.",
+      "page": 348
+     }
+    ],
+    "locations": [
+     {
+      "text": "Barnesville Primary",
+      "page": 348
+     },
+     {
+      "text": "Thomaston",
+      "page": 348
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "10814",
+     "page": 349
+    },
+    "project_name": {
+     "text": "GTC: BAY CREEK 230/115KV SECOND AUTO TRANSFORMER",
+     "page": 349
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 349,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2028",
+     "page": 349,
+     "iso": "2028-06-01"
+    },
+    "description": [
+     {
+      "text": "Install a second 230/115kV, 400 MVA auto transformer at the Bay Creek substation.",
+      "page": 349
+     }
+    ],
+    "locations": [
+     {
+      "text": "Bay Creek",
+      "page": 349
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21140",
+     "page": 350
+    },
+    "project_name": {
+     "text": "GTC: BONAIRE PRIMARY - EASTMAN PRIMARY 115 KV LINE REBUILD",
+     "page": 350
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 350,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "01/01/2026",
+     "page": 350,
+     "iso": "2026-01-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild 41.08 miles of the Bonaire Primary - Eastman Primary 115kV Line using 200C 1351ACSS Martin and upgrade the bus at Roddy substation.",
+      "page": 350
+     }
+    ],
+    "locations": [
+     {
+      "text": "Bonaire Primary",
+      "page": 350
+     },
+     {
+      "text": "Eastman Primary",
+      "page": 350
+     },
+     {
+      "text": "Roddy",
+      "page": 350
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20849",
+     "page": 351
+    },
+    "project_name": {
+     "text": "GTC: CLIFTONDALE - LINE CREEK 230KV LINE",
+     "page": 351
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 351,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 351,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "An 11.6 mile 230kV line is being built form Cliftondale to Line Creek with 200C 1351 ACSS Martin.",
+      "page": 351
+     }
+    ],
+    "locations": [
+     {
+      "text": "Cliftondale",
+      "page": 351
+     },
+     {
+      "text": "Line Creek",
+      "page": 351
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "19950",
+     "page": 352
+    },
+    "project_name": {
+     "text": "GTC: DRESDEN - TALBOT 500KV LINE",
+     "page": 352
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 352,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2025",
+     "page": 352,
+     "iso": "2025-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC will build a new 500kV line from Talbot to Dresden (75 miles). This project will create a new Talbot 500/230kV substation with a 500/230kV auto transformers.  The low side of the auto transformers will connect to the Talbot County #1 and #2 230kV buses.",
+      "page": 352
+     }
+    ],
+    "locations": [
+     {
+      "text": "Talbot",
+      "page": 352
+     },
+     {
+      "text": "Dresden",
+      "page": 352
+     },
+     {
+      "text": "Talbot County",
+      "page": 352
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20760",
+     "page": 353
+    },
+    "project_name": {
+     "text": "GTC: HOPEWELL 230/115 KV BANK A",
+     "page": 353
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 353,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2028",
+     "page": 353,
+     "iso": "2028-06-01"
+    },
+    "description": [
+     {
+      "text": "Replace the Hopewell 230/115kV auto transformer with a 400 MVA auto transformer.",
+      "page": 353
+     }
+    ],
+    "locations": [
+     {
+      "text": "Hopewell",
+      "page": 353
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21123",
+     "page": 354
+    },
+    "project_name": {
+     "text": "GTC: TENASKA - WANSLEY 500KV NEW LINE",
+     "page": 354
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2029",
+     "page": 354,
+     "iso": "2029-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2024",
+     "page": 354,
+     "iso": "2024-12-01"
+    },
+    "description": [
+     {
+      "text": "Construct a 5 mile long 500kV line between Tenaska and Wansley.  Make all necessary accommodations at the substations for the line termination.",
+      "page": 354
+     }
+    ],
+    "locations": [
+     {
+      "text": "Tenaska",
+      "page": 354
+     },
+     {
+      "text": "Wansley",
+      "page": 354
+     }
+    ]
+   }
+  ]
+ }
+}

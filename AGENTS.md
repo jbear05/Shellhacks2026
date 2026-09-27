@@ -37,8 +37,6 @@ python -m venv .venv
 .venv/Scripts/python -m pytest -m "not slow"    # about 10 s
 .venv/Scripts/python -m pytest                  # about 80 s; parses the 668-page PDF
 
-.venv/Scripts/python -m parsers.georgia_power   # data/processed/georgia_power_projects.csv, 208 rows
-.venv/Scripts/python dominionScript.py          # data/processed/dominion_projects.csv, 44 rows
 .venv/Scripts/python clean_test_csvs.py         # data/test/*_test_projects.csv, made-up test projects
 
 # Calls public Nominatim/Overpass servers and takes minutes. Read docs/geolocator.md first.
@@ -55,9 +53,7 @@ python -m venv .venv
 | Path | What it is |
 |---|---|
 | `parsers/common.py` | Text helpers shared by both parsers: dashes, dates, kV, miles |
-| `parsers/georgia_power.py` | The Georgia Power parser and its CLI |
 | `parsers/ai_parser/` | The AI parser for any project-list PDF, its eval, and its reply cache logic (the cache is `data/ai_cache/`) |
-| `dominionScript.py` | The DESC parser and its CLI (a teammate's file, kept at the root) |
 | `gridlock_desc_locator.py` | The Geolocator: coordinates from Nominatim and Overpass |
 | `gridlock_geocode_cache.json` | The Geolocator's request cache |
 | `data/processed/` | Parser output, committed so teammates don't need Python, and the Geolocator's output |
@@ -127,7 +123,6 @@ reads and writes, and the planned method for the unbuilt ones:
 
 ## Known pitfalls
 
-- `python parsers/georgia_power.py` fails to import. Use `python -m parsers.georgia_power`.
 - The DESC PDF writes `06367 A - C, H`. The parser removes the spaces around `-` (but
   not around `,`), so IDs match the Geolocator's list exactly.
 - Windows' 260-character path limit: a temp directory plus the long PDF names is too

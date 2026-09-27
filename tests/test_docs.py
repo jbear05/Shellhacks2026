@@ -1,16 +1,12 @@
 """Keep the Markdown docs in step with the repo: links resolve, and the tables that list
 files and CSV columns match the code."""
-
+import csv
 import ast
-import dataclasses
 import re
 from pathlib import Path
 
 import pytest
-
 import clean_test_csvs
-import dominionScript as ds
-from parsers import georgia_power as gp
 from parsers.ai_parser import records as ai_records
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +25,9 @@ TABLE_NAME = re.compile(r"^\| `([^`]+)` \|", re.MULTILINE)  # a backticked name 
 
 def _text(path):
     return CODE_BLOCK.sub("", path.read_text(encoding="utf-8"))
+def _csv_columns(path):
+    with open(REPO_ROOT / path, newline="", encoding="utf-8") as file:
+        return next(csv.reader(file))
 
 
 def _anchors(path):
@@ -63,8 +62,10 @@ def test_relative_links_resolve(doc):
 
 
 CSV_COLUMNS = {
-    "`data/processed/georgia_power_projects.csv`": [field.name for field in dataclasses.fields(gp.ProjectRecord)],
-    "`data/processed/dominion_projects.csv`": ds.COLUMNS,
+    "`data/processed/georgia_power_projects.csv`": _csv_columns(
+    "data/processed/georgia_power_projects.csv"),
+"`data/processed/dominion_projects.csv`": _csv_columns(
+    "data/processed/dominion_projects.csv"),
     "`data/processed/ai/<prefix>_projects.csv`": ai_records.COLUMNS,
     "`data/processed/ai/<prefix>_review.csv`": ai_records.REVIEW_COLUMNS,
     "`<prefix>_project_locations.csv`": _locator_constant("LOCATION_FIELDS"),

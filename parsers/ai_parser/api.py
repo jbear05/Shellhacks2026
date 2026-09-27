@@ -18,7 +18,6 @@ def parse_pdf(
     pages: str | None = None,
     workers: int = 1,
 ):
-    print("✅ AI PARSER IS RUNNING")
 
     # Temporarily turn the uploaded PDF into a file
     with TemporaryDirectory() as folder:
@@ -49,8 +48,8 @@ def parse_pdf(
     model = Model(
         ResponseCache(CACHE_DIR),
         DEFAULT_MODEL,
+        offline=True,
     )
-
     # Run your existing AI parser
     result = run(
         pdf_pages,

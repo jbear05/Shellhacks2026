@@ -1,0 +1,429 @@
+{
+ "task": "extract",
+ "pages": [
+  410,
+  411,
+  412,
+  413,
+  414,
+  415,
+  416,
+  417,
+  418
+ ],
+ "model": "claude-opus-5",
+ "usage": {
+  "input_tokens": 7674,
+  "output_tokens": 2770
+ },
+ "output": {
+  "pages": [
+   {
+    "page": 410,
+    "kind": "project_detail"
+   },
+   {
+    "page": 411,
+    "kind": "project_detail"
+   },
+   {
+    "page": 412,
+    "kind": "project_detail"
+   },
+   {
+    "page": 413,
+    "kind": "project_detail"
+   },
+   {
+    "page": 414,
+    "kind": "project_detail"
+   },
+   {
+    "page": 415,
+    "kind": "project_detail"
+   },
+   {
+    "page": 416,
+    "kind": "project_detail"
+   },
+   {
+    "page": 417,
+    "kind": "project_detail"
+   },
+   {
+    "page": 418,
+    "kind": "project_detail"
+   }
+  ],
+  "projects": [
+   {
+    "project_id": {
+     "text": "20793",
+     "page": 410
+    },
+    "project_name": {
+     "text": "EVANS PRIMARY - THURMOND DAM (USA) #5 115KV REBUILD",
+     "page": 410
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 410,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2029",
+     "page": 410,
+     "iso": "2029-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 5.45 miles of Euchee Creek - Thurmond Dam segment of the Evans Primary - Thurmond Dam (USA) #5 115kV line with 200C 1351 ACSS Martin conductor. Replace the main bus with a larger element at Thurmond Dam (USA).",
+      "page": 410
+     }
+    ],
+    "locations": [
+     {
+      "text": "Euchee Creek",
+      "page": 410
+     },
+     {
+      "text": "Thurmond Dam",
+      "page": 410
+     },
+     {
+      "text": "Evans Primary",
+      "page": 410
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20794",
+     "page": 411
+    },
+    "project_name": {
+     "text": "EVANS PRIMARY - THURMOND DAM (USA) #6 115KV REBUILD",
+     "page": 411
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 411,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2030",
+     "page": 411,
+     "iso": "2030-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 8.9 miles of the Evans Primary - Thurmond Dam (USA) #6 115kV line with 200C 1351 ACSS Martin conductor. Replace the main bus with a larger element at Thurmond Dam (USA).",
+      "page": 411
+     }
+    ],
+    "locations": [
+     {
+      "text": "Evans Primary",
+      "page": 411
+     },
+     {
+      "text": "Thurmond Dam",
+      "page": 411
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "12217",
+     "page": 412
+    },
+    "project_name": {
+     "text": "GTC: CENTER PRIMARY - CLARKSBORO 230 KV REBUILD",
+     "page": 412
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 412
+    },
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 412,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2028",
+     "page": 412,
+     "iso": "2028-06-01"
+    },
+    "description": [
+     {
+      "text": "GTC to rebuild the Center Primary – Clarksboro Primary 230kV line (approx. 8.3 miles) with 200C 1351 ACSS conductor.",
+      "page": 412
+     }
+    ],
+    "locations": [
+     {
+      "text": "Center Primary",
+      "page": 412
+     },
+     {
+      "text": "Clarksboro Primary",
+      "page": 412
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20773",
+     "page": 413
+    },
+    "project_name": {
+     "text": "GTC: CLARKSBORO - WINDER PRIMARY 230KV REBUILD",
+     "page": 413
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 413
+    },
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 413,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2029",
+     "page": 413,
+     "iso": "2029-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 14 miles of the Clarksboro - Winder 230kV line with 200C 1351 ACSS conductor.",
+      "page": 413
+     }
+    ],
+    "locations": [
+     {
+      "text": "Clarksboro",
+      "page": 413
+     },
+     {
+      "text": "Winder",
+      "page": 413
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "12147",
+     "page": 414
+    },
+    "project_name": {
+     "text": "GTC: EAST SOCIAL CIRCLE - SNELLVILLE 230KV EQUIPMENT UPGRADE",
+     "page": 414
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 414
+    },
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 414,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2030",
+     "page": 414,
+     "iso": "2030-06-01"
+    },
+    "description": [
+     {
+      "text": "Replace the 1200A switches at Snellville Primary with 3000A. Also, replace the 1200A line trap and switches at East Social Circle with 3000A on the East Social Circle - Snellville 230kV line.",
+      "page": 414
+     }
+    ],
+    "locations": [
+     {
+      "text": "Snellville Primary",
+      "page": 414
+     },
+     {
+      "text": "East Social Circle",
+      "page": 414
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21075",
+     "page": 415
+    },
+    "project_name": {
+     "text": "GTC: EAST WALTON - MIDDLE FORK 500KV",
+     "page": 415
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 415
+    },
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 415,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "12/01/2024",
+     "page": 415,
+     "iso": "2024-12-01"
+    },
+    "description": [
+     {
+      "text": "Construct a new 500kV line from East Walton to Middle Fork, approximately 45 miles long.  Make all necessary accommodations for new 500kV breakers at East Walton and Middle Fork substations.",
+      "page": 415
+     }
+    ],
+    "locations": [
+     {
+      "text": "East Walton",
+      "page": 415
+     },
+     {
+      "text": "Middle Fork",
+      "page": 415
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "20791",
+     "page": 416
+    },
+    "project_name": {
+     "text": "GTC: SHOAL CREEK - SOUTH HALL 230KV REBUILD",
+     "page": 416
+    },
+    "sponsor": {
+     "text": "GTC",
+     "page": 416
+    },
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 416,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2029",
+     "page": 416,
+     "iso": "2029-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild approximately 7.9 miles of South Hall - Chestnut Mountain - Spout Springs Road segments of the Shoal Creek - South Hall 230kV line with 200C 1351 ACSS conductor. Also, replace 1 - AAC 1590 jumpers at South Hall with 2 - AAC 1590.",
+      "page": 416
+     }
+    ],
+    "locations": [
+     {
+      "text": "South Hall",
+      "page": 416
+     },
+     {
+      "text": "Chestnut Mountain",
+      "page": 416
+     },
+     {
+      "text": "Spout Springs Road",
+      "page": 416
+     },
+     {
+      "text": "Shoal Creek",
+      "page": 416
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "21053",
+     "page": 417
+    },
+    "project_name": {
+     "text": "MCEVER ROAD - SHOAL CREEK 115KV REBUILD",
+     "page": 417
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 417,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2030",
+     "page": 417,
+     "iso": "2030-06-01"
+    },
+    "description": [
+     {
+      "text": "Rebuild the 2 - 4/0 copper part (approximately 2.9 miles) of the Gainesville Ferry - Lakeside WTP A line section, part of the McEver Road - Shoal Creek 115kV line, using 200C 1351 ACSS conductor.",
+      "page": 417
+     }
+    ],
+    "locations": [
+     {
+      "text": "Gainesville Ferry",
+      "page": 417
+     },
+     {
+      "text": "Lakeside WTP",
+      "page": 417
+     },
+     {
+      "text": "McEver Road",
+      "page": 417
+     },
+     {
+      "text": "Shoal Creek",
+      "page": 417
+     }
+    ]
+   },
+   {
+    "project_id": {
+     "text": "09661",
+     "page": 418
+    },
+    "project_name": {
+     "text": "MCGRAU FORD - MIDDLE FORK 500KV LINE PROJECT",
+     "page": 418
+    },
+    "sponsor": null,
+    "in_service_date": {
+     "text": "06/01/2033",
+     "page": 418,
+     "iso": "2033-06-01"
+    },
+    "start_date": {
+     "text": "06/01/2026",
+     "page": 418,
+     "iso": "2026-06-01"
+    },
+    "description": [
+     {
+      "text": "Construct a new approximately 64 mile 500kV line from McGrau Ford to Middle Fork.",
+      "page": 418
+     }
+    ],
+    "locations": [
+     {
+      "text": "McGrau Ford",
+      "page": 418
+     },
+     {
+      "text": "Middle Fork",
+      "page": 418
+     }
+    ]
+   }
+  ]
+ }
+}
