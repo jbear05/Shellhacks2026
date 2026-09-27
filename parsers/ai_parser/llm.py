@@ -1,8 +1,9 @@
-"""The prompts, the Claude API call and the response cache.
+"""The prompts, the Claude and Gemini API calls and the response cache.
 
-Every reply is cached under a hash of what shaped it (model, prompt, schema, effort and
-the pages' text), so running again costs nothing unless one of those changed, and
-teammates without an API key can rebuild the CSV from the cache with --offline.
+A model whose name starts with "gemini-" goes to Google's Gemini API; any other goes to
+Claude. Every reply is cached under a hash of what shaped it (model, prompt, schema,
+effort and the pages' text), so running again costs nothing unless one of those changed,
+and teammates without an API key can rebuild the CSV from the cache with --offline.
 """
 
 from __future__ import annotations
@@ -28,10 +29,17 @@ log = logging.getLogger(__name__)
 DEFAULT_MODEL = "claude-opus-5"
 MAX_TOKENS = 64_000  # replies are streamed, so a long one doesn't time out
 # If the model declines a request on policy grounds, the API retries it on its default
-# fallback model instead of failing. Transmission plans shouldn't trigger it.
+# fallback model instead of failing. Transmission plans shouldn't trigger it. Claude only.
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
-# Dollars per million input and output tokens (2026-06), only for the cost line in the log
-PRICES = {"claude-opus-5": (5.0, 25.0), "claude-sonnet-5": (2.0, 10.0)}
+# Dollars per million input and output tokens, only for the cost line in the log. Claude's
+# are from 2026-06, Gemini's from Google's page updated 2026-09-24 (3.8 Flash's double
+# on 2027-01-01). Gemini bills its thinking tokens as output.
+PRICES = {
+    "claude-opus-5": (5.0, 25.0), "claude-sonnet-5": (2.0, 10.0),
+    "gemini-3.8-flash": (0.75, 3.75), "gemini-3.1-pro-preview": (2.0, 12.0),
+}
+# Gemini 3 models take a thinking level instead of Claude's effort. They stop at "high".
+THINKING_LEVELS = {"low": "low", "medium": "medium", "high": "high", "xhigh": "high", "max": "high"}
 
 EXTRACT_PROMPT = """\
 You copy the planned projects out of pages of a utility's transmission planning document, as JSON. The pages are pypdf's text extraction of a PDF. Each page starts with a line "=== PAGE n ===", and n is the page number to cite. Text extraction can scramble a layout: a form may list all of its labels before all of its values, table rows can wrap over several lines, and banners, headers and footers repeat on every page.
@@ -214,15 +222,31 @@ class Model:
             total += (usage["input_tokens"] * PRICES[model][0] + usage["output_tokens"] * PRICES[model][1]) / 1e6
         return total
 
+    @property
+    def is_gemini(self) -> bool:
+        return self.model.startswith("gemini-")
+
     def _get_client(self) -> Any:
         with self._lock:
-            if self._client is None:
-                import anthropic  # only needed when a reply isn't cached
+            if self._client is None:  # the SDKs are only needed when a reply isn't cached
+                if self.is_gemini:
+                    from google import genai
+                    from google.genai import types
 
-                self._client = anthropic.Anthropic(max_retries=6)  # retries rate limits and server errors
+                    try:  # retries rate limits, server errors and dropped connections
+                        self._client = genai.Client(http_options=types.HttpOptions(
+                            retry_options=types.HttpRetryOptions(attempts=7)))
+                    except ValueError as exc:  # the SDK found no key
+                        raise ModelError("no API key: set GEMINI_API_KEY") from exc
+                else:
+                    import anthropic
+
+                    self._client = anthropic.Anthropic(max_retries=6)  # retries rate limits and server errors
             return self._client
 
     def _call(self, task: Task, text: str) -> dict[str, Any]:
+        if self.is_gemini:
+            return self._call_gemini(task, text)
         import anthropic
 
         client = self._get_client()
@@ -250,6 +274,25 @@ class Model:
             raise ModelError("no API key: set ANTHROPIC_API_KEY or run `ant auth login`") from exc
         return read_reply(message, task)
 
+    def _call_gemini(self, task: Task, text: str) -> dict[str, Any]:
+        import httpx
+        from google.genai import errors, types
+
+        client = self._get_client()
+        config = types.GenerateContentConfig(
+            system_instruction=task.system,
+            max_output_tokens=MAX_TOKENS,  # the model's thinking counts toward it too
+            response_mime_type="application/json",
+            response_json_schema=task.output.model_json_schema(),
+            thinking_config=types.ThinkingConfig(thinking_level=THINKING_LEVELS[task.effort]),
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),  # no tools
+        )
+        try:
+            chunks = list(client.models.generate_content_stream(model=self.model, contents=text, config=config))
+        except (errors.APIError, httpx.HTTPError) as exc:
+            raise ModelError(f"API request failed: {exc}") from exc
+        return read_gemini_reply(chunks, task, self.model)
+
 
 def read_reply(message: Any, task: Task) -> dict[str, Any]:
     """The cache entry for a finished reply, or ModelError if it can't be used."""
@@ -273,6 +316,46 @@ def read_reply(message: Any, task: Task) -> dict[str, Any]:
     return {
         "model": message.model,  # can differ from the one asked for if the fallback answered
         "usage": {"input_tokens": message.usage.input_tokens, "output_tokens": message.usage.output_tokens},
+        "output": output.model_dump(mode="json"),
+    }
+
+
+def read_gemini_reply(chunks: Sequence[Any], task: Task, model: str) -> dict[str, Any]:
+    """The cache entry for a finished Gemini reply, streamed as chunks, or ModelError if it can't be used.
+
+    The last chunk carries the stop reason and the token counts.
+    """
+    if not chunks:
+        raise ModelError("the API sent an empty reply")
+    last = chunks[-1]
+    if not last.candidates:
+        feedback = last.prompt_feedback
+        reason = feedback.block_reason.value if feedback and feedback.block_reason else "no reason given"
+        raise ModelError(f"the API blocked the request ({reason})")
+    stop = last.candidates[0].finish_reason
+    stop = stop.value if stop is not None else None
+    if stop == "MAX_TOKENS":
+        raise AnswerTooLong(f"reply longer than {MAX_TOKENS} tokens")
+    if stop != "STOP":  # SAFETY, RECITATION, PROHIBITED_CONTENT and the like
+        raise ModelError(f"unexpected stop reason {stop!r}")
+    text = "".join(chunk.text or "" for chunk in chunks)  # .text leaves out the model's thinking
+    try:
+        output = task.output.model_validate_json(text)
+    except ValidationError as exc:
+        raise ModelError(f"reply doesn't match the schema: {exc}") from exc
+    usage = last.usage_metadata
+
+    def count(field: str) -> int:
+        return getattr(usage, field, None) or 0
+
+    return {
+        "model": model,  # Gemini has no fallback, so the model asked is the one that answered
+        "model_version": last.model_version,
+        "usage": {
+            "input_tokens": count("prompt_token_count"),
+            # thinking is billed as output, as Claude's is
+            "output_tokens": count("candidates_token_count") + count("thoughts_token_count"),
+        },
         "output": output.model_dump(mode="json"),
     }
 

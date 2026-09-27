@@ -11,7 +11,7 @@ from pathlib import Path
 
 from pypdf.errors import PdfReadError
 
-from parsers.ai_parser.llm import DEFAULT_MODEL, Model, ModelError, ResponseCache
+from parsers.ai_parser.llm import DEFAULT_MODEL, PRICES, Model, ModelError, ResponseCache
 from parsers.ai_parser.pages import Page, parse_page_ranges, read_pages, render
 from parsers.ai_parser.pipeline import ParseError, Settings, chunks_for, run, write_outputs
 
@@ -28,7 +28,7 @@ INPUT_TOKENS = {"extract": (1_270, 1.75), "inventory": (650, 2.0)}
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="python -m parsers.ai_parser",
-        description="Read the projects out of a utility's project-list PDF with Claude, "
+        description="Read the projects out of a utility's project-list PDF with Claude or Gemini, "
                     "checking every value against the PDF's own text. See docs/ai-parser.md.",
     )
     parser.add_argument("pdf", type=Path)
@@ -38,15 +38,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--sponsor", default="", help="for rows where the PDF prints no sponsor, e.g. DESC")
     parser.add_argument("--prefix", required=True, help="output file names start with this, e.g. desc_ai")
     parser.add_argument("--pages", help="only these pages, e.g. 171-474 or 1-5,9 (default: all)")
-    parser.add_argument("--model", default=DEFAULT_MODEL, help="default: %(default)s")
+    parser.add_argument("--model", default=DEFAULT_MODEL,
+                        help="a Claude model, or a gemini-* one such as gemini-3.8-flash (default: %(default)s)")
     parser.add_argument("--effort", default="high", choices=["low", "medium", "high", "xhigh", "max"],
-                        help="how much the model thinks during extraction (default: %(default)s)")
+                        help="how much the model thinks during extraction; Gemini treats xhigh and max "
+                             "as high (default: %(default)s)")
     parser.add_argument("--chunk-chars", type=int, default=12_000,
                         help="characters of page text per request (default: %(default)s)")
     parser.add_argument("--workers", type=int, default=1, help="requests at a time (default: %(default)s)")
     parser.add_argument("--no-inventory", action="store_true", help="skip the ID pass that cross-checks completeness")
     parser.add_argument("--no-fallback", action="store_true",
-                        help="don't let the API retry a declined request on another model")
+                        help="don't let the API retry a declined request on another model (Claude only)")
     parser.add_argument("--offline", action="store_true", help="use only cached replies; fail if one is missing")
     parser.add_argument("--dry-run", action="store_true", help="show the requests a run would make, and stop")
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR, help="default: %(default)s")
@@ -55,7 +57,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s: %(message)s")
     if not args.verbose:
-        logging.getLogger("httpx2").setLevel(logging.WARNING)  # one line per request otherwise
+        for client_log in ("httpx2", "httpx"):  # Claude's and Gemini's HTTP clients
+            logging.getLogger(client_log).setLevel(logging.WARNING)  # one line per request otherwise
 
     if not args.pdf.is_file():
         parser.error(f"PDF not found: {args.pdf}")
@@ -119,8 +122,12 @@ def dry_run(pages: Sequence[Page], settings: Settings, model: Model) -> None:
         tokens = sum(per_request + len(render(chunk)) / chars_per_token for chunk in to_send)
         print(f"{name}: {len(chunks)} requests ({len(chunks) - len(to_send)} cached); "
               f"the rest send about {tokens:,.0f} input tokens")
-    print("Output tokens cost 5 times as much and depend on the number of projects: "
-          "DESC's 44 took about 12,000, Georgia Power's 208 about 120,000.")
+    if model.is_gemini:
+        print("Those counts are fitted to Claude's tokenizer, so Gemini's will differ.")
+    prices = PRICES.get(model.model)
+    ratio = f"{prices[1] / prices[0]:g} times as much" if prices else "more"
+    print(f"Output tokens cost {ratio} and depend on the number of projects: "
+          "DESC's 44 took Claude about 12,000, Georgia Power's 208 about 120,000.")
 
 
 def _display_path(path: Path) -> str:

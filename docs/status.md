@@ -126,6 +126,14 @@ Last updated 2026-09-27.
   with it and the demo button selects it, and the Overlaps page's caption now
   describes whichever ranking is selected. `distance_first` is still on
   the "Ranking policy" menu, and a snapshot keeps the mode it was saved with.
+- **Gemini for the AI parser** on `feat/gemini-ai-parser` (in review, not merged; the
+  sibling worktree `../Shellhacks2026-gemini` has it checked out): `--model
+  gemini-3.8-flash` (any `gemini-` name) sends the same prompts and schema to Google's
+  Gemini API through `google-genai` 2.25.0, and the checks, merge and outputs are
+  shared. Claude stays the
+  default so the committed cache still replays. No Gemini request has been sent: the
+  new tests use a mock HTTP transport, and the full suite has 257 passing on the
+  branch (46.55 s). See [ai-parser.md](ai-parser.md#with-gemini).
 - **Tests:** 250 pass and 2 files are skipped in the root `.venv` (full suite,
   28.24 s on 2026-09-27). The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
@@ -155,6 +163,10 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
    $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
+   To try Gemini (`feat/gemini-ai-parser`), set `GEMINI_API_KEY` and score a DESC run
+   with the eval. Its dry run counts 7 requests and about 42,000 input tokens by
+   Claude's tokenizer, a few cents at `gemini-3.8-flash`'s prices; it still needs
+   approval.
 4. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
    center. The DESC test file has no coordinates: geocode it with `--projects-csv` and
    `--output-prefix desc_test` (never the default prefix; see
@@ -174,6 +186,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
 | `feat/score-ranking-default` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/18 (the `score` ranking as the default); kept |
 | `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
+| `feat/gemini-ai-parser` | Jair, with Claude | Gemini support for the AI parser; pushed for review, not merged |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |

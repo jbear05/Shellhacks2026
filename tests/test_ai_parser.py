@@ -13,7 +13,7 @@ from parsers.ai_parser.api import parse_pdf
 from parsers.ai_parser import evaluate
 from parsers.ai_parser.checks import PageText, check_date, dates_in, locate, normalize_id
 from parsers.ai_parser.llm import (
-    FALLBACK_BETA, AnswerTooLong, Model, ModelError, ResponseCache, extraction_task, inventory_task,
+    FALLBACK_BETA, AnswerTooLong, Model, ModelError, ResponseCache, Task, extraction_task, inventory_task,
 )
 from parsers.ai_parser.pages import Page, make_chunks, parse_page_ranges, render, shifted_chunks
 from parsers.ai_parser.pipeline import ParseError, Settings, run, write_outputs
@@ -481,6 +481,113 @@ def test_a_cut_off_reply_raises_and_is_not_cached(tmp_path):
     assert list(tmp_path.glob("*.json")) == []
 
 
+def gemini_chunks(text, finish_reason="STOP"):
+    """A streamed Gemini reply: a thought, the text in two pieces, then the stop reason and token counts."""
+    def chunk(part, **extra):
+        return {"candidates": [{"content": {"role": "model", "parts": [part]}, **extra}],
+                "modelVersion": "gemini-3.8-flash"}
+
+    half = len(text) // 2
+    return [
+        chunk({"text": "The pages are a project list.", "thought": True}),
+        chunk({"text": text[:half]}),
+        {**chunk({"text": text[half:]}, finishReason=finish_reason),
+         "usageMetadata": {"promptTokenCount": 1200, "candidatesTokenCount": 300, "thoughtsTokenCount": 500}},
+    ]
+
+
+def mock_gemini(cache_dir, chunks, status=200):
+    """A Gemini Model whose client talks to a fake server; returns it and the requests it received.
+
+    With a status other than 200, the server answers with that error instead of the chunks.
+    """
+    import httpx
+    from google import genai
+    from google.genai import types
+
+    received = []
+
+    def handle(request):
+        received.append(request)
+        if status != 200:
+            return httpx.Response(status, json={"error": {"code": status, "message": "Bad schema",
+                                                          "status": "INVALID_ARGUMENT"}})
+        body = "".join(f"data: {json.dumps(chunk)}\r\n\r\n" for chunk in chunks)
+        return httpx.Response(200, headers={"content-type": "text/event-stream"}, content=body.encode())
+
+    client = genai.Client(api_key="test-key", http_options=types.HttpOptions(
+        httpx_client=httpx.Client(transport=httpx.MockTransport(handle))))
+    return Model(ResponseCache(cache_dir), "gemini-3.8-flash", client=client), received
+
+
+def test_gemini_request_and_reply_round_trip(tmp_path):
+    reply = Extraction(pages=[PageLabel(page=14, kind="project_detail")], projects=DESC_REPLY[:1])
+    model, received = mock_gemini(tmp_path, gemini_chunks(reply.model_dump_json()))
+    chunk = [Page(14, DESC_14)]
+
+    assert model.ask(extraction_task("medium"), chunk) == reply  # the thought is left out
+    assert model.ask(extraction_task("medium"), chunk) == reply  # the second comes from the cache
+    assert len(received) == 1 and len(list(tmp_path.glob("*.json"))) == 1
+    # thinking tokens are billed as output
+    assert (model.requests, model.tokens("input_tokens"), model.tokens("output_tokens")) == (1, 1200, 800)
+    assert model.cost() == pytest.approx((1200 * 0.75 + 800 * 3.75) / 1e6)
+    entry = json.loads(next(tmp_path.glob("*.json")).read_text(encoding="utf-8"))
+    assert (entry["model"], entry["model_version"]) == ("gemini-3.8-flash", "gemini-3.8-flash")
+
+    request = received[0]
+    assert request.url.path.endswith("/models/gemini-3.8-flash:streamGenerateContent")
+    assert request.url.params["alt"] == "sse"
+    body = json.loads(request.content)
+    assert body["systemInstruction"]["parts"] == [{"text": extraction_task().system}]
+    assert body["contents"] == [{"role": "user", "parts": [{"text": "=== PAGE 14 ===\n" + DESC_14}]}]
+    assert body["generationConfig"] == {
+        "maxOutputTokens": 64_000,
+        "responseMimeType": "application/json",
+        "responseJsonSchema": Extraction.model_json_schema(),
+        "thinkingConfig": {"thinking_level": "MEDIUM"},  # the SDK sends this key as named; the API takes both
+    }
+
+
+def test_gemini_caps_claudes_higher_efforts_at_high(tmp_path):
+    reply = Inventory(project_ids=[q("6809 E", 14)])
+    model, received = mock_gemini(tmp_path, gemini_chunks(reply.model_dump_json()))
+    assert model.ask(Task("inventory", "List the IDs.", Inventory, "max"), [Page(14, DESC_14)]) == reply
+    assert json.loads(received[0].content)["generationConfig"]["thinkingConfig"] == {"thinking_level": "HIGH"}
+
+
+def test_a_cut_off_gemini_reply_raises_and_is_not_cached(tmp_path):
+    model, _ = mock_gemini(tmp_path, gemini_chunks('{"project_ids": [', finish_reason="MAX_TOKENS"))
+    with pytest.raises(AnswerTooLong):
+        model.ask(inventory_task(), [Page(14, DESC_14)])
+    assert list(tmp_path.glob("*.json")) == []
+
+
+@pytest.mark.parametrize("chunks, reason", [
+    (gemini_chunks("", finish_reason="SAFETY"), "SAFETY"),
+    ([{"promptFeedback": {"blockReason": "PROHIBITED_CONTENT"}}], "PROHIBITED_CONTENT"),
+])
+def test_a_gemini_reply_that_was_stopped_or_blocked_fails_and_is_not_cached(tmp_path, chunks, reason):
+    model, _ = mock_gemini(tmp_path, chunks)
+    with pytest.raises(ModelError, match=reason):
+        model.ask(inventory_task(), [Page(14, DESC_14)])
+    assert list(tmp_path.glob("*.json")) == []
+
+
+def test_a_failed_gemini_request_is_a_model_error(tmp_path):
+    model, received = mock_gemini(tmp_path, [], status=400)
+    with pytest.raises(ModelError, match="API request failed.*Bad schema"):
+        model.ask(inventory_task(), [Page(14, DESC_14)])
+    assert len(received) == 1  # a 400 isn't retried
+
+
+def test_gemini_without_a_key_says_which_to_set(tmp_path, monkeypatch):
+    for variable in ("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENAI_USE_VERTEXAI"):
+        monkeypatch.delenv(variable, raising=False)
+    model = Model(ResponseCache(tmp_path), "gemini-3.8-flash")
+    with pytest.raises(ModelError, match="GEMINI_API_KEY"):
+        model.ask(inventory_task(), [Page(14, DESC_14)])
+
+
 def test_cache_key_changes_with_the_pages_the_model_or_the_effort():
     key = ResponseCache.key
     base = key("claude-opus-5", extraction_task("high"), "text")
@@ -507,6 +614,17 @@ def test_dry_run_counts_requests_without_calling_the_api(tmp_path, capsys):
     output = capsys.readouterr().out
     assert "extract: 1 requests (0 cached)" in output and "inventory:" in output
     assert cli.main([*args, "--offline"]) == 1  # nothing cached, and --offline never asks
+    assert list(tmp_path.iterdir()) == []
+
+
+@pytest.mark.skipif(not DESC_PDF.is_file(), reason="Dominion project descriptions PDF not present")
+def test_dry_run_with_gemini_warns_that_the_token_counts_are_claudes(tmp_path, capsys):
+    args = [str(DESC_PDF), "--utility", "U", "--state", "S", "--prefix", "t", "--pages", "1-3",
+            "--cache-dir", str(tmp_path), "--out-dir", str(tmp_path), "--model", "gemini-3.1-pro-preview"]
+    assert cli.main([*args, "--dry-run"]) == 0
+    output = capsys.readouterr().out
+    assert "extract: 1 requests (0 cached)" in output and "Claude's tokenizer" in output
+    assert "Output tokens cost 6 times as much" in output
     assert list(tmp_path.iterdir()) == []
 
 

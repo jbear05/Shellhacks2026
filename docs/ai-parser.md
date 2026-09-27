@@ -1,7 +1,7 @@
 # AI parser
 
-`parsers/ai_parser/` reads the projects out of a utility's project-list PDF with Claude,
-so a new PDF doesn't need a parser of its own. The two hand-written parsers stay: they're
+`parsers/ai_parser/` reads the projects out of a utility's project-list PDF with Claude
+or Gemini, so a new PDF doesn't need a parser of its own. The two hand-written parsers stay: they're
 the reference the AI parser is scored against. Why it works this way is in
 [decisions.md](decisions.md#ai-parser).
 
@@ -46,8 +46,9 @@ has no OCR and no UI upload.
 
 ## Running it
 
-It needs an API key (`ANTHROPIC_API_KEY`, or `ant auth login`) unless every reply is
-already cached. Start with `--dry-run`, which counts the requests and calls nothing.
+It needs an API key (`ANTHROPIC_API_KEY`, or `ant auth login`; `GEMINI_API_KEY` for
+[Gemini](#with-gemini)) unless every reply is already cached. Start with `--dry-run`,
+which counts the requests and calls nothing.
 
 ```bash
 .venv/Scripts/python -m parsers.ai_parser "Sperry-Tech-Challenge/Project Listings/Dominion Energy/2024-2028-2million-and-above-project-descriptions.pdf" --utility "Dominion Energy South Carolina" --state "South Carolina" --sponsor DESC --prefix desc_ai --dry-run
@@ -64,8 +65,9 @@ Georgia --prefix georgia_power_ai`, and `--pages 171-474` to read only the Ten-Y
 | `--workers 4` | Send 4 requests at a time. The SDK retries rate limits |
 | `--effort medium` | Less thinking during extraction: cheaper, maybe less accurate. The eval tells |
 | `--model claude-sonnet-5` | A cheaper model. Only worth it if it scores as well on the eval |
+| `--model gemini-3.8-flash` | A Gemini model; see [With Gemini](#with-gemini) |
 | `--no-inventory` | Skip the ID pass (about half the input tokens, little output) |
-| `--no-fallback` | Don't let the API retry a declined request on another model |
+| `--no-fallback` | Don't let the API retry a declined request on another model. Claude only |
 | `--chunk-chars` | Characters of page text per request (default 12,000) |
 
 It writes three files to `data/processed/ai/`, described in
@@ -76,6 +78,38 @@ It writes three files to `data/processed/ai/`, described in
   go to the Geolocator's `--projects-csv`.
 - `<prefix>_review.csv`: every value that failed a check, and every disagreement.
 - `<prefix>_evidence.json`: every value with the text it was copied from and its page.
+
+### With Gemini
+
+A `--model` whose name starts with `gemini-` goes to Google's Gemini API, through the
+`google-genai` SDK. It needs `GEMINI_API_KEY` (or `GOOGLE_API_KEY`), from
+https://aistudio.google.com/apikey. The default model is still `claude-opus-5`, because
+the committed cache holds its replies and `parsers.ai_parser.api` replays with the
+default.
+
+```bash
+.venv/Scripts/python -m parsers.ai_parser "Sperry-Tech-Challenge/Project Listings/Dominion Energy/2024-2028-2million-and-above-project-descriptions.pdf" --utility "Dominion Energy South Carolina" --state "South Carolina" --sponsor DESC --prefix desc_gemini --model gemini-3.8-flash --dry-run
+.venv/Scripts/python -m parsers.ai_parser.evaluate data/processed/ai/desc_gemini_projects.csv data/processed/dominion_projects.csv
+```
+
+The prompts, schema, checks and outputs are the same for both. What differs:
+
+- **No cached replies.** The cache key includes the model, so every Gemini request is
+  new and paid, and `--offline` works only after a Gemini run has cached its replies.
+- **Thinking level instead of effort.** Gemini 3 models take `low`, `medium` or `high`;
+  `--effort xhigh` and `max` send `high`. The ID pass sends `low`. Google's docs list
+  those three levels for `gemini-3.8-flash`. The levels `gemini-3.1-pro-preview`
+  accepts weren't checked, and 2.5 models take a token budget instead, so they fail
+  with an API error.
+- **No fallback.** A reply stopped for safety, recitation or similar is an error, as a
+  declined Claude reply is with `--no-fallback`.
+- **Cost.** `PRICES` in `parsers/ai_parser/llm.py` has `gemini-3.8-flash` ($0.75 per
+  million input tokens, $3.75 output, until 2027-01-01, when both double) and
+  `gemini-3.1-pro-preview` ($2 and $12), from Google's pricing page as updated on
+  2026-09-24. Thinking tokens count as output. `--dry-run`'s token counts are fitted to
+  Claude's tokenizer, so they're only a guide for Gemini, and it says so.
+- **Not yet measured.** No Gemini run has been made, so there are no Gemini results or
+  costs below. Score one with the eval before trusting it.
 
 ## How it works
 
@@ -244,5 +278,9 @@ prices in `parsers/ai_parser/llm.py`.
 over page text copied from pypdf's output of the real PDFs.
 `tests/test_ai_parser_cache.py` checks that split replies replay online and offline
 without a request, and that `--dry-run` counts them. Two tests marked `slow`
-send a request through the real SDK to a mock HTTP transport, which checks the request
-the API would get (streaming, JSON schema, effort, fallback) and the reply parsing.
+send a request through the real Anthropic SDK to a mock HTTP transport, which checks the
+request the API would get (streaming, JSON schema, effort, fallback) and the reply
+parsing. The Gemini tests do the same through the real `google-genai` SDK, which loads
+fast enough to leave them unmarked: the request (streaming, JSON schema, thinking
+level), the thinking left out of the reply, the token counts and cost, and a cut-off,
+blocked or failed reply or a missing key.
