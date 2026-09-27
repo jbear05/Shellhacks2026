@@ -67,12 +67,14 @@ python -m venv .venv
 | `docs/` | Project knowledge; see [Where knowledge lives](#where-knowledge-lives) |
 | `.claude/skills/` | Step-by-step workflows in plain Markdown, usable by any agent |
 | `Sperry-Tech-Challenge/` | The organizers' brief, guide, example sheet and source PDFs; read-only |
-| `app.py` | Empty; probably the entry point for the Streamlit UI branch |
+| `ranking.py` | Scores and orders overlap pairs; the UI uses its own copy, `frontend/ranking.py` |
+| `frontend/` | The teammates' Streamlit UI; see [docs/pipeline.md](docs/pipeline.md#6-ui-frontend) |
+| `app.py` | Empty. The UI's entry file is `frontend/app.py`, also empty |
 
 ## Pipeline
 
 PDFs → parsers (or the AI parser) → `data/processed/*.csv` → Geolocator → `<prefix>_projects_summary.csv`
-→ overlaps (not built) → UI (`origin/NA`, not merged). What each stage reads and
+→ overlaps (only inside the UI) → UI (`frontend/`). What each stage reads and
 writes, and the planned method for the unbuilt ones:
 [docs/pipeline.md](docs/pipeline.md).
 
@@ -143,6 +145,7 @@ Read the doc for your task, and write what you learn back into it.
 | DESC PDF layout and project IDs | [docs/sources/dominion-pdf.md](docs/sources/dominion-pdf.md) |
 | Geolocator search, scoring, cache, wrong lookups | [docs/geolocator.md](docs/geolocator.md) |
 | AI parser: how it reads and checks, its eval, cost | [docs/ai-parser.md](docs/ai-parser.md) |
+| Plan for connecting the UI to the parsers, Geolocator and ranking (not on `main` yet) | [docs/frontend-backend-integration-guide.md](docs/frontend-backend-integration-guide.md) |
 | Why things are the way they are | [docs/decisions.md](docs/decisions.md) |
 
 Keeping the docs useful:
