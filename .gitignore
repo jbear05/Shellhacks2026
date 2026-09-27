@@ -8,8 +8,9 @@ __pycache__/
 # Streamlit secrets
 .streamlit/secrets.toml
 
-# Office lock files, created while a .docx/.xlsx is open
+# Office lock files, created while a .docx/.xlsx is open (Microsoft Office, LibreOffice)
 ~$*
+.~lock.*#
 
 # Caches while they're being saved: the Geolocator's, and the AI parser's replies
 gridlock_geocode_cache.json.tmp
