@@ -240,7 +240,8 @@ them in https://github.com/jbear05/Shellhacks2026/pull/8. The originals are in
 - `desc_test_projects.csv`, from `raw/code.csv`: 65 projects, IDs 30006-30070, with the
   real DESC `utility` (`Dominion Energy South Carolina`), so never load it together with
   `dominion_projects.csv`. No coordinates: it has to go through the Geolocator's
-  `--projects-csv`.
+  `--projects-csv`, with `--output-prefix desc_test`. The default prefix, `desc`,
+  would overwrite the real DESC outputs in `data/processed/`.
 - `duke_test_projects.csv`, from `raw/dukeEnergyCarolinas.csv`: 100 `Duke Energy
   Carolinas` projects, IDs 40001-40100, 49 in North Carolina and 51 in South Carolina,
   with coordinates.

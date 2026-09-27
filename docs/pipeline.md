@@ -9,15 +9,15 @@ Source PDFs (Sperry-Tech-Challenge/Project Listings/)
   |  parsers/ai_parser (any PDF, checked against the page text)   built
   v
 data/processed/georgia_power_projects.csv, dominion_projects.csv  committed
-data/processed/ai/<prefix>_projects.csv                           saved runs; current code needs fixes
+data/processed/ai/<prefix>_projects.csv                           committed
   |  gridlock_desc_locator.py                                     built
   |  + data/overrides/location_overrides.csv (hand-checked)       built
   v
 data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
-  |  overlap finder                                               planned
+  |  overlap finder                                               only inside the UI (section 6)
   v
 overlap table and ranked list
-  |  Streamlit UI (origin/NA)                                     on a branch
+  |  Streamlit UI (frontend/)                                     on main; can't read our coordinates yet
   v
 interactive map
 ```
@@ -107,12 +107,17 @@ projects with a `line_miles` value (`cost_total / line_miles`) and apply it to G
 [sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table). The brief also suggests
 shared land (right-of-way) as a measure of impact.
 
-## 6. UI (`origin/NA`, not merged)
+## 6. UI (`frontend/`)
 
-A Streamlit app in `frontend/`, by teammates, as of `origin/NA` commit fb1c0c3. Its
-pages are `frontend/pages/1_Project_Setup.py` to `5_Export.py`, and `frontend/ui.py`
-holds the shared page layout. The entry file, `frontend/app.py`, is empty. It has its
-own `frontend/requirements.txt` (streamlit, pandas, openpyxl).
+A Streamlit app in `frontend/`, by teammates. Nellie merged `origin/NA` (e9e14cc) into
+`main` on 2026-09-26, so `frontend/` on `main` is that commit's. Its pages are
+`frontend/pages/1_Project_Setup.py` to `5_Export.py`, and `frontend/ui.py` holds the
+shared page layout. The entry file, `frontend/app.py`, is empty. It has its own
+`frontend/requirements.txt` (streamlit, pandas, openpyxl, pydeck). Nobody has run it
+from `main` in an agent session yet. AaxHamm3r's plan for connecting it to the parsers,
+the Geolocator and `ranking.py` is in
+[frontend-backend-integration-guide.md](frontend-backend-integration-guide.md); none of
+it is on `main` yet.
 
 - **Input:** on the setup page, the user names two utilities and uploads CSV or XLSX
   files for each (`frontend/data_loader.py`). Every row of a file is labeled with the
@@ -121,20 +126,27 @@ own `frontend/requirements.txt` (streamlit, pandas, openpyxl).
   (`python -m parsers.georgia_power --sponsors GPC SAV --out <file>`).
 - **Columns** are matched through `COLUMN_ALIASES`, ignoring case: `project_id`,
   `project_name`, `utility`, `project_type`, `state` (shown as "County / Region"),
-  `in_service_date`, `latitude`/`longitude` or `lat`/`lon`, and the organizers' sheet
-  columns `name_a`, `lat_a`, `lon_a`, `name_b`, `lat_b`, `lon_b`, `lat_center` and
-  `lon_center` ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). A
-  sheet without a `project_name` column is skipped. When a row has no center, the
-  midpoint of its two points is used.
-- **Our files as they are:** the parser CSVs load, but have no coordinates. The
-  Geolocator's summary has `centroid_latitude` and `centroid_longitude`, which aren't
-  in the alias list. Something needs to write a per-project table the UI can map, and
-  the organizers' `projects` sheet layout is the natural choice.
+  `start_date`, `in_service_date`, `voltage_1`, `voltage_2`, `latitude`/`longitude` or
+  `lat`/`lon`, and the organizers' sheet columns `name_a`, `lat_a`, `lon_a`, `name_b`,
+  `lat_b`, `lon_b`, `lat_center` and `lon_center`
+  ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). A sheet without a
+  `project_name` column is skipped. When a row has no center, the midpoint of its two
+  points is used.
+- **Our files as they are:** they load, but none of them gives the UI coordinates, so
+  the overlaps page finds no pairs. The parser CSVs have none. The Geolocator's summary
+  has `centroid_latitude` and `centroid_longitude`, and `data/test/duke_test_projects.csv`
+  has `center_lat`, `center_lon` and `location_1_lat` and so on; none of these are
+  aliases (checked with `_normalize_projects`: 0 of the Duke file's 100 rows get a
+  `Latitude`). Either add those names to `COLUMN_ALIASES` or write a per-project table
+  in the organizers' `projects` sheet layout.
 - **IDs:** files are read with pandas defaults, so `09662` becomes `9662` (see
   [data.md](data.md#reading-the-csvs)). Duplicate `Project ID`s are dropped across both
   utilities together, not per utility.
 - **Overlaps page** (`4_Overlaps.py`): haversine between the `Latitude`/`Longitude` of
   every pair, kept when within the setup page's threshold (default 25 miles), with the
-  absolute gap in days between in-service dates.
+  absolute gap in days between in-service dates. The pairs, with their IDs, types,
+  start dates and `Voltage 1`, are ranked by `frontend/ranking.py`: a separate, shorter
+  copy of the root `ranking.py` with the same five scores but no project-CSV lookup.
+  A change to one doesn't reach the other.
 - `frontend/test_data/` holds synthetic projects and expected pairs for testing the
   UI. None of it comes from the PDFs.

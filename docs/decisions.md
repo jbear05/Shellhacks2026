@@ -81,6 +81,11 @@ decision is reversed, say so under the old entry instead of deleting it.
   for Claude Code. The single `parser-handoff.md` was split into topic docs, so a
   session loads only what its task needs, and `tests/test_docs.py` keeps links and
   column lists in step with the code.
+- **Made-up test data lives in `data/test/`, and a script cleans it** (2026-09-26).
+  `data/processed/` holds only what our code produced from the PDFs, and the test DESC
+  rows use the real DESC utility name, so mixing them would put fake projects into real
+  overlaps. The teammate's originals are kept in `data/test/raw/` and fixed by
+  `clean_test_csvs.py` rather than by hand, like the other generated CSVs.
 
 ## AI parser
 
