@@ -52,7 +52,10 @@ then test the later stages with the made-up CSVs in `data/test/`.
 1. **Demo the AI parser** with `--offline`, using the commands in
    [ai-parser.md](ai-parser.md#current-state). Optionally finish Georgia's ID pass
    first (about $3, and it needs approval) with the
-   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
+   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md). Running it from the UI
+   (PR #10) doesn't use the offline mode. Georgia's cache covers only pages 171-440
+   without the ID pass, so a full Georgia upload there would send paid requests (not
+   tried).
 2. **Geocode DESC and Georgia Power.** In progress on the local `feat/geocode` branch,
    in another session, with no outputs committed when this was written; check that
    branch before starting. Start with the
@@ -90,7 +93,7 @@ then test the later stages with the made-up CSVs in `data/test/`.
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator, ranking, UI, test data, docs, tests, committed CSVs |
 | `feat/geocode` | Jair (another session) | Local only, not pushed. One commit, 6d9264b: the Geolocator downloads substations in 1-degree tiles and applies `data/overrides/location_overrides.csv`, with tests. More geocoding work is uncommitted in the main checkout |
-| `origin/copilot/accept-two-pdfs-ai-parser` | A Copilot agent | One commit adding `frontend/ai_parser_jobs.py` and changing the setup page, apparently to run the AI parser on uploaded PDFs. No pull request; not reviewed |
+| `origin/copilot/accept-two-pdfs-ai-parser` | A Copilot agent | PR #10, open and not reviewed: the setup page takes one PDF per utility and runs the AI parser on it in a background thread. It builds the model with `offline=False`, so pages missing from the cache go to the paid API. Review it against the rules on runtime LLM calls and API cost in AGENTS.md |
 | `origin/NA` | AaxHamm3r and Nellie (teammates) | Merged into `main` at e9e14cc; kept |
 | `origin/Geolocator` | DavidCode (teammate); fixed by Jair | Merged in PR #3; kept |
 | `origin/dominionScript` | thatsnotrlght (teammate); reworked by Jair | Merged in PR #2; kept |
