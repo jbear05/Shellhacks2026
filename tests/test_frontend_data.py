@@ -74,18 +74,20 @@ def test_real_two_substation_projects_with_one_failed_lookup_are_not_single_loca
 
 
 @pytest.mark.parametrize(
-    "key, names, latitude, confidence",
+    "key, names, point, latitude, confidence",
     [
-        ((DESC, "06810 F"), ("VCS2", "Ward"), 34.2903782, "High"),
-        ((DESC, "6810 A"), ("Hooks", "Thurmond"), 33.6568198, "Medium"),
-        ((GEORGIA, "20783"), ("COLEMAN", "DEAN FOREST"), 32.1077199, "High"),
+        ((DESC, "06810 F"), ("VCS2", "Ward"), 1, 34.2903782, "High"),
+        ((DESC, "6810 A"), ("Hooks", "Thurmond"), 1, 33.6568198, "Medium"),
+        ((DESC, "6359"), ("Yemassee", "Ritter"), 2, 32.8231912, "High"),
+        ((GEORGIA, "20783"), ("COLEMAN", "DEAN FOREST"), 1, 32.1077199, "High"),
     ],
 )
-def test_overridden_endpoints_give_two_substation_lines_their_midpoint(key, names, latitude, confidence):
+def test_overridden_endpoints_give_two_substation_lines_their_midpoint(key, names, point, latitude, confidence):
     row = load_demo_projects().set_index(["Utility", "Project ID"]).loc[key]
     assert (row["Point 1 Name"], row["Point 2 Name"]) == names
+    assert row[f"Point {point} Latitude"] == latitude
     assert row["Center Method"] == "endpoint_midpoint"
-    assert row.Latitude == pytest.approx((latitude + row["Point 2 Latitude"]) / 2)
+    assert row.Latitude == pytest.approx((row["Point 1 Latitude"] + row["Point 2 Latitude"]) / 2)
     assert row.Confidence == confidence
 
 

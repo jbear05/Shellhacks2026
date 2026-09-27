@@ -58,7 +58,7 @@ Last updated 2026-09-27, early morning.
 - **Missing endpoints** on `fix/center-method-label` (off `codex/finish-gridlock`):
   a project naming two substations with only one located is labeled
   `one_of_two_endpoints` ([app.md](app.md#centers-and-confidence)), and overrides now
-  locate VCS1, VCS2, Hooks and Coleman, found by tracing OSM lines
+  locate VCS1, VCS2, Hooks, Coleman and Ritter, found by tracing OSM lines
   ([geolocator.md](geolocator.md#known-wrong-or-weak-lookups)). The overrides file has
   29 rows.
   - `frontend/pdf_import.py` reads the two organizer PDFs, recognized by their SHA-256,
@@ -153,15 +153,15 @@ Check with a teammate before committing to their branch.
 - **The AI parser's DESC `sponsor`** is the page banner `Dominion Energy South Carolina`
   on all 44 rows, where `dominion_projects.csv` has `DESC`. `utility` is right. A prompt
   fix needs a paid run; see [ai-parser.md](ai-parser.md#scoring-it-the-eval).
-- **Many demo centers are LOW:** 24 of 44 DESC and 64 of 138 Georgia Power projects,
+- **Many demo centers are LOW:** 21 of 44 DESC and 64 of 138 Georgia Power projects,
   because a project takes its weakest named endpoint's rating and an endpoint with no
   point counts as LOW ([app.md](app.md#centers-and-confidence)). 9 have no center:
   GA 19966, 20175, 20223, 20466, 20509, 20684, 20717, 20736 and 21093.
-- **Weak lookups left on purpose:** 10 override rows leave a location with no point
-  because the search was wrong and OSM has no substation with that name (for example
-  DESC Ritter and Riverport, a planned substation). Both could still change an overlap
-  pair: DESC 6359 and 06367 A-C, H. GA 16007 and 20407 have MEDIUM matches with other
-  substations' names. See [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+- **Weak lookups left on purpose:** 9 override rows leave a location with no point
+  because the search was wrong and OSM has no substation with that name. One of them,
+  DESC Riverport (a planned substation), could still change an overlap pair of
+  06367 A-C, H. GA 16007 and 20407 have MEDIUM matches with other substations' names.
+  See [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 - **Weak Georgia rows:** 2 `UNKNOWN` rows and 4 customer-project names; see
   [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
 - **Weak test rows:** 17 Duke test lines have endpoints more than twice their length

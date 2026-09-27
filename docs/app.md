@@ -31,7 +31,7 @@ Project confidence is the weakest of the named endpoints, including missing ones
 but only one has usable coordinates, so the center is that endpoint rather than
 the midpoint) or `unavailable`. The fallback case is always LOW, because the
 missing endpoint counts as LOW. In the built-in demo on 2026-09-27, after the VCS1,
-VCS2, Hooks and Coleman overrides, there were 15 DESC and 17 Georgia Power
+VCS2, Hooks, Coleman and Ritter overrides, there were 12 DESC and 17 Georgia Power
 `one_of_two_endpoints` rows, and 4 DESC and 37 Georgia Power `single_location` rows.
 Which missing
 endpoints could still change an overlap is in
