@@ -1,5 +1,23 @@
+# Read when the app is launched from the repository root. Launching from frontend/
+# reads frontend/.streamlit/config.toml instead. The fonts are served from static/ next
+# to the entry script, at app/static/.
 [browser]
 gatherUsageStats = false
+
+[server]
+enableStaticServing = true
+
+[[theme.fontFaces]]
+family = "Aeonik"
+url = "app/static/Aeonik-Regular.ttf"
+weight = 400
+style = "normal"
+
+[[theme.fontFaces]]
+family = "Milford"
+url = "app/static/Milford-nLjO.ttf"
+weight = 400
+style = "normal"
 
 [theme]
 base = "dark"
@@ -7,3 +25,5 @@ primaryColor = "#2AB7A9"
 backgroundColor = "#0B132B"
 secondaryBackgroundColor = "#1C2541"
 textColor = "#FFF3D0"
+font = "Aeonik, Milford"
+headingFont = "Aeonik, Milford"

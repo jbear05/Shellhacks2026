@@ -156,8 +156,15 @@ section 4. How centers, confidence, PDF imports and ranking work is in
   included, `distance_first`) and the page list. Its packages are in
   `frontend/requirements.txt` (`streamlit>=1.55,<2`, pandas, openpyxl, pydeck), which
   `requirements-dev.txt` doesn't include, so the root `.venv` can't run it or its
-  Streamlit tests. The theme is in `.streamlit/config.toml`, and `frontend/ui.py` draws
-  the shared header. The map's basemap (Carto) needs internet; nothing else does.
+  Streamlit tests. `frontend/ui.py` draws the shared header. The map's basemap (Carto)
+  needs internet; nothing else does.
+- **Theme and fonts:** Streamlit reads `.streamlit/config.toml` from the directory it's
+  launched in, and serves the `static/` folder next to the entry script at
+  `app/static/`. So the root launch uses `.streamlit/config.toml` and `static/`, and
+  `cd frontend` then `streamlit run app.py` uses `frontend/.streamlit/config.toml`
+  (Nellie's colors) and `frontend/static/`. Both folders hold the same two fonts, and a
+  font's `url` must start with `app/static/`: a plain `static/` URL returns the page's
+  HTML and the font silently falls back to Source Sans.
 - **Overview** (`0_Overview.py`): "Explore the real-data demo" loads
   `load_demo_projects()` (DESC and Georgia Power's GPC and SAV rows) and opens the
   Overlaps page.
