@@ -32,14 +32,18 @@ MAX_TOKENS = 64_000  # replies are streamed, so a long one doesn't time out
 # fallback model instead of failing. Transmission plans shouldn't trigger it. Claude only.
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
 # Dollars per million input and output tokens, only for the cost line in the log. Claude's
-# are from 2026-06, Gemini's from Google's page updated 2026-09-24 (3.8 Flash's double
-# on 2027-01-01). Gemini bills its thinking tokens as output.
+# are from 2026-06, Gemini's from Google's page updated 2026-09-24 (both Flash prices
+# double on 2027-01-01). Gemini bills its thinking tokens as output.
 PRICES = {
     "claude-opus-5": (5.0, 25.0), "claude-sonnet-5": (2.0, 10.0),
-    "gemini-3.8-flash": (0.75, 3.75), "gemini-3.1-pro-preview": (2.0, 12.0),
+    "gemini-3.8-flash": (0.75, 3.75), "gemini-3.7-flash": (0.75, 3.75),
+    "gemini-3.1-pro-preview": (2.0, 12.0),
 }
 # Gemini 3 models take a thinking level instead of Claude's effort. They stop at "high".
 THINKING_LEVELS = {"low": "low", "medium": "medium", "high": "high", "xhigh": "high", "max": "high"}
+# Tries per Gemini request. Busy models answer 503 for minutes at a time, so the waits
+# (1, 2, 4 ... seconds, then 60 each) add up to about 4 minutes before a request fails.
+GEMINI_ATTEMPTS = 10
 
 EXTRACT_PROMPT = """\
 You copy the planned projects out of pages of a utility's transmission planning document, as JSON. The pages are pypdf's text extraction of a PDF. Each page starts with a line "=== PAGE n ===", and n is the page number to cite. Text extraction can scramble a layout: a form may list all of its labels before all of its values, table rows can wrap over several lines, and banners, headers and footers repeat on every page.
@@ -235,7 +239,7 @@ class Model:
 
                     try:  # retries rate limits, server errors and dropped connections
                         self._client = genai.Client(http_options=types.HttpOptions(
-                            retry_options=types.HttpRetryOptions(attempts=7)))
+                            retry_options=types.HttpRetryOptions(attempts=GEMINI_ATTEMPTS, max_delay=60)))
                     except ValueError as exc:  # the SDK found no key
                         raise ModelError("no API key: set GEMINI_API_KEY") from exc
                 else:

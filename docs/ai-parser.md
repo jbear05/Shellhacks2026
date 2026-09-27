@@ -103,13 +103,21 @@ The prompts, schema, checks and outputs are the same for both. What differs:
   with an API error.
 - **No fallback.** A reply stopped for safety, recitation or similar is an error, as a
   declined Claude reply is with `--no-fallback`.
-- **Cost.** `PRICES` in `parsers/ai_parser/llm.py` has `gemini-3.8-flash` ($0.75 per
-  million input tokens, $3.75 output, until 2027-01-01, when both double) and
-  `gemini-3.1-pro-preview` ($2 and $12), from Google's pricing page as updated on
-  2026-09-24. Thinking tokens count as output. `--dry-run`'s token counts are fitted to
+- **Busy models.** A Gemini request is tried up to 10 times (`GEMINI_ATTEMPTS`), waiting
+  about 4 minutes in all, when the API answers 503, 429 or another temporary error.
+  On 2026-09-27 two DESC runs failed this way: `gemini-3.8-flash` answered 503 "high
+  demand" to all 7 tries then allowed, and `gemini-3.7-flash` to all 10 tries of both
+  requests sent, over about 8 minutes. A metadata call with the same key worked, so the
+  key and model names are fine. The run keeps going for one more request after one
+  fails (`pool.map` has already started it), so a failed run takes about twice as long.
+- **Cost.** `PRICES` in `parsers/ai_parser/llm.py` has `gemini-3.8-flash` and
+  `gemini-3.7-flash` ($0.75 per million input tokens, $3.75 output, until 2027-01-01,
+  when both double) and `gemini-3.1-pro-preview` ($2 and $12), from Google's pricing
+  page as updated on 2026-09-24. A model not in `PRICES` runs, but the log leaves out
+  its cost. Thinking tokens count as output. `--dry-run`'s token counts are fitted to
   Claude's tokenizer, so they're only a guide for Gemini, and it says so.
-- **Not yet measured.** No Gemini run has been made, so there are no Gemini results or
-  costs below. Score one with the eval before trusting it.
+- **Not yet measured.** No Gemini request has succeeded, so there are no Gemini results
+  or costs below. Score a run with the eval before trusting it.
 
 ## How it works
 
