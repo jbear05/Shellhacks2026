@@ -18,12 +18,14 @@ def test_organizers_six_pairs_and_negative_projects(demo):
     result = calculate_overlaps(demo, DESC, GEORGIA)
     lookup = {(r.project_id_a, r.project_id_b): r for r in result.itertuples()}
     for desc, ga, miles, days in [
-        ("6810 A", "20793", 4.09, 3074), ("06367 D-G", "20277", 8.38, 152),
-        ("06367 D-G", "20065", 7.40, 517), ("6809 E", "20793", 7.93, 3074),
+        ("6810 A", "20793", 3.91, 3074), ("06367 D-G", "20277", 8.38, 152),
+        ("06367 D-G", "20065", 7.40, 517), ("6809 E", "20793", 4.40, 3074),
         ("6808 S", "20277", 13.13, 365), ("6808 S", "20065", 14.60, 730),
     ]:
         row = lookup[desc, ga]
         # Regression values from the committed locations; sheet coordinates are tested separately.
+        # The sheet has no Hooks point, so its 6810 A and 6809 E centers are one substation;
+        # ours are midpoints with Hooks (docs/challenge.md).
         assert row.distance_miles == pytest.approx(miles, abs=0.01)
         assert row.days_apart == days
     assert "6807 B" not in set(result.project_id_a)

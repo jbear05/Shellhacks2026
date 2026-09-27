@@ -45,6 +45,52 @@ def test_edits_recalculate_centers_and_deleting_endpoints_clears_stale_center():
     assert pd.isna(prepare_projects(result).iloc[0].Latitude)
 
 
+@pytest.mark.parametrize(
+    "endpoints, method",
+    [
+        (dict(location_1="Sub A", lat_a="32", lon_a="-81"), "single_location"),
+        (dict(location_1="Sub A", lat_a="32", lon_a="-81", location_2="Sub B"), "one_of_two_endpoints"),
+        (dict(location_1="Sub A", location_2="Sub B", lat_b="32", lon_b="-81"), "one_of_two_endpoints"),
+        (dict(location_1="Sub A", lat_a="32", lon_a="-81", location_2="Sub B", lat_b="33"), "one_of_two_endpoints"),
+    ],
+)
+def test_one_located_endpoint_is_labeled_by_whether_a_second_was_named(endpoints, method):
+    frame = pd.DataFrame([dict(project_id="1", project_name="Line", **endpoints)])
+    row = _normalize_projects(frame, "A", "test.csv").iloc[0]
+    assert (row.Latitude, row.Longitude) == (32, -81)
+    assert row["Center Method"] == method
+
+
+def test_real_two_substation_projects_with_one_failed_lookup_are_not_single_location():
+    rows = load_demo_projects().set_index(["Utility", "Project ID"])
+    for key in [(DESC, "05004 P"), (GEORGIA, "20464")]:
+        assert rows.loc[key, "Center Method"] == "single_location"
+    # Scout (a planned substation) and Yates Common were not found; the center is the other substation.
+    for key, point in [((DESC, "6853 B-F"), 2), ((GEORGIA, "19601"), 1)]:
+        row = rows.loc[key]
+        assert row["Center Method"] == "one_of_two_endpoints"
+        assert row.Latitude == row[f"Point {point} Latitude"]
+        assert row.Confidence == "Low"
+
+
+@pytest.mark.parametrize(
+    "key, names, point, latitude, confidence",
+    [
+        ((DESC, "06810 F"), ("VCS2", "Ward"), 1, 34.2903782, "High"),
+        ((DESC, "6810 A"), ("Hooks", "Thurmond"), 1, 33.6568198, "Medium"),
+        ((DESC, "6359"), ("Yemassee", "Ritter"), 2, 32.8231912, "High"),
+        ((GEORGIA, "20783"), ("COLEMAN", "DEAN FOREST"), 1, 32.1077199, "High"),
+    ],
+)
+def test_overridden_endpoints_give_two_substation_lines_their_midpoint(key, names, point, latitude, confidence):
+    row = load_demo_projects().set_index(["Utility", "Project ID"]).loc[key]
+    assert (row["Point 1 Name"], row["Point 2 Name"]) == names
+    assert row[f"Point {point} Latitude"] == latitude
+    assert row["Center Method"] == "endpoint_midpoint"
+    assert row.Latitude == pytest.approx((row["Point 1 Latitude"] + row["Point 2 Latitude"]) / 2)
+    assert row.Confidence == confidence
+
+
 def test_real_demo_joins_dates_endpoints_and_source_evidence():
     rows = load_demo_projects()
     assert rows.groupby("Utility").size().to_dict() == {DESC: 44, GEORGIA: 138}
