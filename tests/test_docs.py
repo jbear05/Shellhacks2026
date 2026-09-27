@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+import clean_test_csvs
 import dominionScript as ds
 from parsers import georgia_power as gp
 from parsers.ai_parser import records as ai_records
@@ -68,6 +69,8 @@ CSV_COLUMNS = {
     "`data/processed/ai/<prefix>_review.csv`": ai_records.REVIEW_COLUMNS,
     "`<prefix>_project_locations.csv`": _locator_constant("LOCATION_FIELDS"),
     "`<prefix>_projects_summary.csv`": _locator_constant("SUMMARY_FIELDS"),
+    # Only the Duke file's extra columns; the rest are the Georgia CSV's (tests/test_clean_test_csvs.py).
+    "`data/test/*_test_projects.csv`": clean_test_csvs.COORDINATE_COLUMNS,
 }
 
 

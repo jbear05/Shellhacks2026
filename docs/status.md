@@ -34,12 +34,17 @@ What's left is in [ai-parser.md](ai-parser.md#current-state).
   The Geolocator now retries failed Nominatim lookups, saves its cache safely, and
   writes its outputs to `data/processed/`; see [geolocator.md](geolocator.md#cache). It
   has no automated tests, and these fixes haven't had a live run yet.
-- **Tests:** 156 with `feat/ai-parser` merged, 149 of them fast. The full suite takes
+- **Tests:** 169 with the `sam_datasets` cleanup, 162 of them fast. The full suite takes
   20-50 s.
 - **Ranking script:** `ranking.py` now ranks overlap CSV rows with distance, timeline
   overlap, days apart, power voltage and project type scores. It accepts project CSVs
   for enrichment by (`utility`, `project_id`); `tests/test_ranking.py` checks realistic
   pairs and prints their ranked output. UI integration is still open.
+- **Test data** (https://github.com/jbear05/Shellhacks2026/pull/8, then a cleanup on
+  `sam_datasets`): made-up DESC and Duke Energy Carolinas projects for testing the
+  stages after the parsers. The originals are in `data/test/raw/`, and
+  `clean_test_csvs.py` writes realigned copies to `data/test/`; see
+  [data.md](data.md#datatest_test_projectscsv).
 
 ## Next steps
 
@@ -80,6 +85,7 @@ In rough priority order:
 | `origin/NA` | AaxHamm3r and Nellie (teammates) | Streamlit UI in `frontend/`; not merged, and shares no history with `main` (see Open issues) |
 | `origin/Geolocator` | DavidCode (teammate); fixed by Jair | Merged in PR #3; kept |
 | `origin/dominionScript` | thatsnotrlght (teammate); reworked by Jair | Merged in PR #2; kept |
+| `sam_datasets` | thatsnotrlght (teammate); cleanup by Jair | Test CSVs merged in PR #8. The cleanup commit on top (`clean_test_csvs.py`, `data/test/`) isn't merged |
 | `origin/feat/gpc-pdf-parser` | Jair | Merged in PR #1; kept |
 | `origin/chore/repo-cleanup` | Jair | Merged in PR #4; kept |
 | `origin/docs/ai-context` | Jair | Its two commits are in PR #4; kept |
