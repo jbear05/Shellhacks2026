@@ -65,20 +65,28 @@ def test_real_two_substation_projects_with_one_failed_lookup_are_not_single_loca
     rows = load_demo_projects().set_index(["Utility", "Project ID"])
     for key in [(DESC, "05004 P"), (GEORGIA, "20464")]:
         assert rows.loc[key, "Center Method"] == "single_location"
-    # Hooks and Yates Common were not found; the center is the other substation.
-    for key, point in [((DESC, "6810 A"), 2), ((GEORGIA, "19601"), 1)]:
+    # Scout (a planned substation) and Yates Common were not found; the center is the other substation.
+    for key, point in [((DESC, "6853 B-F"), 2), ((GEORGIA, "19601"), 1)]:
         row = rows.loc[key]
         assert row["Center Method"] == "one_of_two_endpoints"
         assert row.Latitude == row[f"Point {point} Latitude"]
         assert row.Confidence == "Low"
 
 
-def test_vcs2_override_gives_the_vcs2_ward_line_its_midpoint():
-    row = load_demo_projects().set_index(["Utility", "Project ID"]).loc[(DESC, "06810 F")]
-    assert (row["Point 1 Name"], row["Point 2 Name"]) == ("VCS2", "Ward")
+@pytest.mark.parametrize(
+    "key, names, latitude, confidence",
+    [
+        ((DESC, "06810 F"), ("VCS2", "Ward"), 34.2903782, "High"),
+        ((DESC, "6810 A"), ("Hooks", "Thurmond"), 33.6568198, "Medium"),
+        ((GEORGIA, "20783"), ("COLEMAN", "DEAN FOREST"), 32.1077199, "High"),
+    ],
+)
+def test_overridden_endpoints_give_two_substation_lines_their_midpoint(key, names, latitude, confidence):
+    row = load_demo_projects().set_index(["Utility", "Project ID"]).loc[key]
+    assert (row["Point 1 Name"], row["Point 2 Name"]) == names
     assert row["Center Method"] == "endpoint_midpoint"
-    assert row.Latitude == pytest.approx((34.2903782 + row["Point 2 Latitude"]) / 2)
-    assert row.Confidence == "High"
+    assert row.Latitude == pytest.approx((latitude + row["Point 2 Latitude"]) / 2)
+    assert row.Confidence == confidence
 
 
 def test_real_demo_joins_dates_endpoints_and_source_evidence():

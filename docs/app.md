@@ -30,9 +30,10 @@ Project confidence is the weakest of the named endpoints, including missing ones
 `single_location` (only one endpoint named), `one_of_two_endpoints` (two named,
 but only one has usable coordinates, so the center is that endpoint rather than
 the midpoint) or `unavailable`. The fallback case is always LOW, because the
-missing endpoint counts as LOW. In the built-in demo on 2026-09-27, after the VCS1
-and VCS2 overrides, there were 18 DESC and 19 Georgia Power `one_of_two_endpoints`
-rows, and 4 DESC and 37 Georgia Power `single_location` rows. Which missing
+missing endpoint counts as LOW. In the built-in demo on 2026-09-27, after the VCS1,
+VCS2, Hooks and Coleman overrides, there were 15 DESC and 17 Georgia Power
+`one_of_two_endpoints` rows, and 4 DESC and 37 Georgia Power `single_location` rows.
+Which missing
 endpoints could still change an overlap is in
 [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 
@@ -74,6 +75,9 @@ does not establish an overlapping build window. Reversed dates are flagged.
 `tests/test_overlaps.py` reproduces all six organizer spreadsheet distances to the
 hundredth using the sheet's coordinates, then separately checks the real saved
 coordinates. The two GA 20277 distances use the additional LOW Purrysburg point,
-unlike the sheet. Other coordinate differences are under 0.21 miles. Negative
+unlike the sheet. The sheet has no Hooks point, so its 6810 A and 6809 E centers are
+Thurmond and Stevens Creek alone; ours are midpoints with Hooks, which makes
+6809 E - 20793 4.40 miles against the sheet's 8.01 (and 6810 A - 20793 3.91 against
+4.09). Other coordinate differences are under 0.21 miles. Negative
 projects, exclusions, missing dates, confidence filters, a distance just above
 25 miles, and the teammates' synthetic overlap fixture are also checked.
