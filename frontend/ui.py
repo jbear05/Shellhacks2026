@@ -97,18 +97,19 @@ def render_shell(page_title):
     """Render a consistent visual header without changing page navigation."""
     current_step = next(
         (index for index, (title, _) in enumerate(WORKFLOW, start=1) if title == page_title),
-        1,
+        0,
     )
+    context = f"Step {current_step} of {len(WORKFLOW)} · {page_title}" if current_step else "Public plans · Shared opportunities"
 
     st.markdown(SHELL_CSS, unsafe_allow_html=True)
     st.markdown(
         f"""
         <div class="workspace-header">
             <div>
-                <p class="workspace-kicker">ShellHacks 2026 · Utility Intelligence</p>
-                <p class="workspace-name">Project Overlap Workspace</p>
+                <p class="workspace-kicker">ShellHacks 2026</p>
+                <p class="workspace-name">Gridlock</p>
             </div>
-            <p class="workspace-context">Step {current_step} of {len(WORKFLOW)} · {page_title}</p>
+            <p class="workspace-context">{context}</p>
         </div>
         """,
         unsafe_allow_html=True,

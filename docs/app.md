@@ -43,7 +43,7 @@ point is never combined with a longitude from another.
 
 Invalid dates or reversed build windows are warnings, not silently repaired values.
 Source strings remain available. A missing DESC start date keeps its documented
-open-ended meaning; see [pipeline.md](pipeline.md#4-overlaps-planned).
+open-ended meaning; see [pipeline.md](pipeline.md#4-overlaps).
 
 ## Overlaps and ranking
 

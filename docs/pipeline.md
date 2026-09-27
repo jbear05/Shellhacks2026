@@ -14,10 +14,11 @@ data/processed/ai/<prefix>_projects.csv                           committed
   |  + data/overrides/location_overrides.csv (hand-checked)       built
   v
 data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
-  |  overlap finder                                               only inside the UI (section 6)
+  |  frontend/project_data.py: parser rows + endpoints            built (section 4)
+  |  frontend/analysis.py + ranking.py: overlap finder            built (section 4)
   v
-overlap table and ranked list
-  |  Streamlit UI (frontend/)                                     on main; can't read our coordinates yet
+ranked overlap table
+  |  Streamlit UI (frontend/)                                     committed pages don't call it yet (section 6)
   v
 interactive map
 ```
@@ -67,37 +68,43 @@ and how to add a row: [geolocator.md](geolocator.md#overrides).
   Carolina; see [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
 - Other guessed parser columns, such as `project_type` and the voltages.
 
-## 4. Overlaps (planned)
+## 4. Overlaps
 
-- **Distance:** haversine between the two project centers. Under 25 miles makes an
-  overlap row. The organizers take the midpoint of two named points, or the one point
-  that was located ([challenge.md](challenge.md#the-organizers-method)). The
-  Geolocator's centroid is the mean of all of a project's located points instead, up
-  to 4 for DESC, including LOW fallbacks. Decide which to use: the organizers' rule
-  needs `<prefix>_project_locations.csv` (one row per point, with `location_role`),
-  not the summary. Carry each project's `overall_confidence` into the overlap row so
-  reviewers can see which centers are only a town or county.
-- **`time_gap`:** absolute days between the two `in_service_date`s.
+Built on `codex/finish-gridlock`: `frontend/project_data.py` builds the project table,
+and `frontend/analysis.py` finds the pairs and ranks them. How centers, confidence,
+distances and ranking work is in [app.md](app.md); the current results are in
+[status.md](status.md#overlap-candidates).
+
+- **Input:** the parser CSVs have the dates, and the Geolocator's
+  `<prefix>_project_locations.csv` has the points, so the two are joined on (`utility`,
+  `project_id`). DESC's `project_type` and voltages come from the Geolocator's list too,
+  since the DESC CSV has neither. The Geolocator's summary isn't used: it has no dates,
+  and its centroid is the mean of all of a project's located points (up to 4 for DESC,
+  LOW fallbacks included), where the organizers take the midpoint of two named points
+  ([challenge.md](challenge.md#the-organizers-method)).
 - **Build windows:** [`start_date`, `in_service_date`]. A blank DESC `start_date`
-  means work began before 2024, so treat it as open-ended. Don't assume
-  `start_date <= in_service_date` (TEAMS 20248), and add a warning for that case to
-  `find_inconsistencies` in `parsers/georgia_power.py`.
-- **Which Georgia projects:** the CSV has every sponsor. The organizers' example counts
-  SAV projects as Georgia Power, so "Georgia Power" is GPC and SAV. GTC, MEAG and DU
-  projects are other utilities; including them needs a decision.
-- **Where to look:** probably only Georgia projects around Savannah and Augusta can be
-  within 25 miles of a DESC project.
+  means work began before 2024, so it's open-ended. Don't assume
+  `start_date <= in_service_date` (TEAMS 20248): the UI flags it, but
+  `find_inconsistencies` in `parsers/georgia_power.py` doesn't warn yet.
+- **Which Georgia projects:** "Georgia Power" is GPC and SAV, the rows whose `utility`
+  is `Georgia Power` (138 of 208). The organizers' example counts SAV projects as
+  Georgia Power. GTC, MEAG and DU projects are other utilities and are left out of the
+  demo.
 - **Ranking:** the brief doesn't define it. It says distance is the primary signal
-  and timeline the secondary one. `ranking.py` implements a simple 0-3 point model
-  for five categories: geographic distance, timeline overlap, days apart, power
-  voltage and project type. Higher totals rank first; distance is the first tie-break.
-  Missing voltage or type data scores zero and is named in `ranking_reason`. The CLI
-  can enrich overlap rows from project CSVs keyed on (`utility`, `project_id`).
-- **Output:** the two sheets of `Projects_Overlaps.xlsx`
+  and timeline the secondary one. `ranking.py` scores five categories 0-3 points each:
+  geographic distance, timeline overlap, days apart, power voltage and project type.
+  Missing voltage or type data scores zero and is named in `ranking_reason`. In `score`
+  mode higher totals rank first, with distance as the first tie-break. In
+  `distance_first` mode, the UI's default, distance bands come first
+  ([app.md](app.md#overlaps-and-ranking)). The CLI can enrich overlap rows from project
+  CSVs keyed on (`utility`, `project_id`).
+- **Output:** one row per pair (`RESULT_COLUMNS` in `frontend/analysis.py`). It holds
+  the organizers' `overlaps` columns under other names (`distance_miles`, `days_apart`),
+  plus both projects' details and the scores. Nothing writes their `.xlsx` layout
   ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)).
-- **Check it** against the organizers' 6 example overlaps
-  ([challenge.md](challenge.md#the-organizers-example-answers)). Their distances are
-  reproducible to the hundredth, which makes them a good test.
+- **Check:** `tests/test_overlaps.py` reproduces the organizers' 6 example distances to
+  the hundredth from the sheet's coordinates, then checks the same pairs with ours
+  ([challenge.md](challenge.md#the-organizers-example-answers)).
 
 ## 5. Cost estimate (bonus, planned)
 
@@ -110,44 +117,46 @@ shared land (right-of-way) as a measure of impact.
 ## 6. UI (`frontend/`)
 
 A Streamlit app in `frontend/`, by teammates. Nellie merged `origin/NA` (e9e14cc) into
-`main` on 2026-09-26, so `frontend/` on `main` is that commit's. Its pages are
-`frontend/pages/1_Project_Setup.py` to `5_Export.py`, and `frontend/ui.py` holds the
-shared page layout. The entry file, `frontend/app.py`, is empty. It has its own
-`frontend/requirements.txt` (streamlit, pandas, openpyxl, pydeck). Nobody has run it
-from `main` in an agent session yet. AaxHamm3r's plan for connecting it to the parsers,
-the Geolocator and `ranking.py` is in
-[frontend-backend-integration-guide.md](frontend-backend-integration-guide.md); none of
-it is on `main` yet.
+`main` on 2026-09-26. Its pages are `frontend/pages/1_Project_Setup.py` to
+`5_Export.py`, and `frontend/ui.py` holds the shared page layout. The entry file,
+`frontend/app.py`, is empty. Its packages are in `frontend/requirements.txt`
+(streamlit, pandas, openpyxl, pydeck), which `requirements-dev.txt` doesn't include, so
+the root `.venv` can't run it. Nobody has opened it in a browser in an agent session
+yet. AaxHamm3r's plan for connecting it to the parsers, the Geolocator and `ranking.py`
+is in [frontend-backend-integration-guide.md](frontend-backend-integration-guide.md).
+On `codex/finish-gridlock`, `frontend/data_loader.py` was reworked and
+`frontend/project_data.py`, `analysis.py` and `pdf_import.py` were added
+([app.md](app.md)), but the pages described here don't call those three.
 
 - **Input:** on the setup page, the user names two utilities and uploads CSV or XLSX
-  files for each (`frontend/data_loader.py`). Every row of a file is labeled with the
-  utility it was uploaded under, whatever its own `utility` column says. Upload only
-  Georgia Power's own projects as Georgia Power
+  files for each (`frontend/data_loader.py`). A row's own `utility` is kept; the
+  utility it was uploaded under only fills blanks ([app.md](app.md#project-data)). To
+  compare DESC with Georgia Power alone, upload only the GPC and SAV rows
   (`python -m parsers.georgia_power --sponsors GPC SAV --out <file>`).
-- **Columns** are matched through `COLUMN_ALIASES`, ignoring case: `project_id`,
-  `project_name`, `utility`, `project_type`, `state` (shown as "County / Region"),
-  `start_date`, `in_service_date`, `voltage_1`, `voltage_2`, `latitude`/`longitude` or
-  `lat`/`lon`, and the organizers' sheet columns `name_a`, `lat_a`, `lon_a`, `name_b`,
-  `lat_b`, `lon_b`, `lat_center` and `lon_center`
-  ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). A sheet without a
-  `project_name` column is skipped. When a row has no center, the midpoint of its two
-  points is used.
-- **Our files as they are:** they load, but none of them gives the UI coordinates, so
-  the overlaps page finds no pairs. The parser CSVs have none. The Geolocator's summary
-  has `centroid_latitude` and `centroid_longitude`, and `data/test/duke_test_projects.csv`
-  has `center_lat`, `center_lon` and `location_1_lat` and so on; none of these are
-  aliases (checked with `_normalize_projects`: 0 of the Duke file's 100 rows get a
-  `Latitude`). Either add those names to `COLUMN_ALIASES` or write a per-project table
-  in the organizers' `projects` sheet layout.
-- **IDs:** files are read with pandas defaults, so `09662` becomes `9662` (see
-  [data.md](data.md#reading-the-csvs)). Duplicate `Project ID`s are dropped across both
-  utilities together, not per utility.
+- **Columns** are matched through `COLUMN_ALIASES`, ignoring case: our parser and
+  Geolocator column names (including `centroid_latitude`, `location_1_lat` and
+  `overall_confidence`), the Duke test file's `center_lat` and `center_lon`, and the
+  organizers' sheet columns `name_a`, `lat_a`, `lon_a`, `name_b`, `lat_b`, `lon_b`,
+  `lat_center` and `lon_center`
+  ([challenge.md](challenge.md#target-tables-projects_overlapsxlsx)). `state` is shown
+  as "County / Region". A sheet without a `project_name` or `name` column is skipped.
+  `prepare_projects` recomputes each center from the two points
+  ([app.md](app.md#centers-and-confidence)).
+- **Our files as they are** (checked with `_normalize_projects`): the parser CSVs load
+  with dates but no centers. The Geolocator's summaries give 43 of 44 DESC and 194 of
+  208 Georgia rows a center, but they have no dates. The Duke test file gets all 100
+  centers, and the DESC test file none. `load_demo_projects()` in
+  `frontend/project_data.py` joins the parser CSVs to the points, which gives both
+  ([4. Overlaps](#4-overlaps)).
+- **IDs** are read as text. A duplicate (`Utility`, `Project ID`) stops the import, and
+  the same ID under two utilities is allowed ([app.md](app.md#project-data)).
 - **Overlaps page** (`4_Overlaps.py`): haversine between the `Latitude`/`Longitude` of
   every pair, kept when within the setup page's threshold (default 25 miles), with the
   absolute gap in days between in-service dates. The pairs, with their IDs, types,
   start dates and `Voltage 1`, are ranked by `frontend/ranking.py`: a separate, shorter
   copy of the root `ranking.py` with the same five scores but no project-CSV lookup.
-  A change to one doesn't reach the other.
+  A change to one doesn't reach the other. `frontend/analysis.py` does the same job
+  with the root `ranking.py`, but this page doesn't call it.
 - **Map and review gaps (code review, 2026-09-26):** the overlaps map draws a
   threshold-radius circle around every mapped project, rather than highlighting
   computed pairs. Two 25-mile circles can intersect with centers 50 miles apart,

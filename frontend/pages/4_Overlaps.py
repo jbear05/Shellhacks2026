@@ -1,370 +1,77 @@
 import streamlit as st
-import pandas as pd
-import pydeck as pdk
-from math import radians, sin, cos, sqrt, atan2
-from data_loader import ProjectLoadError, load_uploaded_projects
-from ranking import rank_overlaps
-from ui import render_shell
-
-st.set_page_config(
-    page_title="Overlap Results",
-    page_icon="🔗",
-    layout="wide"
-)
+from frontend.analysis import eligible_projects
+from frontend.map_view import make_map
+from frontend.project_data import ROOT
+from frontend.workspace import analyze_state
+from frontend.ui import render_shell
 
 render_shell("Overlap Results")
-
-st.title("Overlap Results")
-
+st.title("Coordination opportunities")
 if "projects" not in st.session_state:
-    st.warning("Please complete the Project Review page first.")
+    st.info("Load the real-data demo or upload project data first.")
     st.stop()
-
-projects = st.session_state.projects.copy()
-
-utility_a = st.session_state.get("utility_a", "Utility A")
-utility_b = st.session_state.get("utility_b", "Utility B")
-threshold = st.session_state.get("threshold_miles", 25.0)
-
-# Recover sessions created before uploaded utility labels were normalized.
-utility_values = projects.get("Utility", pd.Series(dtype=str)).fillna("").astype(str).str.strip()
-if (
-    utility_a not in utility_values.values
-    or utility_b not in utility_values.values
-) and (
-    st.session_state.get("files_a")
-    or st.session_state.get("files_b")
-):
-    try:
-        refreshed_projects = load_uploaded_projects(
-            st.session_state.get("files_a", []),
-            st.session_state.get("files_b", []),
-            utility_a,
-            utility_b,
-        )
-    except ProjectLoadError:
-        refreshed_projects = pd.DataFrame()
-
-    if not refreshed_projects.empty:
-        projects = refreshed_projects
-        st.session_state.projects = projects
-
-# Handle older sessions whose fixture labels were saved before setup names
-# became authoritative.
-utility_values = projects.get("Utility", pd.Series(dtype=str)).fillna("").astype(str).str.strip()
-available_utilities = list(utility_values.unique())
-if (
-    utility_a not in available_utilities
-    and utility_b not in available_utilities
-    and len(available_utilities) == 2
-):
-    label_a = next(
-        (
-            label for label in available_utilities
-            if label.casefold().replace("_", " ").endswith("utility a")
-        ),
-        None,
-    )
-    label_b = next(
-        (
-            label for label in available_utilities
-            if label.casefold().replace("_", " ").endswith("utility b")
-        ),
-        None,
-    )
-    if label_a and label_b:
-        projects.loc[projects["Utility"] == label_a, "Utility"] = utility_a
-        projects.loc[projects["Utility"] == label_b, "Utility"] = utility_b
-        st.session_state.projects = projects
-
-st.write(
-    f"Showing project pairs within **{threshold:.1f} miles** of each other."
-)
-
-
-def haversine_miles(lat1, lon1, lat2, lon2):
-    earth_radius = 3958.8
-
-    lat1, lon1, lat2, lon2 = map(
-        radians,
-        [lat1, lon1, lat2, lon2]
-    )
-
-    dlat = lat2 - lat1
-    dlon = lon2 - lon1
-
-    a = (
-        sin(dlat / 2) ** 2
-        + cos(lat1)
-        * cos(lat2)
-        * sin(dlon / 2) ** 2
-    )
-
-    return 2 * earth_radius * atan2(
-        sqrt(a),
-        sqrt(1 - a)
-    )
-
-
-def iso_date(value):
-    if pd.isna(value):
-        return ""
-    return pd.Timestamp(value).date().isoformat()
-
-
-def final_overlap_table(ranked_rows):
-    """Return the workbook-style table with descriptive ranking categories."""
-
-    def display_value(value):
-        if value is None or pd.isna(value) or str(value).strip() == "":
-            return "Unavailable"
-        return str(value).strip()
-
-    def timeline_value(row):
-        if "build windows overlap" in row["ranking_reason"]:
-            return "Yes"
-        if "build windows do not overlap" in row["ranking_reason"]:
-            return "No"
-        return "Unavailable"
-
-    return pd.DataFrame([
-        {
-            "Rank": row["rank"],
-            "Utility A Project": row["project_name_a"],
-            "Utility B Project": row["project_name_b"],
-            "Distance Miles": row["distance_miles"],
-            "Timeline Overlap": timeline_value(row),
-            "Utility A Date": row["in_service_date_a"],
-            "Utility B Date": row["in_service_date_b"],
-            "Date Gap Days": row["days_apart"],
-            "Voltage": f"A: {display_value(row['voltage_a'])}; B: {display_value(row['voltage_b'])}",
-            "Project Type": f"A: {display_value(row['project_type_a'])}; B: {display_value(row['project_type_b'])}",
-        }
-        for row in ranked_rows
-    ])
-
-
-# Convert coordinates to numbers
-projects["Latitude"] = pd.to_numeric(
-    projects["Latitude"],
-    errors="coerce"
-)
-
-projects["Longitude"] = pd.to_numeric(
-    projects["Longitude"],
-    errors="coerce"
-)
-
-# Convert dates
-if "In-Service Date" in projects.columns:
-    projects["In-Service Date"] = pd.to_datetime(
-        projects["In-Service Date"],
-        errors="coerce"
-    )
-
-if "Start Date" in projects.columns:
-    projects["Start Date"] = pd.to_datetime(
-        projects["Start Date"],
-        errors="coerce"
-    )
-
-utility_a_projects = projects[
-    projects["Utility"] == utility_a
-]
-
-utility_b_projects = projects[
-    projects["Utility"] == utility_b
-]
-
-overlaps = []
-
-for _, project_a in utility_a_projects.iterrows():
-    for _, project_b in utility_b_projects.iterrows():
-
-        if pd.isna(project_a["Latitude"]) or pd.isna(
-            project_a["Longitude"]
-        ):
-            continue
-
-        if pd.isna(project_b["Latitude"]) or pd.isna(
-            project_b["Longitude"]
-        ):
-            continue
-
-        distance = haversine_miles(
-            project_a["Latitude"],
-            project_a["Longitude"],
-            project_b["Latitude"],
-            project_b["Longitude"]
-        )
-
-        if distance <= threshold:
-            date_gap = None
-
-            if (
-                "In-Service Date" in projects.columns
-                and pd.notna(project_a["In-Service Date"])
-                and pd.notna(project_b["In-Service Date"])
-            ):
-                date_gap = abs(
-                    (
-                        project_a["In-Service Date"]
-                        - project_b["In-Service Date"]
-                    ).days
-                )
-
-            overlaps.append({
-                "utility_a": utility_a,
-                "project_id_a": project_a["Project ID"],
-                "project_name_a": project_a["Project Name"],
-                "project_type_a": project_a["Project Type"],
-                "start_date_a": iso_date(project_a.get("Start Date")),
-                "in_service_date_a": iso_date(project_a.get("In-Service Date")),
-                "voltage_a": project_a.get("Voltage 1", ""),
-                "utility_b": utility_b,
-                "project_id_b": project_b["Project ID"],
-                "project_name_b": project_b["Project Name"],
-                "project_type_b": project_b["Project Type"],
-                "start_date_b": iso_date(project_b.get("Start Date")),
-                "in_service_date_b": iso_date(project_b.get("In-Service Date")),
-                "voltage_b": project_b.get("Voltage 1", ""),
-                "distance_miles": round(distance, 2),
-                "days_apart": date_gap,
-            })
-
-ranked_overlaps = rank_overlaps(overlaps)
-overlap_df = final_overlap_table(ranked_overlaps)
-
-st.session_state.overlaps = overlap_df
-
-map_panel = st.container(border=True)
-map_panel.subheader("Overlap radius map")
-map_panel.caption(
-    "Each circle represents the configured overlap radius. Intersecting circles "
-    "show where projects from the two utilities are close enough to be compared."
-)
-
-map_projects = projects.dropna(subset=["Latitude", "Longitude"]).copy()
-
-if map_projects.empty:
-    map_panel.info("No projects with coordinates are available to map.")
-else:
-    center_latitude = map_projects["Latitude"].mean()
-    center_longitude = map_projects["Longitude"].mean()
-
-    map_layers = []
-    utility_layer_colors = [
-        (utility_a, [35, 126, 255, 70], [35, 126, 255, 255]),
-        (utility_b, [255, 140, 50, 70], [255, 140, 50, 255]),
-    ]
-
-    for utility_name, radius_color, center_color in utility_layer_colors:
-        utility_projects = map_projects[
-            map_projects["Utility"] == utility_name
-        ]
-        if utility_projects.empty:
-            continue
-
-        map_layers.append(
-            pdk.Layer(
-                "ScatterplotLayer",
-                data=utility_projects,
-                get_position="[Longitude, Latitude]",
-                get_radius=threshold * 1609.344,
-                get_fill_color=radius_color,
-                get_line_color=radius_color,
-                get_line_width=1,
-                stroked=True,
-                filled=True,
-                pickable=True,
-            )
-        )
-        map_layers.append(
-            pdk.Layer(
-                "ScatterplotLayer",
-                data=utility_projects,
-                get_position="[Longitude, Latitude]",
-                get_radius=700,
-                get_fill_color=center_color,
-                get_line_color=[255, 255, 255, 255],
-                get_line_width=2,
-                stroked=True,
-                filled=True,
-                pickable=True,
-            )
-        )
-
-    overlap_deck = pdk.Deck(
-        map_style=None,
-        initial_view_state=pdk.ViewState(
-            latitude=center_latitude,
-            longitude=center_longitude,
-            zoom=7,
-            pitch=0,
-        ),
-        layers=map_layers,
-        tooltip={
-            "html": (
-                "<b>{Project Name}</b><br/>"
-                "{Utility}<br/>"
-                "{Project Type}<br/>"
-                f"Radius: {threshold:.1f} miles"
-            ),
-            "style": {"backgroundColor": "#111827", "color": "white"},
-        },
-    )
-    map_panel.pydeck_chart(overlap_deck, use_container_width=True)
-
-summary_panel = st.container(border=True)
-col1, col2, col3 = summary_panel.columns(3)
-
-with col1:
-    st.metric("Utility A Projects", len(utility_a_projects))
-
-with col2:
-    st.metric("Utility B Projects", len(utility_b_projects))
-
-with col3:
-    st.metric("Overlapping Pairs", len(overlap_df))
-
-st.divider()
-
-results_panel = st.container(border=True)
-if overlap_df.empty:
-    results_panel.info("No overlapping project pairs were found.")
-
-    if not utility_a_projects.empty and not utility_b_projects.empty:
-        results_panel.caption(
-            "Both utilities have project rows with coordinates, but none are "
-            f"within {threshold:.1f} miles."
-        )
+projects = st.session_state.projects
+utilities = list(projects.Utility.unique())
+a, b, c = st.columns([2, 2, 1])
+a.selectbox("Compare utility", utilities, key="utility_a")
+b.selectbox("With utility", utilities, key="utility_b")
+c.number_input("Within miles", min_value=1.0, max_value=100.0, key="threshold_miles")
+st.checkbox("Include LOW-confidence candidates", key="include_low")
+st.selectbox("Ranking policy", ["distance_first", "score"], format_func=lambda v: "Distance bands, then timing" if v == "distance_first" else "Equal-weight total score", key="ranking_mode")
+st.caption("Default order: ≤5 / ≤15 / ≤25 mile bands, then overlapping build windows, date gap, voltage and type. Unknown timing stays unknown. The 0–15 score is supplementary in distance-first mode.")
+try:
+    results = analyze_state(st.session_state)
+except ValueError as error:
+    st.warning(str(error))
+    st.stop()
+st.session_state.overlaps = results
+eligible = eligible_projects(projects, st.session_state.include_low)
+selected_utilities = projects[projects.Utility.isin([st.session_state.utility_a, st.session_state.utility_b])]
+usable = eligible[eligible.Utility.isin([st.session_state.utility_a, st.session_state.utility_b])]
+a, b, c, d = st.columns(4)
+a.metric("Source projects", len(selected_utilities))
+b.metric("Eligible centers", len(usable))
+c.metric("Nearby pairs", len(results))
+d.metric("Overlapping build windows", int((results.timeline_overlap == "Yes").sum()))
+st.caption("Dates describe the supplied plans, not verified current construction status. LOW locations may be place-name fallbacks; inspect their evidence.")
+selected = None
+if not results.empty:
+    choice = st.selectbox("Focus an opportunity", list(results.index), index=None, placeholder="Show all projects and qualifying pairs", format_func=lambda i: f"#{results.loc[i, 'rank']} · {results.loc[i, 'project_id_a']} ↔ {results.loc[i, 'project_id_b']} · {float(results.loc[i, 'distance_miles']):.2f} mi")
+    if choice is not None:
+        selected = results.loc[choice]
+st.subheader("Project map")
+st.caption(f"Blue: {st.session_state.utility_a}. Orange: {st.session_state.utility_b}. Larger points have qualifying pairs. Lines connect centers, not transmission routes. Click a point or connection for details; pan and zoom to explore.")
+event = st.pydeck_chart(make_map(projects, results, st.session_state.utility_a, st.session_state.utility_b, st.session_state.include_low, selected), height=520, on_select="rerun", selection_mode="single-object", key="opportunity_map")
+for obj in event.selection.objects.get("projects", []):
+    project = projects[(projects.Utility == obj.get("utility")) & (projects["Project ID"] == obj.get("project_id"))]
+    st.subheader("Selected project")
+    st.dataframe(project, hide_index=True, width="stretch")
+for obj in event.selection.objects.get("opportunities", []):
+    matching = results[results.overlap_id == obj.get("overlap_id")]
+    if not matching.empty:
+        selected = matching.iloc[0]
+if results.empty:
+    if usable.Utility.nunique() < 2:
+        st.info("Both utilities need an eligible center. Review missing coordinates, exclusions and the confidence filter.")
     else:
-        available_utilities = sorted(
-            projects["Utility"].dropna().astype(str).unique()
-        )
-        results_panel.warning(
-            "The selected utility names do not match the imported project rows. "
-            f"Utility A rows: {len(utility_a_projects)}; "
-            f"Utility B rows: {len(utility_b_projects)}; "
-            f"Imported labels: {available_utilities}"
-        )
+        st.info("No cross-utility pairs meet the distance threshold with these settings.")
 else:
-    results_panel.subheader("Ranked Overlapping Project Pairs")
-
-    results_panel.dataframe(
-        overlap_df,
-        use_container_width=True,
-        hide_index=True
-    )
-
-    csv_data = overlap_df.to_csv(index=False)
-
-    results_panel.download_button(
-        "Download Ranked Overlap CSV",
-        data=csv_data,
-        file_name="ranked_overlap_results.csv",
-        mime="text/csv"
-    )
-
+    if selected is not None:
+        st.subheader(f"Opportunity #{selected['rank']}")
+        a, b = st.columns(2)
+        for panel, suffix in ((a, "a"), (b, "b")):
+            panel.markdown(f"**{selected[f'utility_{suffix}']} · {selected[f'project_id_{suffix}']}**")
+            panel.write(selected[f"project_name_{suffix}"])
+            panel.write(f"In service: {selected[f'in_service_date_{suffix}'] or 'Unknown'} · Confidence: {selected[f'confidence_{suffix}']}")
+            panel.caption(f"Source: {selected[f'source_file_{suffix}']} · Pages: {selected[f'source_pages_{suffix}'] or 'Find by project ID'}")
+            with panel.expander("Location evidence"):
+                st.write(selected[f"verification_notes_{suffix}"] or "No supporting location notes supplied.")
+        st.write(selected["ranking_reason"])
+        if selected["confidence_a"] == "Low" or selected["confidence_b"] == "Low":
+            st.warning("This pair includes a LOW-confidence location. Confirm its endpoint evidence before treating it as an opportunity.")
+    st.subheader("Ranked pairs")
+    columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "total_score", "ranking_reason"]
+    st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "total_score": "Supporting score / 15"})
+    st.download_button("Download ranked overlap CSV", results.to_csv(index=False), "ranked_overlap_results.csv", "text/csv")
 if st.button("Continue to Export"):
-    st.switch_page("pages/5_Export.py")
+    st.switch_page(str(ROOT / "frontend/pages/5_Export.py"))

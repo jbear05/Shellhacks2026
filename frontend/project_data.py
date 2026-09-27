@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from frontend.data_loader import _normalize_projects, valid_point
+from frontend.data_loader import _normalize_projects, prepare_projects, valid_point
 
 ROOT = Path(__file__).resolve().parents[1]
 DESC = "Dominion Energy South Carolina"
@@ -65,7 +65,7 @@ def load_demo_projects() -> pd.DataFrame:
     desc = read_csv(ROOT / "data" / "processed" / "dominion_projects.csv")
     georgia = read_csv(ROOT / "data" / "processed" / "georgia_power_projects.csv")
     georgia = georgia[georgia.utility == GEORGIA]
-    return pd.concat([
+    return prepare_projects(pd.concat([
         attach_locations(desc, "desc", SOURCE_FILES[DESC]),
         attach_locations(georgia, "georgia_power", SOURCE_FILES[GEORGIA]),
-    ], ignore_index=True).fillna("")
+    ], ignore_index=True))
