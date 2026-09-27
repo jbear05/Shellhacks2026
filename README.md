@@ -1,12 +1,64 @@
-# Gridlock (ShellHacks 2026, Sperry Tech challenge)
+# Gridlock
 
-Flag where Dominion Energy South Carolina and Georgia Power plan transmission work
-within 25 miles of each other and in overlapping build windows. The challenge brief,
-guide and source PDFs are in `Sperry-Tech-Challenge/`.
+**Find where two power companies plan to build near each other, at the same time.**
 
-## Setup
+Gridlock is our entry for the Sperry Tech challenge at ShellHacks 2026. It reads the
+public construction plans of two neighboring utilities, puts every planned
+transmission project on a map, and ranks the pairs of projects most worth
+coordinating.
 
-Needs Python 3.11 or newer (pandas 3 won't install on older versions).
+## Why it matters
+
+Power companies publish their plans for new and rebuilt transmission lines and
+substations, often as long PDF filings with hundreds of pages. When two utilities plan
+work close to each other in the same years, they could share a corridor, land, crews
+or permits instead of each doing the work alone. These opportunities are hard to find
+by hand, because each company's plan is a separate document with its own format.
+
+The challenge compares **Dominion Energy South Carolina (DESC)** and **Georgia
+Power**, which meet along the Savannah River. Gridlock looks for:
+
+- **Projects close together:** within 25 miles of each other. This is the main signal.
+- **Projects built at the same time:** build windows that overlap. This makes a pair
+  stronger.
+
+Most projects won't have a match. The goal is to find the few that do.
+
+## What you get
+
+- **An interactive map** of both utilities' projects. You can pan, zoom and click any
+  project or pair for its details.
+- **A ranked list of coordination opportunities**, with the strongest pairs first.
+- **A land-savings estimate** for pairs of lines that could share one corridor: how many
+  acres, and roughly what that land is worth.
+- **Downloads** of the project table, the ranked pairs, and a snapshot you can open
+  again later.
+
+With the real plans loaded and the default settings, Gridlock finds 73 pairs of projects within 25 miles of
+each other. 35 of them also have overlapping build windows, and 25 get a land-savings
+estimate.
+
+## How it works
+
+1. **Read the plans.** Gridlock pulls each project out of the utilities' PDFs: its
+   name, dates, voltage and description. For another utility's PDF, an optional AI
+   reader can do this step, and it checks every value it finds against the page it
+   came from.
+2. **Find the locations.** Most projects name the substations they connect. Gridlock
+   looks those up in OpenStreetMap to place each project on the map. When it can't
+   confirm a location, it marks it as low confidence so you know to check it.
+3. **Pair nearby projects.** It measures the distance between every DESC project and
+   every Georgia Power project, and keeps the pairs within 25 miles.
+4. **Rank the pairs.** Each pair gets a score from 0 to 15 based on how close the
+   projects are, whether their build windows overlap, how far apart their finish dates
+   are, and whether they have similar voltages and types of work.
+5. **Estimate the savings.** When both projects are power lines, Gridlock estimates
+   the land they would save by sharing one corridor. It uses the lines' lengths,
+   typical easement widths and 2026 farmland values from the USDA.
+
+## Try it
+
+You need Python 3.11 or newer.
 
 ```bash
 python -m venv .venv
@@ -16,95 +68,59 @@ pip install -r frontend/requirements.txt
 python -m streamlit run app.py
 ```
 
-Choose **Explore the real-data demo** to load DESC and Georgia Power with saved
-geocoding. Project Setup also accepts the two exact organizer PDFs, CSV/XLSX
-project tables, or an exported snapshot ZIP. No paid AI or geocoding calls run in
-the app. See [the app guide](docs/app.md) for centers, confidence, ranking and export
-behavior. The map's basemap needs internet access; computation uses local data.
+The app opens in your browser. Click **Explore the real-data demo** to jump straight
+to the results for DESC and Georgia Power. To use your own data, choose **Upload PDFs
+or project tables** and follow the steps:
 
-## Docs
+1. **Project Setup:** load the projects. You can use the saved plans, the two
+   challenge PDFs, your own CSV or Excel tables, or a snapshot you saved before. Then
+   choose the two utilities to compare and the distance to search within.
+2. **Project Review:** check and correct project names, dates, voltages and types.
+3. **Location Verification:** check where each project is placed, fix a location, or
+   leave a project out.
+4. **Overlap Results:** explore the map and the ranked list of pairs.
+5. **Export Results:** download the tables and a snapshot.
 
-- [docs/status.md](docs/status.md): what's done, what's next, and who owns which branch.
-- [docs/data.md](docs/data.md): every column of every CSV, and how the files join.
-- [docs/](docs/): the challenge, the pipeline, the two source PDFs, the Geolocator, and
-  the decisions made so far.
-- [AGENTS.md](AGENTS.md): instructions for AI coding agents (Claude Code reads it
-  through [CLAUDE.md](CLAUDE.md)). It's also a quick tour of the repo for people.
+The app only uses data saved on your computer. It never calls a paid AI service or a
+map lookup while it runs. The only thing that needs internet is the map's background.
 
-## Georgia Power parser
+## Good to know
 
-```bash
-python -m parsers.georgia_power                      # all sponsors
-python -m parsers.georgia_power --sponsors GPC SAV   # Georgia Power's own projects only
-```
+- **Dates come from the filings,** the DESC 2024-2028 plan and Georgia Power's 2025
+  plan. They show what was planned then, not what is being built today.
+- **Some locations are uncertain.** A project marked LOW confidence may be placed using
+  a town's name, or using only one of its two substations. These stay flagged
+  everywhere, including in the downloads, so you can check them before relying on a
+  pair.
+- **Lines on the map are straight connections** between project centers. They are not
+  the real routes of the power lines.
+- **Only public data is used.** Nothing comes from restricted grid infrastructure data
+  (CEII).
 
-Writes `data/processed/georgia_power_projects.csv`, one row per project in the
-Ten-Year Plan inside `2025 IRP Volume 3 PUBLIC DISCLOSURE.pdf`. It joins two parts of
-the plan on TEAMS number:
+## For developers
 
-- Table 2 (project list): name, zone, plan year, need date, sponsor.
-- Section IV detail pages: start date, scope description, change since the last plan.
+- [AGENTS.md](AGENTS.md) is a quick tour of the repository, its rules and its commands.
+  AI coding agents read it too (Claude Code through [CLAUDE.md](CLAUDE.md)).
+- [docs/status.md](docs/status.md) says what's done, what's next and who owns which
+  branch.
+- [docs/pipeline.md](docs/pipeline.md) explains each step above in detail, and
+  [docs/data.md](docs/data.md) describes every column of every data file.
+- The challenge brief, guide and source PDFs are in `Sperry-Tech-Challenge/`, summarized
+  in [docs/challenge.md](docs/challenge.md).
 
-The run stops with an error if the PDF's structure no longer matches what the parser
-expects (for example, row counts that don't reconcile). Problems in the source data
-itself, such as 3 projects whose need date differs between Table 2 and their detail
-page, are logged as warnings.
-
-Locations, project type and voltages are guessed from the title, so check them before
-geocoding. The columns are described in
-[docs/data.md](docs/data.md#dataprocessedgeorgia_power_projectscsv).
-
-## Dominion parser
-
-```bash
-python dominionScript.py
-```
-
-Writes `data/processed/dominion_projects.csv`, one row per page of
-`2024-2028-2million-and-above-project-descriptions.pdf`, with the Georgia Power CSV's
-column names and formats. Project IDs are spelled as in the Geolocator's project list,
-which supplies the locations, project type and voltages. The columns are described in
-[docs/data.md](docs/data.md#dataprocesseddominion_projectscsv).
-
-## AI parser
+The tools behind the app can also run on their own:
 
 ```bash
+python -m parsers.georgia_power                      # read the Georgia Power plan (all sponsors)
+python -m parsers.georgia_power --sponsors GPC SAV   # only Georgia Power's own projects
+python dominionScript.py                             # read the DESC plan
+python gridlock_desc_locator.py                      # find locations (calls public map servers)
 python -m parsers.ai_parser PDF --utility "Georgia Power" --state Georgia --prefix georgia_power_ai --dry-run
-python -m parsers.ai_parser.evaluate data/processed/ai/georgia_power_ai_projects.csv data/processed/georgia_power_projects.csv
+pytest -m "not slow"                                 # quick tests, about 15 s
+pytest                                               # all tests, about 50 s
 ```
 
-Reads the projects out of any utility project-list PDF with Claude or Gemini, for PDFs
-that have no parser of their own. The model copies each value along with the text and
-page it came from, and a value whose text isn't on that page is left blank and listed in
-`data/processed/ai/<prefix>_review.csv`. It needs an `ANTHROPIC_API_KEY` (or a
-`GEMINI_API_KEY` with `--model gemini-3.6-flash`) and costs money, so start with
-`--dry-run`; replies are cached in `data/ai_cache/`, and
-`--offline` rebuilds the saved outputs from the cache for free. The eval scores it
-against the hand-written parsers: on DESC and Georgia Power it finds every project,
-with the right owner. See [docs/ai-parser.md](docs/ai-parser.md).
-
-## Tests
-
-```bash
-pytest                 # everything; parses both real PDFs once (about 15 s)
-pytest -m "not slow"   # skips the 668-page Georgia Power PDF (about 1 s)
-```
-
-## Geolocator
-
-```bash
-python gridlock_desc_locator.py   # the 44 DESC projects listed in the script
-python gridlock_desc_locator.py --projects-csv data/processed/georgia_power_projects.csv --output-prefix georgia_power
-```
-
-Finds coordinates for each project's location names. Nominatim gives a general place,
-then Overpass looks for OpenStreetMap substations within 25 km of it, scored on name,
-operator, voltage and distance. It writes three files to `data/processed/`:
-
-- `<prefix>_project_locations.csv`: one row per location.
-- `<prefix>_projects_summary.csv`: one row per project, with the average of its points.
-- `<prefix>_manual_review.csv`: every location not rated HIGH.
-
-Join the outputs to a parser CSV on `utility` and `project_id`, reading IDs as text.
-How it scores, what it caches and which lookups it gets wrong are in
-[docs/geolocator.md](docs/geolocator.md).
+Read [docs/geolocator.md](docs/geolocator.md) before running the location finder, and
+[docs/ai-parser.md](docs/ai-parser.md) before running the AI reader. The AI reader costs
+money unless you use `--dry-run` (an estimate only) or `--offline` (replays saved
+answers).
