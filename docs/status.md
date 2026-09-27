@@ -92,9 +92,10 @@ on `codex/finish-gridlock` and the branches built on it, not on `main`.
    button, the Overlaps page's counts (182 projects, 173 centers, 73 pairs), and the map
    with a focused pair. Not checked: the setup, review, location and export pages, and
    the export page's three downloads.
-2. **Merge the pull request for `fix/center-method-label`**, which also brings in
-   `codex/finish-gridlock`'s 5 commits. The UI rework replaces most of Nellie's and
-   AaxHamm3r's UI code, so tell them first. Merge with a merge commit.
+2. **Merge https://github.com/jbear05/Shellhacks2026/pull/14**
+   (`fix/center-method-label`), which also brings in `codex/finish-gridlock`'s 5
+   commits. The UI rework replaces most of Nellie's and AaxHamm3r's UI code, so tell
+   them first. Merge with a merge commit.
 3. **Then the two teammate branches on 2fce793:** Nellie's `PrettyWeb` (one styling
    commit; a trial merge with `fix/center-method-label` had no conflicts) and
    DavidCode's `Deebranch`. Review `Deebranch` first: it deletes 50 files from
@@ -130,7 +131,7 @@ on `codex/finish-gridlock` and the branches built on it, not on `main`.
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, UI, test data, docs, tests, committed CSVs |
 | `codex/finish-gridlock` | Jair, with Codex | Pushed, no pull request: 5 commits on `main` (e7ee917 to 2fce793), the real-data overlaps and the UI rework |
-| `fix/center-method-label` | Jair, with Claude | Pushed, pull request open: commits on `codex/finish-gridlock` from 347c1fd, the center label, 5 located endpoints, the handoff, the map's substation rings and the UI section of pipeline.md |
+| `fix/center-method-label` | Jair, with Claude | Pushed, PR #14 open: 7 commits on `codex/finish-gridlock` from 347c1fd, the center label, 5 located endpoints, the handoff, the map's substation rings and the UI section of pipeline.md |
 | `origin/PrettyWeb` | Nellie (teammate) | One commit, c697930 "style", on `codex/finish-gridlock`: `frontend/ui.py`, `frontend/app.py`, the overview page, `frontend/.streamlit/config.toml` and a font. Not merged; no files in common with `fix/center-method-label` |
 | `origin/Deebranch` | DavidCode (teammate) | One commit, e467841 "Add AI PDF import support", on `codex/finish-gridlock`; see [Next steps](#next-steps) 3. Not merged |
 | `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |
