@@ -79,9 +79,10 @@ Last updated 2026-09-27.
   The Overlaps page's map now shows the substations behind each center.
 - **Nellie's styling** (`PrettyWeb`) on `main`: Nellie merged it without a pull request
   (20dc8d0), after PR #14.
-- **Distance circles and the bonus estimate** in
+- **Distance circles and the bonus estimate** on `main` in
   https://github.com/jbear05/Shellhacks2026/pull/15 (`radius-lines-map`, thatsnotrlght's
-  commit a0ac1ef, fixed up by Jair with Claude), open. The Overlaps map shades circles
+  commit a0ac1ef, fixed up by Jair with Claude and Codex), merged as 0d7bea3.
+  The Overlaps map shades circles
   with a radius of half the threshold around paired centers
   ([app.md](app.md#centers-and-confidence)). The commit as pushed imported a module it
   didn't include and crashed when a pair was focused; the fix-up kept `main`'s map and
@@ -93,11 +94,12 @@ Last updated 2026-09-27.
   estimates: PR #15's footprint rule and Nellie's corridor cost (19ba174, pushed to
   `main` without a pull request), which used the distance between projects as the
   shared length ([decisions.md](decisions.md)).
-- **PR #15 review:** the local merge of `main` and the uncommitted shared-corridor
+- **PR #15 review:** the local merge of `main` and the existing shared-corridor
   fix were retained on `codex/review-pr-15`. The source references now link to their
   PDFs, and the UI explains that farm real estate values include buildings. Regression
   checks cover invalid lengths/voltages, a focused pair with no estimate, and
-  6810 A / 20793 displaying 27.9 acres and $137,303. Ready for the requested merge.
+  6810 A / 20793 displaying 27.9 acres and $137,303. Fixes were pushed as 169b7a3;
+  PR #15 merged with a merge commit on 2026-09-27.
 - **Tests:** 248 pass and 2 files are skipped in the root `.venv` (full suite,
   57.68 s on 2026-09-27). The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
@@ -119,28 +121,26 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    with a focused pair. Not checked: the setup, review, location and export pages, and
    the export page's three downloads. The rework replaced most of Nellie's and
    AaxHamm3r's UI code, which they hadn't reviewed when PR #14 merged; tell them.
-2. **Merge https://github.com/jbear05/Shellhacks2026/pull/15** with a merge commit.
-   Jair requested review, fixes and merge on 2026-09-27; review and tests are complete.
-3. **Then DavidCode's `Deebranch`** (PR #13). It deletes 50 files from
+2. **Review DavidCode's `Deebranch`** (PR #13). It deletes 50 files from
    `data/ai_cache/`, which `--offline` replays, and changes `frontend/pdf_import.py` and
    `parsers/ai_parser/api.py` to add AI PDF import. Check that the app still makes no
    LLM calls while it runs. Not read yet.
-4. **Check the evidence behind the top pairs** in
+3. **Check the evidence behind the top pairs** in
    [Overlap candidates](#overlap-candidates) before presenting them. Fix a wrong point in
    `data/overrides/location_overrides.csv`, as in
    [geolocator.md](geolocator.md#overrides), not in the UI. Ranks 2-5 use Hooks, whose
    evidence is line lengths, not a name.
-5. **Demo the AI parser** with `--offline`, using the commands in
+4. **Demo the AI parser** with `--offline`, using the commands in
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
    $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
-6. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
+5. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
    center. The DESC test file has no coordinates: geocode it with `--projects-csv` and
    `--output-prefix desc_test` (never the default prefix; see
    [data.md](data.md#datatest_test_projectscsv)). No page joins a geocoded file to its
    dates yet; `attach_locations()` in `frontend/project_data.py` does it for the real
    files.
-7. Small: warn in `parsers/georgia_power.py` when `start_date` is after
+6. Small: warn in `parsers/georgia_power.py` when `start_date` is after
    `in_service_date` (TEAMS 20248; the UI already flags it); stop extracting the Georgia
    PDF after its last detail page (saves about 1.5 s); remove the 3 LibreOffice lock
    files committed in `frontend/test_data/overlap_case/` (`.~lock.*#`) and ignore them
@@ -150,13 +150,13 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 
 | Branch | Owner | State |
 |---|---|---|
-| `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, test data, docs, tests, committed CSVs |
+| `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), test data, docs, tests, committed CSVs |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |
-| `origin/radius-lines-map` | thatsnotrlght (teammate); fixed up by Jair | PR #15 open: distance circles and the bonus estimate; see [Next steps](#next-steps) 2 |
-| `codex/review-pr-15` | Jair, with Codex | Review and shared-corridor fixes for PR #15; ready to push to its head branch |
-| `origin/Deebranch` | DavidCode (teammate) | PR #13 open, at d8cc7e1, on `codex/finish-gridlock`: AI PDF import; see [Next steps](#next-steps) 3. Not merged |
+| `origin/radius-lines-map` | thatsnotrlght (teammate); fixed up by Jair | Merged into `main` in PR #15 at 0d7bea3; kept |
+| `codex/review-pr-15` | Jair, with Codex | PR #15 fixes merged; local checkout includes the merge and its handoff notes |
+| `origin/Deebranch` | DavidCode (teammate) | PR #13 open, at d8cc7e1, on `codex/finish-gridlock`: AI PDF import; see [Next steps](#next-steps) 2. Not merged |
 | `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |
 | `origin/feat/geocode` | Jair | Merged in PR #12 at eaacacc; kept |
 | `origin/docs/status-update` | Jair | Merged in PR #11; kept (a sibling worktree, `../Shellhacks2026-sam`, has it checked out) |
