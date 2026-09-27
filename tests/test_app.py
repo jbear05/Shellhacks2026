@@ -24,6 +24,8 @@ def test_demo_filters_reviews_and_exports_share_current_settings():
     assert not app.exception
     click(app, "Explore the real-data demo")
     assert len(app.session_state["overlaps"]) == 73
+    assert app.session_state["ranking_mode"] == "score"
+    assert app.caption[0].value.startswith("Order: total score out of 15")
     app.checkbox[0].uncheck().run()
     assert not app.exception
     assert len(app.session_state["overlaps"]) == 53

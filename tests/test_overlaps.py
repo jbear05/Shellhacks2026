@@ -33,6 +33,14 @@ def test_organizers_six_pairs_and_negative_projects(demo):
     assert not {"18492", "11821"}.intersection(result.project_id_b)
 
 
+def test_demo_ranks_by_total_score_by_default(demo):
+    result = calculate_overlaps(demo, DESC, GEORGIA)
+    assert set(result.ranking_mode) == {"score"}
+    assert result.total_score.astype(int).is_monotonic_decreasing
+    top = [(r.project_id_a, r.project_id_b, r.timeline_overlap) for r in result.head(3).itertuples()]
+    assert top == [("06367 D-G", "20277", "Yes"), ("06367 A-C, H", "20277", "Yes"), ("6852", "16007", "Yes")]
+
+
 def test_shared_corridor_estimate_uses_the_shorter_line_and_the_narrower_easement():
     pair = dict(project_id_a="A", utility_a=DESC, project_type_a="LINE", line_miles_a="2", voltage_a="500000",
                 project_id_b="B", utility_b=GEORGIA, project_type_b="MULTI_LINE", line_miles_b="1", voltage_b="115000")

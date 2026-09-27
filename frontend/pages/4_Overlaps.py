@@ -44,8 +44,12 @@ a.selectbox("Compare utility", utilities, key="utility_a")
 b.selectbox("With utility", utilities, key="utility_b")
 c.number_input("Within miles", min_value=1.0, max_value=100.0, key="threshold_miles")
 st.checkbox("Include LOW-confidence candidates", key="include_low")
-st.selectbox("Ranking policy", ["distance_first", "score"], format_func=lambda v: "Distance bands, then timing" if v == "distance_first" else "Equal-weight total score", key="ranking_mode")
-st.caption("Default order: ≤5 / ≤15 / ≤25 mile bands, then overlapping build windows, date gap, voltage and type. Unknown timing stays unknown. The 0–15 score is supplementary in distance-first mode.")
+RANKING_POLICIES = {
+    "score": ("Total score (default)", "Order: total score out of 15. Distance (≤5 / ≤15 / ≤25 miles), overlapping build windows, date gap, voltage and type each score 0–3, and ties go to the closer pair. Missing dates, voltage or type score 0."),
+    "distance_first": ("Distance bands, then timing", "Order: ≤5 / ≤15 / ≤25 mile bands, then overlapping build windows, date gap, voltage and type. Unknown timing stays unknown. The 0–15 score is supplementary in this mode."),
+}
+st.selectbox("Ranking policy", list(RANKING_POLICIES), format_func=lambda v: RANKING_POLICIES[v][0], key="ranking_mode")
+st.caption(RANKING_POLICIES[st.session_state.ranking_mode][1])
 try:
     results = analyze_state(st.session_state)
 except ValueError as error:
@@ -104,7 +108,7 @@ else:
             st.warning("This pair includes a LOW-confidence location. Confirm its endpoint evidence before treating it as an opportunity.")
     st.subheader("Ranked pairs")
     columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "land_saved_acres", "land_saved_value_usd", "total_score", "ranking_reason"]
-    st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "land_saved_acres": st.column_config.NumberColumn("Shared-corridor acres", format="%.1f"), "land_saved_value_usd": st.column_config.NumberColumn("Land value ($)", format="%.0f"), "total_score": "Supporting score / 15"})
+    st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "land_saved_acres": st.column_config.NumberColumn("Shared-corridor acres", format="%.1f"), "land_saved_value_usd": st.column_config.NumberColumn("Land value ($)", format="%.0f"), "total_score": "Score / 15"})
     st.download_button("Download ranked overlap CSV", results.to_csv(index=False), "ranked_overlap_results.csv", "text/csv")
 if st.button("Continue to Export"):
     st.switch_page(str(ROOT / "frontend/pages/5_Export.py"))

@@ -15,7 +15,7 @@ def analyze_state(state):
     return calculate_overlaps(
         state["projects"], state["utility_a"], state["utility_b"],
         float(state.get("threshold_miles", 25)), bool(state.get("include_low", True)),
-        state.get("ranking_mode", "distance_first"),
+        state.get("ranking_mode", "score"),
     )
 
 
@@ -23,7 +23,7 @@ def settings_from_state(state):
     return {"format_version": 1, "utility_a": state["utility_a"], "utility_b": state["utility_b"],
             "threshold_miles": float(state.get("threshold_miles", 25)),
             "include_low": bool(state.get("include_low", True)),
-            "ranking_mode": state.get("ranking_mode", "distance_first")}
+            "ranking_mode": state.get("ranking_mode", "score")}
 
 
 def export_bundle(projects, results, settings):
