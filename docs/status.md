@@ -100,11 +100,19 @@ Last updated 2026-09-27.
   checks cover invalid lengths/voltages, a focused pair with no estimate, and
   6810 A / 20793 displaying 27.9 acres and $137,303. Fixes were pushed as 169b7a3;
   PR #15 merged with a merge commit on 2026-09-27.
-- **Tests:** 248 pass and 2 files are skipped in the root `.venv` (full suite,
-  57.68 s on 2026-09-27). The skipped files, `tests/test_app.py` and
+- **PR #13 PDF import** on `main` (https://github.com/jbear05/Shellhacks2026/pull/13,
+  merged as 97a016f): an exact organizer PDF loads its checked committed parser table
+  and saved endpoint evidence. The review restored both deterministic parsers and their
+  tests, kept all 55 reply-cache files, and removed the duplicate real-DESC `desc_test`
+  outputs. The new programmatic AI helper is offline-only and outside the app. Both
+  uploads match the saved demo field for field; the DESC helper replayed 44 projects
+  and Georgia's offline CLI replayed 208 entirely from cache. See [app.md](app.md#pdf-uploads)
+  and [ai-parser.md](ai-parser.md#current-state).
+- **Tests:** 249 pass and 2 files are skipped in the root `.venv` (full suite,
+  32.20 s on 2026-09-27). The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
-  `.venv-ui` (20.10 s), including review, location, export and focused-estimate flows
-  through AppTest. No live browser check was made during the PR #15 review.
+  `.venv-ui` (23.54 s), including review, location, export and focused-estimate flows
+  through AppTest. No live browser check was made during the PR #13 review.
   `tests/test_app.py` pins the pair counts, so run it after changes to the overrides.
 
 ## Next steps
@@ -121,26 +129,22 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    with a focused pair. Not checked: the setup, review, location and export pages, and
    the export page's three downloads. The rework replaced most of Nellie's and
    AaxHamm3r's UI code, which they hadn't reviewed when PR #14 merged; tell them.
-2. **Review DavidCode's `Deebranch`** (PR #13). It deletes 50 files from
-   `data/ai_cache/`, which `--offline` replays, and changes `frontend/pdf_import.py` and
-   `parsers/ai_parser/api.py` to add AI PDF import. Check that the app still makes no
-   LLM calls while it runs. Not read yet.
-3. **Check the evidence behind the top pairs** in
+2. **Check the evidence behind the top pairs** in
    [Overlap candidates](#overlap-candidates) before presenting them. Fix a wrong point in
    `data/overrides/location_overrides.csv`, as in
    [geolocator.md](geolocator.md#overrides), not in the UI. Ranks 2-5 use Hooks, whose
    evidence is line lengths, not a name.
-4. **Demo the AI parser** with `--offline`, using the commands in
+3. **Demo the AI parser** with `--offline`, using the commands in
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
    $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
-5. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
+4. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
    center. The DESC test file has no coordinates: geocode it with `--projects-csv` and
    `--output-prefix desc_test` (never the default prefix; see
    [data.md](data.md#datatest_test_projectscsv)). No page joins a geocoded file to its
    dates yet; `attach_locations()` in `frontend/project_data.py` does it for the real
    files.
-6. Small: warn in `parsers/georgia_power.py` when `start_date` is after
+5. Small: warn in `parsers/georgia_power.py` when `start_date` is after
    `in_service_date` (TEAMS 20248; the UI already flags it); stop extracting the Georgia
    PDF after its last detail page (saves about 1.5 s); remove the 3 LibreOffice lock
    files committed in `frontend/test_data/overlap_case/` (`.~lock.*#`) and ignore them
@@ -150,13 +154,14 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 
 | Branch | Owner | State |
 |---|---|---|
-| `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), test data, docs, tests, committed CSVs |
+| `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |
 | `origin/radius-lines-map` | thatsnotrlght (teammate); fixed up by Jair | Merged into `main` in PR #15 at 0d7bea3; kept |
 | `codex/review-pr-15` | Jair, with Codex | PR #15 fixes merged; local checkout includes the merge and its handoff notes |
-| `origin/Deebranch` | DavidCode (teammate) | PR #13 open, at d8cc7e1, on `codex/finish-gridlock`: AI PDF import; see [Next steps](#next-steps) 2. Not merged |
+| `origin/Deebranch` | DavidCode (teammate); reviewed by Codex | Merged into `main` in PR #13 at 97a016f; kept |
+| `codex/review-pr-13` | Jair, with Codex | PR #13 fixes merged; local checkout includes the merge and handoff notes |
 | `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |
 | `origin/feat/geocode` | Jair | Merged in PR #12 at eaacacc; kept |
 | `origin/docs/status-update` | Jair | Merged in PR #11; kept (a sibling worktree, `../Shellhacks2026-sam`, has it checked out) |
