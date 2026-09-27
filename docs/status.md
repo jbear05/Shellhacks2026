@@ -5,16 +5,7 @@ it at the end of every work session (the
 [handoff workflow](../.claude/skills/handoff/SKILL.md)). Durable facts belong in the
 topic docs listed in [AGENTS.md](../AGENTS.md#where-knowledge-lives), not here.
 
-Last updated 2026-09-26.
-
-## The AI parser branch
-
-`feat/ai-parser` is ready for review. It holds a command-line parser that reads any
-utility project-list PDF with Claude and writes a project CSV, with review and
-evidence files alongside it. The regressions the
-[review](ai-parser-review.md#where-each-finding-stands) found are fixed, the full suite
-passes, and the outputs in `data/processed/ai/` were rebuilt from the committed cache.
-What's left is in [ai-parser.md](ai-parser.md#current-state).
+Last updated 2026-09-26, evening.
 
 ## Done
 
@@ -30,66 +21,84 @@ What's left is in [ai-parser.md](ai-parser.md#current-state).
   `dominion_projects.csv` exactly.
 - **Agent docs and cleanup** on `main` (https://github.com/jbear05/Shellhacks2026/pull/4):
   `AGENTS.md`, `CLAUDE.md`, `docs/`, the `.claude/` skills and settings, and
-  `tests/test_docs.py`. The Geolocator's draft scripts and partial output were removed.
-  The Geolocator now retries failed Nominatim lookups, saves its cache safely, and
-  writes its outputs to `data/processed/`; see [geolocator.md](geolocator.md#cache). It
-  has no automated tests, and these fixes haven't had a live run yet.
-- **Tests:** 169 with the `sam_datasets` cleanup, 162 of them fast. The full suite takes
-  20-50 s.
-- **Ranking script:** `ranking.py` now ranks overlap CSV rows with distance, timeline
-  overlap, days apart, power voltage and project type scores. It accepts project CSVs
-  for enrichment by (`utility`, `project_id`); `tests/test_ranking.py` checks realistic
-  pairs and prints their ranked output. UI integration is still open.
-- **Test data** (https://github.com/jbear05/Shellhacks2026/pull/8, then a cleanup on
-  `sam_datasets`): made-up DESC and Duke Energy Carolinas projects for testing the
-  stages after the parsers. The originals are in `data/test/raw/`, and
-  `clean_test_csvs.py` writes realigned copies to `data/test/`; see
-  [data.md](data.md#datatest_test_projectscsv).
+  `tests/test_docs.py`. The Geolocator now retries failed Nominatim lookups, saves its
+  cache safely, and writes its outputs to `data/processed/`; see
+  [geolocator.md](geolocator.md#cache). It has no automated tests on `main`, and no
+  live run of these fixes is committed yet.
+- **AI parser** on `main` (https://github.com/jbear05/Shellhacks2026/pull/7): reads any
+  project-list PDF with Claude and checks every value against the page text. The
+  outputs in `data/processed/ai/` were rebuilt from the committed cache, and
+  `--offline` replays that cache with no key or credit. What's left is in
+  [ai-parser.md](ai-parser.md#current-state).
+- **Ranking script:** `ranking.py` scores overlap rows on distance, timeline overlap,
+  days apart, voltage and project type, and can look up project CSVs by (`utility`,
+  `project_id`); `tests/test_ranking.py` checks realistic pairs.
+- **UI** on `main`: Nellie merged `origin/NA` into `main` without a pull request
+  (5709833 and fd95a5e). The overlaps page pairs projects within the distance threshold
+  and ranks them with its own `frontend/ranking.py`. See
+  [pipeline.md](pipeline.md#6-ui-frontend).
+- **Test data** on `main` (https://github.com/jbear05/Shellhacks2026/pull/8 and
+  https://github.com/jbear05/Shellhacks2026/pull/9): made-up DESC and Duke Energy
+  Carolinas projects for testing the stages after the parsers. The originals are in
+  `data/test/raw/`, and `clean_test_csvs.py` writes realigned copies to `data/test/`;
+  see [data.md](data.md#datatest_test_projectscsv).
+- **Tests:** 170 on `main`, 163 of them fast. The full suite takes 20-50 s.
 
 ## Next steps
 
-In rough priority order:
+In rough priority order. The plan is to demo the AI parser on the organizers' PDFs,
+then test the later stages with the made-up CSVs in `data/test/`.
 
-1. **AI parser:** review and merge `feat/ai-parser`
-   (https://github.com/jbear05/Shellhacks2026/pull/7). After that, optionally finish
-   Georgia's ID pass (about $3, and it needs approval) with the
-   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md). The extraction already
-   finds all 208 projects with the right owners, so the pass is only a cross-check.
-2. **Geocode DESC.** No full run is committed yet. Consider deleting the 7 `null`
-   Nominatim entries from the cache first; see [geolocator.md](geolocator.md#cache).
-   Start with the [geocode workflow](../.claude/skills/geocode/SKILL.md).
-3. **Geocode Georgia Power** (353 location slots) and review
-   `data/processed/georgia_power_manual_review.csv`. Projects around Savannah and
+1. **Demo the AI parser** with `--offline`, using the commands in
+   [ai-parser.md](ai-parser.md#current-state). Optionally finish Georgia's ID pass
+   first (about $3, and it needs approval) with the
+   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
+2. **Geocode DESC and Georgia Power.** In progress on the local `feat/geocode` branch,
+   in another session, with no outputs committed when this was written; check that
+   branch before starting. Start with the
+   [geocode workflow](../.claude/skills/geocode/SKILL.md). For Georgia, review
+   `data/processed/georgia_power_manual_review.csv`; projects around Savannah and
    Augusta matter most.
-4. **Overrides file** for the heuristics' and Geolocator's known mistakes; see
-   [pipeline.md](pipeline.md#3-manual-overrides-planned).
-5. **Overlap finder**, tested against the organizers' 6 example overlaps; see
-   [pipeline.md](pipeline.md#4-overlaps-planned).
-6. **Wire ranking into the UI/export.** The current UI overlap export has names,
-   distance and in-service dates but not IDs, voltage or project type, so pass a richer
-   overlap table or project lookup into `ranking.py` first.
-7. **UI.** Once the UI owners agree, bring `frontend/` onto a branch off `main` with
-   `git cherry-pick fb1c0c3`. That keeps Nellie as the author, and only `.gitignore`
-   should conflict. Then write a per-project table with coordinates that the upload
-   page can map, and read IDs as text. See
-   [pipeline.md](pipeline.md#6-ui-originna-not-merged).
-8. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
-9. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248), and stop
-   extracting the Georgia PDF after its last detail page (saves about 1.5 s).
+3. **Connect the UI to our data.** AaxHamm3r's plan is
+   [frontend-backend-integration-guide.md](frontend-backend-integration-guide.md): one
+   project schema, centers from the two endpoints, the root `ranking.py`, in five
+   phases, starting with its section 17. None of it is on `main` yet. The quickest fix for a
+   demo is to add `centroid_latitude`/`centroid_longitude` and the test file's
+   `center_lat`/`center_lon` to `COLUMN_ALIASES` in `frontend/data_loader.py`, and to
+   read IDs as text. It's the UI owners' code, so agree the approach with Nellie and
+   AaxHamm3r. See [pipeline.md](pipeline.md#6-ui-frontend).
+4. **Test with the made-up data:** geocode `data/test/desc_test_projects.csv` with
+   `--projects-csv` and `--output-prefix desc_test` (never the default prefix; see
+   [data.md](data.md#datatest_test_projectscsv)), then upload it and
+   `duke_test_projects.csv` to the UI as DESC and Duke. Needs step 3.
+5. **Overrides file** for the heuristics' and Geolocator's known mistakes; see
+   [pipeline.md](pipeline.md#3-manual-overrides-planned). The Geolocator's support for
+   `data/overrides/location_overrides.csv` is in commit 6d9264b on the local
+   `feat/geocode` branch, not pushed yet.
+6. **Check the overlaps against the organizers' 6 example pairs** once both utilities
+   are geocoded. The UI's overlaps page is the only pairing code so far; the planned
+   standalone finder is in [pipeline.md](pipeline.md#4-overlaps-planned).
+7. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
+8. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248); stop
+   extracting the Georgia PDF after its last detail page (saves about 1.5 s); remove the
+   3 LibreOffice lock files committed in `frontend/test_data/overlap_case/`
+   (`.~lock.*#`) and ignore them in `.gitignore`.
 
 ## Branches
 
 | Branch | Owner | State |
 |---|---|---|
-| `main` | | Parsers, Geolocator, agent docs, tests, committed CSVs |
-| `origin/NA` | AaxHamm3r and Nellie (teammates) | Streamlit UI in `frontend/`; not merged, and shares no history with `main` (see Open issues) |
+| `main` | | Parsers, AI parser, Geolocator, ranking, UI, test data, docs, tests, committed CSVs |
+| `feat/geocode` | Jair (another session) | Local only, not pushed. One commit, 6d9264b: the Geolocator downloads substations in 1-degree tiles and applies `data/overrides/location_overrides.csv`, with tests. More geocoding work is uncommitted in the main checkout |
+| `origin/copilot/accept-two-pdfs-ai-parser` | A Copilot agent | One commit adding `frontend/ai_parser_jobs.py` and changing the setup page, apparently to run the AI parser on uploaded PDFs. No pull request; not reviewed |
+| `origin/NA` | AaxHamm3r and Nellie (teammates) | Merged into `main` at e9e14cc; kept |
 | `origin/Geolocator` | DavidCode (teammate); fixed by Jair | Merged in PR #3; kept |
 | `origin/dominionScript` | thatsnotrlght (teammate); reworked by Jair | Merged in PR #2; kept |
-| `sam_datasets` | thatsnotrlght (teammate); cleanup by Jair | Test CSVs merged in PR #8. The cleanup commit on top (`clean_test_csvs.py`, `data/test/`) isn't merged |
+| `origin/sam_datasets` | thatsnotrlght (teammate); cleanup by Jair | Merged in PR #8 and PR #9; kept |
+| `origin/feat/ai-parser` | Jair | Merged in PR #7; kept |
 | `origin/feat/gpc-pdf-parser` | Jair | Merged in PR #1; kept |
 | `origin/chore/repo-cleanup` | Jair | Merged in PR #4; kept |
 | `origin/docs/ai-context` | Jair | Its two commits are in PR #4; kept |
-| `feat/ai-parser` | Jair | AI parser, its tests, docs, `/ai-parse` workflow, cached replies and outputs. Review fixes are in and the full suite passes; ready to merge |
 
 Check with a teammate before committing to their branch.
 
@@ -102,30 +111,33 @@ Check with a teammate before committing to their branch.
 - **The AI parser's DESC `sponsor`** is the page banner `Dominion Energy South Carolina`
   on all 44 rows, where `dominion_projects.csv` has `DESC`. `utility` is right. A prompt
   fix needs a paid run; see [ai-parser.md](ai-parser.md#scoring-it-the-eval).
-
-- **`origin/NA` shares no history with `main`.** It was force-pushed as a single
-  commit with no parent (fb1c0c3, Nellie, 2026-09-26 12:56) holding only `.gitignore`
-  and `frontend/`. GitHub reports "No common ancestor between main and NA", so it can't
-  open a normal pull request. Compared with `main`, the branch seems to delete
-  `Sperry-Tech-Challenge/` and the parsers, but only because they were never in its
-  history. A merge wouldn't remove them; replacing `main` with it would. The branch's
-  earlier commits (tip e2f8e94, by AaxHamm3r) are no longer on any GitHub branch, but
-  clones that fetched them still have them. Reworked versions of their five pages are
-  in `frontend/pages/`.
-- **The UI can't show our data yet:** it has no alias for the Geolocator's
-  `centroid_*` columns, and reading with pandas defaults turns TEAMS `09662` into
-  `9662`. See [pipeline.md](pipeline.md#6-ui-originna-not-merged).
+- **The UI can't show our data yet:** none of our files gives it coordinates (0 of the
+  100 Duke test rows get a `Latitude`), and reading with pandas defaults turns TEAMS
+  `09662` into `9662`. See [pipeline.md](pipeline.md#6-ui-frontend).
+- **Two ranking scripts:** the UI ranks with `frontend/ranking.py`, a shorter copy of
+  the root `ranking.py`, so a change to one doesn't reach the other. The integration
+  guide recommends keeping the root one
+  ([section 10](frontend-backend-integration-guide.md#10-use-one-ranking-implementation)).
 - **Project centers** average every located point, LOW fallbacks included, which
-  isn't the organizers' two-point midpoint. Decide before building the overlaps.
+  isn't the organizers' two-point midpoint. The integration guide proposes the midpoint
+  of the two endpoints
+  ([section 8](frontend-backend-integration-guide.md#8-calculate-center-points-correctly)).
+  Decide before trusting the overlaps.
 - **Wrong lookups:** `EVANS PRIMARY` and `MCINTOSH` find counties; see
   [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 - **Weak Georgia rows:** 2 `UNKNOWN` rows and 4 customer-project names; see
   [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
+- **Weak test rows:** 17 Duke test lines have endpoints more than twice their length
+  apart, and some Duke coordinates are wrong; see
+  [data.md](data.md#datatest_test_projectscsv).
 - **`app.py` is empty** on `main`, and `frontend/app.py`, the UI's entry file, is empty
   too. Ask the UI owners whether the root one is needed.
-- **Merged local branches** (`Geolocator`, `dominionScript`, `feat/gpc-pdf-parser`,
-  `chore/repo-cleanup`, `docs/ai-context`) could be deleted, along with their copies on
-  GitHub once nobody needs them.
+- **Branches to delete** once nobody needs them: the merged local branches
+  (`Geolocator`, `dominionScript`, `feat/gpc-pdf-parser`, `chore/repo-cleanup`,
+  `docs/ai-context`, `docs/status-refresh`, `feat/ai-parser`) and their GitHub copies,
+  `origin/copilot/ranking-script-gridlock` (PR #6, closed) and
+  `origin/copilot/research-ranking-categories` (no commits beyond `main`). The sibling
+  worktree `../Shellhacks2026-sam` can go too once its branch is committed.
 
 ## Overlap candidates
 
