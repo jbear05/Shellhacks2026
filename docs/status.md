@@ -61,20 +61,23 @@ Last updated 2026-09-27.
     Geolocator's and the Duke test file's coordinate columns, and recomputes centers.
   - 2fce793 rewrote the pages to use these modules, with an overview page, a map
     (`frontend/map_view.py`) and snapshot export and restore (`frontend/workspace.py`).
-    Nobody has opened it in a browser yet.
-- **Missing endpoints** on `fix/center-method-label`, local, 3 commits on
-  `codex/finish-gridlock` (347c1fd to 69608eb): a project naming two substations with
-  only one located is labeled `one_of_two_endpoints`
+    Opened in a browser on 2026-09-27 on `fix/center-method-label` (see
+    [Next steps](#next-steps) 1).
+- **Missing endpoints** on `fix/center-method-label`, local, 5 commits on
+  `codex/finish-gridlock` from 347c1fd: a project naming two substations with only one
+  located is labeled `one_of_two_endpoints`
   ([app.md](app.md#centers-and-confidence)), and overrides now locate VCS1, VCS2, Hooks,
   Coleman and Ritter, found by tracing OSM lines
   ([geolocator.md](geolocator.md#known-wrong-or-weak-lookups)). With them, 44 DESC and
   129 Georgia Power projects have a center, and there are 73 pairs (35 with overlapping
   build windows), or 53 without LOW-confidence centers. The overrides file has 29 rows.
-- **Tests:** 205 on `main`, all passing (198 fast). On `fix/center-method-label`, 233
-  pass and 1 file is skipped in the root `.venv` (225 fast, about 15 s; the full suite
-  about 50 s). The skipped file, `tests/test_app.py`, needs Streamlit; its 3 tests pass
-  with `.venv-ui`, the Codex session's git-ignored venv. It pins the pair counts, so
-  run it after any change to the overrides.
+  The Overlaps page's map now shows the substations behind each center.
+- **Tests:** 205 on `main`, all passing (198 fast). On `fix/center-method-label`, 234
+  pass and 2 files are skipped in the root `.venv` (225 fast, about 15 s; the full suite
+  about 40 s). The skipped files, `tests/test_app.py` and `tests/test_map_view.py`, need
+  Streamlit and pydeck; their 6 tests pass with `.venv-ui`, the Codex session's
+  git-ignored venv. `tests/test_app.py` pins the pair counts, so run it after any change
+  to the overrides.
 
 ## Next steps
 
@@ -82,11 +85,13 @@ In priority order. The two required deliverables, the interactive map with the o
 and the ranked list ([challenge.md](challenge.md#deliverables)), work on our data only
 on `codex/finish-gridlock` and the branches built on it, not on `main`.
 
-1. **Run the demo in a browser:** `python -m streamlit run app.py` from the repository
-   root, with the UI's packages (`pip install -r frontend/requirements.txt`). The root
-   `.venv` doesn't have them; the Codex session's git-ignored `.venv-ui` does. The map's
-   basemap needs internet. Check the map, the ranked list and the export page's three
-   downloads.
+1. **Finish checking the demo in a browser:** `python -m streamlit run app.py` from the
+   repository root, with the UI's packages (`pip install -r frontend/requirements.txt`).
+   The root `.venv` doesn't have them; the Codex session's git-ignored `.venv-ui` does.
+   The map's basemap needs internet. Checked on 2026-09-27: the overview page's demo
+   button, the Overlaps page's counts (182 projects, 173 centers, 73 pairs), and the map
+   with a focused pair. Not checked: the setup, review, location and export pages, and
+   the export page's three downloads.
 2. **Get the work into `main`**, with the user's OK: push `fix/center-method-label` and
    open pull requests. It sits on `codex/finish-gridlock`, and Nellie's `PrettyWeb`
    (one styling commit) sits on the same commit; a trial merge of the two had no
@@ -123,7 +128,7 @@ on `codex/finish-gridlock` and the branches built on it, not on `main`.
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, UI, test data, docs, tests, committed CSVs |
 | `codex/finish-gridlock` | Jair, with Codex | Pushed, no pull request: 5 commits on `main` (e7ee917 to 2fce793), the real-data overlaps and the UI rework |
-| `fix/center-method-label` | Jair, with Claude | Local, not pushed: 3 commits on `codex/finish-gridlock` (347c1fd to 69608eb), the center label and 5 located endpoints, plus this handoff |
+| `fix/center-method-label` | Jair, with Claude | Local, not pushed, no pull request: 5 commits on `codex/finish-gridlock` from 347c1fd, the center label, 5 located endpoints, the handoff and the map's substation rings |
 | `origin/PrettyWeb` | Nellie (teammate) | One commit, c697930 "style", on `codex/finish-gridlock`: `frontend/ui.py`, `frontend/app.py`, the overview page, `frontend/.streamlit/config.toml` and a font. Not merged; no files in common with `fix/center-method-label` |
 | `origin/Deebranch` | Unknown | At 42470cc, PR #7's merge commit, so nothing of its own beyond `main`; can be deleted once its owner agrees |
 | `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |

@@ -33,7 +33,16 @@ the midpoint) or `unavailable`. The fallback case is always LOW, because the
 missing endpoint counts as LOW. In the built-in demo on 2026-09-27, after the VCS1,
 VCS2, Hooks, Coleman and Ritter overrides, there were 12 DESC and 17 Georgia Power
 `one_of_two_endpoints` rows, and 4 DESC and 37 Georgia Power `single_location` rows.
-Which missing
+
+The Overlaps page's map (`frontend/map_view.py`) shows where each center comes from.
+A project's located substations are rings in its utility's color, joined by a thin
+straight line when there are two, so a midpoint center sits in the middle of that
+line. A `one_of_two_endpoints` center is drawn faint with a solid rim. Each center's
+tooltip says how it was made, for example "Center: midpoint of VCS2 and Ward". The
+focused pair always shows its substations, and the "Show the substations behind every
+center" checkbox shows them for every project. When the focused pair's projects share
+a substation, as 6810 A and 20793 share Thurmond, one ring covers the other. Which
+missing
 endpoints could still change an overlap is in
 [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 

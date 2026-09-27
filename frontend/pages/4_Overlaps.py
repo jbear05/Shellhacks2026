@@ -40,8 +40,9 @@ if not results.empty:
     if choice is not None:
         selected = results.loc[choice]
 st.subheader("Project map")
-st.caption(f"Blue: {st.session_state.utility_a}. Orange: {st.session_state.utility_b}. Larger points have qualifying pairs. Lines connect centers, not transmission routes. Click a point or connection for details; pan and zoom to explore.")
-event = st.pydeck_chart(make_map(projects, results, st.session_state.utility_a, st.session_state.utility_b, st.session_state.include_low, selected), height=520, on_select="rerun", selection_mode="single-object", key="opportunity_map")
+st.checkbox("Show the substations behind every center", key="show_substations", help="A focused pair always shows its substations.")
+st.caption(f"Blue: {st.session_state.utility_a}. Orange: {st.session_state.utility_b}. Larger points have qualifying pairs. Rings are substations; a center on the thin line between two rings is their midpoint, and a faint center is the only located one of two substations. All lines are straight, not transmission routes. Click a point or connection for details; pan and zoom to explore.")
+event = st.pydeck_chart(make_map(projects, results, st.session_state.utility_a, st.session_state.utility_b, st.session_state.include_low, selected, st.session_state.get("show_substations", False)), height=520, on_select="rerun", selection_mode="single-object", key="opportunity_map")
 for obj in event.selection.objects.get("projects", []):
     project = projects[(projects.Utility == obj.get("utility")) & (projects["Project ID"] == obj.get("project_id"))]
     st.subheader("Selected project")

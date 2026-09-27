@@ -38,9 +38,10 @@ python -m venv .venv
 .venv/Scripts/python -m pytest                  # about 50 s; parses the 668-page PDF
 
 # The UI's packages (frontend/requirements.txt) aren't in the root .venv, which skips
-# tests/test_app.py. Use a separate venv with them to run the UI and that test file.
+# tests/test_app.py and tests/test_map_view.py. Use a separate venv with them to run
+# the UI and those test files.
 python -m streamlit run app.py
-python -m pytest tests/test_app.py
+python -m pytest tests/test_app.py tests/test_map_view.py
 
 .venv/Scripts/python -m parsers.georgia_power   # data/processed/georgia_power_projects.csv, 208 rows
 .venv/Scripts/python dominionScript.py          # data/processed/dominion_projects.csv, 44 rows
