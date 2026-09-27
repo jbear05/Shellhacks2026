@@ -1,0 +1,5 @@
+Utility A Project,Utility B Project,Distance Miles,Utility A Date,Utility B Date,Date Gap Days,Expected Result
+Augusta North Expansion,Augusta West Tie,3.10,2027-03-15,2027-08-10,148,Overlap
+Savannah River Corridor,Savannah East Station,2.72,2028-06-01,2028-12-15,197,Overlap
+Midlands 230 kV Upgrade,Columbia South Substation,4.15,2029-09-20,2030-01-05,107,Overlap
+Coastal North Project,Charleston Harbor Line,144.95,2030-11-01,2031-04-30,180,No overlap
