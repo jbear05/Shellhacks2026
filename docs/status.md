@@ -56,6 +56,11 @@ Last updated 2026-09-26, requirements review after PR #12.
 
 ## Requirements review
 
+Implementation is underway on `codex/finish-gridlock`. The first code task adds the
+offline project/location adapter and fixes upload IDs, ownership and coordinate
+normalization. Its contract is in [app.md](app.md). The checklist below records the
+starting audit; the UI wiring and overlap work follow in separate commits.
+
 The required deliverables are the interactive map with highlighted overlaps and the
 ranked opportunity list; a cost/impact estimate is a bonus
 ([challenge.md](challenge.md#deliverables)). The remaining critical path is:
