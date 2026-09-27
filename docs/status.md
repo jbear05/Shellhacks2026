@@ -120,8 +120,9 @@ Last updated 2026-09-27.
   from either launch directory, because its URL lacked `app/`; the root launch now
   serves it too ([pipeline.md](pipeline.md#6-ui-frontend)). The 3 LibreOffice lock files
   in `frontend/test_data/overlap_case/` are removed and ignored.
-- **The `score` ranking is the default** on `feat/score-ranking-default` (2026-09-27,
-  chosen by Jair; [decisions.md](decisions.md#overlaps-and-the-app)). The app starts
+- **The `score` ranking is the default** on `feat/score-ranking-default`, open as
+  https://github.com/jbear05/Shellhacks2026/pull/18 (2026-09-27, chosen by Jair;
+  [decisions.md](decisions.md#overlaps-and-the-app)). The app starts
   with it and the demo button selects it, and the Overlaps page's caption now
   describes whichever ranking is selected. `distance_first` is still on
   the "Ranking policy" menu, and a snapshot keeps the mode it was saved with.
@@ -171,7 +172,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
-| `feat/score-ranking-default` | Jair, with Claude | The `score` ranking as the default; off `main` at ead5868 |
+| `feat/score-ranking-default` | Jair, with Claude | The `score` ranking as the default; off `main` at ead5868; open as https://github.com/jbear05/Shellhacks2026/pull/18 |
 | `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
