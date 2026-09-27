@@ -61,6 +61,12 @@ its method `provided_center`. After endpoint edits, recalculate the center; clea
 previously used endpoints clears the old center. A latitude from one incomplete
 point is never combined with a longitude from another.
 
+On the Location Verification page, a center typed for a center-only project is kept,
+even when it had no center before, and its method becomes `provided_center`. A center
+typed for a project whose center comes from its endpoints (any endpoint with a name or
+a coordinate) would be recalculated away, so it is ignored with a warning, and the
+project keeps its confidence and evidence. Edit its endpoints instead.
+
 Invalid dates or reversed build windows are warnings, not silently repaired values.
 Source strings remain available. A missing DESC start date keeps its documented
 open-ended meaning; see [pipeline.md](pipeline.md#4-overlaps).

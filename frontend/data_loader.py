@@ -199,6 +199,27 @@ def valid_point(latitude: Any, longitude: Any) -> bool:
         return False
 
 
+# Centers that prepare_projects recalculates from Point 1 and Point 2.
+ENDPOINT_CENTER_METHODS = {"endpoint_midpoint", "single_location", "one_of_two_endpoints"}
+
+
+def _filled(value: Any) -> bool:
+    return not pd.isna(value) and bool(str(value).strip())
+
+
+def named_endpoints(row: Any) -> int:
+    """Count the endpoints that have a name or any coordinate."""
+    return sum(
+        any(_filled(row[f"Point {number} {field}"]) for field in ("Name", "Latitude", "Longitude"))
+        for number in (1, 2)
+    )
+
+
+def center_from_endpoints(row: Any) -> bool:
+    """Whether the row's center comes from its endpoints, so Latitude/Longitude edits are replaced."""
+    return bool(named_endpoints(row)) or row["Center Method"] in ENDPOINT_CENTER_METHODS
+
+
 def prepare_projects(projects: pd.DataFrame) -> pd.DataFrame:
     """Recompute centers after imports/edits, keeping incomplete points together."""
     result = projects.copy().fillna("")
@@ -216,10 +237,8 @@ def prepare_projects(projects: pd.DataFrame) -> pd.DataFrame:
     for index, row in result.iterrows():
         warnings = []
         points = []
-        named_endpoints = 0
         for number in (1, 2):
             lat, lon = row[f"Point {number} Latitude"], row[f"Point {number} Longitude"]
-            named_endpoints += bool(str(row[f"Point {number} Name"]).strip() or str(lat).strip() or str(lon).strip())
             if valid_point(lat, lon):
                 points.append((float(lat), float(lon)))
             elif str(lat).strip() or str(lon).strip():
@@ -231,13 +250,15 @@ def prepare_projects(projects: pd.DataFrame) -> pd.DataFrame:
                 result.at[index, "Center Method"] = "endpoint_midpoint"
             else:
                 # A named endpoint without usable coordinates means the true midpoint is unknown.
-                result.at[index, "Center Method"] = "one_of_two_endpoints" if named_endpoints == 2 else "single_location"
-        elif named_endpoints or row["Center Method"] in {"endpoint_midpoint", "single_location", "one_of_two_endpoints", "unavailable"}:
+                result.at[index, "Center Method"] = "one_of_two_endpoints" if named_endpoints(row) == 2 else "single_location"
+        elif center_from_endpoints(row):
             result.at[index, "Latitude"] = float("nan")
             result.at[index, "Longitude"] = float("nan")
             result.at[index, "Center Method"] = "unavailable"
         elif valid_point(row["Latitude"], row["Longitude"]):
-            result.at[index, "Center Method"] = row["Center Method"] or "provided_center"
+            # A center typed for a center-only row that had none replaces "unavailable".
+            method = row["Center Method"]
+            result.at[index, "Center Method"] = method if method and method != "unavailable" else "provided_center"
         else:
             result.at[index, "Latitude"] = float("nan")
             result.at[index, "Longitude"] = float("nan")

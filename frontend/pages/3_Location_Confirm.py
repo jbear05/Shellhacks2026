@@ -23,8 +23,10 @@ with st.form("location_review"):
         column_config={"Location Status": st.column_config.SelectboxColumn(options=["Missing", "Candidate", "Confirmed", "Excluded"]), "Confidence": st.column_config.SelectboxColumn(options=["Low", "Medium", "High"]), **{c: st.column_config.NumberColumn(format="%.6f") for c in editable if "Latitude" in c or "Longitude" in c}})
     st.caption("Edit endpoints for endpoint-based projects; their center is recalculated. Direct center edits apply to center-only imports. Coordinate changes reset confidence to Low and status to Candidate; confirm them after reviewing evidence.")
     if st.form_submit_button("Save Location Reviews", type="primary"):
-        st.session_state.projects = apply_location_review(projects, edited)
+        st.session_state.projects, ignored = apply_location_review(projects, edited)
         st.success("Location reviews saved. Centers and results will be recalculated.")
+        if ignored:
+            st.warning(f"Center edits not applied to {', '.join(ignored)}: their centers come from their endpoints, so edit Point 1 or Point 2 instead.")
 with st.expander("Inspect all source evidence"):
     st.dataframe(st.session_state.projects, width="stretch", hide_index=True)
 if st.button("Continue to Overlap Results"):
