@@ -81,6 +81,7 @@ python -m pytest tests/test_app.py tests/test_map_view.py
 | `frontend/impact.py` | The bonus estimate: land two paired lines could save in one corridor, from their line miles, GTC easement widths and USDA 2026 land values; see [docs/pipeline.md](docs/pipeline.md#5-cost-and-impact-estimate-bonus) |
 | `frontend/pdf_import.py` | Imports the two exact organizer PDFs, recognized by hash, from committed parser tables and saved endpoints |
 | `app.py` | The UI's entry file; `python -m streamlit run app.py` runs `frontend/app.py` |
+| `.streamlit/`, `static/` | The UI's theme and fonts for the root launch; `frontend/` has its own copies for launching from there ([pipeline.md](docs/pipeline.md#6-ui-frontend)) |
 
 ## Pipeline
 

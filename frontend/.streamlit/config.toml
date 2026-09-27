@@ -3,13 +3,13 @@ enableStaticServing = true
 
 [[theme.fontFaces]]
 family = "Aeonik"
-url = "static/Aeonik-Regular.ttf"
+url = "app/static/Aeonik-Regular.ttf"
 weight = 400
 style = "normal"
 
 [[theme.fontFaces]]
 family = "Milford"
-url = "static/Milford-nLjO.ttf"
+url = "app/static/Milford-nLjO.ttf"
 weight = 400
 style = "normal"
 

@@ -108,6 +108,18 @@ Last updated 2026-09-27.
   uploads match the saved demo field for field; the DESC helper replayed 44 projects
   and Georgia's offline CLI replayed 208 entirely from cache. See [app.md](app.md#pdf-uploads)
   and [ai-parser.md](ai-parser.md#current-state).
+- **Demo checked in a browser** on 2026-09-27 (08:10 EDT, `main` at e4b2ad2, the root
+  launch): all five pages open with no errors or server warnings. Overlaps shows 182
+  projects, 173 centers, 73 pairs and 35 overlapping windows; Location Verification
+  shows 85 LOW. The export page's three files were built in code from the same demo
+  state: the snapshot ZIP restores to the same 73 ranked pairs, and 25 pairs carry a
+  land estimate. Not checked in the browser: uploading PDFs, tables or a snapshot (the
+  browser pane can't upload files; `tests/test_pdf_import.py` and
+  `tests/test_workspace.py` cover them), and clicking the download buttons.
+- **Fonts fixed** on `main` (https://github.com/jbear05/Shellhacks2026/pull/16): Nellie's Aeonik font never loaded,
+  from either launch directory, because its URL lacked `app/`; the root launch now
+  serves it too ([pipeline.md](pipeline.md#6-ui-frontend)). The 3 LibreOffice lock files
+  in `frontend/test_data/overlap_case/` are removed and ignored.
 - **Tests:** 249 pass and 2 files are skipped in the root `.venv` (full suite,
   32.20 s on 2026-09-27). The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
@@ -121,19 +133,19 @@ In priority order. The two required deliverables, the interactive map with the o
 and the ranked list ([challenge.md](challenge.md#deliverables)), work on our data on
 `main`.
 
-1. **Finish checking the demo in a browser:** `python -m streamlit run app.py` from the
-   repository root, with the UI's packages (`pip install -r frontend/requirements.txt`).
-   The root `.venv` doesn't have them; the Codex session's git-ignored `.venv-ui` does.
-   The map's basemap needs internet. Checked on 2026-09-27: the overview page's demo
-   button, the Overlaps page's counts (182 projects, 173 centers, 73 pairs), and the map
-   with a focused pair. Not checked: the setup, review, location and export pages, and
-   the export page's three downloads. The rework replaced most of Nellie's and
-   AaxHamm3r's UI code, which they hadn't reviewed when PR #14 merged; tell them.
-2. **Check the evidence behind the top pairs** in
-   [Overlap candidates](#overlap-candidates) before presenting them. Fix a wrong point in
+1. **Run the demo:** `python -m streamlit run app.py` from the repository root, with
+   the UI's packages (`pip install -r frontend/requirements.txt`). The root `.venv`
+   doesn't have them; the Codex session's git-ignored `.venv-ui` does. The map's
+   basemap needs internet. Every page was checked on 2026-09-27 (see [Done](#done)).
+   The rework replaced most of Nellie's and AaxHamm3r's UI code, which they hadn't
+   reviewed when PR #14 merged; tell them, and tell Nellie that her fonts now load.
+2. **Pick the ranking to present.** Both are on the Overlaps page's "Ranking policy"
+   menu; see [Overlap candidates](#overlap-candidates). The default puts pairs within
+   5 miles first even when their build dates are years apart; `score` puts pairs with
+   overlapping build windows first. Rank 1's evidence holds (checked below). Ranks 2-7
+   use Hooks, whose evidence is line lengths, not a name. Fix a wrong point in
    `data/overrides/location_overrides.csv`, as in
-   [geolocator.md](geolocator.md#overrides), not in the UI. Ranks 2-5 use Hooks, whose
-   evidence is line lengths, not a name.
+   [geolocator.md](geolocator.md#overrides), not in the UI.
 3. **Demo the AI parser** with `--offline`, using the commands in
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
@@ -146,15 +158,16 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    files.
 5. Small: warn in `parsers/georgia_power.py` when `start_date` is after
    `in_service_date` (TEAMS 20248; the UI already flags it); stop extracting the Georgia
-   PDF after its last detail page (saves about 1.5 s); remove the 3 LibreOffice lock
-   files committed in `frontend/test_data/overlap_case/` (`.~lock.*#`) and ignore them
-   in `.gitignore`.
+   PDF after its last detail page (saves about 1.5 s). On a narrow window (about 800
+   pixels) the overview's and Overlaps page's metric labels are cut off ("Timi…"); they
+   fit at 1440 pixels.
 
 ## Branches
 
 | Branch | Owner | State |
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
+| `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |
@@ -233,8 +246,25 @@ The top 5 of the default ranking:
 
 - The DESC center of rank 1 is Urquhart alone, because Aiken PSA has no point. 16007's
   two MEDIUM points are customer substations about a mile from the named streets.
+  Rank 1 still holds: the PDF (page 43) calls 6810 O a 4.5-mile line from Urquhart to
+  the Aiken PSA tap, so its true center is within 2.25 miles of Urquhart, and the pair
+  stays in the 5-mile band unless 16007's points are also off by more than about half
+  a mile the wrong way. Its 578-day gap is the band's smallest, so it would stay first
+  in that band.
 - Within a distance band, overlapping build windows and then the smaller date gap come
   first, which puts 6809 G (4.40 miles, 2709 days) above 6810 A (3.91 miles, 3074
   days).
 - DESC 06367 A-C, H (Riverport Tap) has no Riverport point, so its center is Okatie
   alone.
+
+The top 5 of the `score` ranking (same 73 pairs; all have overlapping build windows):
+
+| Rank | DESC | Georgia Power | Miles | Days apart | Confidence | Score |
+|---|---|---|---|---|---|---|
+| 1 | 06367 D-G Jasper - Okatie 230 kV #2 | 20277 McIntosh - Purrysburg 230kV reactors | 8.38 | 152 | High, Low | 13 |
+| 2 | 06367 A-C, H Riverport Tap | 20277 McIntosh - Purrysburg 230kV reactors | 9.61 | 152 | Low, Low | 13 |
+| 3 | 6852 Urquhart - Toolebeck 115kV | 16007 Fenwick Street - Sand Bar Ferry | 9.72 | 72 | High, Medium | 13 |
+| 4 | 6809 G Stevens Creek - Hooks | 16007 Fenwick Street - Sand Bar Ferry | 14.88 | 152 | Medium, Medium | 13 |
+| 5 | 6808 S Okatie-Bluffton 115kV | 20067 Deptford - Magnolia 115kV | 18.08 | 0 | High, High | 13 |
+
+In the default ranking, 6852 - 16007 is rank 8 and 06367 D-G - 20277 is rank 9.
