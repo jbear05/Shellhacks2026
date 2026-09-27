@@ -26,6 +26,16 @@ only one is available. Extra locations do not enter this calculation. If neither
 endpoint is usable, the center stays blank. LOW points remain explicitly flagged.
 Project confidence is the weakest of the named endpoints, including missing ones.
 
+`Center Method` records which case applied: `endpoint_midpoint` (two points),
+`single_location` (only one endpoint named), `one_of_two_endpoints` (two named,
+but only one has usable coordinates, so the center is that endpoint rather than
+the midpoint) or `unavailable`. The fallback case is always LOW, because the
+missing endpoint counts as LOW. In the built-in demo on 2026-09-27, after the VCS1
+and VCS2 overrides, there were 18 DESC and 19 Georgia Power `one_of_two_endpoints`
+rows, and 4 DESC and 37 Georgia Power `single_location` rows. Which missing
+endpoints could still change an overlap is in
+[geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+
 ## PDF uploads
 
 `frontend/pdf_import.py` accepts the two exact organizer PDFs, recognized by SHA-256

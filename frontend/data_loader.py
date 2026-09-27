@@ -216,10 +216,10 @@ def prepare_projects(projects: pd.DataFrame) -> pd.DataFrame:
     for index, row in result.iterrows():
         warnings = []
         points = []
-        endpoint_data = False
+        named_endpoints = 0
         for number in (1, 2):
             lat, lon = row[f"Point {number} Latitude"], row[f"Point {number} Longitude"]
-            endpoint_data |= bool(str(row[f"Point {number} Name"]).strip() or str(lat).strip() or str(lon).strip())
+            named_endpoints += bool(str(row[f"Point {number} Name"]).strip() or str(lat).strip() or str(lon).strip())
             if valid_point(lat, lon):
                 points.append((float(lat), float(lon)))
             elif str(lat).strip() or str(lon).strip():
@@ -227,8 +227,12 @@ def prepare_projects(projects: pd.DataFrame) -> pd.DataFrame:
         if points:
             result.at[index, "Latitude"] = sum(p[0] for p in points) / len(points)
             result.at[index, "Longitude"] = sum(p[1] for p in points) / len(points)
-            result.at[index, "Center Method"] = "endpoint_midpoint" if len(points) == 2 else "single_location"
-        elif endpoint_data or row["Center Method"] in {"endpoint_midpoint", "single_location", "unavailable"}:
+            if len(points) == 2:
+                result.at[index, "Center Method"] = "endpoint_midpoint"
+            else:
+                # A named endpoint without usable coordinates means the true midpoint is unknown.
+                result.at[index, "Center Method"] = "one_of_two_endpoints" if named_endpoints == 2 else "single_location"
+        elif named_endpoints or row["Center Method"] in {"endpoint_midpoint", "single_location", "one_of_two_endpoints", "unavailable"}:
             result.at[index, "Latitude"] = float("nan")
             result.at[index, "Longitude"] = float("nan")
             result.at[index, "Center Method"] = "unavailable"

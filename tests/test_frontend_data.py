@@ -45,6 +45,42 @@ def test_edits_recalculate_centers_and_deleting_endpoints_clears_stale_center():
     assert pd.isna(prepare_projects(result).iloc[0].Latitude)
 
 
+@pytest.mark.parametrize(
+    "endpoints, method",
+    [
+        (dict(location_1="Sub A", lat_a="32", lon_a="-81"), "single_location"),
+        (dict(location_1="Sub A", lat_a="32", lon_a="-81", location_2="Sub B"), "one_of_two_endpoints"),
+        (dict(location_1="Sub A", location_2="Sub B", lat_b="32", lon_b="-81"), "one_of_two_endpoints"),
+        (dict(location_1="Sub A", lat_a="32", lon_a="-81", location_2="Sub B", lat_b="33"), "one_of_two_endpoints"),
+    ],
+)
+def test_one_located_endpoint_is_labeled_by_whether_a_second_was_named(endpoints, method):
+    frame = pd.DataFrame([dict(project_id="1", project_name="Line", **endpoints)])
+    row = _normalize_projects(frame, "A", "test.csv").iloc[0]
+    assert (row.Latitude, row.Longitude) == (32, -81)
+    assert row["Center Method"] == method
+
+
+def test_real_two_substation_projects_with_one_failed_lookup_are_not_single_location():
+    rows = load_demo_projects().set_index(["Utility", "Project ID"])
+    for key in [(DESC, "05004 P"), (GEORGIA, "20464")]:
+        assert rows.loc[key, "Center Method"] == "single_location"
+    # Hooks and Yates Common were not found; the center is the other substation.
+    for key, point in [((DESC, "6810 A"), 2), ((GEORGIA, "19601"), 1)]:
+        row = rows.loc[key]
+        assert row["Center Method"] == "one_of_two_endpoints"
+        assert row.Latitude == row[f"Point {point} Latitude"]
+        assert row.Confidence == "Low"
+
+
+def test_vcs2_override_gives_the_vcs2_ward_line_its_midpoint():
+    row = load_demo_projects().set_index(["Utility", "Project ID"]).loc[(DESC, "06810 F")]
+    assert (row["Point 1 Name"], row["Point 2 Name"]) == ("VCS2", "Ward")
+    assert row["Center Method"] == "endpoint_midpoint"
+    assert row.Latitude == pytest.approx((34.2903782 + row["Point 2 Latitude"]) / 2)
+    assert row.Confidence == "High"
+
+
 def test_real_demo_joins_dates_endpoints_and_source_evidence():
     rows = load_demo_projects()
     assert rows.groupby("Utility").size().to_dict() == {DESC: 44, GEORGIA: 138}
