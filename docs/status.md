@@ -83,20 +83,27 @@ Last updated 2026-09-27.
   https://github.com/jbear05/Shellhacks2026/pull/15 (`radius-lines-map`, thatsnotrlght's
   commit a0ac1ef, fixed up by Jair with Claude), open. The Overlaps map shades circles
   with a radius of half the threshold around paired centers
-  ([app.md](app.md#centers-and-confidence)), and each pair gets a land-value estimate
-  from USDA 2026 values and an assumed footprint rule
-  ([pipeline.md](pipeline.md#5-cost-and-impact-estimate-bonus)). The commit as pushed
-  imported a module it didn't include and crashed when a pair was focused; the fix-up
-  wrote the module, kept `main`'s map, and dropped two demo scripts that matched every
-  DESC project to Okatie.
-- **Tests:** 238 pass and 2 files are skipped in the root `.venv` (229 fast, about
-  15 s; the full suite about 50 s). The skipped files, `tests/test_app.py` and
+  ([app.md](app.md#centers-and-confidence)). The commit as pushed imported a module it
+  didn't include and crashed when a pair was focused; the fix-up kept `main`'s map and
+  dropped two demo scripts that matched every DESC project to Okatie.
+- **The bonus estimate** (`frontend/impact.py`), in PR #15: the land two paired lines
+  could save in one corridor, from the plans' line miles, GTC's easement widths and
+  USDA's 2026 land values; 25 of the 73 demo pairs get one
+  ([pipeline.md](pipeline.md#5-cost-and-impact-estimate-bonus)). It replaces two
+  estimates: PR #15's footprint rule and Nellie's corridor cost (19ba174, pushed to
+  `main` without a pull request), which used the distance between projects as the
+  shared length ([decisions.md](decisions.md)).
+- **PR #15 review:** the local merge of `main` and the uncommitted shared-corridor
+  fix were retained on `codex/review-pr-15`. The source references now link to their
+  PDFs, and the UI explains that farm real estate values include buildings. Regression
+  checks cover invalid lengths/voltages, a focused pair with no estimate, and
+  6810 A / 20793 displaying 27.9 acres and $137,303. Ready for the requested merge.
+- **Tests:** 248 pass and 2 files are skipped in the root `.venv` (full suite,
+  57.68 s on 2026-09-27). The skipped files, `tests/test_app.py` and
   `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
-  `.venv-ui`, the Codex session's git-ignored venv. `tests/test_app.py` pins the pair
-  counts, so run it after any change to the overrides.
-- **Cost and impact estimate:** `frontend/impact.py` calculates a static shared-corridor
-  estimate, and the Overlaps page displays potential acres saved, estimated dollar
-  savings and the assumptions for each flagged pair. See [pipeline.md](pipeline.md#5-cost-estimate-bonus).
+  `.venv-ui` (20.10 s), including review, location, export and focused-estimate flows
+  through AppTest. No live browser check was made during the PR #15 review.
+  `tests/test_app.py` pins the pair counts, so run it after changes to the overrides.
 
 ## Next steps
 
@@ -112,9 +119,8 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    with a focused pair. Not checked: the setup, review, location and export pages, and
    the export page's three downloads. The rework replaced most of Nellie's and
    AaxHamm3r's UI code, which they hadn't reviewed when PR #14 merged; tell them.
-2. **Merge https://github.com/jbear05/Shellhacks2026/pull/15** with a merge commit,
-   after thatsnotrlght checks the fix-up: `frontend/land_value_reference.py` was
-   rewritten from the PR's test and page, not from their missing file.
+2. **Merge https://github.com/jbear05/Shellhacks2026/pull/15** with a merge commit.
+   Jair requested review, fixes and merge on 2026-09-27; review and tests are complete.
 3. **Then DavidCode's `Deebranch`** (PR #13). It deletes 50 files from
    `data/ai_cache/`, which `--offline` replays, and changes `frontend/pdf_import.py` and
    `parsers/ai_parser/api.py` to add AI PDF import. Check that the app still makes no
@@ -124,21 +130,17 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
    `data/overrides/location_overrides.csv`, as in
    [geolocator.md](geolocator.md#overrides), not in the UI. Ranks 2-5 use Hooks, whose
    evidence is line lengths, not a name.
-5. **Make the bonus estimate tell pairs apart:** 71 of the 73 pairs get the same
-   $2,462.50, because the footprint rule gives every line half an acre. A right-of-way
-   from `line_miles`, or the planned dollars per mile, would differ by pair; see
-   [pipeline.md](pipeline.md#5-cost-and-impact-estimate-bonus).
-6. **Demo the AI parser** with `--offline`, using the commands in
+5. **Demo the AI parser** with `--offline`, using the commands in
    [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
    without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
    $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
-7. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
+6. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
    center. The DESC test file has no coordinates: geocode it with `--projects-csv` and
    `--output-prefix desc_test` (never the default prefix; see
    [data.md](data.md#datatest_test_projectscsv)). No page joins a geocoded file to its
    dates yet; `attach_locations()` in `frontend/project_data.py` does it for the real
    files.
-8. Small: warn in `parsers/georgia_power.py` when `start_date` is after
+7. Small: warn in `parsers/georgia_power.py` when `start_date` is after
    `in_service_date` (TEAMS 20248; the UI already flags it); stop extracting the Georgia
    PDF after its last detail page (saves about 1.5 s); remove the 3 LibreOffice lock
    files committed in `frontend/test_data/overlap_case/` (`.~lock.*#`) and ignore them
@@ -153,6 +155,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 | `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
 | `origin/PrettyWeb` | Nellie (teammate) | Merged into `main` by Nellie at 20dc8d0, without a pull request; kept |
 | `origin/radius-lines-map` | thatsnotrlght (teammate); fixed up by Jair | PR #15 open: distance circles and the bonus estimate; see [Next steps](#next-steps) 2 |
+| `codex/review-pr-15` | Jair, with Codex | Review and shared-corridor fixes for PR #15; ready to push to its head branch |
 | `origin/Deebranch` | DavidCode (teammate) | PR #13 open, at d8cc7e1, on `codex/finish-gridlock`: AI PDF import; see [Next steps](#next-steps) 3. Not merged |
 | `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |
 | `origin/feat/geocode` | Jair | Merged in PR #12 at eaacacc; kept |

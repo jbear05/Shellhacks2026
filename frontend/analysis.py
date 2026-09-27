@@ -6,13 +6,12 @@ import math
 import pandas as pd
 
 from frontend.data_loader import prepare_projects, valid_point
-from frontend.land_value_reference import estimate_overlap_impact
-from frontend.impact import DEFAULT_ROW_WIDTH_FEET, calculate_overlap_impact
+from frontend.impact import IMPACT_COLUMNS, estimate_overlap_impact
 from ranking import rank_overlaps
 
 PAIR_FIELDS = {
     "utility": "Utility", "project_id": "Project ID", "project_name": "Project Name",
-    "project_type": "Project Type", "region": "County / Region", "start_date": "Start Date", "in_service_date": "In-Service Date",
+    "project_type": "Project Type", "region": "County / Region", "line_miles": "Line Miles", "start_date": "Start Date", "in_service_date": "In-Service Date",
     "voltage": "Voltage 1", "confidence": "Confidence", "center_method": "Center Method",
     "latitude": "Latitude", "longitude": "Longitude", "source_file": "Source File",
     "source_pages": "Source Pages", "verification_notes": "Verification Notes",
@@ -21,11 +20,7 @@ PAIR_FIELDS = {
 PAIR_COLUMNS = [f"{name}_{suffix}" for suffix in ("a", "b") for name in PAIR_FIELDS]
 RESULT_COLUMNS = ["rank", "overlap_id", "distance_miles", "days_apart", "timeline_overlap", *PAIR_COLUMNS,
                   "distance_score", "timeline_overlap_score", "days_apart_score", "power_voltage_score",
-                  "project_type_score", "total_score", "ranking_reason", "ranking_mode",
-                  "estimated_acres_a", "estimated_acres_b", "estimated_shared_acres",
-                  "estimated_land_value_per_acre", "estimated_land_savings_usd",
-                  "utility_state_a", "utility_state_b", "land_value_per_acre_a", "land_value_per_acre_b",
-                  "land_saved_acres", "estimated_financial_savings_usd", "impact_explanation"]
+                  "project_type_score", "total_score", "ranking_reason", "ranking_mode", *IMPACT_COLUMNS]
 
 
 def haversine_miles(lat1, lon1, lat2, lon2):
@@ -79,8 +74,4 @@ def calculate_overlaps(projects: pd.DataFrame, utility_a: str, utility_b: str,
         row["overlap_id"] = f"{row['utility_a']}:{row['project_id_a']} | {row['utility_b']}:{row['project_id_b']}"
         row["rank"] = int(row["rank"])
         row.update(estimate_overlap_impact(row))
-        impact = calculate_overlap_impact(row["distance_miles"], DEFAULT_ROW_WIDTH_FEET)
-        row["land_saved_acres"] = impact["land_saved_acres"]
-        row["estimated_financial_savings_usd"] = impact["estimated_financial_savings_usd"]
-        row["impact_explanation"] = impact["explanation"]
     return pd.DataFrame(ranked, columns=RESULT_COLUMNS)

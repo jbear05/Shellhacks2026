@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from frontend.analysis import eligible_projects
-from frontend.land_value_reference import FOOTPRINT_ACRES, LAND_VALUE_SOURCE
+from frontend.impact import LAND_VALUE_SOURCE, LAND_VALUE_URL, ROW_WIDTH_SOURCE, ROW_WIDTH_URL
 from frontend.map_view import make_map
 from frontend.project_data import ROOT
 from frontend.workspace import analyze_state
@@ -21,15 +21,15 @@ def best_pair(results, project):
 def render_impact_estimate(pair):
     panel = st.container(border=True)
     panel.markdown("**Rough impact estimate**")
-    if pd.isna(pair["estimated_land_savings_usd"]):
-        panel.write("No estimate: it needs a known project type and state for both projects.")
-    else:
-        # Escaped, because Markdown reads text between two dollar signs as math.
-        panel.write(f"If the two projects shared land, the smaller footprint, about {pair['estimated_shared_acres']:.1f} acres, "
-                    f"is worth roughly \\${pair['estimated_land_savings_usd']:,.0f} at average farm real estate values "
-                    f"(\\${pair['land_value_per_acre_a']:,.0f} an acre in {pair['utility_state_a']}, \\${pair['land_value_per_acre_b']:,.0f} in {pair['utility_state_b']}).")
-    footprints = ", ".join(f"{kind.lower()} {acres:g}" for kind, acres in FOOTPRINT_ACRES.items())
-    panel.caption(f"A planning estimate, not an appraisal. Footprints are an assumed rule in acres ({footprints}), not from the plans. Land values: {LAND_VALUE_SOURCE}.")
+    if not pd.isna(pair["land_saved_value_usd"]):
+        acres, value = panel.columns(2)
+        acres.metric("Land a shared corridor could save", f"{pair['land_saved_acres']:,.1f} acres")
+        value.metric("Land value", f"${pair['land_saved_value_usd']:,.0f}")
+    # Escaped, because Markdown reads text between two dollar signs as math.
+    panel.write(pair["impact_explanation"].replace("$", "\\$"))
+    panel.caption(f"An upper bound for planning, not an appraisal or a route study. Easement widths: [{ROW_WIDTH_SOURCE}]({ROW_WIDTH_URL}). "
+                  f"Land values: [{LAND_VALUE_SOURCE}]({LAND_VALUE_URL}). Farm real estate includes buildings and is only a land-value proxy. "
+                  "Construction costs are not included; Georgia Power's are redacted.")
 
 
 render_shell("Overlap Results")
@@ -100,16 +100,11 @@ else:
             with panel.expander("Location evidence"):
                 st.write(selected[f"verification_notes_{suffix}"] or "No supporting location notes supplied.")
         st.write(selected["ranking_reason"])
-        impact_a, impact_b = st.columns(2)
-        impact_a.metric("Potential land saved", f"{selected['land_saved_acres']:.2f} acres")
-        impact_b.metric("Estimated savings", f"${selected['estimated_financial_savings_usd']:,.2f}")
-        st.caption("Rough planning estimate using the pair distance as a corridor-length proxy and a 200-foot ROW. It is not a project budget or verified route overlap.")
-        st.write(selected["impact_explanation"])
         if selected["confidence_a"] == "Low" or selected["confidence_b"] == "Low":
             st.warning("This pair includes a LOW-confidence location. Confirm its endpoint evidence before treating it as an opportunity.")
     st.subheader("Ranked pairs")
-    columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "land_saved_acres", "estimated_financial_savings_usd", "total_score", "ranking_reason"]
-    st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "total_score": "Supporting score / 15"})
+    columns = ["rank", "project_id_a", "project_name_a", "project_id_b", "project_name_b", "distance_miles", "timeline_overlap", "days_apart", "confidence_a", "confidence_b", "land_saved_acres", "land_saved_value_usd", "total_score", "ranking_reason"]
+    st.dataframe(results[columns], width="stretch", hide_index=True, column_config={"distance_miles": st.column_config.NumberColumn("Distance (mi)", format="%.2f"), "land_saved_acres": st.column_config.NumberColumn("Shared-corridor acres", format="%.1f"), "land_saved_value_usd": st.column_config.NumberColumn("Land value ($)", format="%.0f"), "total_score": "Supporting score / 15"})
     st.download_button("Download ranked overlap CSV", results.to_csv(index=False), "ranked_overlap_results.csv", "text/csv")
 if st.button("Continue to Export"):
     st.switch_page(str(ROOT / "frontend/pages/5_Export.py"))

@@ -164,8 +164,11 @@ decision is reversed, say so under the old entry instead of deleting it.
   the threshold apart, which reads as a pair that isn't one. At half, overlapping
   circles of the two colors are exactly the pairs. See
   [app.md](app.md#centers-and-confidence).
-- **The bonus estimate is shared land value** (2026-09-27, from thatsnotrlght's PR
-  #15). The brief suggests shared land as the measure of impact. The dollars per acre
-  are USDA's 2026 state averages, cited in the code; the acres per project are an
-  assumed rule, labeled as one in the app. See
+- **One bonus estimate: land saved by a shared corridor** (2026-09-27, chosen by
+  Jair). PR #15 (thatsnotrlght) and 19ba174 (Nellie) each added one. PR #15's gave
+  every line half an acre, so 71 of 73 pairs came to the same $2,462; 19ba174's used
+  the distance between the projects as the shared length, so pairs farther apart saved
+  more (about $1.41M a mile), with unsourced cost benchmarks. The combined estimate
+  takes the length from the plans' `line_miles`, the width from GTC's published
+  easements and the price from USDA, and leaves a pair blank rather than guessing. See
   [pipeline.md](pipeline.md#5-cost-and-impact-estimate-bonus).

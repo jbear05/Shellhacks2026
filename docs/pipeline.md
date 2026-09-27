@@ -16,7 +16,7 @@ data/processed/ai/<prefix>_projects.csv                           committed
 data/processed/<prefix>_project_locations.csv, _projects_summary.csv, _manual_review.csv
   |  frontend/project_data.py: parser rows + endpoints            built (section 4)
   |  frontend/analysis.py + ranking.py: overlap finder            built (section 4)
-  |  frontend/land_value_reference.py: land-value estimate        built (section 5)
+  |  frontend/impact.py: shared-corridor land estimate           built (section 5)
   v
 ranked overlap table
   |  Streamlit UI (frontend/)                                     built (section 6)
@@ -109,35 +109,40 @@ in [app.md](app.md); the current results are in
 
 ## 5. Cost and impact estimate (bonus)
 
-Built: a land-value estimate for every pair, in `frontend/land_value_reference.py`.
-`frontend/analysis.py` adds its columns to each overlap row, and the Overlaps page shows
-it for the focused pair. The brief suggests shared land (right-of-way) as a measure of
-impact ([challenge.md](challenge.md#deliverables)). If the two projects shared land,
-the smaller footprint is the shared acres, valued at the average of the two states'
-2026 farm real estate values: $4,950 an acre in Georgia and $4,900 in South Carolina,
-from USDA NASS's Land Values 2026 Summary (July 2026), page 9. A project's state is its
-`County / Region` when that is one of those states, otherwise its utility's.
+Built: `frontend/impact.py` estimates the land two nearby lines could save by sharing
+one corridor, the brief's suggested measure of impact
+([challenge.md](challenge.md#deliverables)). `frontend/analysis.py` adds its columns to
+every overlap row, and the Overlaps page shows it for the focused pair.
 
-The footprints are an assumed rule, not from the plans: 0.5 acres for a line, 1.0 for
-a substation and 1.5 for both, by `ranking.py`'s project types (`MULTI_LINE` is a line,
-`MULTI_SITE` both). A pair with an unknown type or state gets no estimate. With this
-rule, 71 of the demo's 73 pairs come to $2,462.50 (half an acre) and the other 2 to
-$4,925, so the estimate shows the method rather than ranking the pairs. A line's
-right-of-way from its `line_miles` would tell them apart.
+- **Shared miles:** the shorter of the two lines' `line_miles`, the length a project's
+  plan gives when it gives exactly one ([data.md](data.md)). It's an upper bound: it
+  assumes the whole shorter line could run in the shared corridor. The distance between
+  the two projects is not a corridor length and isn't used.
+- **Easement width:** the narrower of the two lines' typical cross-country easements
+  from Georgia Transmission Corporation's [Transmission Line Heights and Easement Widths
+  (2017)](https://www.gatransmission.com/wp-content/uploads/2017/09/GTC_PoleHeightsFactSheet.pdf):
+  100 feet at 115 kV and 230 kV, and 150 at 500 kV (the low end of each range).
+  The same widths are used for DESC.
+- **Acres saved:** shared miles × 5,280 × width ÷ 43,560. One corridor still needs the
+  wider easement, so the narrower one is what's saved.
+- **Value:** the average of the two states' 2026 farm real estate values, $4,950 an acre
+  in Georgia and $4,900 in South Carolina ([USDA NASS, Land Values 2026 Summary, July
+  2026, page 9](https://www.nass.usda.gov/Publications/Todays_Reports/reports/land0726.pdf#page=9)).
+  Farm real estate includes buildings, so this is a proxy rather than an easement price.
+  A project's state is its `County / Region` when that is one of those states, otherwise
+  its utility's. Both reference PDFs were checked on 2026-09-27.
 
-Not built: a construction cost. Every Georgia Power cost is redacted. Work out dollars
-per mile from the 19 DESC projects with a `line_miles` value (`cost_total / line_miles`)
-and apply it to Georgia's `line_miles`. Three DESC totals don't equal the sum of their
-years; see [sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table).
-## 5. Cost estimate (bonus)
+A pair gets no estimate, and `impact_explanation` says why, when either project isn't
+line work (`LINE`, `MULTI_LINE` or `BOTH`), has no single `line_miles`, has a voltage
+without a width (46 kV), or has no state value. On 2026-09-27, 25 of the demo's 73 pairs
+had an estimate, from about $6,000 to $531,000. Missing-input reasons can overlap:
+35 pairs lacked a line length, 14 included non-line work and 5 included 46 kV work.
 
-The Overlaps page adds a rule-based shared-corridor estimate to every flagged pair.
-It uses the pair's center distance as a rough corridor-length proxy and a 200-foot
-default right-of-way because the current project data has no route overlap length or
-ROW-width field. The static benchmarks, formula and uncertainty note are in
-[frontend/impact.py](../frontend/impact.py); the result includes estimated acres saved,
-dollar savings and a plain-language explanation. These values are planning estimates,
-not project budgets or verified route measurements.
+Not built: construction cost. Every Georgia Power cost is redacted. Dollars per mile
+could come from the 19 DESC projects with a `line_miles` value
+(`cost_total / line_miles`), applied to Georgia's `line_miles`. Three DESC totals don't
+equal the sum of their years; see
+[sources/dominion-pdf.md](sources/dominion-pdf.md#cost-table).
 
 ## 6. UI (`frontend/`)
 
@@ -175,7 +180,7 @@ section 4. How centers, confidence, PDF imports and ranking work is in
   around each paired center, with a radius of half the threshold, so circles of the two
   colors overlap exactly when their centers are within it. Choosing a pair, clicking its
   line, or clicking a project (which picks its highest-ranked pair) focuses the map on
-  it and shows both projects' sources, location evidence and the land-value estimate
+  it and shows both projects' sources, location evidence and the shared-corridor estimate
   (section 5). What the map shows about centers is in
   [app.md](app.md#centers-and-confidence). The table keeps both project IDs, both
   confidences, the total score and `ranking_reason`, and the CSV download has every

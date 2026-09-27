@@ -31,6 +31,19 @@ def test_demo_filters_reviews_and_exports_share_current_settings():
     assert not app.exception
     assert any("Opportunity #" in value.value for value in app.subheader)
     assert any("Rough impact estimate" in value.value for value in app.markdown)
+    pairs = app.session_state["overlaps"]
+    unestimated_pair = pairs[pairs.land_saved_value_usd.isna()].index[0]
+    app.selectbox[-1].select(unestimated_pair).run()
+    assert not app.exception
+    assert any("No estimate:" in value.value for value in app.markdown)
+    estimated_pair = pairs[(pairs.project_id_a == "6810 A") & (pairs.project_id_b == "20793")].index[0]
+    app.selectbox[-1].select(estimated_pair).run()
+    assert not app.exception
+    assert next(metric.value for metric in app.metric if metric.label == "Land a shared corridor could save") == "27.9 acres"
+    assert next(metric.value for metric in app.metric if metric.label == "Land value") == "$137,303"
+    assert any("2.3 miles" in value.value for value in app.markdown)
+    app.checkbox(key="show_circles").uncheck().run()
+    assert not app.exception
     app.checkbox(key="show_substations").check().run()
     assert not app.exception
     app.switch_page("frontend/pages/2_Project_Review.py").run()
