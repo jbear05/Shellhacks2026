@@ -136,12 +136,15 @@ Last updated 2026-09-27.
   The 3.8 and 3.7 Flash runs before it failed on 503 "high demand" and then a 402 for
   the AI Studio project's empty prepaid credit, since topped up. See
   [ai-parser.md](ai-parser.md#with-gemini).
-- **Tests:** 258 pass and 2 files are skipped in the root `.venv` (full suite,
-  50.48 s on 2026-09-27, on PR #17's branch rebased onto PR #18). The Gemini tests
-  drive the real SDK through a mock HTTP transport. The skipped files, `tests/test_app.py` and
-  `tests/test_map_view.py`, need Streamlit and pydeck; their 7 tests pass with
-  `.venv-ui` (20.77 s), including review, location, export and focused-estimate flows
-  through AppTest. No live browser check was made during the PR #13 review.
+- **README for users** on `main` (https://github.com/jbear05/Shellhacks2026/pull/19):
+  the README now explains the project, the app and its limits in plain language, and
+  links to `docs/` for the parser, Geolocator and AI parser details it used to hold.
+- **Tests:** 265 pass and none are skipped in Jair's root `.venv` (full suite, 62.57 s
+  on 2026-09-27, on PR #19's branch), which now has the UI's packages too. The Gemini
+  tests drive the real SDK through a mock HTTP transport. `tests/test_app.py` and
+  `tests/test_map_view.py` need Streamlit and pydeck, so a root `.venv` built from
+  `requirements-dev.txt` alone skips them; their 7 tests cover review, location,
+  export and focused-estimate flows through AppTest. No live browser check was made during the PR #13 review.
   `tests/test_app.py` pins the pair counts, so run it after changes to the overrides.
 
 ## Next steps
@@ -151,8 +154,9 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 `main`.
 
 1. **Run the demo:** `python -m streamlit run app.py` from the repository root, with
-   the UI's packages (`pip install -r frontend/requirements.txt`). The root `.venv`
-   doesn't have them; the Codex session's git-ignored `.venv-ui` does. The map's
+   the UI's packages (`pip install -r frontend/requirements.txt`), which
+   `requirements-dev.txt` doesn't include. Jair's root `.venv` and the Codex session's
+   git-ignored `.venv-ui` have them. The map's
    basemap needs internet. Every page was checked on 2026-09-27 (see [Done](#done)).
    The rework replaced most of Nellie's and AaxHamm3r's UI code, which they hadn't
    reviewed when PR #14 merged; tell them, and tell Nellie that her fonts now load.
@@ -188,6 +192,7 @@ and the ranked list ([challenge.md](challenge.md#deliverables)), work on our dat
 |---|---|---|
 | `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, distance circles and shared-corridor estimate (PR #15), exact-PDF imports from committed tables (PR #13), test data, docs, tests, committed CSVs |
 | `feat/gemini-ai-parser` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/17; kept (the sibling worktree `../Shellhacks2026-gemini` has it checked out) |
+| `docs/readme-for-users` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/19 (the README for users); kept |
 | `feat/score-ranking-default` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/18 (the `score` ranking as the default); kept |
 | `fix/demo-fonts-and-cleanup` | Jair, with Claude | Merged into `main` in https://github.com/jbear05/Shellhacks2026/pull/16 (the font fix, the lock-file cleanup and the final demo check); kept |
 | `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
