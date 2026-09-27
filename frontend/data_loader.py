@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from io import BytesIO, StringIO
 from pathlib import Path
 from typing import Any
 
@@ -34,6 +33,10 @@ CANONICAL_COLUMNS = [
     "Location Status",
     "Location Source",
     "Verification Notes",
+    "Center Method",
+    "Source Pages",
+    "Description",
+    "Data Warnings",
 ]
 
 COLUMN_ALIASES = {
@@ -72,7 +75,28 @@ COLUMN_ALIASES = {
     "location_status": "Location Status",
     "location_source": "Location Source",
     "verification_notes": "Verification Notes",
+    "centroid_latitude": "Latitude",
+    "centroid_longitude": "Longitude",
+    "center_lat": "Latitude",
+    "center_lon": "Longitude",
+    "center_latitude": "Latitude",
+    "center_longitude": "Longitude",
+    "overall_confidence": "Confidence",
+    "center_method": "Center Method",
+    "source_file": "Source File",
+    "source_pages": "Source Pages",
+    "description": "Description",
+    "data_warnings": "Data Warnings",
 }
+for _point in (1, 2):
+    COLUMN_ALIASES.update({
+        f"location_{_point}": f"Point {_point} Name",
+        f"location_{_point}_lat": f"Point {_point} Latitude",
+        f"location_{_point}_lon": f"Point {_point} Longitude",
+        f"point_{_point}_name": f"Point {_point} Name",
+        f"point_{_point}_latitude": f"Point {_point} Latitude",
+        f"point_{_point}_longitude": f"Point {_point} Longitude",
+    })
 
 
 def _normalized_name(value: Any) -> str:
@@ -88,9 +112,9 @@ def _read_file(uploaded_file: Any) -> list[tuple[str, pd.DataFrame]]:
     try:
         uploaded_file.seek(0)
         if suffix == ".csv":
-            return [(filename, pd.read_csv(uploaded_file))]
+            return [(filename, pd.read_csv(uploaded_file, dtype=str, keep_default_na=False))]
         if suffix in {".xlsx", ".xlsm"}:
-            sheets = pd.read_excel(uploaded_file, sheet_name=None)
+            sheets = pd.read_excel(uploaded_file, sheet_name=None, dtype=str, keep_default_na=False)
             return [
                 (f"{filename} / {sheet_name}", frame)
                 for sheet_name, frame in sheets.items()
@@ -120,7 +144,7 @@ def _normalize_projects(
     normalized_columns = {
         _normalized_name(column): column for column in frame.columns
     }
-    if "project_name" not in normalized_columns:
+    if not {"project_name", "name"}.intersection(normalized_columns):
         return None
 
     # Overlap summary sheets have project_name_a but no project_name and are skipped.
@@ -141,9 +165,10 @@ def _normalize_projects(
     if projects.empty:
         return None
 
-    # Each uploader is assigned to one selected utility. This keeps downstream
-    # matching consistent even when a source file uses an internal label.
-    projects["Utility"] = utility_name
+    # A selected label fills missing ownership; it never relabels another utility.
+    if "Utility" not in projects:
+        projects["Utility"] = utility_name
+    projects["Utility"] = projects["Utility"].fillna("").astype(str).str.strip().replace("", utility_name)
 
     for column in CANONICAL_COLUMNS:
         if column not in projects.columns:
@@ -160,14 +185,104 @@ def _normalize_projects(
     for column in numeric_columns:
         projects[column] = pd.to_numeric(projects[column], errors="coerce")
 
-    # Use the midpoint when a source provides endpoints but no center coordinates.
-    endpoint_latitudes = projects[["Point 1 Latitude", "Point 2 Latitude"]]
-    endpoint_longitudes = projects[["Point 1 Longitude", "Point 2 Longitude"]]
-    projects["Latitude"] = projects["Latitude"].fillna(endpoint_latitudes.mean(axis=1))
-    projects["Longitude"] = projects["Longitude"].fillna(endpoint_longitudes.mean(axis=1))
+    if "Source File" not in projects:
+        projects["Source File"] = source_name
+    else:
+        projects["Source File"] = projects["Source File"].fillna("").replace("", source_name)
+    return prepare_projects(projects)
 
-    projects["Source File"] = source_name
-    return projects
+
+def valid_point(latitude: Any, longitude: Any) -> bool:
+    try:
+        return -90 <= float(latitude) <= 90 and -180 <= float(longitude) <= 180
+    except (TypeError, ValueError):
+        return False
+
+
+# Centers that prepare_projects recalculates from Point 1 and Point 2.
+ENDPOINT_CENTER_METHODS = {"endpoint_midpoint", "single_location", "one_of_two_endpoints"}
+
+
+def _filled(value: Any) -> bool:
+    return not pd.isna(value) and bool(str(value).strip())
+
+
+def named_endpoints(row: Any) -> int:
+    """Count the endpoints that have a name or any coordinate."""
+    return sum(
+        any(_filled(row[f"Point {number} {field}"]) for field in ("Name", "Latitude", "Longitude"))
+        for number in (1, 2)
+    )
+
+
+def center_from_endpoints(row: Any) -> bool:
+    """Whether the row's center comes from its endpoints, so Latitude/Longitude edits are replaced."""
+    return bool(named_endpoints(row)) or row["Center Method"] in ENDPOINT_CENTER_METHODS
+
+
+def prepare_projects(projects: pd.DataFrame) -> pd.DataFrame:
+    """Recompute centers after imports/edits, keeping incomplete points together."""
+    result = projects.copy().fillna("")
+    for column in CANONICAL_COLUMNS:
+        if column not in result:
+            result[column] = ""
+    for column in ("Project ID", "Utility"):
+        result[column] = result[column].astype(str).str.strip()
+    if (result[["Project ID", "Utility"]] == "").any().any():
+        raise ProjectLoadError("Every project needs a Project ID and Utility.")
+    if result.duplicated(["Utility", "Project ID"]).any():
+        raise ProjectLoadError("Duplicate (Utility, Project ID). Upload one project table per utility.")
+    # Object columns allow editable numeric coordinates and empty values in pandas 3.
+    result = result.astype(object)
+    for index, row in result.iterrows():
+        warnings = []
+        points = []
+        for number in (1, 2):
+            lat, lon = row[f"Point {number} Latitude"], row[f"Point {number} Longitude"]
+            if valid_point(lat, lon):
+                points.append((float(lat), float(lon)))
+            elif str(lat).strip() or str(lon).strip():
+                warnings.append(f"Point {number} incomplete or outside coordinate bounds")
+        if points:
+            result.at[index, "Latitude"] = sum(p[0] for p in points) / len(points)
+            result.at[index, "Longitude"] = sum(p[1] for p in points) / len(points)
+            if len(points) == 2:
+                result.at[index, "Center Method"] = "endpoint_midpoint"
+            else:
+                # A named endpoint without usable coordinates means the true midpoint is unknown.
+                result.at[index, "Center Method"] = "one_of_two_endpoints" if named_endpoints(row) == 2 else "single_location"
+        elif center_from_endpoints(row):
+            result.at[index, "Latitude"] = float("nan")
+            result.at[index, "Longitude"] = float("nan")
+            result.at[index, "Center Method"] = "unavailable"
+        elif valid_point(row["Latitude"], row["Longitude"]):
+            # A center typed for a center-only row that had none replaces "unavailable".
+            method = row["Center Method"]
+            result.at[index, "Center Method"] = method if method and method != "unavailable" else "provided_center"
+        else:
+            result.at[index, "Latitude"] = float("nan")
+            result.at[index, "Longitude"] = float("nan")
+            result.at[index, "Center Method"] = "unavailable"
+        located = valid_point(result.at[index, "Latitude"], result.at[index, "Longitude"])
+        if not located:
+            warnings.append("No usable project center")
+        confidence = str(row["Confidence"]).strip().title()
+        result.at[index, "Confidence"] = confidence if confidence in {"High", "Medium", "Low"} else "Low"
+        result.at[index, "Location Status"] = row["Location Status"] or ("Candidate" if located else "Missing")
+        result.at[index, "Match Status"] = row["Match Status"] or "Unmatched"
+        dates = {}
+        for field in ("Start Date", "In-Service Date"):
+            value = str(row[field]).strip()
+            parsed = pd.to_datetime(value, errors="coerce") if value else pd.NaT
+            if value and pd.isna(parsed):
+                warnings.append(f"Invalid {field}")
+            dates[field] = parsed
+        if pd.notna(dates["Start Date"]) and pd.notna(dates["In-Service Date"]) and dates["Start Date"] > dates["In-Service Date"]:
+            warnings.append("Start Date is after In-Service Date")
+        result.at[index, "Data Warnings"] = "; ".join(warnings)
+    for column in ["Latitude", "Longitude", "Point 1 Latitude", "Point 1 Longitude", "Point 2 Latitude", "Point 2 Longitude"]:
+        result[column] = pd.to_numeric(result[column], errors="coerce")
+    return result
 
 
 def load_uploaded_projects(
@@ -203,6 +318,4 @@ def load_uploaded_projects(
         return pd.DataFrame(columns=CANONICAL_COLUMNS + ["Source File"])
 
     projects = pd.concat(loaded_frames, ignore_index=True, sort=False)
-    if "Project ID" in projects.columns:
-        projects = projects.drop_duplicates(subset=["Project ID"], keep="first")
-    return projects
+    return prepare_projects(projects)

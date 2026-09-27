@@ -1,110 +1,30 @@
 import streamlit as st
-import pandas as pd
-from ui import render_shell
-
-st.set_page_config(
-    page_title="Project Review",
-    page_icon="📋",
-    layout="wide"
-)
+from frontend.data_loader import ProjectLoadError, prepare_projects
+from frontend.project_data import ROOT
+from frontend.ui import render_shell
 
 render_shell("Project Review")
-
 st.title("Project Review")
-
-st.write(
-    "Review and edit the project information extracted from your uploaded files."
-)
-
-# Check whether setup data exists
-if "utility_a" not in st.session_state or "utility_b" not in st.session_state:
-    st.warning("Please complete Project Setup first.")
+if "projects" not in st.session_state:
+    st.info("Load project data on Project Setup first.")
     st.stop()
-
-st.write(
-    f"Comparing **{st.session_state.utility_a}** "
-    f"and **{st.session_state.utility_b}**"
-)
-
-if "projects" not in st.session_state or st.session_state.projects.empty:
-    st.warning(
-        "No project rows were imported. Return to Project Setup and upload a "
-        "CSV or XLSX project file."
-    )
-    st.stop()
-
-project_panel = st.container(border=True)
-project_panel.subheader("Project List")
-
-edited_projects = project_panel.data_editor(
-    st.session_state.projects,
-    num_rows="dynamic",
-    use_container_width=True,
-    hide_index=True,
-    column_config={
-        "Match Status": st.column_config.SelectboxColumn(
-            options=[
-                "Unmatched",
-                "Candidate",
-                "Confirmed",
-                "Low confidence",
-                "Excluded"
-            ]
-        ),
-        "Confidence": st.column_config.SelectboxColumn(
-            options=[
-                "Low",
-                "Medium",
-                "High"
-            ]
-        ),
-        "Latitude": st.column_config.NumberColumn(
-            format="%.6f"
-        ),
-        "Longitude": st.column_config.NumberColumn(
-            format="%.6f"
-        )
-    }
-)
-
-st.session_state.projects = edited_projects
-
-if st.button("Save Project Changes", type="primary"):
-    st.success("Project changes saved.")
-
-st.divider()
-
-col1, col2 = st.columns(2)
-
-with col1:
-    confirmed_count = (
-        edited_projects["Match Status"] == "Confirmed"
-    ).sum()
-
-    st.metric(
-        "Confirmed Locations",
-        confirmed_count
-    )
-
-with col2:
-    unmatched_count = (
-        edited_projects["Match Status"] == "Unmatched"
-    ).sum()
-
-    st.metric(
-        "Unmatched Projects",
-        unmatched_count
-    )
-
-# Download current project data
-csv_data = edited_projects.to_csv(index=False)
-
-st.download_button(
-    label="Download Project CSV",
-    data=csv_data,
-    file_name="projects.csv",
-    mime="text/csv"
-)
-
+projects = st.session_state.projects.copy()
+st.write("Review dates and project attributes. IDs and source evidence are retained. Changes take effect when saved.")
+editable = {"Project Name", "Project Type", "Start Date", "In-Service Date", "Voltage 1", "Voltage 2", "Match Status"}
+with st.form("project_review"):
+    edited = st.data_editor(projects, hide_index=True, width="stretch", disabled=[c for c in projects if c not in editable],
+        column_order=["Utility", "Project ID", "Project Name", "Project Type", "Start Date", "In-Service Date", "Voltage 1", "Voltage 2", "Match Status", "Data Warnings", "Source File", "Source Pages"],
+        column_config={"Match Status": st.column_config.SelectboxColumn(options=["Unmatched", "Candidate", "Confirmed", "Low confidence", "Excluded"])})
+    if st.form_submit_button("Save Project Changes", type="primary"):
+        try:
+            st.session_state.projects = prepare_projects(edited)
+            st.success("Project changes saved. Results will be recalculated.")
+        except ProjectLoadError as error:
+            st.error(str(error))
+warnings = st.session_state.projects[st.session_state.projects["Data Warnings"] != ""]
+if len(warnings):
+    st.warning(f"{len(warnings)} projects have data or location warnings.")
+    with st.expander("Show warnings"):
+        st.dataframe(warnings[["Utility", "Project ID", "Data Warnings"]], hide_index=True)
 if st.button("Continue to Location Verification"):
-    st.switch_page("pages/3_Location_Confirm.py")
+    st.switch_page(str(ROOT / "frontend/pages/3_Location_Confirm.py"))

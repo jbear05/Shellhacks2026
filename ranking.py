@@ -62,10 +62,10 @@ def _voltage(value: str) -> float | None:
 
 def _project_type(value: str) -> str:
     value = value.strip().upper().replace(" ", "_")
-    if value in {"LINE", "MULTI_LINE"}:
+    if value in {"LINE", "MULTI_LINE", "TRANSMISSION_LINE"}:
         return "LINE"
-    if value == "SUBSTATION":
-        return value
+    if value in {"SUBSTATION", "STATION"}:
+        return "SUBSTATION"
     if value in {"BOTH", "MULTI_SITE"}:
         return "BOTH"
     return ""
@@ -111,11 +111,16 @@ def _score_timeline(row: Mapping[str, str]) -> tuple[int, str]:
     if not all(ends):
         return 0, "timeline overlap unavailable"
 
-    # A blank DESC start date means work began before the available window.
-    if starts[0] is None:
-        starts[0] = date.min
-    if starts[1] is None:
-        starts[1] = date.min
+    # Only the documented DESC source gives a blank start an open-ended meaning.
+    for index, suffix in enumerate(("a", "b")):
+        raw_start = _value(row, f"start_date_{suffix}", f"utility {suffix} start date")
+        if raw_start and starts[index] is None:
+            return 0, "timeline dates inconsistent"
+        if starts[index] is None:
+            if _value(row, f"utility_{suffix}") == "Dominion Energy South Carolina":
+                starts[index] = date.min
+            else:
+                return 0, "timeline overlap unavailable"
     if starts[0] > ends[0] or starts[1] > ends[1]:
         return 0, "timeline dates inconsistent"
     if max(starts) <= min(ends):
@@ -148,8 +153,10 @@ def _score_type(row: Mapping[str, str]) -> tuple[int, str]:
     return 0, "different project types"
 
 
-def rank_overlaps(rows: Iterable[Mapping[str, str]], projects: Iterable[Mapping[str, str]] = ()) -> list[dict[str, str]]:
+def rank_overlaps(rows: Iterable[Mapping[str, str]], projects: Iterable[Mapping[str, str]] = (), *, mode: str = "score") -> list[dict[str, str]]:
     """Return overlap rows with scores, ranked strongest first."""
+    if mode not in {"score", "distance_first"}:
+        raise ValueError("Ranking mode must be score or distance_first")
     project_lookup = {
         (row.get("utility", "").strip(), row.get("project_id", "").strip()): row
         for row in projects
@@ -195,12 +202,25 @@ def rank_overlaps(rows: Iterable[Mapping[str, str]], projects: Iterable[Mapping[
             ]
         )
         enriched["_sort_distance"] = str(distance if distance is not None else math.inf)
+        enriched["_sort_days"] = str(days if days is not None else math.inf)
+        enriched["ranking_mode"] = mode
         ranked.append(enriched)
 
-    ranked.sort(key=lambda row: (-int(row["total_score"]), float(row["_sort_distance"])))
+    def order(row):
+        if mode == "distance_first":
+            key = (-int(row["distance_score"]), -int(row["timeline_overlap_score"]),
+                   float(row["_sort_days"]), -int(row["power_voltage_score"]),
+                   -int(row["project_type_score"]), float(row["_sort_distance"]))
+        else:
+            key = (-int(row["total_score"]), float(row["_sort_distance"]))
+        return (*key, _value(row, "utility_a"), _value(row, "project_id_a"),
+                _value(row, "utility_b"), _value(row, "project_id_b"))
+
+    ranked.sort(key=order)
     for rank, row in enumerate(ranked, start=1):
         row["rank"] = str(rank)
         row.pop("_sort_distance", None)
+        row.pop("_sort_days", None)
     return ranked
 
 
@@ -214,9 +234,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("overlaps", type=Path, help="overlap CSV to rank")
     parser.add_argument("-p", "--projects", type=Path, nargs="*", default=[], help="project CSVs for attribute enrichment")
     parser.add_argument("-o", "--output", type=Path, default=Path("ranked_overlaps.csv"))
+    parser.add_argument("--mode", choices=["score", "distance_first"], default="score")
     args = parser.parse_args(argv)
 
-    rows = rank_overlaps(_read_csv(args.overlaps), (row for path in args.projects for row in _read_csv(path)))
+    rows = rank_overlaps(_read_csv(args.overlaps), (row for path in args.projects for row in _read_csv(path)), mode=args.mode)
     if not rows:
         parser.error("overlap CSV contains no rows")
     fieldnames = list(rows[0])

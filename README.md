@@ -12,7 +12,15 @@ Needs Python 3.11 or newer (pandas 3 won't install on older versions).
 python -m venv .venv
 .venv\Scripts\activate            # macOS/Linux: source .venv/bin/activate
 pip install -r requirements-dev.txt
+pip install -r frontend/requirements.txt
+python -m streamlit run app.py
 ```
+
+Choose **Explore the real-data demo** to load DESC and Georgia Power with saved
+geocoding. Project Setup also accepts the two organizer PDFs directly, CSV/XLSX
+project tables, or an exported snapshot ZIP. No paid AI or geocoding calls run in
+the app. See [the app guide](docs/app.md) for centers, confidence, ranking and export
+behavior. The map's basemap needs internet access; computation uses local data.
 
 ## Docs
 

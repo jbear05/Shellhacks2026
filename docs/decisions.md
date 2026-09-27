@@ -123,3 +123,39 @@ decision is reversed, say so under the old entry instead of deleting it.
 - **DESC's banner `sponsor` is documented, not fixed** (2026-09-26). Fixing it means
   changing the prompt, which changes every cache key and needs a paid rerun. `utility`
   is right, and nothing downstream reads `sponsor`.
+
+## Overlaps and the app
+
+- **A project's center is the midpoint of `location_1` and `location_2`, or the one
+  located point** (2026-09-26), not the Geolocator's centroid. It's the organizers'
+  rule, and their sheet's distances reproduce to the hundredth with it. The centroid
+  averages up to 4 points, LOW fallbacks included. See
+  [app.md](app.md#centers-and-confidence).
+- **Distance first, then timing, by default** (2026-09-26, chosen by Jair). The brief
+  calls distance the primary signal and timing a strong secondary one
+  ([challenge.md](challenge.md#goal)), so pairs are ordered by distance band (5, 15 and
+  25 miles) before build windows and date gaps. The equal-weight score is kept as an
+  option. See [app.md](app.md#overlaps-and-ranking).
+- **A blank start date is open-ended only for DESC** (2026-09-26). DESC's blank means
+  work began before 2024 (see [Parsing](#parsing)); another utility's blank is unknown,
+  so its build-window overlap stays unknown rather than assumed.
+- **The demo compares DESC with GPC and SAV** (2026-09-26), Georgia Power's own
+  projects, as in the organizers' example. GTC, MEAG and DU are other utilities.
+- **The app imports only the two organizer PDFs, matched by SHA-256** (2026-09-26).
+  The saved points were checked for those exact plans, and a revised PDF's projects
+  would need their locations reviewed again. The app makes no AI or geocoding calls,
+  per AGENTS.md. See [app.md](app.md#pdf-uploads).
+- **A two-substation project with one point is labeled, not hidden** (2026-09-27). Its
+  center is that substation, which can be up to half the line's length from the real
+  midpoint. `one_of_two_endpoints` keeps it apart from one-substation projects
+  (`single_location`), and it stays LOW. The label doesn't find the midpoint; only
+  the missing coordinates do. See [app.md](app.md#centers-and-confidence).
+- **Missing endpoints are found by tracing OSM lines** (2026-09-27), when no substation
+  has the name: a candidate whose line length to the project's other endpoint matches
+  the PDF's miles goes in the overrides file, with the way IDs as evidence. The
+  missing endpoints that could change a pair were done first. See
+  [geolocator.md](geolocator.md#overrides).
+- **Our Hooks midpoint stands, though the organizers' sheet differs** (2026-09-27,
+  chosen by Jair). The sheet has no Hooks point, so its 6810 A and 6809 E centers are
+  one substation each; ours make OVL_4 4.40 miles, not 8.01. The sheet is a check, not
+  ground truth ([challenge.md](challenge.md#the-organizers-example-answers)).

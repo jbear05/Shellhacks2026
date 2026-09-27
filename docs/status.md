@@ -5,7 +5,7 @@ it at the end of every work session (the
 [handoff workflow](../.claude/skills/handoff/SKILL.md)). Durable facts belong in the
 topic docs listed in [AGENTS.md](../AGENTS.md#where-knowledge-lives), not here.
 
-Last updated 2026-09-26, evening.
+Last updated 2026-09-27.
 
 ## Done
 
@@ -24,81 +24,121 @@ Last updated 2026-09-26, evening.
   `tests/test_docs.py`. The Geolocator now retries failed Nominatim lookups, saves its
   cache safely, and writes its outputs to `data/processed/`; see
   [geolocator.md](geolocator.md#cache).
-- **Geocoding** (https://github.com/jbear05/Shellhacks2026/pull/12): both utilities
-  are geocoded, with the outputs in `data/processed/desc_*` and `georgia_power_*` (all
-  208 Georgia projects, every sponsor) and no failed requests left. The Geolocator now
-  downloads substations in cached 1° tiles, and `data/overrides/location_overrides.csv`
-  holds 27 hand-checked fixes. What was checked, and what wasn't:
-  [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+- **Geocoding** on `main` (https://github.com/jbear05/Shellhacks2026/pull/12, merged as
+  eaacacc): both utilities are geocoded, with the outputs in `data/processed/desc_*` and
+  `georgia_power_*` (all 208 Georgia projects, every sponsor) and no failed requests
+  left. The Geolocator now downloads substations in cached 1° tiles, and
+  `data/overrides/location_overrides.csv` holds 27 hand-checked fixes. What was checked,
+  and what wasn't: [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 - **AI parser** on `main` (https://github.com/jbear05/Shellhacks2026/pull/7): reads any
   project-list PDF with Claude and checks every value against the page text. The
   outputs in `data/processed/ai/` were rebuilt from the committed cache, and
   `--offline` replays that cache with no key or credit. What's left is in
   [ai-parser.md](ai-parser.md#current-state).
-- **Ranking script:** `ranking.py` scores overlap rows on distance, timeline overlap,
-  days apart, voltage and project type, and can look up project CSVs by (`utility`,
-  `project_id`); `tests/test_ranking.py` checks realistic pairs.
+- **Ranking script** on `main`: `ranking.py` scores overlap rows on distance, timeline
+  overlap, days apart, voltage and project type, and can look up project CSVs by
+  (`utility`, `project_id`); `tests/test_ranking.py` checks realistic pairs.
 - **UI** on `main`: Nellie merged `origin/NA` into `main` without a pull request
-  (5709833 and fd95a5e). The overlaps page pairs projects within the distance threshold
-  and ranks them with its own `frontend/ranking.py`. See
+  (5709833 and fd95a5e). The rework below replaced most of it. See
   [pipeline.md](pipeline.md#6-ui-frontend).
 - **Test data** on `main` (https://github.com/jbear05/Shellhacks2026/pull/8 and
   https://github.com/jbear05/Shellhacks2026/pull/9): made-up DESC and Duke Energy
   Carolinas projects for testing the stages after the parsers. The originals are in
   `data/test/raw/`, and `clean_test_csvs.py` writes realigned copies to `data/test/`;
   see [data.md](data.md#datatest_test_projectscsv).
-- **Tests:** 170 on `main`, 163 of them fast; 205 with PR #12, 198 of them fast. The
-  full suite takes 20-50 s.
+- **Real-data overlaps and the UI rework** on `main`
+  (https://github.com/jbear05/Shellhacks2026/pull/14, with `fix/center-method-label`):
+  5 commits made with Codex (e7ee917 to 2fce793). How the data side works is in
+  [app.md](app.md).
+  - `frontend/project_data.py` joins the parser CSVs to the Geolocator's `location_1`
+    and `location_2` points on (`utility`, `project_id`): 44 DESC and 138 Georgia Power
+    (GPC and SAV) projects.
+  - `frontend/analysis.py` pairs them within 25 miles and ranks the pairs with the root
+    `ranking.py`, which gained a `distance_first` mode. See
+    [Overlap candidates](#overlap-candidates).
+  - `frontend/pdf_import.py` reads the two organizer PDFs, recognized by their SHA-256,
+    with the parsers and the saved points. It makes no AI or geocoding calls.
+  - `frontend/data_loader.py` reads IDs as text, keeps each row's own utility, reads the
+    Geolocator's and the Duke test file's coordinate columns, and recomputes centers.
+  - 2fce793 rewrote the pages to use these modules, with an overview page, a map
+    (`frontend/map_view.py`) and snapshot export and restore (`frontend/workspace.py`).
+    Opened in a browser on 2026-09-27 on `fix/center-method-label` (see
+    [Next steps](#next-steps) 1).
+  - The Location Verification page ignores, with a warning, a center typed for a
+    project whose center comes from its endpoints; it used to lower that project's
+    confidence and then discard the edit. A center typed for a center-only project
+    without one is now kept ([app.md](app.md#pdf-uploads)).
+- **Missing endpoints** on `main` (PR #14, from `fix/center-method-label`, commits on
+  `codex/finish-gridlock` from 347c1fd): a project naming two substations with only one
+  located is labeled `one_of_two_endpoints`
+  ([app.md](app.md#centers-and-confidence)), and overrides now locate VCS1, VCS2, Hooks,
+  Coleman and Ritter, found by tracing OSM lines
+  ([geolocator.md](geolocator.md#known-wrong-or-weak-lookups)). With them, 44 DESC and
+  129 Georgia Power projects have a center, and there are 73 pairs (35 with overlapping
+  build windows), or 53 without LOW-confidence centers. The overrides file has 29 rows.
+  The Overlaps page's map now shows the substations behind each center.
+- **Tests:** 236 pass and 2 files are skipped in the root `.venv` (227 fast, about
+  15 s; the full suite about 40 s). The skipped files, `tests/test_app.py` and
+  `tests/test_map_view.py`, need Streamlit and pydeck; their 6 tests pass with
+  `.venv-ui`, the Codex session's git-ignored venv. `tests/test_app.py` pins the pair
+  counts, so run it after any change to the overrides.
 
 ## Next steps
 
-In rough priority order. The plan is to demo the AI parser on the organizers' PDFs,
-then test the later stages with the made-up CSVs in `data/test/`.
+In priority order. The two required deliverables, the interactive map with the overlaps
+and the ranked list ([challenge.md](challenge.md#deliverables)), work on our data on
+`main`.
 
-1. **Demo the AI parser** with `--offline`, using the commands in
-   [ai-parser.md](ai-parser.md#current-state). Optionally finish Georgia's ID pass
-   first (about $3, and it needs approval) with the
-   [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md). Running it from the UI
-   (PR #10) doesn't use the offline mode. Georgia's cache covers only pages 171-440
-   without the ID pass, so a full Georgia upload there would send paid requests (not
-   tried).
-2. **Review and merge the geocoding**
-   (https://github.com/jbear05/Shellhacks2026/pull/12). It changes the teammates'
-   Geolocator (`gridlock_desc_locator.py`), so DavidCode may want to look. Don't run
-   the geocode again: the committed cache has every result.
-3. **Connect the UI to our data.** AaxHamm3r's plan is
-   [frontend-backend-integration-guide.md](frontend-backend-integration-guide.md): one
-   project schema, centers from the two endpoints, the root `ranking.py`, in five
-   phases, starting with its section 17. None of it is on `main` yet. The quickest fix for a
-   demo is to add `centroid_latitude`/`centroid_longitude` and the test file's
-   `center_lat`/`center_lon` to `COLUMN_ALIASES` in `frontend/data_loader.py`, and to
-   read IDs as text. It's the UI owners' code, so agree the approach with Nellie and
-   AaxHamm3r. See [pipeline.md](pipeline.md#6-ui-frontend).
-4. **Test with the made-up data:** geocode `data/test/desc_test_projects.csv` with
-   `--projects-csv` and `--output-prefix desc_test` (never the default prefix; see
-   [data.md](data.md#datatest_test_projectscsv)), then upload it and
-   `duke_test_projects.csv` to the UI as DESC and Duke. Needs step 3.
-5. **Check the overlaps against the organizers' 6 example pairs.** A quick check with
-   their midpoint rule is done (see [Overlap candidates](#overlap-candidates)). The UI's
-   overlaps page is the only pairing code so far; the planned standalone finder is in
-   [pipeline.md](pipeline.md#4-overlaps-planned). Take centers from
-   `<prefix>_project_locations.csv`, not the summary's centroid.
-6. **More overrides**, only if the overlaps need them: most of both lists is unchecked.
-   Add a row with its evidence, as in [geolocator.md](geolocator.md#overrides).
-7. **Cost estimate** (bonus); see [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
-8. Small: warn when `start_date` is after `in_service_date` (TEAMS 20248); stop
-   extracting the Georgia PDF after its last detail page (saves about 1.5 s); remove the
-   3 LibreOffice lock files committed in `frontend/test_data/overlap_case/`
-   (`.~lock.*#`) and ignore them in `.gitignore`.
+1. **Finish checking the demo in a browser:** `python -m streamlit run app.py` from the
+   repository root, with the UI's packages (`pip install -r frontend/requirements.txt`).
+   The root `.venv` doesn't have them; the Codex session's git-ignored `.venv-ui` does.
+   The map's basemap needs internet. Checked on 2026-09-27: the overview page's demo
+   button, the Overlaps page's counts (182 projects, 173 centers, 73 pairs), and the map
+   with a focused pair. Not checked: the setup, review, location and export pages, and
+   the export page's three downloads. The rework replaced most of Nellie's and
+   AaxHamm3r's UI code, which they hadn't reviewed when PR #14 merged; tell them.
+2. **Then the two teammate branches on 2fce793:** Nellie's `PrettyWeb` (one styling
+   commit; a trial merge with `fix/center-method-label` had no conflicts) and
+   DavidCode's `Deebranch`. Review `Deebranch` first: it deletes 50 files from
+   `data/ai_cache/`, which `--offline` replays, and changes `frontend/pdf_import.py` and
+   `parsers/ai_parser/api.py` to add AI PDF import. Check that the app still makes no
+   LLM calls while it runs. Not read yet.
+3. **Check the evidence behind the top pairs** in
+   [Overlap candidates](#overlap-candidates) before presenting them. Fix a wrong point in
+   `data/overrides/location_overrides.csv`, as in
+   [geolocator.md](geolocator.md#overrides), not in the UI. Ranks 2-5 use Hooks, whose
+   evidence is line lengths, not a name.
+4. **Cost estimate** (bonus), not started; see
+   [pipeline.md](pipeline.md#5-cost-estimate-bonus-planned).
+5. **Demo the AI parser** with `--offline`, using the commands in
+   [ai-parser.md](ai-parser.md#current-state). Georgia's cache covers only pages 171-440
+   without the ID pass, so other Georgia runs send paid requests. The ID pass costs about
+   $3 and needs approval; see the [ai-parse workflow](../.claude/skills/ai-parse/SKILL.md).
+6. **Test with the made-up data.** The branch's loader gives all 100 Duke test rows a
+   center. The DESC test file has no coordinates: geocode it with `--projects-csv` and
+   `--output-prefix desc_test` (never the default prefix; see
+   [data.md](data.md#datatest_test_projectscsv)). No page joins a geocoded file to its
+   dates yet; `attach_locations()` in `frontend/project_data.py` does it for the real
+   files.
+7. Small: warn in `parsers/georgia_power.py` when `start_date` is after
+   `in_service_date` (TEAMS 20248; the UI already flags it); stop extracting the Georgia
+   PDF after its last detail page (saves about 1.5 s); remove the 3 LibreOffice lock
+   files committed in `frontend/test_data/overlap_case/` (`.~lock.*#`) and ignore them
+   in `.gitignore`.
 
 ## Branches
 
 | Branch | Owner | State |
 |---|---|---|
-| `main` | | Parsers, AI parser, Geolocator, ranking, UI, test data, docs, tests, committed CSVs |
-| `origin/feat/geocode` | Jair | PR #12, open: tile search, overrides, both utilities geocoded, tests. `main` is merged in, including PR #11 |
+| `main` | | Parsers, AI parser, Geolocator and geocoded outputs, ranking, the real-data overlaps and reworked UI, test data, docs, tests, committed CSVs |
+| `codex/finish-gridlock` | Jair, with Codex | Merged into `main` in PR #14; kept |
+| `fix/center-method-label` | Jair, with Claude | Merged in PR #14; kept |
+| `origin/PrettyWeb` | Nellie (teammate) | One commit, c697930 "style", on `codex/finish-gridlock`: `frontend/ui.py`, `frontend/app.py`, the overview page, `frontend/.streamlit/config.toml` and a font. Not merged; no files in common with `fix/center-method-label` |
+| `origin/Deebranch` | DavidCode (teammate) | PR #13 open, at d8cc7e1, on `codex/finish-gridlock`: AI PDF import; see [Next steps](#next-steps) 2. Not merged |
+| `docs/status-after-geocode` | Jair | Local, at `main` (eaacacc) with no commits of its own; can be deleted |
+| `origin/feat/geocode` | Jair | Merged in PR #12 at eaacacc; kept |
 | `origin/docs/status-update` | Jair | Merged in PR #11; kept (a sibling worktree, `../Shellhacks2026-sam`, has it checked out) |
-| `origin/copilot/accept-two-pdfs-ai-parser` | A Copilot agent | PR #10, open and not reviewed: the setup page takes one PDF per utility and runs the AI parser on it in a background thread. It builds the model with `offline=False`, so pages missing from the cache go to the paid API. Review it against the rules on runtime LLM calls and API cost in AGENTS.md |
+| `origin/copilot/accept-two-pdfs-ai-parser` | A Copilot agent | PR #10, closed without merging by Jair ("Not going to be used"); can be deleted |
 | `origin/NA` | AaxHamm3r and Nellie (teammates) | Merged into `main` at e9e14cc; kept |
 | `origin/Geolocator` | DavidCode (teammate); fixed by Jair | Merged in PR #3; kept |
 | `origin/dominionScript` | thatsnotrlght (teammate); reworked by Jair | Merged in PR #2; kept |
@@ -119,54 +159,55 @@ Check with a teammate before committing to their branch.
 - **The AI parser's DESC `sponsor`** is the page banner `Dominion Energy South Carolina`
   on all 44 rows, where `dominion_projects.csv` has `DESC`. `utility` is right. A prompt
   fix needs a paid run; see [ai-parser.md](ai-parser.md#scoring-it-the-eval).
-- **The UI can't show our data yet:** none of our files gives it coordinates (0 of the
-  100 Duke test rows get a `Latitude`), and reading with pandas defaults turns TEAMS
-  `09662` into `9662`. See [pipeline.md](pipeline.md#6-ui-frontend).
-- **Two ranking scripts:** the UI ranks with `frontend/ranking.py`, a shorter copy of
-  the root `ranking.py`, so a change to one doesn't reach the other. The integration
-  guide recommends keeping the root one
-  ([section 10](frontend-backend-integration-guide.md#10-use-one-ranking-implementation)).
-- **Project centers** average every located point, LOW fallbacks included, which
-  isn't the organizers' two-point midpoint. The integration guide proposes the midpoint
-  of the two endpoints
-  ([section 8](frontend-backend-integration-guide.md#8-calculate-center-points-correctly)).
-  Decide before trusting the overlaps.
-- **Weak lookups left on purpose:** 12 location names have no point because the search
-  was wrong and OSM has no substation with that name (for example DESC Hooks and
-  Riverport, and GA Coleman, which could be either of two Savannah substations). GA
-  16007 and 20407 have MEDIUM matches with other substations' names. See
-  [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
+- **Many demo centers are LOW:** 21 of 44 DESC and 64 of 138 Georgia Power projects,
+  because a project takes its weakest named endpoint's rating and an endpoint with no
+  point counts as LOW ([app.md](app.md#centers-and-confidence)). 9 have no center:
+  GA 19966, 20175, 20223, 20466, 20509, 20684, 20717, 20736 and 21093.
+- **Weak lookups left on purpose:** 9 override rows leave a location with no point
+  because the search was wrong and OSM has no substation with that name. One of them,
+  DESC Riverport (a planned substation), could still change an overlap pair of
+  06367 A-C, H. GA 16007 and 20407 have MEDIUM matches with other substations' names.
+  See [geolocator.md](geolocator.md#known-wrong-or-weak-lookups).
 - **Weak Georgia rows:** 2 `UNKNOWN` rows and 4 customer-project names; see
   [data.md](data.md#dataprocessedgeorgia_power_projectscsv).
 - **Weak test rows:** 17 Duke test lines have endpoints more than twice their length
   apart, and some Duke coordinates are wrong; see
   [data.md](data.md#datatest_test_projectscsv).
-- **`app.py` is empty** on `main`, and `frontend/app.py`, the UI's entry file, is empty
-  too. Ask the UI owners whether the root one is needed.
-- **Branches to delete** once nobody needs them: the merged local branches
-  (`Geolocator`, `dominionScript`, `feat/gpc-pdf-parser`, `chore/repo-cleanup`,
-  `docs/ai-context`, `docs/status-refresh`, `feat/ai-parser`) and their GitHub copies,
+- **Branches to delete** once nobody needs them: with PR #14 merged, every local branch
+  is merged into `main` (check with `git branch --no-merged main`). On GitHub, the
+  merged branches' copies can go, and so can `origin/copilot/accept-two-pdfs-ai-parser` (PR #10, closed),
   `origin/copilot/ranking-script-gridlock` (PR #6, closed) and
-  `origin/copilot/research-ranking-categories` (no commits beyond `main`). The sibling
-  worktree `../Shellhacks2026-sam` can go too once its branch is committed.
+  `origin/copilot/research-ranking-categories` (no commits beyond `main`). Ask the
+  owners before deleting `origin/NA`, `origin/Geolocator`, `origin/dominionScript` and
+  `origin/sam_datasets`. Remove the clean sibling worktree `../Shellhacks2026-sam`
+  before its branch, `docs/status-update`.
 
 ## Overlap candidates
 
-The organizers' example lists 6 pairs
-([challenge.md](challenge.md#the-organizers-example-answers)). With `feat/geocode`'s
-coordinates and their rule (the midpoint of `location_1` and `location_2`, or the one
-located point), all 6 are under 25 miles. Four are within 0.15 miles of the sheet's
-distance. The two with GA 20277 differ (8.38 against 5.65, and 13.13 against 14.34)
-because our 20277 includes a LOW Purrysburg point (an unnamed 230 kV substation near
-Hardeeville), which the sheet doesn't have. From names and dates, also worth checking:
+From `frontend/analysis.py`, with LOW-confidence centers included. All 6 of the
+organizers' example pairs
+([challenge.md](challenge.md#the-organizers-example-answers)) are found, and their
+negative projects (DESC 6807 B, GA 18492 and 11821) pair with nothing. Three
+distances are within 0.21 miles of the sheet's: 6810 A - 20793 3.91, 06367 D-G -
+20065 7.40 and 6808 S - 20065 14.60. 6809 E - 20793 is 4.40 against 8.01, because
+the sheet has no Hooks point and ours does. The two with GA 20277 differ (8.38
+against 5.65, and 13.13 against 14.34) because our 20277 includes a LOW Purrysburg
+point (an unnamed 230 kV substation near Hardeeville), which the sheet doesn't have.
 
-- GA 20794 Evans Primary - Thurmond Dam #6 (starts 2030-06-01), the twin of 20793.
-  Both are due 2033-06-01, so their build windows don't overlap with DESC 6810 A
-  (due 2024-12-31).
-- DESC 06367 A-C, H Riverport Tap, next to 06367 D-G, against GA 20277, 20065 and
-  20785 (Goshen - Kraft). 20277 runs 2024-01-01 to 2026-06-01, overlapping 06367's
-  build (due 2025-12-31). Riverport has no point, so 06367 A-C, H's center is Okatie.
-- Augusta-area DESC projects (6809 G Stevens Creek - Hooks, 6852 Urquhart - Toolebeck,
-  6810 O Urquhart - Aiken PSA) against Georgia's Evans and Thomson projects (14222,
-  17993), 16007 Fenwick Street - Sand Bar Ferry, and 21116. 21116 "Goshen area" is the
-  Goshen in south Augusta, not Savannah's (GA PDF p. 382).
+The top 5 of the default ranking:
+
+| Rank | DESC | Georgia Power | Miles | Days apart | Build windows overlap | Confidence |
+|---|---|---|---|---|---|---|
+| 1 | 6810 O Urquhart - Aiken PSA | 16007 Fenwick Street - Sand Bar Ferry | 2.25 | 578 | No | Low, Medium |
+| 2 | 6809 G Stevens Creek - Hooks | 20793 Evans Primary - Thurmond Dam #5 | 4.40 | 2709 | No | Medium, High |
+| 3 | 6809 G Stevens Creek - Hooks | 20794 Evans Primary - Thurmond Dam #6 | 4.40 | 2709 | No | Medium, High |
+| 4 | 6810 A Hooks - Thurmond | 20793 Evans Primary - Thurmond Dam #5 | 3.91 | 3074 | No | Medium, High |
+| 5 | 6810 A Hooks - Thurmond | 20794 Evans Primary - Thurmond Dam #6 | 3.91 | 3074 | No | Medium, High |
+
+- The DESC center of rank 1 is Urquhart alone, because Aiken PSA has no point. 16007's
+  two MEDIUM points are customer substations about a mile from the named streets.
+- Within a distance band, overlapping build windows and then the smaller date gap come
+  first, which puts 6809 G (4.40 miles, 2709 days) above 6810 A (3.91 miles, 3074
+  days).
+- DESC 06367 A-C, H (Riverport Tap) has no Riverport point, so its center is Okatie
+  alone.
