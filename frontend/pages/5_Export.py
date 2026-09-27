@@ -51,9 +51,9 @@ else:
     overlaps_csv = overlaps.to_csv(index=False)
 
     overlap_export_panel.download_button(
-        label="Download Overlap Table",
+        label="Download Ranked Overlap Table",
         data=overlaps_csv,
-        file_name="overlap_table.csv",
+        file_name="ranked_overlap_results.csv",
         mime="text/csv"
     )
 

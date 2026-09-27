@@ -3,6 +3,7 @@ import pandas as pd
 import pydeck as pdk
 from math import radians, sin, cos, sqrt, atan2
 from data_loader import ProjectLoadError, load_uploaded_projects
+from ranking import rank_overlaps
 from ui import render_shell
 
 st.set_page_config(
@@ -105,6 +106,44 @@ def haversine_miles(lat1, lon1, lat2, lon2):
     )
 
 
+def iso_date(value):
+    if pd.isna(value):
+        return ""
+    return pd.Timestamp(value).date().isoformat()
+
+
+def final_overlap_table(ranked_rows):
+    """Return the workbook-style table with descriptive ranking categories."""
+
+    def display_value(value):
+        if value is None or pd.isna(value) or str(value).strip() == "":
+            return "Unavailable"
+        return str(value).strip()
+
+    def timeline_value(row):
+        if "build windows overlap" in row["ranking_reason"]:
+            return "Yes"
+        if "build windows do not overlap" in row["ranking_reason"]:
+            return "No"
+        return "Unavailable"
+
+    return pd.DataFrame([
+        {
+            "Rank": row["rank"],
+            "Utility A Project": row["project_name_a"],
+            "Utility B Project": row["project_name_b"],
+            "Distance Miles": row["distance_miles"],
+            "Timeline Overlap": timeline_value(row),
+            "Utility A Date": row["in_service_date_a"],
+            "Utility B Date": row["in_service_date_b"],
+            "Date Gap Days": row["days_apart"],
+            "Voltage": f"A: {display_value(row['voltage_a'])}; B: {display_value(row['voltage_b'])}",
+            "Project Type": f"A: {display_value(row['project_type_a'])}; B: {display_value(row['project_type_b'])}",
+        }
+        for row in ranked_rows
+    ])
+
+
 # Convert coordinates to numbers
 projects["Latitude"] = pd.to_numeric(
     projects["Latitude"],
@@ -120,6 +159,12 @@ projects["Longitude"] = pd.to_numeric(
 if "In-Service Date" in projects.columns:
     projects["In-Service Date"] = pd.to_datetime(
         projects["In-Service Date"],
+        errors="coerce"
+    )
+
+if "Start Date" in projects.columns:
+    projects["Start Date"] = pd.to_datetime(
+        projects["Start Date"],
         errors="coerce"
     )
 
@@ -169,15 +214,26 @@ for _, project_a in utility_a_projects.iterrows():
                 )
 
             overlaps.append({
-                "Utility A Project": project_a["Project Name"],
-                "Utility B Project": project_b["Project Name"],
-                "Distance Miles": round(distance, 2),
-                "Utility A Date": project_a["In-Service Date"],
-                "Utility B Date": project_b["In-Service Date"],
-                "Date Gap Days": date_gap
+                "utility_a": utility_a,
+                "project_id_a": project_a["Project ID"],
+                "project_name_a": project_a["Project Name"],
+                "project_type_a": project_a["Project Type"],
+                "start_date_a": iso_date(project_a.get("Start Date")),
+                "in_service_date_a": iso_date(project_a.get("In-Service Date")),
+                "voltage_a": project_a.get("Voltage 1", ""),
+                "utility_b": utility_b,
+                "project_id_b": project_b["Project ID"],
+                "project_name_b": project_b["Project Name"],
+                "project_type_b": project_b["Project Type"],
+                "start_date_b": iso_date(project_b.get("Start Date")),
+                "in_service_date_b": iso_date(project_b.get("In-Service Date")),
+                "voltage_b": project_b.get("Voltage 1", ""),
+                "distance_miles": round(distance, 2),
+                "days_apart": date_gap,
             })
 
-overlap_df = pd.DataFrame(overlaps)
+ranked_overlaps = rank_overlaps(overlaps)
+overlap_df = final_overlap_table(ranked_overlaps)
 
 st.session_state.overlaps = overlap_df
 
@@ -293,7 +349,7 @@ if overlap_df.empty:
             f"Imported labels: {available_utilities}"
         )
 else:
-    results_panel.subheader("Overlapping Project Pairs")
+    results_panel.subheader("Ranked Overlapping Project Pairs")
 
     results_panel.dataframe(
         overlap_df,
@@ -304,9 +360,9 @@ else:
     csv_data = overlap_df.to_csv(index=False)
 
     results_panel.download_button(
-        "Download Overlap CSV",
+        "Download Ranked Overlap CSV",
         data=csv_data,
-        file_name="overlap_results.csv",
+        file_name="ranked_overlap_results.csv",
         mime="text/csv"
     )
 
